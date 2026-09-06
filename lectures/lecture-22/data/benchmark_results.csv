@@ -1,0 +1,5 @@
+tool,seconds,machine_spec,n_rows,task
+pandas,9.65,"Apple M5, 10 cores, 24 GB RAM, macOS 26.6",200681600,"mean value by indicator and decade, filtered to post-1990"
+polars,0.63,"Apple M5, 10 cores, 24 GB RAM, macOS 26.6",200681600,"mean value by indicator and decade, filtered to post-1990"
+duckdb,0.53,"Apple M5, 10 cores, 24 GB RAM, macOS 26.6",200681600,"mean value by indicator and decade, filtered to post-1990"
+dask,5.39,"Apple M5, 10 cores, 24 GB RAM, macOS 26.6",200681600,"mean value by indicator and decade, filtered to post-1990"

@@ -1,0 +1,765 @@
+---
+title: DATASCI 350 - Data Science Computing
+subtitle: Lecture 06 - More Git and GitHub
+author:
+  - name: Danilo Freire
+    orcid: 0000-0002-4712-6810
+    email: danilo.freire@emory.edu
+    affiliations: "Department of Data and Decision Sciences <br> Emory University"
+format:
+  clean-revealjs:
+    self-contained: false
+    footer: "[More Git and GitHub](https://danilofreire.github.io/datasci350/lectures/lecture-06/06-more-git-github.html)"
+transition: slide
+transition-speed: default
+scrollable: true
+revealjs-plugins:
+  - multimodal
+editor:
+  render-on-save: true
+---
+
+# Great to see you all again! 😊 {background-color="#1B3A6B"}
+
+# Recap and lecture overview 📚 {background-color="#1B3A6B"}
+
+## Recap of our last lecture
+### In our last class, we covered
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- How to think in terms of projects
+- File and folder organisation tips
+- Git installation (`brew install git`)
+- Git configuration
+  - `git config --global user.name "Your Name"`
+  - `git config --global user.email your@email.com`
+- Creating and `init`(ialising) repositories
+- How to `add` and `commit` changes
+- Viewing commit history with `git log`
+- How to use `git checkout` to go back in time
+- Checking repository status with `git status`
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/xkcd2.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/xkcd2.png"}
+:::
+:::
+:::
+:::
+
+## Lecture overview
+
+:::{style="margin-top: 30px; font-size: 25px;"}
+:::{.columns}
+:::{.column width="50%"}
+Today we will cover
+
+- How to `push` and `pull` changes to and from remote repositories
+- How to use `.gitignore` to avoid tracking certain files
+- Creating and managing branches
+- How to `clone` and `fork` repositories on GitHub
+- Syncing forked repositories on GitHub
+- How to create `issues` and `pull requests` on GitHub
+- Other cool GitHub features, such as Gists, Pages, Actions, and CLI
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/pages.jpg){width="55%"}](#){data-modal-type="image" data-modal-url="figures/pages.jpg"}
+[![](figures/cli-logo.png){width="55%"}](#){data-modal-type="image" data-modal-url="figures/cli-logo.png"}
+:::
+:::
+:::
+:::
+
+## How to rename your branch from `master` to `main`
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Many of you may have a default branch called `master` instead of `main`
+- [This is completely fine!]{.alert} Both names work exactly the same way 👍
+- GitHub changed the default branch name from `master` to `main` to use more inclusive language
+- You can read more about the change [here](https://github.com/github/renaming)
+- [You don't have to rename your branch]{.alert}, but if you want to, it's very easy! 😊
+:::
+
+:::{.column width="50%"}
+- To rename your current branch from `master` to `main`:
+
+```bash
+# Rename the branch locally
+git branch -m master main
+
+# Push the renamed branch to GitHub
+git push -u origin main
+
+# Delete the old master branch on GitHub
+git push origin --delete master
+```
+
+- The `-m` flag stands for "move" (rename)
+- After this, your default branch will be called `main`
+- Remember to update any references to `master` in your workflows!
+:::
+:::
+:::
+
+# Pushing changes to a remote repository 🚀 {background-color="#1B3A6B"}
+
+## Pushing changes to a remote repository
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Last class we learned to `add` and `commit`. Both stay on your machine
+- To share your work, you need a [remote repository]{.alert}, usually on GitHub
+- `git push` uploads your commits to it
+- `git pull` downloads what other people have added
+- That is the whole idea. The rest is detail
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/push-pull.png){width="150%"}](#){data-modal-type="image" data-modal-url="figures/push-pull.png"}
+:::
+:::
+:::
+:::
+
+## Pushing changes to a remote repository
+
+:::{style="margin-top: 30px; font-size: 28px;"}
+- Let's go back to our `my-project` local repository
+- Check the last commit with `git log`
+- Now, let's `push` our changes to a remote repository on GitHub
+- First, we need to create a repository on GitHub
+- Go to [GitHub](https://github.com) and click on the `+` sign on the top right corner
+- Select `New repository`
+- Name your repository `my-project`
+- Click on `Create repository`
+:::
+
+## {background-image="figures/new-repo.png"}
+
+## {background-image="figures/create-repo.png"}
+
+## {background-image="figures/remote-repo.png"}
+
+## Now, let's push our changes to GitHub
+
+:::{style="margin-top: 30px; font-size: 21px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Why do we need to add a remote repository?
+- Because we need to tell Git where to `push` our changes!
+- `git remote add origin https://github.com/danilofreire/my-project.git`:
+  - `remote`: tells Git we are adding a remote repository
+  - `add`: adds a new remote repository
+  - `origin`: the name of the remote repository
+  -  `https://github.com/danilofreire/my-project.git` is the URL of the remote repository
+- `git branch -M main`: makes sure the branch is called `main`
+- `git push -u origin main`: pushes the changes, and remembers where to push next time
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/remote-add.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/remote-add.png"}
+:::
+
+- The `-u` flag sets the [upstream]{.alert}. After the first push, plain `git push` is enough
+- If your branch is still called `master`, use that name instead. Everything works the same way
+:::
+:::
+:::
+
+# And voi-là! 🎉 {background-color="#1B3A6B"}
+
+## {background-image="figures/push.png"}
+
+## How to pull changes from a remote repository
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- To `push` further changes to the remote repository, you just repeat the process:
+  - `git add file-name`
+  - `git commit -m "Message"`
+  - `git push` (no need to add the remote repository again)
+
+- If you work by yourself on your computer only, [you already know everything you need to know about Git]{.alert} and you can go home now 😂
+- Just kidding! There is still a lot to learn! 
+- If you work with others, or if you use different computers, you need to know how to `pull` changes from GitHub
+:::
+
+:::{.column width="50%"}
+- To `pull` changes from a remote repository, use (you've guessed it) the command `git pull`
+- `git pull` is the equivalent of `git fetch` + `git merge`
+  - `git fetch` downloads the changes from the remote repository
+  - `git merge` merges the changes with your local repository
+
+- Let's see an example where I add a commit directly on GitHub
+- I will add a [`.gitignore` file to ignore certain files and directories](https://docs.github.com/en/github/using-git/ignoring-files)
+:::
+:::
+:::
+
+## Adding `.gitignore` to our repository
+
+:::{style="margin-top: 30px; font-size: 22px;"}
+:::{.columns}
+:::{.column width="50%"}
+- On GitHub, I click `Add file` > `Create new file`, then commit
+- `.gitignore` lists what Git should [never track]{.alert}:
+  - By name: `secrets.txt`
+  - By pattern: `*.csv` for every CSV
+  - By folder: `data/`
+- Use it for anything large, private, or regenerated: data, API keys, output
+- Normally you would create this file [in the terminal]{.alert}. I am doing it on GitHub only so we have something to `pull` 😉
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/add-file.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/add-file.png"}
+[![](figures/gitignore.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/gitignore.png"}
+:::
+:::
+:::
+:::
+
+## Pulling changes 
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Now, let's `pull` the changes to my local computer
+- Just type `git pull` and the changes will be downloaded and merged
+- If you work with others and they push changes to GitHub, you will need to `pull` the changes to your local computer too
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/pull.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/pull.png"}
+:::
+:::
+:::
+:::
+
+## But wait a minute!
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- What if my coauthor and I change the same line?
+- Different files, or different lines in the same file: Git merges them for you 👍
+- The [same line]{.alert}: Git cannot guess which one you want, so it asks you
+- This is a [merge conflict]{.alert}. It is normal, and it is not a disaster
+- You resolve it by opening the file and choosing, or with a tool like `git mergetool`
+:::
+
+:::{.column width="50%"}
+- Let me change the `.gitignore` file both in my computer and on GitHub, and commit the changes (do not push yet)
+
+:::{style="text-align: center;"}
+[![](figures/vim.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/vim.png"}
+[![](figures/changes-computer.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/changes-computer.png"}
+:::
+:::
+:::
+:::
+
+## Changing the same file on GitHub
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- I've changed the same line of code on GitHub
+
+[![](figures/changes-github.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/changes-github.png"}
+
+- Let's see what happens if I try to pull the changes to my local computer
+:::
+
+:::{.column width="50%"}
+- Oh no!
+
+:::{style="text-align: center;"}
+[![](figures/conflict.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/conflict.png"}
+:::
+:::
+:::
+:::
+
+## Resolving conflicts
+
+:::{style="margin-top: 30px; font-size: 21px;"}
+:::{.columns}
+:::{.column width="50%"}
+- To resolve the conflict, you need to open the file in a text editor
+- You will see the changes from both you and your coauthor (or yourself)
+- You can choose which changes to keep, or you can keep both changes
+- After resolving the conflict, you need to `add` the file and `commit` the changes
+- Then you can `push` the changes to GitHub
+
+Git marks the conflict with three lines:
+
+- `<<<<<<<` opens your version
+- `=======` separates the two versions
+- `>>>>>>>` closes their version, and names the commit it came from
+
+Delete the markers along with the text you do not want
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/vim-conflict.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/vim-conflict.png"}
+:::
+
+- I will delete some lines and keep the changes from my computer
+  
+:::{style="text-align: center;"}
+[![](figures/vim-conflict2.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/vim-conflict2.png"}
+:::
+:::
+:::
+:::
+
+## Resolving conflicts
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Now the conflict is resolved! 🥳
+
+[![](figures/vim-conflict3.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/vim-conflict3.png"}
+:::
+
+:::{.column width="50%"}
+- There are other ways to resolve conflicts, such as using `git mergetool`
+- You can also use a graphical tool, such as [Sourcetree](https://www.sourcetreeapp.com) or [GitHub Desktop](https://desktop.github.com)
+- But it is good to know how to resolve conflicts manually 😊
+
+:::{style="text-align: center;"}
+[![](figures/resolved.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/resolved.png"}
+
+<https://github.com/danilofreire/my-project>
+:::
+:::
+:::
+:::
+
+# Branches 🌿 {background-color="#1B3A6B"}
+
+## Branches
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Branches are a way to work on different features or versions of your project
+- The default branch is called `main` on GitHub, and `master` in older repositories
+- However, you can create new branches to work on new features or versions [without affecting the `master` branch]{.alert}
+- You can create a new branch with the command `git branch branch-name`
+- And you can switch to the new branch with the command `git checkout branch-name`
+  - Or you can use `git switch branch-name` if you have Git 2.23 or later
+- You can also create a new branch and switch to it with the command `git checkout -b branch-name`
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/branches.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/branches.png"}
+:::
+
+- Branches may or may not be merged back to the `master` branch
+- You can also delete branches after merging them
+:::
+:::
+:::
+
+## Branches
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Let's create a new branch called `feature-1`
+  - `git checkout -b feature-1`
+- I will add a new file called `feature-1.txt` to the new branch
+  - `echo "This is feature 1" > feature-1.txt`
+- Then, I will `add`, `commit`, and `push` the changes to GitHub
+  - `git add feature-1.txt && git commit -m "Add feature 1"`
+  - `git push origin feature-1` (you need to push the new branch to GitHub)
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/branch.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/branch.png"}
+:::
+:::
+:::
+:::
+
+## Branches
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Now the branch is already on GitHub
+- Let's merge the changes to the `master` branch
+  - `git checkout master`
+  - `git merge feature-1`
+  - `git push`
+
+- Done! Let's see what happened
+
+- You can delete the branch with `git branch -d feature-1`
+- To delete the branch on GitHub, use `git push origin --delete feature-1`
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/merge-branch.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/merge-branch.png"}
+
+More about branches [here](https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell).
+:::
+:::
+:::
+:::
+
+## Going back to a specific commit
+
+:::{style="margin-top: 30px; font-size: 22px;"}
+:::{.columns}
+:::{.column width="45%"}
+- Find the commit first: `git log --oneline` lists the short hashes
+
+Three ways back, from safest to most destructive:
+
+- [Look around]{.alert}: `git checkout <hash>`. You are now in [detached HEAD]{.alert}, so anything you commit belongs to no branch
+- [Keep your work]{.alert}: `git switch -c new-branch <hash>` starts a branch at that commit. Usually what you want
+- [Move the branch itself]{.alert}: `git reset --hard <hash>` rewinds your branch and [throws away every commit after it]{.alert}
+
+- `git switch main` brings you back to the present
+:::
+
+:::{.column width="55%"}
+- Hashes are hexadecimal, so `0-9` and `a-f` only
+- `a1b2c3d` is enough. The full form is 40 characters, like `470636f38e409f4f322c48183e19633ebb550625`
+- Copy them, do not retype them
+- Git keeps almost everything, so a lost commit can usually be recovered with `git reflog`
+- On a shared project, branch rather than reset
+
+:::{style="text-align: center;"}
+[![](figures/git-checkout.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/git-checkout.png"}
+:::
+:::
+:::
+:::
+
+## Going back to a specific commit
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- `git switch -c` and `git checkout -b` do the same thing. `switch` is the newer, clearer name (Git 2.23+)
+- `git branch -d branch-name` deletes a branch you have finished with
+- `-D` forces the deletion, even when the work was never merged
+
+:::{style="margin-top: 20px;"}
+- [Rarely needed]{.alert}: replacing `main` altogether. Delete it, rename your current branch to `main`, then push
+- [Never on a shared repository]{.alert}. Everyone else's work still points at the branch you deleted
+:::
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/git-checkout2.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/git-checkout2.png"}
+:::
+:::
+:::
+:::
+
+# Fork and clone 🍴 {background-color="#1B3A6B"}
+
+## Cloning
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="55%"}
+- [Cloning]{.alert} downloads a repository from GitHub to your computer
+- `git clone https://github.com/username/repository-name.git`
+  - For instance, `git clone https://github.com/danilofreire/my-project.git`
+- It creates a folder named after the repository
+- Your copy stays [connected to the original]{.alert}
+- So if the repository is not yours, [you cannot push to it]{.alert}
+- Use it when you already have push rights and want to work locally
+:::
+
+:::{.column width="45%"}
+- Cloning the `my-project` repository to a different folder
+
+:::{style="text-align: center;"}
+[![](figures/clone.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/clone.png"}
+:::
+:::
+:::
+:::
+
+## Forking
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- [Forking]{.alert} makes your own copy of a repository, [on your GitHub account]{.alert}
+- Cloning copies to your computer. Forking copies to your account. That is the difference
+- Because the fork is yours, [you can push to it]{.alert}
+- It keeps a link back to the original, called the [upstream]{.alert} repository
+- You can build something new from it, or [open a pull request]{.alert} to suggest changes back
+:::
+
+:::{.column width="50%"}
+[![](figures/fork.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/fork.png"}
+:::
+:::
+:::
+
+## Forking
+
+:::{style="margin-top: 30px; font-size: 28px;"}
+- Forking from GitHub is easy, but it requires a few steps
+- Forking [is not part of Git]{.alert}, but it is part of GitHub
+  - That's why you cannot do it from the command line!
+- To fork a repository, go to the repository on GitHub and click on the `Fork` button on the top right corner
+- Then, you can clone your forked repository to your computer as you did before
+:::
+
+## Forking
+
+:::{style="margin-top: 30px; font-size: 23px; text-align: center;"}
+[![](figures/fork-repo01.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/fork-repo01.png"}
+:::
+
+## Forking
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="text-align: center;"}
+[![](figures/fork-repo02.png){width="60%"}](#){data-modal-type="image" data-modal-url="figures/fork-repo02.png"}
+:::
+
+- After forking, you will see the repository on your GitHub account
+- Clone it with `git clone https://github.com/your-username/repository-name.git`
+:::
+
+## Syncing a forked repository
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- A fork does not update itself. The original keeps moving without you
+- [The easy way]{.alert}: on GitHub, click "Sync fork" and confirm. Commit your own work first
+- [From the terminal]{.alert}, point at the original once, then pull from it whenever you like:
+
+```bash
+git remote add upstream https://github.com/original-user/original-repo.git
+git fetch upstream
+git merge upstream/main
+git push
+```
+
+- `origin` is your fork. `upstream` is the repository you forked from
+:::
+
+:::{.column width="50%"}
+[![](figures/sync-fork.webp){width="100%"}](#){data-modal-type="image" data-modal-url="figures/sync-fork.webp"}
+
+- More about syncing a forked repository [here](https://docs.github.com/en/github/collaborating-with-pull-requests/working-with-forks/syncing-a-fork).
+:::
+:::
+:::
+
+# Issues and pull requests 📥 {background-color="#1B3A6B"}
+
+## Issues and pull requests
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- [Issues]{.alert} are a way to track bugs, enhancements, or other tasks in a repository
+- You can create an issue by clicking on the `Issues` tab on GitHub and then on the `New issue` button
+
+:::{style="margin-top: 30px;"}
+- [Pull requests]{.alert} are a way to suggest changes after you have forked and changed a repository
+- You can create a pull request by clicking on the `Pull requests` tab on GitHub and then on the `New pull request` button
+- The repository owner can then review your changes and merge them
+- And that's how open-source projects work! 🤓🎉
+:::
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/issues.webp){width="100%"}](#){data-modal-type="image" data-modal-url="figures/issues.webp"}
+Issues
+:::
+:::
+:::
+:::
+
+## Pull requests
+
+:::{style="margin-top: 30px; font-size: 23px; text-align: center;"}
+[![](figures/pull-request.png){width="60%"}](#){data-modal-type="image" data-modal-url="figures/pull-request.png"}
+Pull requests
+:::
+
+# Other cool GitHub features 🌟🐙 {background-color="#1B3A6B"}
+
+## GitHub has many other interesting features
+### Gists
+
+:::{style="margin-top: 30px; font-size: 23px;"}
+:::{.columns}
+:::{.column width="50%"}
+- [Gists](https://gist.github.com) are a great way to share code snippets, notes, or other text
+- You can create a Gist by clicking on the `+` sign on the top right corner of GitHub and then on `New gist`
+- Paste any text or code and save it
+- You can also create secret Gists that are not indexed by search engines
+- Gists also benefit from version control, so you can see the history of changes and revert to previous versions
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/gist.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/gist.png"}
+:::
+:::
+:::
+:::
+
+## GitHub Pages
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- This is one of the nicest features of GitHub
+- [GitHub Pages](https://pages.github.com) allows you to create a website for your project, portfolio, or blog
+- As you can see, I use GitHub Pages [for this course](https://danilofreire.github.io/datasci350) and [for my personal website](https://danilofreire.github.io)
+- You can create a website by creating a new repository with the name `your-username.github.io`
+- Then, you can upload your `.html`, `.css`, and `.js` files to the repository
+- Your website will be available at `https://your-username.github.io`
+- You can also use custom domains and [Jekyll themes](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll), which are pre-designed templates
+- Available themes [here](https://pages.github.com/themes)
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/pages.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/pages.png"}
+:::
+:::
+:::
+:::
+
+## GitHub Actions
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- [GitHub Actions](https://github.com/features/actions) runs code for you, on GitHub's machines
+- You write a `.yml` file listing the steps. GitHub runs them whenever you push
+- Typical uses: rebuild a website, run tests, train a model, publish a report
+- It can also run on a schedule. Mine [rebuilds a list of my starred repositories every day](https://github.com/danilofreire/awesome-stars)
+- The work happens on GitHub's machines, not yours, and public repositories get a generous free allowance
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/actions.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/actions.png"}
+:::
+:::
+:::
+:::
+
+## GitHub Actions
+
+:::{style="margin-top: 30px; font-size: 24px; text-align: center;"}
+[![](figures/actions2.png){width="82%"}](#){data-modal-type="image" data-modal-url="figures/actions2.png"}
+:::
+
+## GitHub in the command line
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- [GitHub CLI](https://cli.github.com/) is a command-line tool that brings GitHub to your terminal
+- You can install it with `brew install gh`
+- GitHub CLI creates repositories, issues, pull requests, and more
+- I use it both to create repositories and clone/fork them
+  - `gh repo create my-project`
+  - `gh repo clone danilofreire/my-project`
+- Have a look at the [GitHub CLI manual](https://cli.github.com/manual/) for more information
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/cli.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/cli.png"}
+:::
+:::
+:::
+:::
+
+## GitHub Copilot 🤖
+
+:::{style="margin-top: 30px; font-size: 27px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Okay, I have the feeling that you are already tired of me talking about GitHub 😂
+- But I'd just like to mention [GitHub Copilot](https://copilot.github.com)
+- You may already know it, but it's been [getting many new features]{.alert}
+- Now it comes with several good models (Claude, Gemini, etc), and you can use it for free with a [student discount](https://education.github.com/students)
+- Like any AI tool, it is not perfect, but it works well and can save you a lot of time
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/copilot2.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/copilot2.png"}
+:::
+:::
+:::
+:::
+
+## Summary
+
+:::{style="margin-top: 40px; font-size: 26px;"}
+- `git push` sends your commits to GitHub, `git pull` brings other people's back
+- `.gitignore` keeps data, keys, and generated output out of the repository
+- A [merge conflict]{.alert} means two people changed the same line. Git marks it, you choose
+- [Branches]{.alert} let you work without touching `main`, and `merge` brings the work back
+- `git switch -c new-branch <hash>` is the safe way to revisit an old commit
+- [Clone]{.alert} copies a repository to your computer. [Fork]{.alert} copies it to your account
+- [Issues]{.alert} track what needs doing, [pull requests]{.alert} propose the change itself
+- Pages, Actions, Gists, and the CLI are all built on the same repository
+:::
+
+## Next class
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="55%"}
+- [`git diff`]{.alert}: see exactly what changed, line by line, before you commit
+- [Fixing mistakes]{.alert}: amend a commit message, and undo a commit with `git reset`
+- [`git cherry-pick`]{.alert}: take one commit from a branch without merging the whole thing
+- [`git rebase`]{.alert}: replay your commits on top of someone else's work
+- Plus more of the GitHub CLI
+- Bring your `my-project` repository. We will keep working on it 🤓
+:::
+
+:::{.column width="45%"}
+:::{style="text-align: center; margin-top: 40px;"}
+[![A preview: `git diff` showing one added line](figures/git-diff-preview.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/git-diff-preview.png"}
+:::
+:::
+:::
+:::
+
+# Phew! That's all for today! 🎉 {background-color="#1B3A6B"}
+
+# Thank you for your attention and see you soon! 😊🙏 {background-color="#1B3A6B"}

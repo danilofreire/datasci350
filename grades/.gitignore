@@ -1,0 +1,7 @@
+# Never commit student data or grade outputs from this folder.
+# The script itself is fine to track; CSV/xlsx inputs and outputs are not.
+*.csv
+*.tsv
+*.xlsx
+*.xls
+*.txt

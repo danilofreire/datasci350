@@ -1,0 +1,59 @@
+---
+title: "Country profile"
+format: html
+jupyter: python3
+---
+
+```{python}
+#| tags: [parameters]
+country = "Brazil"
+```
+
+```{python}
+#| echo: false
+import pandas as pd
+import matplotlib.pyplot as plt
+
+profiles = pd.read_csv("data/country_profiles.csv")
+one = profiles[profiles["country"] == country].sort_values("year")
+```
+
+# `{python} country`
+
+This report uses World Bank indicators for `{python} country` between
+`{python} int(one["year"].min())` and `{python} int(one["year"].max())`.
+
+## The last five years
+
+```{python}
+#| echo: false
+(one.tail(5)
+    .loc[:, ["year", "gdp_per_capita", "life_expectancy", "population"]]
+    .rename(columns={
+        "year": "Year",
+        "gdp_per_capita": "GDP per capita (US$)",
+        "life_expectancy": "Life expectancy (years)",
+        "population": "Population",
+    })
+    .style.format({
+        "GDP per capita (US$)": "{:,.0f}",
+        "Life expectancy (years)": "{:.1f}",
+        "Population": "{:,.0f}",
+    }).hide(axis="index"))
+```
+
+## Life expectancy over time
+
+```{python}
+#| echo: false
+#| fig-cap: "Life expectancy at birth"
+fig, ax = plt.subplots(figsize=(7, 3.5))
+ax.plot(one["year"], one["life_expectancy"], color="#1B3A6B", linewidth=2)
+ax.set_xlabel("Year")
+ax.set_ylabel("Life expectancy (years)")
+ax.spines[["top", "right"]].set_visible(False)
+plt.tight_layout()
+plt.show()
+```
+
+Source: World Bank World Development Indicators, downloaded 7 August 2026.

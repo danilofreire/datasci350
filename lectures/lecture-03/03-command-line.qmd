@@ -1,0 +1,916 @@
+---
+title: DATASCI 350 - Data Science Computing
+subtitle: "Lecture 03: Command Line Interface"
+author:
+  - name: Danilo Freire
+    email: danilo.freire@emory.edu
+    affiliations: Department of Data and Decision Sciences <br> Emory University
+format:
+  clean-revealjs:
+    self-contained: false
+    footer: "[Command Line](https://danilofreire.github.io/datasci350/lectures/lecture-03/03-command-line.html#/title-slide)"
+transition: slide
+transition-speed: default
+scrollable: true
+revealjs-plugins:
+  - multimodal
+editor:
+  render-on-save: true
+---
+
+
+# Recap and lecture overview 📚 {background-color="#1B3A6B"}
+
+## Brief recap of last class
+### Early computing and data representation
+
+:::{style="margin-top: 30px; font-size: 27px;"}
+
+:::{.columns}
+:::{.column width="50%"}
+- Computers went from [people]{.alert} to mechanical calculators to silicon chips
+- The [Von Neumann architecture]{.alert} keeps instructions and data in one memory
+- Everything is stored in [binary]{.alert}, base 2, using only 0s and 1s
+- One digit is a [bit]{.alert}. Eight bits are a [byte]{.alert}
+- [Hexadecimal]{.alert} is base 16, and one hex digit covers exactly four bits
+- [Abstraction]{.alert} is what lets numbers stand for images and text
+:::
+
+:::{.column width="50%"}
+[![](figures/hexadecimal.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/hexadecimal.png"}
+:::
+:::
+:::
+
+## Brief recap of last class
+### Representing images, colours and text
+
+:::{style="margin-top: 30px; font-size: 27px;"}
+
+:::{.columns}
+:::{.column width="50%"}
+- An image is a grid of [pixels]{.alert}
+- [RGB]{.alert} gives each pixel three numbers from 0 to 255: red, green, and blue
+- That is 8 bits per channel, so [16.7 million colours]{.alert}
+- Text is split into characters, and each character gets a number
+- [ASCII]{.alert} is a lookup table for 128 characters
+- [Unicode]{.alert} extends it to accents, other alphabets, and emoji
+:::
+
+:::{.column width="50%"}
+[![](figures/rgb.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/rgb.png"}
+:::
+:::
+:::
+
+## Brief recap of last class
+### Programming languages
+
+:::{style="margin-top: 30px; font-size: 27px;"}
+
+:::{.columns}
+:::{.column width="50%"}
+- [Konrad Zuse]{.alert} built the first programmable computers in the 1940s
+- [Assembly]{.alert} gives machine code readable names, one line per instruction
+- [Low-level languages]{.alert} are fast, but hard to read and write
+- [High-level languages]{.alert} like Python hide the hardware and run anywhere
+- [Compiled]{.alert} languages translate first. [Interpreted]{.alert} ones translate as they run
+:::
+
+:::{.column width="50%"}
+:::{style="margin-top: -20px;"}
+[![](figures/high-low-languages.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/high-low-languages.png"}
+:::
+:::
+:::
+:::
+
+## Today's lecture
+### Command line: the old-school way of interacting with computers
+
+:::{style="margin-top: 30px; font-size: 28px;"}
+
+:::{.columns}
+:::{.column width="50%"}
+- The [command line]{.alert} is a text interface to your computer
+- We will [navigate the file system]{.alert}, and create, move, and delete files
+- We will write [shell scripts]{.alert} to automate work you would rather not repeat
+- It is still everywhere: [remote servers]{.alert}, [cloud computing]{.alert}, and [automation]{.alert}
+- Let's get started! 🤓
+:::
+
+:::{.column width="50%"}
+[![](figures/cli.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/cli.png"}
+:::
+:::
+:::
+
+## Tweet of the day
+
+:::{style="margin-top: 30px; text-align: center;"}
+[![](figures/odyssey.jpeg){width="55%"}](#){data-modal-type="image" data-modal-url="figures/odyssey.jpeg"}
+:::
+
+# Questions? 🤓 {background-color="#1B3A6B"}
+
+# What is the command line? 💻 {background-color="#1B3A6B"}
+
+## A computer in a nutshell
+### Operating system
+
+:::{style="font-size: 24px;"}
+:::{.columns}
+
+::: {.column width="50%"}
+:::{style="text-align: center;"}
+[![Source: Dave Kerr](figures/kernel-and-user-space.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/kernel-and-user-space.png"}
+:::
+:::
+
+::: {.column width="50%"}
+- The [operating system]{.alert} sits between your programs and the hardware, and manages access to it
+- It has two halves: the [kernel]{.alert} and [user space]{.alert}
+- The [kernel]{.alert} talks to the hardware, runs the drivers, and hands out memory and CPU time
+- Code running in the kernel can break everything, which is why [users are kept out of it]{.alert}
+- [User space]{.alert} is where your programs run, each in its own sandbox, asking the kernel for whatever it needs
+- Curiosity: the Linux kernel source is [on GitHub](https://github.com/torvalds/linux)
+:::
+:::
+:::
+
+## A computer in a nutshell
+### Kernels and shells
+
+:::{style="font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![Source: Dave Kerr](figures/kernel-and-user-space.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/kernel-and-user-space.png"}
+[![](figures/walnut.jpeg){width="25%"}](#){data-modal-type="image" data-modal-url="figures/walnut.jpeg"}
+:::
+:::
+
+::: {.column width="50%"}
+- A [shell]{.alert} is a user space program that lets you reach the system's resources
+- Use it [interactively]{.alert} by typing at a terminal, or run a [script]{.alert}, a file full of commands
+- Most people use a [graphical interface]{.alert} instead. Same idea, prettier surface
+- [Why "kernel" and "shell"?]{.alert} A nut has a soft kernel protected by a hard shell. Useful metaphor, _innit_?
+:::
+:::
+:::
+
+## Interacting with the shell
+### Terminals
+
+:::{style="font-size: 25px;"}
+:::{.columns}
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![Source: Dave Kerr](figures/diagram3-terminal-and-shell.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/diagram3-terminal-and-shell.png"}
+:::
+:::
+
+:::{.column width="50%"}
+- You never talk to the shell directly. You talk to a [terminal]{.alert}
+- A terminal [reads your keystrokes]{.alert}, passes them to a program, and [shows the results]{.alert}
+- A shell cannot do that on its own. It needs a terminal as its interface
+- [Why "terminal"?]{.alert} Before screens, a [terminal was hardware](https://www.friendlywire.com/articles/vintage-computers/): a keyboard wired to a [mainframe](https://en.wikipedia.org/wiki/Mainframe_computer), often many terminals to one machine
+- Working on a data centre or cloud machine today is much the same, with a nicer screen 😉
+:::
+:::
+:::
+
+## Interacting with the shell
+### Command line
+
+:::{style="font-size: 25px;"}
+:::{.columns}
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![Source: Dave Kerr](figures/diagram3-terminal-and-shell.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/diagram3-terminal-and-shell.png"}
+:::
+:::
+
+:::{.column width="50%"}
+- A terminal is simply a [text-based interface]{.alert}. The first thing it does is start a shell
+- The shell takes input two ways: [interactively]{.alert} from the command line, or from a [script]{.alert}
+- It sends output back to the terminal, or to a file
+- The [command line]{.alert} is the line you type on. You can [customise it](https://ohmyz.sh/) with colours and shortcuts
+:::
+:::
+:::
+
+## Shell variants
+### Bash, Zsh, and others
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+[![](figures/runningbashscript.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/runningbashscript.png"}
+:::
+
+:::{.column width="50%"}
+- There are [many shells](https://en.wikipedia.org/wiki/Comparison_of_command_shells), and they differ in what they can do
+- [bash](https://en.wikipedia.org/wiki/Bash_(Unix_shell)) is the default on most Unix-like systems. The name stands for Bourne-Again Shell
+- [zsh](https://en.wikipedia.org/wiki/Z_shell) is the default on macOS
+- Windows has [cmd.exe](https://en.wikipedia.org/wiki/Cmd.exe) and [PowerShell](https://en.wikipedia.org/wiki/PowerShell). There is also [C Shell](https://en.wikipedia.org/wiki/C_shell), and many more
+- Your terminal starts your preferred shell automatically, and you can [change which one](https://effective-shell.com/part-1-transitioning-to-the-shell/getting-started/)
+:::
+:::
+:::
+
+# Why bother with the shell? 🤷🏻‍♂️ {background-color="#1B3A6B"}
+
+## Why bother with the shell?
+
+:::{style="margin-top: 30px;"}
+
+:::{.columns}
+:::{.column width="50%"}
+:::{.fragment .fade-in}
+Why should you use this...
+
+[![](figures/zsh-screenshot.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/zsh-screenshot.png"}
+:::
+:::
+
+::: {.column width="50%"}
+:::{.fragment .fade-in}
+... instead of this?
+
+[![](figures/macos-finder-screenshot.jpeg){width="100%"}](#){data-modal-type="image" data-modal-url="figures/macos-finder-screenshot.jpeg"}
+:::
+:::
+:::
+:::
+
+## Why bother with the shell?
+### The programmer's best friend
+
+:::{style="margin-top: 40px; font-size: 30px;"}
+:::{.incremental}
+1. [Speed.]{.alert} Typing beats hunting through menus with a mouse
+
+2. [Power.]{.alert} Some things simply cannot be done from a graphical interface
+
+3. [Reproducibility.]{.alert} A script can be run again. Clicking cannot
+
+4. [Portability.]{.alert} The same commands work on your laptop, a [Raspberry Pi](https://www.raspberrypi.com/), or a supercomputer
+
+5. [Automation.]{.alert} Shells are programmable, so repetitive work becomes a script
+
+6. [Employability.]{.alert} Servers, containers, and cloud tools all run on Linux, which is why [the shell is having a renaissance](https://effective-shell.com/part-1-transitioning-to-the-shell/the-renaissance-of-the-shell/)
+:::
+:::
+
+# The Unix philosophy {background-color="#1B3A6B"}
+
+## The Unix philosophy
+
+:::{style="margin-top: 40px; font-size: 25px;"}
+:::{.columns}
+:::{.column width="55%"}
+- Our tools come from [Unix](https://en.wikipedia.org/wiki/Unix), built at Bell Labs in the 1970s
+- They still follow the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy):
+
+> **Do One Thing And Do It Well**
+
+- Each tool is small and does a single job
+- Chain the small tools together and you can build something large
+- Hence the description: [minimalist and modular]{.alert}
+:::
+
+:::{.column width="45%"}
+:::{style="text-align: center;"}
+[![Unix Version 5, 1974. The home directories `ken` and `dmr` belong to Ken Thompson and Dennis Ritchie](figures/unix-v5.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/unix-v5.png"}
+:::
+:::
+:::
+:::
+
+## Things to use the shell for
+
+:::{style="margin-top: 40px; font-size: 32px;"}
+:::{.incremental}
+- [Find and navigate files]{.alert} faster than any file browser
+- [Rename and move files in bulk]{.alert}, hundreds at a time
+- [Version control with Git]{.alert}, which is where most Git commands live
+- [Install and update software]{.alert} with a single command
+- [Connect to remote machines]{.alert} over SSH, including cloud servers
+- [Run jobs on supercomputers]{.alert}, which often offer nothing but a shell
+:::
+:::
+
+# Shell basics 🐚 🤓 {background-color="#1B3A6B"}
+
+## Shell: First look
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+
+Let's open up our shell!
+
+A convenient way to do this is through [VS Code's built-in Terminal](https://code.visualstudio.com/docs/editor/integrated-terminal).
+
+Click on the **View** menu, then **Terminal**. You can also use the shortcut ``Ctrl + ` `` (backtick).
+
+Your system default shell is loaded. To find out what that is, type `echo $SHELL` in the terminal.
+
+:::{style="margin-top:30px;"}
+:::
+
+```bash
+$ echo $SHELL
+
+/bin/zsh
+```
+
+It is [Z shell](https://ohmyz.sh/) in my case
+
+:::{.incremental}
+... what about you? It is your turn to find out! 🤓
+:::
+:::
+
+## Your turn!
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+Of course, it's always possible to open up the shell directly if you prefer. It's your turn!
+
+- [Linux](https://www.wikihow.com/Open-a-Terminal-Window-in-Ubuntu)
+
+- [Mac](https://www.techwalla.com/articles/how-to-open-terminal-on-a-macbook)
+
+- [Windows]{.alert}: install WSL first, using [our tutorial](https://danilofreire.github.io/datasci350/06-wsl-tutorial.html). It gives you the same shell as everyone else
+
+Feel free to check our class tutorial on [how to set up your shell in VS Code](https://danilofreire.github.io/datasci350/01-vscode-anaconda-tutorial.html)
+:::
+
+:::{.column width="50%"}
+Open your terminal and type the following commands (without the `$`):
+
+```bash
+$ echo $SHELL 
+$ whoami 
+$ pwd 
+$ mkdir new-folder
+$ rm -rf new-folder
+$ cd ..
+$ ls
+```
+
+Share your results with a colleague (or the class)!
+:::
+:::
+:::
+
+## Shell: First look
+
+:::{style="margin-top: 30px; font-size: 27px;"}
+You should see something like:
+
+```bash
+$  username@hostname:~$
+```
+
+This is shell-speak for: "Who am I and where am I?" 
+
+- `username` denotes a specific user (one of potentially many on this computer).
+
+- `@hostname` denotes the name of the computer or server.
+
+- `:~` denotes the directory path (where `~` signifies the user's home directory).
+
+- `$` (or maybe `%`) denotes the start of the command prompt.
+
+    - (For a special "superuser" called root, the dollar sign will change to a `#`).
+
+```bash
+$ whoami
+$ pwd
+
+dafreir
+/Users/dafreir/Documents/github/datasci350/lectures/lecture-03
+```
+:::
+
+# Syntax {background-color="#1B3A6B"}
+
+## Syntax
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+All bash commands have the same basic syntax:
+
+[**command option(s) argument(s)**]{.alert}
+
+**Examples:**
+
+```bash
+$ # list files in the Documents directory 
+$ # in long format and human-readable sizes
+$
+$ ls -lh ~/Documents 
+```
+
+<br>
+
+```bash
+$ # sort the file and display 
+$ # only unique lines
+$
+$ sort -u file.txt 
+```
+:::
+
+:::{.column width="50%"}
+[Commands]{.alert}
+
+- You don't always need options or arguments
+
+- For example:
+  - `ls ~/Documents/` and `ls -lh ~/Documents` are both valid commands that will yield (different) output
+
+- However, you always need a command!
+:::
+:::
+:::
+
+## Syntax
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+All Bash commands have the same basic syntax:
+
+command [option(s)]{.alert} argument(s)
+
+**Examples:**
+
+```bash
+$ # list files in the Documents directory 
+$ # in long format and human-readable sizes
+$
+$ ls -lh ~/Documents 
+```
+
+<br>
+
+```bash
+$ # sort the file and display 
+$ # only unique lines
+$
+$ sort -u file.txt 
+```
+:::
+
+:::{.column style="width: 40%; font-size: 22px;"}
+[Options]{.alert} (also called [flags]{.alert})
+
+- Start with a dash, usually one letter
+- Chain several under a single dash
+
+```bash
+$ ls -l -a -h /var/log  # this works
+$ ls -lah /var/log      # so does this
+```
+
+- Longer, spelled-out names take two dashes
+
+:::{style="font-size: 24px;"}
+```bash
+$ ls --human-readable /var/log
+```
+:::
+
+- `-l` long listing, `-a` all files including hidden ones, `-h` readable sizes
+- `-u` on `sort` keeps only unique lines
+- Hard to remember what each letter means? [You're totally right!]{.alert}
+:::
+:::
+:::
+
+## Syntax
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+All Bash commands have the same basic syntax:
+
+command option(s) [argument(s)]{.alert}
+
+**Examples:** 
+
+```bash
+$ # list files in the Documents directory 
+$ # with human-readable sizes
+$ ls -lh ~/Documents/
+```
+
+<br>
+
+```bash
+$ # sort the file and remove duplicates
+$ sort -u file.txt
+```
+:::
+
+::: {.column width="50%"}
+[Arguments]{.alert}
+
+-   Tell the command *what* to operate on
+
+-   What counts as a valid argument depends on the command
+
+-   Can be a file, path, a set of files and folders, a string, and more
+
+-   Sometimes more than just one argument is needed:
+
+```bash
+$ mv figs/cat.png best-figs/cat02.png
+```
+:::
+:::
+:::
+
+# Help! 🆘 😟 {background-color="#1B3A6B"}
+
+## Multiple ways to get help
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- `man ls` opens the manual page for `ls`. Press `q` to quit
+
+- Manual pages come in numbered sections. Run `man man` to see them
+
+- [`cht.sh`](https://cht.sh/) gives short, practical answers straight in the terminal (you may need to [install `curl`](https://curl.se/download.html) first):
+
+```bash
+$ curl cht.sh/ls
+```
+
+:::{style="text-align: center"}
+[![](figures/chtsh.png){width="70%"}](#){data-modal-type="image" data-modal-url="figures/chtsh.png"}
+:::
+:::
+
+::: {.column width="50%"}
+[![](figures/beatles-help.jpeg){width="100%"}](#){data-modal-type="image" data-modal-url="figures/beatles-help.jpeg"}
+
+- Or you can use an LLM (or Google) to search for help on a command 
+- There's a great chance that someone else has already asked the same question you have 😉
+:::
+:::
+:::
+
+## Multiple ways to get help
+
+:::{style="margin-top: 30px; font-size: 21px;"}
+:::{.columns}
+:::{.column width="50%"}
+- You can also install the `tldr` tool ([GitHub repository](https://github.com/tldr-pages/tldr)) which provides simplified help pages for common commands. Run it like this: `tldr command`
+
+```bash
+$ tldr ls
+
+Successfully updated local database
+
+ls
+
+List directory contents.
+More information: <https://www.gnu.org/software/coreutils/manual/html_node/ls-invocation.html>.
+
+- List files one per line:
+    ls -1
+
+- List all files, including hidden files:
+    ls [-a|--all]
+
+- List files with a trailing symbol to indicate file type (directory/, symbolic_link@, executable*, ...):
+    ls [-F|--classify]
+
+... (the manual continues; press q to quit)
+```
+:::
+
+::: {.column width="50%"}
+[![](figures/beatles-help.jpeg){width="100%"}](#){data-modal-type="image" data-modal-url="figures/beatles-help.jpeg"}
+
+- For more info on how to get help, see [here](https://effective-shell.com/part-1-transitioning-to-the-shell/getting-help/)
+:::
+:::
+:::
+
+## Getting help with `man`
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+
+The `man` command ("manual pages") is your friend if you need help
+
+```bash
+$ man ls
+
+LS(1)               General Commands Manual          LS(1)
+
+NAME
+     ls – list directory contents
+
+SYNOPSIS
+     ls [-@ABCFGHILOPRSTUWabcdefghiklmnopqrstuvwxy1%,] [--color=when]
+    [-D format] [file ...]
+
+DESCRIPTION
+     For each operand that names a file of a type other than directory, ls
+     displays its name as well as any requested, associated information.  For
+     each operand that names a file of type directory, ls displays the names
+     of files contained within that directory, as well as any requested,
+     associated information.
+
+     If no operands are given, the contents of the current directory are
+     displayed.  If more than one operand is given, non-directory operands are
+
+... (the manual continues; press q to quit)
+```
+
+:::
+
+## Getting help with `man`
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+`man` shows the page in a [pager]{.alert}, a small viewer for long text. The keys you need:
+
+- `j` and `k`, or the arrow keys, move one line
+- `d` and `u` move half a page, `space` and `b` a whole one
+- `g` and `G` jump to the very start and the very end
+- `/pattern` searches forwards, `?pattern` backwards. Then `n` and `N` for the next and previous hit
+- `q` quits
+- `h` lists every other key
+:::
+
+:::{.column width="50%"}
+:::{style="text-align: center;"}
+[![](figures/rtfm-bayeux.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/rtfm-bayeux.png"}
+[RTFM](https://en.wikipedia.org/wiki/RTFM)! 😂
+
+**Always check the documentation!**
+:::
+:::
+:::
+:::
+
+## `man` page explorer challenge
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+Partner up and choose a command from the list below. Use `man` to complete these tasks:
+
+:::{style="margin-top: 30px; margin-bottom: 30px;"}
+```bash
+$ # Choose one (or all) of the following commands:
+$ ls, cd, cp, mv, rm, mkdir, rmdir, touch, cat, find, head, wc
+```
+:::
+
+1. Summarise the command's purpose in one sentence
+2. Find an interesting option and explain what it does
+3. Create an example using your command with at least two options
+4. Bonus: Combine your command with your partner's in a single line
+
+You have about 5-10 minutes. Be ready to share your findings!
+
+Reflection: How was using `man` compared to online searches? How might you use it in future projects?
+:::
+
+# Navigating your file system 🧭 {background-color="#1B3A6B"}
+
+## Navigating your file system
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+:::{.columns}
+:::{.column width="50%"}
+:::{.incremental}
+- Phones and tablets hide the file system from you completely
+- In data science you need to find your way around it quickly
+- The questions that keep coming up:
+  - Where am I right now?
+  - Where is my home directory?
+  - Where are my files, and where do I want to put them?
+  - How do I get from here to there?
+:::
+:::
+
+::: {.column width="50%"}
+[![](figures/that-way-giphy.gif){width="100%"}](#){data-modal-type="image" data-modal-url="figures/that-way-giphy.gif"}
+:::
+:::
+:::
+
+## Navigation
+
+:::{style="margin-top: 30px; font-size: 21px;"}
+:::{.columns}
+:::{.column width="50%"}
+Key navigation commands are:
+
+- `pwd` to print (the current) working directory
+- `cd` to change directory
+
+```bash
+$ pwd
+
+/Users/dafreir/Documents/github/datasci350/lectures/lecture-03
+```
+
+Paths can be [absolute]{.alert} (from the top) or [relative]{.alert} (from where you are). Prefer relative ones, and use these shortcuts:
+
+- `~` your home folder
+- `.` the current directory
+- `..` the directory above
+:::
+
+:::{.column width="50%"}
+:::{.fragment .fade-in}
+
+Let's try it out!
+
+Accessing the `figures/` directory:
+
+```bash
+$ # mkdir figures # Create a directory called figures (if it doesn't exist)
+$ cd figures # Change to the figures directory
+$ pwd
+
+/Users/dafreir/Documents/github/datasci350/lectures/lecture-03/figures
+```
+
+Now, let's go back to the previous directory:
+
+```bash
+$ cd ../ # Go back to the previous directory
+$ pwd
+
+/Users/dafreir/Documents/github/datasci350/lectures/lecture-03
+```
+
+Back two directories:
+
+```bash
+$ cd ../../ # Go back two directories
+$ pwd
+
+/Users/dafreir/Documents/github/datasci350
+```
+:::
+:::
+:::
+:::
+
+## Navigation
+
+:::{style="font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+Beware of spaces in names. Say you have a folder called "My Documents" (I'm looking at you, Windows)
+
+- `cd My Documents` fails. Bash reads `My` and `Documents` as two separate arguments
+- Two ways around it:
+  - Quote the name: `cd "My Documents"`
+  - Escape the space: `cd My\ Documents`. Tab completion does this for you
+- Better still: [never put spaces in names]{.alert}
+- Use lowercase with dashes or underscores, like `assignment-05` or `assignment_05`
+:::
+
+::: {.column width="50%"}
+:::{style="text-align: center; margin-top: 40px;"}
+[![](figures/expanding-brain.jpg){width="60%"}](#){data-modal-type="image" data-modal-url="figures/expanding-brain.jpg"}
+:::
+:::
+:::
+:::
+
+## More navigation commands: A cheat sheet
+
+:::{style="margin-top: 30px; font-size: 28px;"}
+:::{.columns}
+:::{.column width="50%"}
+[Getting around]{.alert}
+
+| Command | What it does |
+|:--|:--|
+| `pwd` | Print the working directory |
+| `cd dir` | Change directory |
+| `cd -` | Back to where you just were |
+| `ls` | List files here |
+| `ls -l` | Long format, with details |
+| `ls -a` | Include hidden files |
+| `ls -lh` | Long format, readable sizes |
+| `ls -R` | Include subdirectories |
+| `~` `.` `..` | Home, here, one level up |
+:::
+
+:::{.column width="50%"}
+[Working with files]{.alert}
+
+| Command | What it does |
+|:--|:--|
+| `mkdir` | Create a directory |
+| `touch` | Create an empty file |
+| `cp` | Copy |
+| `mv` | Move, or rename |
+| `rm` | Delete a file. No undo! |
+| `rmdir` | Delete an empty directory |
+| `cat` | Show what is in a file |
+| `find` | Search for files |
+
+A fuller list is [here](https://effective-shell.com/part-1-transitioning-to-the-shell/navigating-your-system/)
+:::
+:::
+:::
+
+## Shell navigation exercise
+
+:::{style="margin-top: 30px; font-size: 26px;"}
+Type each command. Look at the result before you move on
+
+1. Go to your home directory: `cd ~`
+2. Create a directory and enter it: `mkdir practice && cd practice`
+3. Create two empty files: `touch file1.txt file2.txt`
+4. List the contents: `ls`
+5. Rename `file2.txt` to `file3.txt`: `mv file2.txt file3.txt`
+6. List again to check, then go home: `ls && cd ~`
+7. [Warning]{.alert}: `rm -rf` deletes at once, with no Trash and no undo. Read the path, then delete the directory: `rm -rf practice`
+8. Check that it is gone: `ls`
+:::
+
+## Shell navigation exercise to try at home
+
+:::{style="margin-top: 30px; font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}  
+1. Go to your home directory: `cd ~`
+2. Create a directory: `mkdir shell-practice`
+3. Enter it: `cd shell-practice`
+4. Create three empty files: `touch file1.txt file2.txt file3.txt`
+5. List the contents: `ls`
+6. Create a subdirectory: `mkdir subdir`
+:::
+
+:::{.column width="50%"}
+7. Move a file into it: `mv file2.txt subdir/`
+8. Copy a file: `cp file1.txt file4.txt`
+9. List everything, subdirectory included: `ls -R`
+10. Go up one level: `cd ..`
+11. [Warning]{.alert}: the next command deletes the folder and everything inside it. Check the name, then run `rm -r shell-practice`
+12. Check that it is gone: `ls`
+
+Bonus: use `man` to read about any command you used.
+
+- Which commands surprised you?
+- Which did you find most useful?
+:::
+:::
+:::
+
+## Summary
+### Today we...
+
+:::{style="margin-top:40px; font-size: 28px;"}
+:::{.incremental}
+- The [shell]{.alert} runs your commands. The [terminal]{.alert} is the window you type them in
+- Every command has the same shape: `command [options] arguments`
+- Options are short (`-l`) or spelled out (`--human-readable`), and they combine: `ls -lah`
+- `pwd` says where you are, `ls` shows what is there, `cd` moves you
+- `~` is home, `.` is here, `..` is one level up
+- `man`, `tldr`, and `cht.sh` answer your questions. `q` gets you out of the pager
+- The [Unix philosophy]{.alert}: small tools that each do one thing, combined to do big things
+:::
+:::
+
+## Next class
+
+:::{style="margin-top:40px; font-size: 25px;"}
+:::{.columns}
+:::{.column width="40%"}
+- [Managing files]{.alert}: create, copy, move, and delete them from the terminal
+- [Wildcards and `find`]{.alert}, so you can act on many files at once
+- [Working with text]{.alert}: `cat`, `head`, `grep`, and `sed`
+- [Pipes and redirects]{.alert}, chaining small tools into bigger ones. The Unix philosophy in action
+- [Loops and shell scripts](https://en.wikipedia.org/wiki/Shell_script){.alert}, to automate what you would otherwise repeat
+- Bring your laptop. We will be typing 🤓
+:::
+
+:::{.column width="60%"}
+:::{style="text-align: center; margin-top: -30px;"}
+[![](figures/lecture.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/lecture.png"}
+:::
+:::
+:::
+:::
+
+# Questions? 😉 {background-color="#1B3A6B"}
+
+# Thank you very much and see you soon! 😊 🙏🏼{background-color="#1B3A6B"}

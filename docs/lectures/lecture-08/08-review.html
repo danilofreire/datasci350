@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Danilo Freire">
+  <title>DATASCI 350 – DATASCI 350 - Data Science Computing</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-e81dffa558ac2fcde18150d300d5561f.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/multimodal/multimodal.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">DATASCI 350 - Data Science Computing</h1>
+  <p class="subtitle">Lecture 08 - Review Session</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a>
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:danilo.freire@emory.edu">danilo.freire@emory.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Department of Data and Decision Sciences <br> Emory University
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="welcome-back-time-to-review" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Welcome back! 😊 <br><br> Time to review 📚</h1>
+
+</section>
+<section id="todays-plan" class="slide level2">
+<h2>Today’s plan</h2>
+<div style="margin-top: 30px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:52%;">
+<p><span class="alert">How today works</span></p>
+<ul>
+<li>Six rounds, one for each part of the course so far</li>
+<li>In each round I revise the material for a few minutes, then <span class="alert">you type</span> for a few minutes, then we check the answers together</li>
+<li>You will be working for about half of the class. Keep your terminal open next to these slides</li>
+<li>Everything you type goes into one throwaway folder, and we delete it at the end</li>
+</ul>
+<div style="text-align: center;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Round</th>
+<th style="text-align: left;">Topic</th>
+<th style="text-align: left;">Lectures</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">How computers store things</td>
+<td style="text-align: left;">01-02</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">The shell</td>
+<td style="text-align: left;">03</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Files, wildcards, and text</td>
+<td style="text-align: left;">04</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Git on your machine</td>
+<td style="text-align: left;">05, 07</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">GitHub and collaboration</td>
+<td style="text-align: left;">06, 07</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: left;">Checklist</td>
+<td style="text-align: left;">all</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div><div class="column" style="width:48%;">
+<p><span class="alert">What the quiz looks like</span></p>
+<ul>
+<li>Quiz 01 is <span class="alert">next class</span>, in this room, and it is worth 6%</li>
+<li>You fork a repository that I give you, then clone your own copy</li>
+<li>You work through a numbered list of shell and Git tasks</li>
+<li>You record <span class="alert">every command you run</span> in a file called <code>commands.txt</code></li>
+<li>You push your work, then submit the link to your repository on Canvas</li>
+<li>Open notes, open slides, open web, AI allowed</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="set-up-your-sandbox" class="slide level2">
+<h2>Set up your sandbox</h2>
+<h3 id="everybody-types-this-now">Everybody types this now</h3>
+<div style="margin-top: 30px; font-size: 26px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div style="margin-top: 30px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a></a><span class="bu">cd</span> ~</span>
+<span id="cb1-2"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> ds350-review</span>
+<span id="cb1-3"><a></a><span class="bu">cd</span> ds350-review</span>
+<span id="cb1-4"><a></a><span class="bu">pwd</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>One folder holds everything we do today, so nothing you type can touch your real work</li>
+<li>Every exercise from now on starts inside <code>~/ds350-review</code></li>
+<li>If a command fails, <span class="alert">put your hand up</span>. Somebody else in the room has the same error</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div style="font-size: 24px;">
+<p>Your last line should look something like:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a></a><span class="ex">/Users/danilo/ds350-review</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>or, on WSL:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="ex">/home/danilo/ds350-review</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 30px;">
+<p>We delete this folder together at the end of the class</p>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="before-the-quiz" class="slide level2">
+<h2>Before the quiz</h2>
+<div style="margin-top: 40px; font-size: 24px;">
+<p>The quiz ends with a <span class="alert">push to GitHub</span>. Make sure your machine is logged in before the quiz:</p>
+<div style="margin-top: 30px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>Check that you have the GitHub CLI: <code>gh --version</code></li>
+<li>If you do not, install it with <code>brew install gh</code> on macOS, or copy the command for WSL from <a href="https://cli.github.com" class="uri">https://cli.github.com</a></li>
+<li>Run <code>gh auth login</code>. Choose GitHub.com, then HTTPS, then log in with the browser</li>
+<li>Test it: push any small change to your Assignment 03 repository</li>
+<li><span class="alert">If the push works today, it will work in the quiz</span></li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div style="font-size: 22px;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><code>gh</code> is the convenient route, but it is not the only one. A plain <code>git push</code> over HTTPS works too, as long as your browser sign-in went through.</p>
+<p>What matters is that <span class="alert">some</span> push from this laptop reaches GitHub before the quiz.</p>
+</div>
+</div>
+</div>
+</div>
+<div style="margin-top: 20px;">
+<p>Start this now if you have never pushed from this machine. Installing takes only a few minutes</p>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="round-1-how-computers-store-things" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Round 1: how computers store things</h1>
+
+</section>
+<section id="bits-bytes-and-lookup-tables" class="slide level2">
+<h2>Bits, bytes, and lookup tables</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>Everything is stored as <span class="alert">0s and 1s</span>. One digit is a <span class="alert">bit</span>, eight bits are a <span class="alert">byte</span></li>
+<li>Binary counts in powers of 2, so <span class="math inline">\(n\)</span> bits reach <span class="math inline">\(2^n - 1\)</span>. That is why one byte stops at 255</li>
+<li><span class="alert">Hexadecimal</span> is base 16, and one hex digit is exactly four bits</li>
+<li><span class="alert">ASCII</span> is a lookup table that gives 128 characters a number each, in order: <code>A</code> is 65, <code>B</code> is 66, <code>a</code> is 97</li>
+<li><span class="alert">Unicode</span> extends that to accents, other alphabets, and emoji</li>
+<li><span class="alert">Compiled</span> languages translate before running, <span class="alert">interpreted</span> ones translate as they run</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ascii-table.png"><img data-src="figures/ascii-table.png" style="width:100.0%"></a></p>
+</div></div>
+</div>
+</section>
+<section id="sec-exercise-01" class="slide level2 scrollable">
+<h2>Try it yourself!</h2>
+<h3 id="three-questions-three-minutes-no-terminal-needed">Three questions, three minutes, no terminal needed</h3>
+<div style="margin-top: 40px; font-size: 28px;">
+<ol type="1">
+<li><p>How would you write 12 in binary, and how many bits does that take?</p></li>
+<li><p>In ASCII, <code>A</code> is 65. Without looking at the table, what number is <code>D</code>?</p></li>
+<li><p>Python and C++: which one is compiled, and which one is interpreted?</p></li>
+</ol>
+<p><br></p>
+<ul>
+<li><a href="#/sec-solution-01"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="round-2-the-shell" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Round 2: the shell</h1>
+
+</section>
+<section id="the-shell-and-the-shape-of-a-command" class="slide level2">
+<h2>The shell, and the shape of a command</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>The <span class="alert">kernel</span> talks to the hardware. The <span class="alert">shell</span> runs your commands. The <span class="alert">terminal</span> is the window you type them into</li>
+<li><code>bash</code> is the default on most Linux systems, <code>zsh</code> on macOS. <code>echo $SHELL</code> tells you which one you have</li>
+<li>Every command has the same three parts:</li>
+</ul>
+<div style="font-size: 28px; margin-top: 15px; margin-bottom: 15px;">
+<p><span class="alert">command</span> option(s) argument(s)</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a></a><span class="fu">ls</span> <span class="at">-lah</span> ~/Documents</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>ls</code> is the command, <code>-lah</code> are the options, <code>~/Documents</code> is the argument</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Short options take one dash and combine, so <code>ls -l -a -h</code> and <code>ls -lah</code> are the same thing</li>
+<li>Spelled-out options take two dashes: <code>ls --human-readable</code></li>
+<li>The three you will use constantly: <code>-l</code> long format, <code>-a</code> all files including hidden ones, <code>-h</code> readable sizes</li>
+<li><code>man ls</code> opens the full manual, <code>tldr ls</code> gives the five things people actually use</li>
+<li>Inside a manual page, <code>/word</code> searches and <span class="alert"><code>q</code> quits</span>. That is the one to remember under time pressure</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="finding-your-way-around" class="slide level2">
+<h2>Finding your way around</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:45%;">
+<div style="text-align: center;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>pwd</code></td>
+<td style="text-align: left;">Print the working directory</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>cd dir</code></td>
+<td style="text-align: left;">Change directory</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>cd -</code></td>
+<td style="text-align: left;">Back to where you just were</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ls</code></td>
+<td style="text-align: left;">List files here</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ls -a</code></td>
+<td style="text-align: left;">Include hidden files</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ls -R</code></td>
+<td style="text-align: left;">Include subdirectories</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>whoami</code></td>
+<td style="text-align: left;">Which user you are</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div><div class="column" style="width:55%;">
+<ul>
+<li><code>~</code> is your home folder, <code>.</code> is here, <code>..</code> is one level up</li>
+<li>An <span class="alert">absolute</span> path starts at the very top: <code>/Users/danilo/work</code></li>
+<li>A <span class="alert">relative</span> path starts from wherever you are: <code>./scripts</code>, <code>../data</code></li>
+<li>Prefer relative paths in anything you share. An absolute path works on exactly one machine</li>
+<li>Never put spaces in names. Use <code>assignment-05</code>, not <code>Assignment 05</code></li>
+<li>If you must, quote it (<code>cd "My Documents"</code>) or escape it (<code>cd My\ Documents</code>)</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="sec-exercise-02" class="slide level2 scrollable">
+<h2>Try it yourself!</h2>
+<h3 id="three-tasks-three-minutes-inside-ds350-review">Three tasks, three minutes, inside <code>~/ds350-review</code></h3>
+<div style="margin-top: 40px; font-size: 26px;">
+<ol type="1">
+<li><p>Which shell are you running?</p></li>
+<li><p>List everything in your home directory, <span class="alert">including hidden files</span>, with readable sizes. One command</p></li>
+<li><p>Which one of these three paths is <span class="alert">absolute</span>?</p></li>
+</ol>
+<div style="font-size: 24px; margin-top: 10px;">
+<p><code>./scripts/run.sh</code></p>
+<p><code>/Users/danilo/work</code></p>
+<p><code>../data/file.csv</code></p>
+</div>
+<ul>
+<li><a href="#/sec-solution-02"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="round-3-files-wildcards-and-text" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Round 3: files, wildcards, and text</h1>
+
+</section>
+<section id="creating-copying-moving-deleting" class="slide level2">
+<h2>Creating, copying, moving, deleting</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="text-align: center;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>mkdir -p a/b/c</code></td>
+<td style="text-align: left;">Create the whole tree</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>touch file</code></td>
+<td style="text-align: left;">Create an empty file</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>cp a b</code></td>
+<td style="text-align: left;">Copy</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>cp -r dir1 dir2</code></td>
+<td style="text-align: left;">Copy a directory</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>mv a b</code></td>
+<td style="text-align: left;">Move, or rename</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>rm file</code></td>
+<td style="text-align: left;">Delete. No undo</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>rm -r dir</code></td>
+<td style="text-align: left;">Delete a directory and its contents</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><code>mkdir -p</code> builds several levels at once and never complains if the directory already exists</li>
+<li>Moving a file within its own directory under a new name is how you <span class="alert">rename</span> it</li>
+<li><code>rm</code> has no Trash and no undo. <code>rm -rf</code> does not even ask</li>
+<li><code>&amp;&amp;</code> runs the next command only if the first <span class="alert">succeeded</span>, <code>||</code> only if it <span class="alert">failed</span></li>
+<li><code>find . -name "*.csv"</code> searches by name, <code>-type d</code> by kind, <code>-size +500k</code> by size</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="one-command-many-files" class="slide level2">
+<h2>One command, many files</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="alert">Wildcards</span> match files that already exist</p>
+<ul>
+<li><code>*</code> matches <span class="alert">any number</span> of characters</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a></a><span class="fu">ls</span> <span class="pp">*</span>.py            <span class="co"># every Python file</span></span>
+<span id="cb5-2"><a></a><span class="fu">cp</span> scripts/<span class="pp">*</span>.py backup/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>?</code> matches <span class="alert">exactly one</span> character</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="fu">ls</span> data0<span class="pp">?</span>.csv      <span class="co"># data01.csv ... data09.csv</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<p><span class="alert">Braces</span> invent names that do not exist yet</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a></a><span class="fu">touch</span> file<span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">3</span><span class="dt">}</span>.txt        <span class="co"># file1, file2, file3</span></span>
+<span id="cb7-2"><a></a><span class="fu">mkdir</span> dir<span class="dt">{a</span><span class="op">,</span><span class="dt">b</span><span class="op">,</span><span class="dt">c}</span>            <span class="co"># dira, dirb, dirc</span></span>
+<span id="cb7-3"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{data</span><span class="op">,</span><span class="dt">src}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 20px;">
+<p>The difference that catches people out:</p>
+</div>
+<ul>
+<li><code>*</code> and <code>?</code> ask the shell “which files match this?”</li>
+<li><code>{}</code> tells the shell “write these names out for me”</li>
+<li>This is why <code>touch file*.txt</code> creates nothing useful, and <code>touch file{1..3}.txt</code> creates three files</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="sec-exercise-03" class="slide level2 scrollable">
+<h2>Try it yourself!</h2>
+<h3 id="five-tasks-six-minutes-inside-ds350-review">Five tasks, six minutes, inside <code>~/ds350-review</code></h3>
+<div style="margin-top: 30px; font-size: 26px;">
+<p>Tasks 1 to 4 must each fit on a <span class="alert">single line</span></p>
+<ol type="1">
+<li><p>Create <code>project/</code> containing three subdirectories: <code>data</code>, <code>scripts</code>, and <code>docs</code></p></li>
+<li><p>Create <code>data01.csv</code> through <code>data05.csv</code> inside <code>project/data</code></p></li>
+<li><p>Create <code>clean.py</code>, <code>analyse.py</code> and <code>plot.py</code> inside <code>project/scripts</code></p></li>
+<li><p>Create <code>project/backup</code> and copy <span class="alert">only the Python files</span> into it, chaining both commands on one line</p></li>
+<li><p>Rename <code>project/data/data01.csv</code> to <code>project/data/input.csv</code>, then run <code>ls -R project</code></p></li>
+</ol>
+<ul>
+<li><a href="#/sec-solution-03"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section>
+<section id="quick-check-which-files-match" class="slide level2">
+<h2>Quick check: which files match?</h2>
+<div style="margin-top: 30px; font-size: 28px;">
+<p>You have just renamed <code>data01.csv</code> to <code>input.csv</code>. How many files does each of these list?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><a></a><span class="fu">ls</span> project/data/<span class="pp">*</span>.csv</span>
+<span id="cb8-2"><a></a><span class="fu">ls</span> project/data/data0<span class="pp">?</span>.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="fragment fade-in">
+<div style="font-size: 26px; margin-top: 20px;">
+<ul>
+<li>The first lists <span class="alert">five</span>: <code>input.csv</code>, <code>data02.csv</code>, <code>data03.csv</code>, <code>data04.csv</code>, <code>data05.csv</code></li>
+<li>The second lists <span class="alert">four</span>. <code>input.csv</code> does not match, because <code>data0?</code> expects the name to start with <code>data0</code></li>
+<li>On zsh, a pattern that matches nothing gives you <code>no matches found</code>. That message means your <span class="alert">pattern</span> is wrong, not your command</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="revision-text-redirects-and-pipes" class="slide level2">
+<h2>Revision: text, redirects, and pipes</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div style="text-align: center; margin-bottom: 30px;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>wc -l file</code></td>
+<td style="text-align: left;">Count the lines</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>head -n 5 file</code></td>
+<td style="text-align: left;">First five lines</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>tail -n 5 file</code></td>
+<td style="text-align: left;">Last five lines</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>grep "x" file</code></td>
+<td style="text-align: left;">Lines that contain <code>x</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>sed 's/a/b/g' file</code></td>
+<td style="text-align: left;">Replace <code>a</code> with <code>b</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li><code>grep</code> options worth knowing: <code>-n</code> numbers the lines, <code>-i</code> ignores capitals, <code>-v</code> inverts, <code>-r</code> searches a directory, <code>-c</code> counts</li>
+<li><code>^and</code> matches lines that <span class="alert">start</span> with “and”, <code>end$</code> lines that <span class="alert">end</span> with “end”</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<ul>
+<li><code>&gt;</code> sends output into a file and <span class="alert">overwrites</span> it. <code>&gt;&gt;</code> <span class="alert">appends</span>. Mixing them up is a common way to lose work</li>
+<li><code>|</code> feeds one command’s output into the next</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a></a><span class="fu">cat</span> sonnets.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"love"</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>A <code>for</code> loop repeats over a list, and <code>$i</code> is the current item</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">4</span><span class="dt">}</span><span class="kw">;</span> <span class="cf">do</span> <span class="fu">mkdir</span> dir<span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div></div>
+</div>
+</section>
+<section id="sec-exercise-04" class="slide level2 scrollable">
+<h2>Try it yourself!</h2>
+<h3 id="three-tasks-three-minutes-inside-ds350-review-1">Three tasks, three minutes, inside <code>~/ds350-review</code></h3>
+<div style="margin-top: 40px; font-size: 26px;">
+<ol type="1">
+<li><p>Create a file called <code>project/docs/countries.txt</code> whose only line is <code>brazil</code></p></li>
+<li><p>Add <code>india</code> to the file, <span class="alert">without losing</span> <code>brazil</code></p></li>
+<li><p>Count how many lines contain <code>in</code>, using a pipe</p></li>
+</ol>
+<p><br></p>
+<ul>
+<li><a href="#/sec-solution-04"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="round-4-git-on-your-machine" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Round 4: Git on your machine</h1>
+
+</section>
+<section id="the-four-places-your-work-lives" class="slide level2">
+<h2>The four places your work lives</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>The <span class="alert">working directory</span> holds your files as they are right now</li>
+<li>The <span class="alert">staging area</span> holds the changes you picked out to save next. <code>git add</code> puts them there</li>
+<li>The <span class="alert">local repository</span> is the full history on your machine. <code>git commit</code> adds a snapshot to it</li>
+<li>The <span class="alert">remote repository</span> is that same history on GitHub. <code>git push</code> sends it there</li>
+<li><code>git status</code> tells you which of the four your work is sitting in. Run it constantly</li>
+</ul>
+<div style="font-size: 21px;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p>If Git says <code>Please tell me who you are</code> on your first commit, you never introduced yourself:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="fu">git</span> config <span class="at">--global</span> user.name <span class="st">"Your Name"</span></span>
+<span id="cb11-2"><a></a><span class="fu">git</span> config <span class="at">--global</span> user.email <span class="st">"you@emory.edu"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/05-version-control.jpg"><img data-src="figures/05-version-control.jpg" style="width:60.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="main-commands" class="slide level2">
+<h2>Main commands</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="text-align: center;">
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Command</th>
+<th style="text-align: left;">What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>git init</code></td>
+<td style="text-align: left;">Start a repository here</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>git clone url</code></td>
+<td style="text-align: left;">Copy a repository from GitHub</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>git status</code></td>
+<td style="text-align: left;">Where is everything?</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>git add .</code></td>
+<td style="text-align: left;">Stage everything</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>git commit -m "msg"</code></td>
+<td style="text-align: left;">Save a snapshot</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>git log --oneline</code></td>
+<td style="text-align: left;">The history, one line each</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>git push</code></td>
+<td style="text-align: left;">Send commits to GitHub</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>git pull</code></td>
+<td style="text-align: left;">Bring other people’s commits back</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div><div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/git-ref.png"><img data-src="figures/git-ref.png" style="width:100.0%"></a></p>
+<div style="font-size: 20px;">
+<p>Source: <a href="https://marklodato.github.io/visual-git-guide/index-en.html">Lodato (2010)</a></p>
+</div>
+<ul>
+<li><code>.gitignore</code> lists what Git should <span class="alert">never track</span>: by name (<code>secrets.txt</code>), by pattern (<code>*.csv</code>), or by folder (<code>data/</code>)</li>
+<li>Use it for anything large, private, or regenerated</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="seeing-changes-and-fixing-mistakes" class="slide level2">
+<h2>Seeing changes and fixing mistakes</h2>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><code>git diff</code> shows what you changed but have <span class="alert">not yet staged</span></li>
+<li><code>git diff --staged</code> shows what is staged and about to be committed</li>
+<li>In the output, <code>a/</code> is the old version and <code>b/</code> the new one, <code>+</code> is an added line and <code>-</code> a deleted one</li>
+</ul>
+<div style="font-size: 21px;">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>After <code>git add</code>, plain <code>git diff</code> goes <span class="alert">empty</span>. Nothing was lost. The change moved to the staging area, so <code>git diff --staged</code> is the one that shows it</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><span class="alert">Wrong commit message</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="fu">git</span> commit <span class="at">--amend</span> <span class="at">-m</span> <span class="st">"The message I meant"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="alert">Forgot to include a file</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="fu">git</span> add the-forgotten-file</span>
+<span id="cb13-2"><a></a><span class="fu">git</span> commit <span class="at">--amend</span> <span class="at">--no-edit</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><span class="alert">Undo the last commit, keep the work</span></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a></a><span class="fu">git</span> reset <span class="at">--soft</span> HEAD~1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>--soft</code> keeps your changes staged, <code>--hard</code> deletes them</li>
+<li><span class="alert">Only amend commits you have not pushed</span></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="sec-exercise-05" class="slide level2 scrollable">
+<h2>Try it yourself!</h2>
+<h3 id="four-steps-four-minutes-inside-ds350-reviewproject">Four steps, four minutes, inside <code>~/ds350-review/project</code></h3>
+<div style="margin-top: 40px; font-size: 26px;">
+<ol type="1">
+<li><p>Turn this directory into a repository</p></li>
+<li><p>Create a <code>.gitignore</code> containing one line, <code>backup/</code></p></li>
+<li><p>Stage everything, and commit it with the message <code>Initial commit</code></p></li>
+<li><p>Show your history in compact form</p></li>
+</ol>
+<div style="font-size: 23px; margin-top: 25px;">
+<p>Run <code>git status</code> after every step and watch what changes. That habit is worth more than any command on this slide</p>
+</div>
+<p><br></p>
+<ul>
+<li><a href="#/sec-solution-05"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="round-5-github" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Round 5: GitHub</h1>
+
+</section>
+<section id="branches-merging-and-conflicts" class="slide level2">
+<h2>Branches, merging, and conflicts</h2>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>A <span class="alert">branch</span> lets you work on something without touching <code>main</code></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a></a><span class="fu">git</span> switch <span class="at">-c</span> feature-x     <span class="co"># Git 2.23 and later</span></span>
+<span id="cb15-2"><a></a><span class="fu">git</span> checkout <span class="at">-b</span> feature-x   <span class="co"># the older way, same result</span></span>
+<span id="cb15-3"><a></a><span class="fu">git</span> switch main</span>
+<span id="cb15-4"><a></a><span class="fu">git</span> merge feature-x</span>
+<span id="cb15-5"><a></a><span class="fu">git</span> branch <span class="at">-d</span> feature-x</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>git branch</code> lists your branches and marks where you are. Check it if you are unsure whether yours is called <code>main</code> or <code>master</code>. <span class="alert">Both work exactly the same way</span></li>
+<li>A file committed on a branch disappears when you switch away. It has not been deleted. You moved to a version of the project where it was never created</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<ul>
+<li>Two people change <span class="alert">different lines</span>, and Git merges them for you. The <span class="alert">same line</span>, and it asks you to choose</li>
+<li>A <span class="alert">merge conflict</span> is marked with three lines: <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code> opens your version, <code>=======</code> separates, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code> closes theirs</li>
+<li>Delete the markers along with the text you do not want, then <code>git add</code> and <code>git commit</code></li>
+</ul>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/vim-conflict.png"><img data-src="figures/vim-conflict.png" style="width:88.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="revision-remotes-clone-and-fork" class="slide level2">
+<h2>Revision: remotes, clone, and fork</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>A <span class="alert">remote</span> is a copy of your repository somewhere else, and <code>origin</code> is the usual name for it</li>
+<li><code>git push</code> sends your commits up, <code>git pull</code> brings other people’s down</li>
+<li><code>git pull</code> is <code>git fetch</code> (download) plus <code>git merge</code> (combine)</li>
+<li><code>git remote -v</code> shows which remote you are actually pushing to. <span class="alert">Check this when a push is rejected</span></li>
+</ul>
+<div style="font-size: 21px;">
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p>Committing is not publishing. If you commit and never push, GitHub shows nothing and your work looks missing</p>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><span class="alert">Clone</span> copies a repository to your computer. It stays connected to the original, and if the original is not yours, <span class="alert">you cannot push to it</span></li>
+<li><span class="alert">Fork</span> copies a repository to your GitHub account. Because that copy is yours, you can push to it</li>
+<li>Forking is a GitHub feature, not a Git one, which is why there is no <code>git fork</code> command</li>
+</ul>
+<div style="font-size: 26px; margin-top: 15px; text-align: center;">
+<p><span class="alert">fork first, then clone your fork</span></p>
+</div>
+<ul>
+<li>Clone mine instead, and your first <code>git push</code> is rejected. That is the most common way to lose time in the quiz</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="sec-exercise-06" class="slide level2 scrollable">
+<h2>Try it yourself!</h2>
+<h3 id="four-steps-four-minutes-inside-ds350-reviewproject-1">Four steps, four minutes, inside <code>~/ds350-review/project</code></h3>
+<div style="margin-top: 40px; font-size: 26px;">
+<ol type="1">
+<li><p>Create a branch called <code>feature-readme</code> and switch to it</p></li>
+<li><p>Create <code>README.md</code> containing <code># Review project</code>, and commit it</p></li>
+<li><p>Switch back to your default branch. <code>README.md</code> is gone</p></li>
+<li><p>Merge <code>feature-readme</code>, and <code>README.md</code> comes back</p></li>
+</ol>
+<ul>
+<li><a href="#/sec-solution-06"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section>
+<section id="recording-your-commands" class="slide level2">
+<h2>Recording your commands</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>The quiz asks for a <code>commands.txt</code> holding every command you ran. An empty one costs marks, and reconstructing it from memory at 6:40 pm never goes well</p>
+<p><span class="alert">The reliable way</span></p>
+<ul>
+<li>Keep the file open in VS Code and paste each command as you go</li>
+<li>It takes two seconds per command and it is always right</li>
+</ul>
+<div style="margin-top: 20px;">
+<p><span class="alert">The quick way</span></p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a></a><span class="bu">history</span> <span class="kw">|</span> <span class="fu">tail</span> <span class="at">-n</span> 60 <span class="op">&gt;</span> commands.txt</span>
+<span id="cb16-2"><a></a><span class="fu">cat</span> commands.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><code>history</code> prints the commands you have run, most recent last</li>
+<li><code>tail -n 60</code> keeps the last sixty of them</li>
+<li>Always <code>cat</code> the file before you push. An empty <code>commands.txt</code> is the single most common way to lose marks on this quiz</li>
+</ul>
+<div style="font-size: 21px;">
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<p><code>history</code> only remembers the terminal session you are in. Close the window mid-quiz and you lose it, which is why pasting as you go is safer</p>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="round-6-ready-for-the-quiz" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Round 6: ready for the quiz</h1>
+
+</section>
+<section id="what-actually-goes-wrong" class="slide level2">
+<h2>What actually goes wrong</h2>
+<div style="margin-top: 30px; font-size: 26px;">
+<p>Every one of these has cost somebody marks before, and none of them is about knowing Git:</p>
+<ul>
+<li class="fragment">Cloning my repository instead of forking it first, so <code>git push</code> is rejected</li>
+<li class="fragment">Committing everything and never pushing, so GitHub shows an empty repository</li>
+<li class="fragment">Running <code>git init</code> inside a repository that was already cloned, or in your home directory</li>
+<li class="fragment">Merging into the wrong branch, or never merging at all</li>
+<li class="fragment">Submitting the link to my repository rather than to your own fork</li>
+<li class="fragment">Leaving <code>commands.txt</code> empty, or forgetting to create it</li>
+<li class="fragment">Working for an hour in the wrong directory</li>
+</ul>
+<div style="margin-top: 20px;">
+<div class="fragment fade-in">
+<p>The fix for almost all of them is the same: <span class="alert">run <code>git status</code> and <code>pwd</code> often</span></p>
+</div>
+</div>
+</div>
+</section>
+<section id="your-checklist-for-the-quiz" class="slide level2">
+<h2>Your checklist for the quiz</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="alert">Before you arrive</span></p>
+<ul>
+<li><code>git --version</code> runs, and <code>git config --list</code> shows your name and email</li>
+<li>You can sign in to GitHub, and you know your username</li>
+<li>You have pushed to a repository at least once from this laptop</li>
+<li>Laptop charged, charger in your bag</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><span class="alert">On the day</span></p>
+<ul>
+<li>Read the whole task list before you type anything</li>
+<li>Fork first, clone second, <code>pwd</code> third</li>
+<li>Record your commands as you go</li>
+<li>Push, then open your fork in the browser and check that it is really there</li>
+<li>Submit the link to <span class="alert">your fork</span> on Canvas</li>
+</ul>
+</div></div>
+<div style="margin-top: 20px; text-align: center;">
+<p>Open notes, open slides, open web, AI allowed. Say which AI you used</p>
+</div>
+</div>
+</section>
+<section id="clean-up" class="slide level2">
+<h2>Clean up</h2>
+<div style="margin-top: 30px; font-size: 26px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a></a><span class="bu">cd</span> ~</span>
+<span id="cb17-2"><a></a><span class="bu">pwd</span>     <span class="co"># check you are where you think you are</span></span>
+<span id="cb17-3"><a></a><span class="fu">ls</span>      <span class="co"># you should see ds350-review here</span></span>
+<span id="cb17-4"><a></a><span class="fu">rm</span> <span class="at">-rf</span> ds350-review</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-warning callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Warning</strong></p>
+</div>
+<div class="callout-content">
+<p><code>rm -rf</code> deletes everything at once, with no Trash and no undo. Read the path before you press Enter</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<ul>
+<li>This is the one command in the course that can genuinely ruin your day</li>
+<li>The safety habit: <code>pwd</code> and <code>ls</code> first, so you can see what you are about to remove</li>
+<li>Nothing outside this folder is affected, and nothing on GitHub changes</li>
+<li>Your <code>project/</code> repository is gone, and that is fine. You built it in ten minutes and you could build it again</li>
+</ul>
+</div></div>
+</div>
+</section></section>
+<section id="questions" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Questions?</h1>
+
+</section>
+
+<section id="see-you-soon" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>See you soon!</h1>
+
+</section>
+
+<section>
+<section id="appendix-solutions" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Appendix: solutions</h1>
+
+</section>
+<section id="sec-solution-01" class="slide level2 scrollable">
+<h2>Solution 1</h2>
+<h3 id="how-computers-store-things">How computers store things</h3>
+<div style="margin-top: 30px; font-size: 26px;">
+<ol type="1">
+<li><p>12 is <code>1100</code>, because <span class="math inline">\(8 + 4 = 12\)</span>. That takes <span class="alert">four bits</span></p></li>
+<li><p><code>D</code> is <span class="alert">68</span>. ASCII is an ordered lookup table, so <code>A</code> is 65, <code>B</code> is 66, <code>C</code> is 67, <code>D</code> is 68</p></li>
+<li><p>C++ is <span class="alert">compiled</span>, translated into machine code before it runs. Python is <span class="alert">interpreted</span>, translated as it runs. The compiled program starts and runs faster, and the interpreted one is quicker to write and runs anywhere the interpreter does</p></li>
+</ol>
+<p><br></p>
+<ul>
+<li><a href="#/sec-exercise-01"><span class="button">Back to the exercise</span></a></li>
+</ul>
+</div>
+</section>
+<section id="sec-solution-02" class="slide level2 scrollable">
+<h2>Solution 2</h2>
+<h3 id="the-shell">The shell</h3>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a></a><span class="bu">echo</span> <span class="va">$SHELL</span>    <span class="co"># 1. which shell you are running</span></span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a><span class="fu">ls</span> <span class="at">-lah</span> ~      <span class="co"># 2. long format, all files, human-readable sizes</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ol start="3" type="1">
+<li>Only <code>/Users/danilo/work</code> is absolute. The other two are relative, because they start from wherever you happen to be</li>
+</ol>
+<div style="margin-top: 20px;">
+<p>A path like <code>~/Documents</code> is the interesting case. The shell expands <code>~</code> into your home directory before the command ever sees it, so it behaves like an absolute path even though it does not begin with <code>/</code></p>
+</div>
+<ul>
+<li><a href="#/sec-exercise-02"><span class="button">Back to the exercise</span></a></li>
+</ul>
+</div>
+</section>
+<section id="sec-solution-03" class="slide level2">
+<h2>Solution 3</h2>
+<h3 id="files-and-wildcards">Files and wildcards</h3>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{data</span><span class="op">,</span><span class="dt">scripts</span><span class="op">,</span><span class="dt">docs}</span></span>
+<span id="cb19-2"><a></a><span class="fu">touch</span> project/data/data0{1..5}.csv</span>
+<span id="cb19-3"><a></a><span class="fu">touch</span> project/scripts/<span class="dt">{clean</span><span class="op">,</span><span class="dt">analyse</span><span class="op">,</span><span class="dt">plot}</span>.py</span>
+<span id="cb19-4"><a></a><span class="fu">mkdir</span> project/backup <span class="kw">&amp;&amp;</span> <span class="fu">cp</span> project/scripts/<span class="pp">*</span>.py project/backup/</span>
+<span id="cb19-5"><a></a><span class="fu">mv</span> project/data/data01.csv project/data/input.csv</span>
+<span id="cb19-6"><a></a><span class="fu">ls</span> <span class="at">-R</span> project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>Task 4 needs both ideas at once: <code>*</code> picks out the Python files, and <code>&amp;&amp;</code> runs the copy only if the directory was created</p></li>
+<li><p>If <code>project/backup</code> already exists, <code>mkdir</code> fails, <code>&amp;&amp;</code> stops, and the copy never happens. That is exactly what <code>&amp;&amp;</code> is for</p></li>
+<li><p><code>tree project</code> shows the same structure more clearly, if you have it installed</p></li>
+<li><p><a href="#/sec-exercise-03"><span class="button">Back to the exercise</span></a></p></li>
+</ul>
+</div>
+</section>
+<section id="sec-solution-04" class="slide level2">
+<h2>Solution 4</h2>
+<h3 id="text-tools">Text tools</h3>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a></a><span class="bu">echo</span> <span class="st">"brazil"</span> <span class="op">&gt;</span> project/docs/countries.txt    <span class="co"># 1. &gt; creates the file</span></span>
+<span id="cb20-2"><a></a></span>
+<span id="cb20-3"><a></a><span class="bu">echo</span> <span class="st">"india"</span> <span class="op">&gt;&gt;</span> project/docs/countries.txt    <span class="co"># 2. &gt;&gt; adds to what is there</span></span>
+<span id="cb20-4"><a></a></span>
+<span id="cb20-5"><a></a><span class="fu">grep</span> <span class="st">"in"</span> project/docs/countries.txt <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span>  <span class="co"># 3. one</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>Task 2 is the whole point. Use <code>&gt;</code> there instead of <code>&gt;&gt;</code> and you end up with a single line, <code>india</code>. <span class="alert"><code>brazil</code> is gone, with no warning</span></p></li>
+<li><p>The count is 1 because <code>india</code> contains <code>in</code> and <code>brazil</code> does not. <code>grep</code> filtered, and <code>wc -l</code> counted what survived</p></li>
+<li><p>Task 3 also works without a pipe: <code>grep -c "in" project/docs/countries.txt</code></p></li>
+<li><p>Worth trying later: <code>cat</code> prints the file, <code>wc -l</code> counts its lines, and <code>grep -n "in"</code> adds the line number</p></li>
+<li><p><a href="#/sec-exercise-04"><span class="button">Back to the exercise</span></a></p></li>
+</ul>
+</div>
+</section>
+<section id="sec-solution-05" class="slide level2">
+<h2>Solution 5</h2>
+<h3 id="git-on-your-machine">Git on your machine</h3>
+<div style="margin-top: 30px; font-size: 22px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a></a><span class="fu">git</span> init                                      <span class="co"># 1. Git calls your files "untracked"</span></span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a><span class="bu">echo</span> <span class="st">"backup/"</span> <span class="op">&gt;</span> .gitignore                   <span class="co"># 2. backup/ leaves the untracked list</span></span>
+<span id="cb21-4"><a></a></span>
+<span id="cb21-5"><a></a><span class="fu">git</span> add . <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Initial commit"</span>   <span class="co"># 3.</span></span>
+<span id="cb21-6"><a></a></span>
+<span id="cb21-7"><a></a><span class="fu">git</span> log <span class="at">--oneline</span>                             <span class="co"># 4. one commit</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Empty directories never appear in <code>git status</code>. Git tracks files, not folders</li>
+</ul>
+<div style="margin-top: 15px;">
+<p><span class="alert">Two more worth trying at home</span>, both on the revision slide:</p>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a></a><span class="bu">echo</span> <span class="st">"# clean the raw data"</span> <span class="op">&gt;&gt;</span> scripts/clean.py</span>
+<span id="cb22-2"><a></a><span class="fu">git</span> diff              <span class="co"># your change, not yet staged</span></span>
+<span id="cb22-3"><a></a><span class="fu">git</span> add scripts/clean.py</span>
+<span id="cb22-4"><a></a><span class="fu">git</span> diff              <span class="co"># empty! the change moved to the staging area</span></span>
+<span id="cb22-5"><a></a><span class="fu">git</span> diff <span class="at">--staged</span>     <span class="co"># this is the one that shows it now</span></span>
+<span id="cb22-6"><a></a></span>
+<span id="cb22-7"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"add coment"</span>                       <span class="co"># a bad message...</span></span>
+<span id="cb22-8"><a></a><span class="fu">git</span> commit <span class="at">--amend</span> <span class="at">-m</span> <span class="st">"Add comment to clean.py"</span>  <span class="co"># ...fixed, with no second commit</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><a href="#/sec-exercise-05"><span class="button">Back to the exercise</span></a></li>
+</ul>
+</div>
+</section>
+<section id="sec-solution-06" class="slide level2">
+<h2>Solution 6</h2>
+<h3 id="branches">Branches</h3>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a></a><span class="fu">git</span> switch <span class="at">-c</span> feature-readme        <span class="co"># 1. or: git checkout -b feature-readme</span></span>
+<span id="cb23-2"><a></a></span>
+<span id="cb23-3"><a></a><span class="bu">echo</span> <span class="st">"# Review project"</span> <span class="op">&gt;</span> README.md               <span class="co"># 2.</span></span>
+<span id="cb23-4"><a></a><span class="fu">git</span> add README.md <span class="kw">&amp;&amp;</span> <span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Add README"</span></span>
+<span id="cb23-5"><a></a></span>
+<span id="cb23-6"><a></a><span class="fu">git</span> switch main                     <span class="co"># 3. use master if that is what git branch showed</span></span>
+<span id="cb23-7"><a></a><span class="fu">ls</span>                                  <span class="co"># README.md is not here</span></span>
+<span id="cb23-8"><a></a></span>
+<span id="cb23-9"><a></a><span class="fu">git</span> merge feature-readme            <span class="co"># 4.</span></span>
+<span id="cb23-10"><a></a><span class="fu">ls</span>                                  <span class="co"># and now it is back</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>In step 3, <code>README.md</code> has not been deleted. You moved to a version of the project in which it was never created, and merging brings it back</p></li>
+<li><p><code>git branch</code> lists your branches and marks where you are with an asterisk</p></li>
+<li><p>Once you have finished with a branch, <code>git branch -d feature-readme</code> deletes it</p></li>
+<li><p><a href="#/sec-exercise-06"><span class="button">Back to the exercise</span></a></p></li>
+</ul>
+</div>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p><a href="https://danilofreire.github.io/datasci350/lectures/lecture-08/08-review.html">Review Session</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/multimodal/multimodal.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Multimodal, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

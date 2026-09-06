@@ -1,0 +1,182 @@
+---
+title: "DATASCI 350 - GitHub Tutorial"
+aliases: ["/03-github-tutorial.html"]
+lang: en-GB
+author: 
+  - Danilo Freire
+jupyter: python3
+highlight-style: arrow
+format: 
+    pdf:
+      template: article-template.latex
+      toc: true
+      toc-depth: 2
+      number-sections: true
+      fig-pos: 'H'
+      appendix: false
+      fontfamily: libertine
+      monofont: inconsolata
+      monofontoptions: scaled=.95
+      fontsize: 12pt
+      spacing: double
+      geometry: 
+        - top=2cm
+        - bottom=2cm
+        - left=2cm
+        - right=2cm
+      urlcolor: darkblue
+      linkcolor: Mahogany
+      citecolor: Mahogany
+      pdf-engine: pdflatex
+    html:
+      toc: true
+      toc-depth: 2
+      number-sections: false
+editor:
+  render-on-save: true
+---
+
+::: {.content-visible when-format="pdf"}
+\newpage
+:::
+
+# Introduction
+
+This tutorial gets you set up with GitHub: a free educational account, [GitHub Desktop](https://github.com/apps/desktop) installed, a copy of the course materials on your computer, and the routine for keeping that copy up to date. It also covers the basics of Git along the way, including commits and pushes. The tutorial uses GitHub Desktop throughout, but any Git client will do the same job if you already have one you prefer.
+
+# What are Git and GitHub?
+
+[Git](https://git-scm.com/) is a version control system. It records every change you make to a set of files, so you can see what changed, when, and why, and go back to any earlier state. [Linus Torvalds](https://en.wikipedia.org/wiki/Linus_Torvalds) wrote it in 2005 to manage the [Linux](https://en.wikipedia.org/wiki/Linux) kernel, and it is now the [*de facto* standard](https://stackoverflow.blog/2023/01/09/beyond-git-the-other-version-control-systems-developers-use/) for the job. Git is also famously hard to learn, which is where GitHub comes in.
+
+[GitHub](https://github.com) hosts Git repositories on the web. It stores your project in the cloud, keeps every version, and lets several people work on the same files without overwriting each other. It adds issue tracking, project management, and [free website hosting](https://pages.github.com/) on top. [Microsoft](https://github.com/microsoft), [Google](https://github.com/google), and [Meta](https://github.com/facebook) all keep code there[^apollo], as does almost every open-source project. Think of it as a social network for people who write code.
+
+[^apollo]: As a curiosity, the code for the [Apollo 11 mission](https://github.com/chrislgarry/Apollo-11) is also available on GitHub.
+
+We use GitHub throughout this course, so it is worth getting comfortable with it. Both public and private repositories are free for students.
+
+# Setting up
+
+## Create a GitHub account
+
+Go to <https://github.com/> and sign up, using the button in the top right. Use your Emory email address, which qualifies you for the educational account described below. Choose your username carefully, as it is public and it will follow you.
+
+![Signing up for GitHub.](images/github-signup.png){width=80%}
+
+## Apply to GitHub Education
+
+Go to <https://github.com/education> and apply for the Student Developer Pack. It gives you a set of paid tools for free, including GitHub Copilot, a domain name, and cloud hosting credit. Click "Join GitHub Education" and follow the instructions. You will need proof of your student status, such as an ID card or a transcript.
+
+![The GitHub Education page.](images/github-education.png){width=80%}
+
+## Install GitHub Desktop
+
+Download GitHub Desktop from <https://desktop.github.com/>. It is a graphical interface to Git for Windows and macOS, and it is the tool this tutorial uses. The command line does the same things, and you are welcome to use it instead.
+
+![The GitHub Desktop website.](images/github-desktop.png){width=80%}
+
+Open GitHub Desktop. Sign in with your GitHub account. You should then see this screen:
+
+![GitHub Desktop after signing in.](images/github-desktop-signin.png){width=80%}
+
+# Getting the course materials
+
+## Fork the repository
+
+The course materials live at <https://github.com/danilofreire/datasci350>. You will make your own copy, called a *fork*, so that you can annotate and change the files without touching mine.
+
+Open the repository page. Click "Fork" in the top right corner.
+
+![Forking the repository.](images/github-fork.png){width=80%}
+
+GitHub asks you to name your copy. Any name works, but `datasci350` keeps it consistent with the instructions in these tutorials. Click "Create fork".
+
+![Naming your copy of the repository.](images/github-fork02.png){width=80%}
+
+You do this once, at the start of the semester. From then on you pull my updates into your fork and push your own work back to it.
+
+## Clone your fork
+
+Forking gave you a copy on GitHub's servers. Cloning brings that copy onto your computer.
+
+Open your fork on GitHub. Check the URL: it should have *your* username in it, not mine. Click the green "Code" button. Copy the URL.
+
+Open GitHub Desktop. Click "Clone a Repository from the Internet".
+
+![Click "Clone a Repository from the Internet".](images/github-clone01.png){width=70%}
+
+Click the "URL" tab. Paste the URL. Choose where to save the repository on your computer. Click "Clone".
+
+![Paste the URL of your fork, then click "Clone".](images/github-clone02.png){width=70%}
+
+![Cloning in progress.](images/github-clone03.png){width=50%}
+
+GitHub Desktop then asks how you plan to use the fork. Select "To contribute to the parent project". Click "Continue". This is the option that lets you pull my updates later.
+
+![Select "To contribute to the parent project".](images/github-clone04.png){width=50%}
+
+If you pick the other option by mistake, your copy has no link back to my repository and you will never see an update. To fix it: right-click the repository in GitHub Desktop and remove it, delete the folder from your computer, then clone again.
+
+You now have the course materials on your machine. To open them in VS Code, click "Repository" > "Open in Visual Studio Code".
+
+![Opening the repository in VS Code.](images/github-open-vscode.png){width=60%}
+
+# Saving your changes
+
+Git splits saving into two steps. A *commit* records a set of changes on your computer. A *push* sends those commits to GitHub. You can commit ten times offline and push once.
+
+## Make changes
+
+Edit the files as you normally would. GitHub Desktop notices, and lists every changed file in the "Changes" tab.
+
+![Changed files in the "Changes" tab.](images/github-desktop-changes.png){width=40%}
+
+Click a file to see what changed inside it. Green lines are additions, red lines are deletions. The "History" tab shows the same view for every commit made so far.
+
+![The history of changes to the repository.](images/github-desktop-history.png){width=90%}
+
+## Commit
+
+Write a short summary of what you changed in the "Summary" box. Click "Commit to main"[^main]. That snapshot is now permanent, and you can return to it at any point.
+
+[^main]: The default branch in GitHub is called `main`. This is the branch where you will make most of your changes. You can create other branches if you want to work on different features or bug fixes.
+
+![Committing changes.](images/github-desktop-commit.png){width=40%}
+
+Write summaries you will understand in three weeks. "Fixed question 4 of problem set 2" is useful; "update" is not.
+
+![The commit and its message in the history.](images/github-desktop-commit02.png){width=90%}
+
+## Push
+
+Your commits are still only on your computer. Click "Repository" > "Push" to send them to GitHub.
+
+![Pushing and fetching changes.](images/github-desktop-push.png){width=90%}
+
+The neighbouring "Fetch" button does the reverse: it downloads changes from GitHub to your computer. The next section puts it to work.
+
+# Updating the course materials
+
+I update the course materials regularly during the semester. Pulling those updates into your fork takes one click.
+
+Commit everything you have been working on first. An update with uncommitted changes in the way can fail or overwrite your work.
+
+Open the "Branch" tab in the top menu. Click "Update from upstream/main". Here "upstream" means my repository, and "main" means its primary version.
+
+![Updating from upstream.](images/github-desktop-update.png){width=50%}
+
+Two habits make this painless:
+
+- Update at the start of every class, so you are working from the current version.
+- Save your own work under a different file name. If you write your answers into `assignment-01.qmd` and I then update that file, my version replaces yours. `assignment-01-danilo.qmd` is safe.
+
+Your fork is public by default. To make it private, open your repository on GitHub, click "Settings", scroll to the "Danger Zone", click "Make private", and confirm.
+
+# Recommended readings and resources
+
+- [GitHub Skills](https://skills.github.com/): short interactive courses run inside real repositories. The best starting point.
+- [GitHub Guides](https://guides.github.com/): short written guides to the basics.
+- [GitHub Desktop documentation](https://docs.github.com/en/desktop): the official reference for the app used here.
+- [Pro Git](https://git-scm.com/book/en/v2): a free book covering Git in full. Read it when you outgrow the app.
+- [How to Use Git & GitHub Desktop Tutorial for Beginners](https://www.youtube.com/watch?v=MaqVvXv6zrU): a video walkthrough, if you prefer watching to reading.
+
+If anything here does not work, ask me or a teaching assistant. Good luck with your coding!

@@ -1,0 +1,234 @@
+---
+title: "Beginner's Guide to Quarto Presentations"
+author: "Your Name"
+date: "2026-02-18"
+format:
+  revealjs:
+    slide-level: 2
+    theme: night
+    transition: slide
+    scrollable: true
+    code-line-numbers: true
+    embed-resources: false
+    footer: "Footer text"
+editor:
+  render-on-save: true
+---
+
+# Introduction
+
+## Welcome to Quarto Presentations
+
+This presentation will guide you through the basics of creating slides with Quarto and Revealjs.
+
+# Text Formatting
+
+## Basic Formatting
+
+You can format text in various ways:
+
+- *Italics* are created using single asterisks
+- **Bold** text is created using double asterisks
+- ~~Strikethrough~~ is created using double tildes
+- `Inline code` is created using backticks
+
+## Lists
+
+You can create lists easily:
+
+:::{style="font-size: 24px;"}
+:::{.columns}
+:::{.column width="50%"}
+- Unordered list item 1
+- Unordered list item 2
+  - Nested item 2.1
+  - Nested item 2.2
+:::
+
+:::{.column width="50%"}
+1. Ordered list item 1
+2. Ordered list item 2
+   1. Nested item 2.1
+   2. Nested item 2.2
+:::
+:::
+:::
+
+# Adding Content
+
+## Inserting Images
+
+You can add images to your slides like this:
+
+![A cute cat](figures/cat.avif)
+
+## Creating Columns
+
+:::{.columns}
+:::{.column width="50%"}
+This is the content for the left column.
+
+You can add any content here, like text, images, or code.
+:::
+
+:::{.column width="50%"}
+This is the content for the right column.
+
+- List item 1
+- List item 2
+:::
+:::
+
+## Incremental Slides
+
+You can reveal content incrementally:
+
+:::{.incremental}
+- First item
+- Second item
+- Third item
+:::
+
+## Fragment Animations
+
+Fragments allow you to fade in content:
+
+:::{.fragment .fade-in}
+This content will fade in.
+:::
+
+:::{.fragment .fade-in-then-out}
+And this content will fade in next.
+:::
+
+## Blockquotes
+
+> "The only way to do great work is to love what you do." - Steve Jobs
+
+# Code Snippets
+
+## Embedding Python Code
+
+You can include Python code in your slides (and highlight specific lines):
+
+```{python}
+#| code-line-numbers: "|4|6"
+#| echo: true
+#| eval: true 
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.DataFrame({'A': [1, 2, 3], 'B': [4, 5, 6]})
+df.plot(kind='bar')
+plt.show()
+```
+
+## Syntax Highlighting
+
+Quarto supports syntax highlighting for various languages:
+
+```python
+def fibonacci(n):
+    if n <= 0:
+        return []
+    elif n == 1:
+        return 
+    elif n == 2:
+        return [0, 1]
+    else:
+        fib = [0, 1]
+        for i in range(2, n):
+            fib.append(fib[i-1] + fib[i-2])
+        return fib
+```
+
+# Themes and Transitions
+
+## Changing Themes
+
+You can change the presentation theme in the YAML header:
+
+```yaml
+format:
+  revealjs:
+    theme: moon
+```
+
+Some popular themes include `moon`, `black`, `white`, and `league`. More themes are available in the [Revealjs documentation](https://revealjs.com/themes/).
+
+## Slide Transitions
+
+You can customize slide transitions in the YAML header:
+
+```yaml
+format:
+  revealjs:
+    transition: slide
+```
+
+Available transitions include `none`, `fade`, `slide`, `convex`, `concave`, and `zoom`. You can also customise the transition in each slide.
+
+# Slide Customisation using `style`
+
+## Slide Background {background-image="figures/background.jpg"}
+
+:::{style="color: black;"}
+You can set a background image for a slide
+:::
+
+## Slide Alignment
+
+You can align the content of a slide:
+
+:::{style="text-align: center;"}
+This content is centered.
+:::
+
+:::{style="text-align: right;"}
+This content is right-aligned.
+:::
+
+## Change font size
+
+You can change the font size of the content:
+
+:::{style="font-size: 24px;"}
+This content has a font size of 24px.
+:::
+
+:::{style="font-size: 36px;"}
+This content has a font size of 36px.
+:::
+
+## Nesting Styles
+
+You can nest styles within each other:
+
+:::{style="font-size: 24px; text-align: center; background-color: lightblue;"}
+This content is centred with a font size of 24px and a light blue background.
+
+:::{style="color: red;"}
+This nested content is red.
+:::
+:::
+
+## Asides and Footnotes
+
+- Green ^[A footnote]
+- Brown
+- Purple
+
+:::{style="margin-top: 300px;"}
+:::
+
+::: aside
+Some additional commentary of more peripheral interest.
+:::
+
+## Additional Resources
+
+- [Quarto Documentation](https://quarto.org/docs/presentations/)
+- [Revealjs Documentation](https://revealjs.com/)
+- [Quarto Gallery](https://quarto.org/docs/gallery/)
+
+# Thank You!

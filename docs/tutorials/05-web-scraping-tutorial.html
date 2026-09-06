@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Danilo Freire">
+
+<title>DATASCI 350 - Web Scraping with Python – DATASCI 350</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-df58a58052b55e393ee96285dd0abd71.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-17d91d356485da7232ca3767b9ee3bc9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-df58a58052b55e393ee96285dd0abd71.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fbd40e9b3707be723a0160bef88a8784.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-faf377aaab257944a360f971de304719.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-fbd40e9b3707be723a0160bef88a8784.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">DATASCI 350</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> <i class="bi bi-journal-text" role="img">
+</i> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lectures.html"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorials.html"> <i class="bi bi-tools" role="img">
+</i> 
+<span class="menu-text">Tutorials</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../assignments.html"> <i class="bi bi-pencil-square" role="img">
+</i> 
+<span class="menu-text">Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../LICENSE.html"> 
+<span class="menu-text"> </span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/danilofreire/datasci350" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#when-there-is-no-api" id="toc-when-there-is-no-api" class="nav-link" data-scroll-target="#when-there-is-no-api">When there is no API</a></li>
+  <li><a href="#how-a-web-page-is-built" id="toc-how-a-web-page-is-built" class="nav-link" data-scroll-target="#how-a-web-page-is-built">How a web page is built</a>
+  <ul class="collapse">
+  <li><a href="#html-in-ten-minutes" id="toc-html-in-ten-minutes" class="nav-link" data-scroll-target="#html-in-ten-minutes">HTML in ten minutes</a></li>
+  <li><a href="#the-page-is-a-tree" id="toc-the-page-is-a-tree" class="nav-link" data-scroll-target="#the-page-is-a-tree">The page is a tree</a></li>
+  <li><a href="#finding-the-branch-your-browsers-inspector" id="toc-finding-the-branch-your-browsers-inspector" class="nav-link" data-scroll-target="#finding-the-branch-your-browsers-inspector">Finding the branch: your browser’s inspector</a></li>
+  <li><a href="#css-selectors-the-minimum-you-need" id="toc-css-selectors-the-minimum-you-need" class="nav-link" data-scroll-target="#css-selectors-the-minimum-you-need">CSS selectors: the minimum you need</a></li>
+  <li><a href="#the-trick-worth-knowing-check-the-network-tab" id="toc-the-trick-worth-knowing-check-the-network-tab" class="nav-link" data-scroll-target="#the-trick-worth-knowing-check-the-network-tab">The trick worth knowing: check the network tab</a></li>
+  </ul></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#the-fast-path-pd.read_html" id="toc-the-fast-path-pd.read_html" class="nav-link" data-scroll-target="#the-fast-path-pd.read_html">The fast path: <code>pd.read_html</code></a>
+  <ul class="collapse">
+  <li><a href="#worked-example-world-population-from-wikipedia" id="toc-worked-example-world-population-from-wikipedia" class="nav-link" data-scroll-target="#worked-example-world-population-from-wikipedia">Worked example: world population from Wikipedia</a></li>
+  <li><a href="#the-cleaning-is-the-real-work" id="toc-the-cleaning-is-the-real-work" class="nav-link" data-scroll-target="#the-cleaning-is-the-real-work">The cleaning is the real work</a></li>
+  <li><a href="#checking-your-work" id="toc-checking-your-work" class="nav-link" data-scroll-target="#checking-your-work">Checking your work</a></li>
+  <li><a href="#the-row-that-was-not-a-country" id="toc-the-row-that-was-not-a-country" class="nav-link" data-scroll-target="#the-row-that-was-not-a-country">The row that was not a country</a></li>
+  <li><a href="#try-it-yourself" id="toc-try-it-yourself" class="nav-link" data-scroll-target="#try-it-yourself">Try it yourself</a></li>
+  </ul></li>
+  <li><a href="#sec-beautifulsoup" id="toc-sec-beautifulsoup" class="nav-link" data-scroll-target="#sec-beautifulsoup">BeautifulSoup</a>
+  <ul class="collapse">
+  <li><a href="#find-and-find_all" id="toc-find-and-find_all" class="nav-link" data-scroll-target="#find-and-find_all"><code>find</code> and <code>find_all</code></a></li>
+  <li><a href="#getting-text-and-attributes-out" id="toc-getting-text-and-attributes-out" class="nav-link" data-scroll-target="#getting-text-and-attributes-out">Getting text and attributes out</a></li>
+  <li><a href="#select-the-same-selectors-as-your-browser" id="toc-select-the-same-selectors-as-your-browser" class="nav-link" data-scroll-target="#select-the-same-selectors-as-your-browser"><code>select</code>: the same selectors as your browser</a></li>
+  <li><a href="#worked-example-books.toscrape.com" id="toc-worked-example-books.toscrape.com" class="nav-link" data-scroll-target="#worked-example-books.toscrape.com">Worked example: books.toscrape.com</a></li>
+  <li><a href="#a-trap-worth-meeting-now-encoding" id="toc-a-trap-worth-meeting-now-encoding" class="nav-link" data-scroll-target="#a-trap-worth-meeting-now-encoding">A trap worth meeting now: encoding</a></li>
+  <li><a href="#step-1-find-the-branch-that-holds-one-record" id="toc-step-1-find-the-branch-that-holds-one-record" class="nav-link" data-scroll-target="#step-1-find-the-branch-that-holds-one-record">Step 1: find the branch that holds one record</a></li>
+  <li><a href="#step-2-locate-each-field-inside-the-branch" id="toc-step-2-locate-each-field-inside-the-branch" class="nav-link" data-scroll-target="#step-2-locate-each-field-inside-the-branch">Step 2: locate each field inside the branch</a></li>
+  <li><a href="#step-3-the-universal-recipe" id="toc-step-3-the-universal-recipe" class="nav-link" data-scroll-target="#step-3-the-universal-recipe">Step 3: the universal recipe</a></li>
+  <li><a href="#scraping-several-pages" id="toc-scraping-several-pages" class="nav-link" data-scroll-target="#scraping-several-pages">Scraping several pages</a></li>
+  <li><a href="#try-it-yourself-1" id="toc-try-it-yourself-1" class="nav-link" data-scroll-target="#try-it-yourself-1">Try it yourself</a></li>
+  </ul></li>
+  <li><a href="#ethics-law-and-reliability" id="toc-ethics-law-and-reliability" class="nav-link" data-scroll-target="#ethics-law-and-reliability">Ethics, law, and reliability</a>
+  <ul class="collapse">
+  <li><a href="#robots.txt" id="toc-robots.txt" class="nav-link" data-scroll-target="#robots.txt"><code>robots.txt</code></a></li>
+  <li><a href="#terms-of-service-and-the-law" id="toc-terms-of-service-and-the-law" class="nav-link" data-scroll-target="#terms-of-service-and-the-law">Terms of service and the law</a></li>
+  <li><a href="#a-working-rule" id="toc-a-working-rule" class="nav-link" data-scroll-target="#a-working-rule">A working rule</a></li>
+  <li><a href="#politeness-engineering" id="toc-politeness-engineering" class="nav-link" data-scroll-target="#politeness-engineering">Politeness engineering</a></li>
+  <li><a href="#why-scrapers-rot" id="toc-why-scrapers-rot" class="nav-link" data-scroll-target="#why-scrapers-rot">Why scrapers rot</a></li>
+  <li><a href="#which-tool-and-when" id="toc-which-tool-and-when" class="nav-link" data-scroll-target="#which-tool-and-when">Which tool, and when</a></li>
+  </ul></li>
+  <li><a href="#language-models-and-scraping" id="toc-language-models-and-scraping" class="nav-link" data-scroll-target="#language-models-and-scraping">Language models and scraping</a>
+  <ul class="collapse">
+  <li><a href="#pattern-1-the-model-as-a-parser" id="toc-pattern-1-the-model-as-a-parser" class="nav-link" data-scroll-target="#pattern-1-the-model-as-a-parser">Pattern 1: the model as a parser</a></li>
+  <li><a href="#pattern-2-the-model-writes-the-scraper" id="toc-pattern-2-the-model-writes-the-scraper" class="nav-link" data-scroll-target="#pattern-2-the-model-writes-the-scraper">Pattern 2: the model writes the scraper</a></li>
+  <li><a href="#what-this-means-for-how-you-work" id="toc-what-this-means-for-how-you-work" class="nav-link" data-scroll-target="#what-this-means-for-how-you-work">What this means for how you work</a></li>
+  </ul></li>
+  <li><a href="#sec-cheatsheet" id="toc-sec-cheatsheet" class="nav-link" data-scroll-target="#sec-cheatsheet">Selector cheat sheet</a></li>
+  <li><a href="#going-further" id="toc-going-further" class="nav-link" data-scroll-target="#going-further">Going further</a></li>
+  <li><a href="#sec-solutions" id="toc-sec-solutions" class="nav-link" data-scroll-target="#sec-solutions">Solutions to exercises</a>
+  <ul class="collapse">
+  <li><a href="#wikipedia-gdp-table" id="toc-wikipedia-gdp-table" class="nav-link" data-scroll-target="#wikipedia-gdp-table">Wikipedia GDP table</a></li>
+  <li><a href="#mystery-books" id="toc-mystery-books" class="nav-link" data-scroll-target="#mystery-books">Mystery books</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/danilofreire/datasci350/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/danilofreire/datasci350/blob/main/tutorials/05-web-scraping-tutorial.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="05-web-scraping-tutorial.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">DATASCI 350 - Web Scraping with Python</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Danilo Freire </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Web scraping is no longer taught in the lectures of DATASCI 350. Module 06 covers web APIs, the front door that most modern data providers offer, and Lectures 18 and 19 teach you how to use them well. This self-study tutorial covers the other case: the data you want sits on a web page, visible to any human, with no endpoint for it. Read it if you meet that situation in a project or a job, or if you simply want to know what scraping involves before you need it.</p>
+<p>The tutorial pairs naturally with the web API lectures. The workflow you learned there, fetch, cache, extract, tidy, tabulate, is exactly the workflow here, only the extraction step changes. The final section, on using language models for extraction, builds on the AI lectures in Module 04 (Lectures 12 to 15), and it will make more sense if you have seen those.</p>
+<p>The tutorial is self-contained. You will read a little HTML, pull tables into pandas with one line, walk a page with BeautifulSoup when there is no table, and think through the ethics and the law of scraping. All the code executes when the document is rendered, so every output you read below is real. The web pages it parses were fetched once and saved to disk, so the whole document renders without a network connection. The few cells that do reach the internet are marked as such and are not executed.</p>
+</section>
+<section id="when-there-is-no-api" class="level1">
+<h1>When there is no API</h1>
+<p>Everything in Module 06 assumed somebody built you a front door. Often nobody did. The data sits on a web page, readable by any person with a browser, and there is no endpoint for it. <strong>Scraping</strong> means writing a program that reads the page the way a person would, and pulls the data out of the HTML.</p>
+<p>Before you write a single line of scraping code, work down this ladder and stop at the first rung that works:</p>
+<ol type="1">
+<li><strong>Look harder for an API.</strong> More sites have one than admit it. Section 3.5 shows a trick for finding hidden ones.</li>
+<li><strong>Ask.</strong> Many organisations will send you the dataset if you email and explain what you need it for.</li>
+<li><strong><code>pd.read_html</code>.</strong> If the data is in an HTML <code>&lt;table&gt;</code>, this is one line.</li>
+<li><strong>BeautifulSoup.</strong> When the data is in cards, lists, or divs, you walk the page yourself.</li>
+<li><strong>Selenium or Playwright.</strong> When JavaScript draws the page and there is no hidden API, you need a real browser under program control. This tutorial stops before that rung.</li>
+<li><strong>Stop.</strong> Some pages should not be scraped, and knowing which is part of the skill.</li>
+</ol>
+<p>The ladder matters. Each step down costs you more time and produces more fragile code.</p>
+</section>
+<section id="how-a-web-page-is-built" class="level1">
+<h1>How a web page is built</h1>
+<section id="html-in-ten-minutes" class="level2">
+<h2 class="anchored" data-anchor-id="html-in-ten-minutes">HTML in ten minutes</h2>
+<p>Here is a small but complete web page:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode html code-with-copy"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">h1</span><span class="dt">&gt;</span>Reading list<span class="dt">&lt;/</span><span class="kw">h1</span><span class="dt">&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> class</span><span class="op">=</span><span class="st">"intro"</span><span class="dt">&gt;</span>Books for the course.<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"book"</span><span class="ot"> id</span><span class="op">=</span><span class="st">"b1"</span><span class="dt">&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">h3</span><span class="dt">&gt;&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"/b1"</span><span class="dt">&gt;</span>Invisible Cities<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"price"</span><span class="dt">&gt;</span>£12.50<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> class</span><span class="op">=</span><span class="st">"book"</span><span class="ot"> id</span><span class="op">=</span><span class="st">"b2"</span><span class="dt">&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">h3</span><span class="dt">&gt;&lt;</span><span class="kw">a</span><span class="ot"> href</span><span class="op">=</span><span class="st">"/b2"</span><span class="dt">&gt;</span>The Order of Time<span class="dt">&lt;/</span><span class="kw">a</span><span class="dt">&gt;&lt;/</span><span class="kw">h3</span><span class="dt">&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"price"</span><span class="dt">&gt;</span>£9.99<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>A <strong>tag</strong> is written <code>&lt;name&gt;content&lt;/name&gt;</code>. <code>&lt;p&gt;</code> is a paragraph and <code>&lt;h1&gt;</code> is a heading. Tags nest: the <code>&lt;a&gt;</code> sits inside the <code>&lt;h3&gt;</code>, which sits inside the <code>&lt;div&gt;</code>. <strong>Attributes</strong> live in the opening tag as <code>name="value"</code>. Two attributes do almost all the work in scraping. <code>class</code> groups elements that look alike, and many elements share a class. <code>id</code> names one element, and an id should be unique on the page. So <code>class</code> finds you a set of things, and <code>id</code> finds you one thing. The <code>href</code> attribute on an <code>&lt;a&gt;</code> holds the link target.</p>
+<p>The only tags you need for this tutorial are <code>&lt;table&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;td&gt;</code>, <code>&lt;th&gt;</code> (tables), <code>&lt;a href&gt;</code> (links), <code>&lt;div class&gt;</code> and <code>&lt;span&gt;</code> (containers), <code>&lt;h1&gt;</code> to <code>&lt;h3&gt;</code> (headings), <code>&lt;p&gt;</code> (paragraphs), <code>&lt;ul&gt;</code> and <code>&lt;li&gt;</code> (lists), and <code>&lt;img src&gt;</code> (images, self-closing, so there is no <code>&lt;/img&gt;</code>).</p>
+</section>
+<section id="the-page-is-a-tree" class="level2">
+<h2 class="anchored" data-anchor-id="the-page-is-a-tree">The page is a tree</h2>
+<p>Because tags nest and never overlap, an HTML document is a <strong>tree</strong>. Browsers call it the DOM, the Document Object Model. Our reading list looks like this as a tree:</p>
+<pre><code>html
+`-- body
+    |-- h1                "Reading list"
+    |-- p.intro           "Books for the course."
+    |-- div.book#b1
+    |   |-- h3
+    |   |   `-- a[href]   "Invisible Cities"
+    |   `-- span.price    "£12.50"
+    `-- div.book#b2
+        |-- h3
+        |   `-- a[href]   "The Order of Time"
+        `-- span.price    "£9.99"</code></pre>
+<p>Scraping is walking this tree, and every scraping task reduces to the same two questions. Which branch holds one record? Here it is <code>div.book</code>, and there are two of them, so there are two records. Where inside that branch is each field? The title is in <code>h3 a</code>, and the price is in <code>span.price</code>. Answer those two questions and the code writes itself. Get them wrong and no amount of clever code saves you.</p>
+<p>The figure below answers both questions for the real front page of books.toscrape.com. The solid red box is one record, the dashed boxes are its repeating siblings, and the two coloured boxes inside are the fields. Every scraping job you will ever write starts by drawing these boxes, whether on paper or in your head.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/scraping-record-anatomy.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>The two questions answered on books.toscrape.com. Find the repeating branch, then find the fields inside it.</figcaption>
+</figure>
+</div>
+</section>
+<section id="finding-the-branch-your-browsers-inspector" class="level2">
+<h2 class="anchored" data-anchor-id="finding-the-branch-your-browsers-inspector">Finding the branch: your browser’s inspector</h2>
+<p>You do not read the HTML source top to bottom. You ask the browser. Right-click on the data you want, then choose Inspect (the option exists in Chrome, Firefox, Edge, and Safari). A panel opens with the DOM tree, scrolled to the element you clicked. Three things to do once you are there:</p>
+<ol type="1">
+<li>Hover over lines in the panel. The matching part of the page lights up. Find the branch that holds one whole record.</li>
+<li>Read the class names on that branch and on the fields inside it. Those become your selectors.</li>
+<li>Walk up the tree until the highlight covers exactly one record and no more. That is your unit of observation.</li>
+</ol>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/scraping-inspector.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>Step 3 in progress, in Chrome’s inspector. Highlighting <code>article.product_pod</code> in the tree lights up exactly one card and no more, so that is the branch holding one record. Its children name the fields: <code>h3 &gt; a</code> is the title, <code>product_price</code> the price.</figcaption>
+</figure>
+</div>
+<p>Practise on <a href="https://books.toscrape.com" class="uri">https://books.toscrape.com</a> before you try a real site. We return to it in <a href="#sec-beautifulsoup" class="quarto-xref">Section&nbsp;6</a>.</p>
+</section>
+<section id="css-selectors-the-minimum-you-need" class="level2">
+<h2 class="anchored" data-anchor-id="css-selectors-the-minimum-you-need">CSS selectors: the minimum you need</h2>
+<p>A <strong>selector</strong> is a small pattern that picks elements out of the tree. The same syntax works in your browser’s inspector, in BeautifulSoup, and in CSS itself.</p>
+<table class="caption-top table">
+<caption>CSS selectors and what they match in the example page</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Selector</th>
+<th>Reads as</th>
+<th>Matches in our example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>div</code></td>
+<td>every <code>div</code> element</td>
+<td>both books</td>
+</tr>
+<tr class="even">
+<td><code>.book</code></td>
+<td>every element with class <code>book</code></td>
+<td>both books</td>
+</tr>
+<tr class="odd">
+<td><code>#b1</code></td>
+<td>the element with id <code>b1</code></td>
+<td>the first book only</td>
+</tr>
+<tr class="even">
+<td><code>div.book</code></td>
+<td><code>div</code> elements that also have class <code>book</code></td>
+<td>both books</td>
+</tr>
+<tr class="odd">
+<td><code>div.book h3</code></td>
+<td>any <code>h3</code> <em>inside</em> a <code>div.book</code></td>
+<td>both titles</td>
+</tr>
+<tr class="even">
+<td><code>h3 &gt; a</code></td>
+<td>an <code>a</code> that is a <em>direct child</em> of an <code>h3</code></td>
+<td>both links</td>
+</tr>
+<tr class="odd">
+<td><code>a[href]</code></td>
+<td><code>a</code> elements that have an <code>href</code> attribute</td>
+<td>both links</td>
+</tr>
+<tr class="even">
+<td><code>p[class="intro"]</code></td>
+<td><code>p</code> whose class is exactly <code>intro</code></td>
+<td>the intro paragraph</td>
+</tr>
+</tbody>
+</table>
+<p>A space means “somewhere inside”, and <code>&gt;</code> means “directly inside”. That single distinction causes most selector confusion. Test a selector in the inspector’s search box before you put it in your code. A fuller cheat sheet appears in <a href="#sec-cheatsheet" class="quarto-xref">Section&nbsp;9</a>.</p>
+</section>
+<section id="the-trick-worth-knowing-check-the-network-tab" class="level2">
+<h2 class="anchored" data-anchor-id="the-trick-worth-knowing-check-the-network-tab">The trick worth knowing: check the network tab</h2>
+<p>Many pages that look impossible to scrape load their data as JSON behind the scenes. The HTML arrives nearly empty, then JavaScript fetches the real data and draws it. Scraping that HTML gets you nothing, because at the moment you fetched it there was nothing there. Many “single-page apps” (built with React, Vue, or Angular) work entirely this way: a shell of HTML plus API calls. The data you see on screen was never in the HTML at all.</p>
+<p>Here is how to find the real source:</p>
+<ol type="1">
+<li>Open developer tools. Select the Network tab.</li>
+<li>Tick the Fetch/XHR filter to hide images and stylesheets.</li>
+<li>Reload the page. Click through the requests that appear.</li>
+<li>Look for a request that returns JSON matching the data on screen. If you find one, you have found an undocumented API.</li>
+<li>Copy the URL. Call it with <code>requests</code>.</li>
+</ol>
+<p>The figure below is that hunt succeeding on <a href="https://quotes.toscrape.com/scroll" class="uri">https://quotes.toscrape.com/scroll</a>, a page that loads its quotes as you scroll. The Fetch/XHR filter is on, so only data calls are listed, and two of them are visible. The Response pane shows what the first one returned: clean JSON, with <code>has_next</code> telling you whether more pages exist and <code>text</code> holding the very quote the page had just drawn on screen. There was no need to parse any HTML at all.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/scraping-network.png" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption>An undocumented API, found in about thirty seconds. The page rendered the Marilyn Monroe quote from this JSON, so fetching this URL directly gives you the data already structured.</figcaption>
+</figure>
+</div>
+<p>This is worth ten minutes before any scraping job. An undocumented endpoint is far better than parsing HTML, because a site redesign breaks selectors but usually leaves the data feed alone. Right-clicking a request and choosing “Copy as cURL” gives you the exact command, including headers and cookies, which you can translate to Python.</p>
+</section>
+</section>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<p>The tutorial uses four Python packages. The instructions below assume you have a working Python environment from earlier in the course.</p>
+<p>Install the packages first.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install requests beautifulsoup4 lxml pandas</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><code>requests</code> fetches pages, <code>beautifulsoup4</code> parses them, <code>lxml</code> is the parser that <code>pd.read_html</code> needs, and pandas holds the results.</p>
+<p>The tutorial parses pages that were fetched once and saved to disk, so you can run every example offline. Download the <code>data/scraping</code> folder from the <code>tutorials</code> folder of the course repository. Place it in a folder named <code>data/scraping</code> beside your script. Confirm that the path <code>data/scraping/books_page1.html</code> exists.</p>
+<p>Each worked example also shows the fetch code that created those files, marked “not executed”, so you can see exactly how a page gets from the web to your disk.</p>
+</section>
+<section id="the-fast-path-pd.read_html" class="level1">
+<h1>The fast path: <code>pd.read_html</code></h1>
+<p>If the data sits in an HTML <code>&lt;table&gt;</code>, you do not need BeautifulSoup at all. <code>pd.read_html</code> finds every table on a page and hands you a list of DataFrames.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/List_of_countries_by_population_(United_Nations)"</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pd.read_html(url)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(tables))</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> tables[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Always print <code>len(tables)</code> first. A Wikipedia article often has navigation boxes and infoboxes that are technically tables, so the one you want is rarely the only one and not always the first.</p>
+<p>A word on the modern idiom: passing a string of HTML directly to <code>read_html</code> was deprecated and then removed. Give it a URL, a file path, or an open file object. If you have HTML in a variable, wrap it in <code>io.StringIO</code>.</p>
+<section id="worked-example-world-population-from-wikipedia" class="level2">
+<h2 class="anchored" data-anchor-id="worked-example-world-population-from-wikipedia">Worked example: world population from Wikipedia</h2>
+<p>Here is the live fetch, shown but not executed. Note the <code>User-Agent</code> header: Wikipedia asks that automated clients identify themselves, and a project name with an email address is the polite way to do it.</p>
+<div id="a10c8b66" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/List_of_countries_by_population_(United_Nations)"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">"User-Agent"</span>: <span class="st">"DATASCI350-course-materials/1.0 (danilo.freire@emory.edu)"</span>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>r.raise_for_status()</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the page so we parse many times and fetch once</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/wikipedia_population_un.html"</span>, <span class="st">"w"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    f.write(r.text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And here is the version that runs, reading the saved page. <code>read_html</code> accepts a file path.</p>
+<div id="df362af7" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pd.read_html(<span class="st">"data/scraping/wikipedia_population_un.html"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(tables)<span class="sc">}</span><span class="ss"> tables on the page"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> tables[<span class="dv">0</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.shape)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> df.columns:</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">" "</span>, col)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2 tables on the page
+(239, 6)
+  Country or territory
+  Population (1 July 2022)
+  Population (1 July 2023)
+  Change (%)
+  UN continental region[1]
+  UN statistical subregion[1]</code></pre>
+</div>
+</div>
+</section>
+<section id="the-cleaning-is-the-real-work" class="level2">
+<h2 class="anchored" data-anchor-id="the-cleaning-is-the-real-work">The cleaning is the real work</h2>
+<p>Look at what arrived.</p>
+<div id="52a3316b" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">4</span>).iloc[:, :<span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>  Country or territory  Population (1 July 2022)  Population (1 July 2023)
+0                  NaN                       NaN                       NaN
+1                World              8.021407e+09              8.091735e+09
+2                India              1.425423e+09              1.438070e+09
+3             China[a]              1.425180e+09              1.422585e+09</code></pre>
+</div>
+</div>
+<p>Column names carry footnote markers, the population columns may have come in as text, and the first row is a total rather than a country. This is normal. A table built to be read by a person is not a dataset. The cleaning below is the real work of <code>read_html</code> scraping:</p>
+<div id="22d72587" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>clean <span class="op">=</span> df.copy()</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Column names: strip footnote markers like [1] and collapse whitespace</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>clean.columns <span class="op">=</span> [re.sub(<span class="vs">r"</span><span class="ch">\[</span><span class="dv">.</span><span class="op">*?</span><span class="ch">\]</span><span class="vs">"</span>, <span class="st">""</span>, <span class="bu">str</span>(c)).strip() <span class="cf">for</span> c <span class="kw">in</span> clean.columns]</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Keep the first four columns and give them names we chose ourselves</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>clean <span class="op">=</span> clean.iloc[:, :<span class="dv">4</span>]</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>clean.columns <span class="op">=</span> [<span class="st">"country"</span>, <span class="st">"pop_2022"</span>, <span class="st">"pop_2023"</span>, <span class="st">"change_pct"</span>]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Strip footnotes from the country names too</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>clean[<span class="st">"country"</span>] <span class="op">=</span> (clean[<span class="st">"country"</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                    .<span class="bu">str</span>.replace(<span class="vs">r"</span><span class="ch">\[</span><span class="dv">.</span><span class="op">*?</span><span class="ch">\]</span><span class="vs">"</span>, <span class="st">""</span>, regex<span class="op">=</span><span class="va">True</span>).<span class="bu">str</span>.strip())</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Population columns to numbers: remove commas, then coerce</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> col <span class="kw">in</span> [<span class="st">"pop_2022"</span>, <span class="st">"pop_2023"</span>]:</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    clean[col] <span class="op">=</span> pd.to_numeric(</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        clean[col].astype(<span class="bu">str</span>).<span class="bu">str</span>.replace(<span class="vs">r"</span><span class="pp">[^</span><span class="dv">\d</span><span class="pp">.]</span><span class="vs">"</span>, <span class="st">""</span>, regex<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        errors<span class="op">=</span><span class="st">"coerce"</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. The change column: Wikipedia writes negatives with a Unicode</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">#    minus sign (U+2212), which Python does not read as a minus.</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co">#    Swap it for a plain hyphen, drop the %, then coerce</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>clean[<span class="st">"change_pct"</span>] <span class="op">=</span> pd.to_numeric(</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    clean[<span class="st">"change_pct"</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">str</span>.replace(<span class="st">"</span><span class="ch">\u2212</span><span class="st">"</span>, <span class="st">"-"</span>, regex<span class="op">=</span><span class="va">False</span>).<span class="bu">str</span>.rstrip(<span class="st">"%"</span>),</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    errors<span class="op">=</span><span class="st">"coerce"</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(clean.head(<span class="dv">6</span>).to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(clean)<span class="sc">}</span><span class="ss"> rows, dtypes: </span><span class="sc">{</span>clean[<span class="st">'pop_2023'</span>]<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      country     pop_2022     pop_2023  change_pct
+          NaN          NaN          NaN         NaN
+        World 8021407192.0 8091734930.0        0.88
+        India 1425423212.0 1438069596.0        0.89
+        China 1425179569.0 1422584933.0       -0.18
+United States  341534046.0  343477335.0        0.57
+    Indonesia  278830529.0  281190067.0        0.85
+
+239 rows, dtypes: float64</code></pre>
+</div>
+</div>
+</section>
+<section id="checking-your-work" class="level2">
+<h2 class="anchored" data-anchor-id="checking-your-work">Checking your work</h2>
+<p>Never trust a scrape you have not sanity-checked.</p>
+<div id="42955a8f" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"rows parsed:        </span><span class="sc">{</span><span class="bu">len</span>(clean)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"missing pop_2023:   </span><span class="sc">{</span>clean[<span class="st">'pop_2023'</span>]<span class="sc">.</span>isna()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Largest by 2023 population:"</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(clean.nlargest(<span class="dv">5</span>, <span class="st">"pop_2023"</span>)[[<span class="st">"country"</span>, <span class="st">"pop_2023"</span>]]</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      .to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>rows parsed:        239
+missing pop_2023:   1
+
+Largest by 2023 population:
+      country     pop_2023
+        World 8091734930.0
+        India 1438069596.0
+        China 1422584933.0
+United States  343477335.0
+    Indonesia  281190067.0</code></pre>
+</div>
+</div>
+<p>Look at that top row. <code>World</code> is not a country, and it would have quietly doubled every total you computed.</p>
+</section>
+<section id="the-row-that-was-not-a-country" class="level2">
+<h2 class="anchored" data-anchor-id="the-row-that-was-not-a-country">The row that was not a country</h2>
+<p>Tables written for people often carry totals, subtotals, and notes in the same shape as the data. Drop them on purpose.</p>
+<div id="eb0fe94d" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>countries <span class="op">=</span> clean[clean[<span class="st">"country"</span>] <span class="op">!=</span> <span class="st">"World"</span>].copy()</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"before: </span><span class="sc">{</span><span class="bu">len</span>(clean)<span class="sc">}</span><span class="ss"> rows   after: </span><span class="sc">{</span><span class="bu">len</span>(countries)<span class="sc">}</span><span class="ss"> rows"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(countries.nlargest(<span class="dv">5</span>, <span class="st">"pop_2023"</span>)[[<span class="st">"country"</span>, <span class="st">"pop_2023"</span>]]</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>      .to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Does the rest now add up to roughly the World figure we removed?</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>world <span class="op">=</span> clean.loc[clean[<span class="st">"country"</span>] <span class="op">==</span> <span class="st">"World"</span>, <span class="st">"pop_2023"</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>total <span class="op">=</span> countries[<span class="st">"pop_2023"</span>].<span class="bu">sum</span>()</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">sum of countries: </span><span class="sc">{</span>total<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"World row said:   </span><span class="sc">{</span>world<span class="sc">:,.0f}</span><span class="ss">"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"difference:       </span><span class="sc">{</span><span class="bu">abs</span>(total <span class="op">-</span> world) <span class="op">/</span> world<span class="sc">:.2%}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>before: 239 rows   after: 238 rows
+
+      country     pop_2023
+        India 1438069596.0
+        China 1422584933.0
+United States  343477335.0
+    Indonesia  281190067.0
+     Pakistan  247504495.0
+
+sum of countries: 8,090,964,927
+World row said:   8,091,734,930
+difference:       0.01%</code></pre>
+</div>
+</div>
+<p>That last check is the useful habit: the total you removed is a free test of the rows you kept. A scrape that returns a DataFrame is not a scrape that worked. It is a scrape that returned a DataFrame.</p>
+</section>
+<section id="try-it-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself">Try it yourself</h2>
+<p>Scrape the Wikipedia article <a href="https://en.wikipedia.org/wiki/List_of_countries_by_GDP_(nominal)">List of countries by GDP (nominal)</a>. The file <code>wikipedia_gdp_nominal.html</code> in <code>data/scraping/</code> is a saved copy, so you can work offline. Find the main table, the one listing countries with IMF, World Bank, and United Nations estimates, and report the IMF estimate for Brazil, in millions of US dollars.</p>
+<p>Two hints. <code>read_html</code> returns a list, and this page has more tables than you expect, so print its length first, then look at the <code>.shape</code> and columns of each one until you find the right table. And the column headers on that page span two rows, so pandas gives you a <code>MultiIndex</code>. Printing <code>df.columns</code> will show you what you are dealing with.</p>
+<p>If you fetch the live page instead of the saved copy, send a <code>User-Agent</code> header, as in the worked example. The solution is in <a href="#sec-solutions" class="quarto-xref">Section&nbsp;11</a>.</p>
+</section>
+</section>
+<section id="sec-beautifulsoup" class="level1">
+<h1>BeautifulSoup</h1>
+<p>Most of the web is not <code>&lt;table&gt;</code> elements. Data comes as cards, lists, panels, and nested divs. <strong>BeautifulSoup</strong> parses HTML into a tree you can search.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(html_text, <span class="st">"html.parser"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The second argument is the parser. <code>"html.parser"</code> ships with Python and is fine. <code>"lxml"</code> is faster and more forgiving of broken markup. Either way, <code>soup</code> is now the root of the tree, and everything that follows is searching it.</p>
+<section id="find-and-find_all" class="level2">
+<h2 class="anchored" data-anchor-id="find-and-find_all"><code>find</code> and <code>find_all</code></h2>
+<p>The two basic search methods take a tag name and, optionally, attribute filters.</p>
+<div id="04ea9a3e" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;div class="book" id="b1"&gt;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;h3&gt;&lt;a href="/b1"&gt;Invisible Cities&lt;/a&gt;&lt;/h3&gt;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;span class="price"&gt;£12.50&lt;/span&gt;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/div&gt;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;div class="book" id="b2"&gt;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;h3&gt;&lt;a href="/b2"&gt;The Order of Time&lt;/a&gt;&lt;/h3&gt;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="st">  &lt;span class="price"&gt;£9.99&lt;/span&gt;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a><span class="st">&lt;/div&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>soup <span class="op">=</span> BeautifulSoup(html, <span class="st">"html.parser"</span>)</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">type</span>(soup.find(<span class="st">"div"</span>)))          <span class="co"># the FIRST match, or None</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(soup.find_all(<span class="st">"div"</span>)))       <span class="co"># ALL matches, as a list</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a><span class="co"># class_ has a trailing underscore, because 'class' is a Python keyword</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>books <span class="op">=</span> soup.find_all(<span class="st">"div"</span>, class_<span class="op">=</span><span class="st">"book"</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(books), <span class="st">"books"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>&lt;class 'bs4.element.Tag'&gt;
+2
+2 books</code></pre>
+</div>
+</div>
+<p><code>find</code> returns one element or <code>None</code>. <code>find_all</code> returns a list, possibly empty. Confusing the two is the most common beginner error, because <code>None</code> and <code>[]</code> fail in different places.</p>
+</section>
+<section id="getting-text-and-attributes-out" class="level2">
+<h2 class="anchored" data-anchor-id="getting-text-and-attributes-out">Getting text and attributes out</h2>
+<p>Once you hold an element, you want the text between its tags or the value of an attribute.</p>
+<div id="02c29bfb" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> books[<span class="dv">0</span>]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Text between the tags</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">repr</span>(first.find(<span class="st">"a"</span>).get_text()))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">repr</span>(first.find(<span class="st">"a"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>)))   <span class="co"># strip surrounding whitespace</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Attribute values: two ways, one of which does not crash</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first.find(<span class="st">"a"</span>)[<span class="st">"href"</span>])          <span class="co"># KeyError if the attribute is missing</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first.find(<span class="st">"a"</span>).get(<span class="st">"href"</span>))      <span class="co"># None if the attribute is missing</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(first.get(<span class="st">"id"</span>), first.get(<span class="st">"data-nonexistent"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'Invisible Cities'
+'Invisible Cities'
+/b1
+/b1
+b1 None</code></pre>
+</div>
+</div>
+<p><code>.get_text(strip=True)</code> is what you want almost every time, because HTML is full of newlines and indentation that you do not want in your data. And prefer <code>.get("attr")</code> over <code>["attr"]</code> in a loop: one missing attribute should not stop a scrape of a thousand records.</p>
+</section>
+<section id="select-the-same-selectors-as-your-browser" class="level2">
+<h2 class="anchored" data-anchor-id="select-the-same-selectors-as-your-browser"><code>select</code>: the same selectors as your browser</h2>
+<p><code>select()</code> takes the CSS selectors from Section 3.4. <code>select_one()</code> is its <code>find</code> equivalent.</p>
+<div id="4d93e637" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(soup.select(<span class="st">"div.book"</span>)))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(soup.select_one(<span class="st">"div.book h3 a"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(soup.select_one(<span class="st">"#b2 .price"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>([a.get(<span class="st">"href"</span>) <span class="cf">for</span> a <span class="kw">in</span> soup.select(<span class="st">"div.book h3 &gt; a"</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2
+Invisible Cities
+£9.99
+['/b1', '/b2']</code></pre>
+</div>
+</div>
+<p><code>find_all("div", class_="book")</code> and <code>select("div.book")</code> do the same job. Prefer <code>select</code> for two reasons: you can paste the selector straight from your browser’s inspector, and one string expresses a path that <code>find_all</code> needs several chained calls to reach. Keep <code>find_all</code> for when you want to filter on something CSS cannot express.</p>
+</section>
+<section id="worked-example-books.toscrape.com" class="level2">
+<h2 class="anchored" data-anchor-id="worked-example-books.toscrape.com">Worked example: books.toscrape.com</h2>
+<p><a href="https://books.toscrape.com" class="uri">https://books.toscrape.com</a> is a fake bookshop built specifically for practising scraping. It has 1,000 books, 20 per page across 50 pages. The prices and ratings are random and mean nothing. Its banner says “We love being scraped!”, which is as clear a permission as you will ever get. Practise here, not on a real shop.</p>
+<p>Step one is always the same: fetch the page once and save it. This is the fetch that created the cached copy, shown but not executed.</p>
+<div id="95f443cf" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://books.toscrape.com/catalogue/page-1.html"</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">"User-Agent"</span>: <span class="st">"DATASCI350-course/1.0 (danilo.freire@emory.edu)"</span>}</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>r.raise_for_status()</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/books_page1.html"</span>, <span class="st">"wb"</span>) <span class="im">as</span> f:</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    f.write(r.content)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="a-trap-worth-meeting-now-encoding" class="level2">
+<h2 class="anchored" data-anchor-id="a-trap-worth-meeting-now-encoding">A trap worth meeting now: encoding</h2>
+<p>Fetch that page, print a price, and you may see <code>Â£51.77</code> instead of <code>£51.77</code>. Here is why. The server sends <code>Content-Type: text/html</code> with no charset. The HTTP specification says that when no charset is given, the client should assume <code>ISO-8859-1</code>, and <code>requests</code> follows the rule. But the page is actually UTF-8, so the pound sign gets mangled, and later <code>float(price.replace("£", ""))</code> fails with an error that mentions none of this.</p>
+<div id="2123db51" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.encoding)             <span class="co"># ISO-8859-1</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.apparent_encoding)    <span class="co"># utf-8</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>r.encoding <span class="op">=</span> <span class="st">"utf-8"</span>          <span class="co"># the fix: one line</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># or save r.content (raw bytes) to disk and decode when you read the file</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>When text comes out looking like <code>Â£</code> or <code>Ã©</code>, the problem is always encoding, never your parser. Saving <code>r.content</code> (raw bytes) rather than <code>r.text</code> (decoded text) sidesteps it entirely, which is why the fetch above wrote <code>r.content</code> and opened the file in <code>"wb"</code> mode.</p>
+</section>
+<section id="step-1-find-the-branch-that-holds-one-record" class="level2">
+<h2 class="anchored" data-anchor-id="step-1-find-the-branch-that-holds-one-record">Step 1: find the branch that holds one record</h2>
+<p>Now we parse the saved page and answer the first of the two questions from Section 3.2.</p>
+<div id="8e102e61" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/books_page1.html"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> BeautifulSoup(f.read(), <span class="st">"html.parser"</span>)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>cards <span class="op">=</span> soup.select(<span class="st">"article.product_pod"</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(cards)<span class="sc">}</span><span class="ss"> book cards on this page</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>snippet <span class="op">=</span> cards[<span class="dv">0</span>].prettify()[:<span class="dv">600</span>]</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(line[:<span class="dv">72</span>] <span class="cf">for</span> line <span class="kw">in</span> snippet.splitlines()))  <span class="co"># trim long lines</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>20 book cards on this page
+
+&lt;article class="product_pod"&gt;
+ &lt;div class="image_container"&gt;
+  &lt;a href="a-light-in-the-attic_1000/index.html"&gt;
+   &lt;img alt="A Light in the Attic" class="thumbnail" src="../media/cache
+  &lt;/a&gt;
+ &lt;/div&gt;
+ &lt;p class="star-rating Three"&gt;
+  &lt;i class="icon-star"&gt;
+  &lt;/i&gt;
+  &lt;i class="icon-star"&gt;
+  &lt;/i&gt;
+  &lt;i class="icon-star"&gt;
+  &lt;/i&gt;
+  &lt;i class="icon-star"&gt;
+  &lt;/i&gt;
+  &lt;i class="icon-star"&gt;
+  &lt;/i&gt;
+ &lt;/p&gt;
+ &lt;h3&gt;
+  &lt;a href="a-light-in-the-attic_1000/index.html" title="A Light in the A
+   A Light in the ...
+  &lt;/a&gt;
+ &lt;/h3&gt;
+ &lt;div class="product_price"&gt;
+  &lt;p class="p</code></pre>
+</div>
+</div>
+<p>The branch is <code>article.product_pod</code>, and there are twenty of them, one per book.</p>
+</section>
+<section id="step-2-locate-each-field-inside-the-branch" class="level2">
+<h2 class="anchored" data-anchor-id="step-2-locate-each-field-inside-the-branch">Step 2: locate each field inside the branch</h2>
+<div id="9907ccff" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>card <span class="op">=</span> cards[<span class="dv">0</span>]</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"title (visible text):"</span>, card.select_one(<span class="st">"h3 a"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"title (attribute)   :"</span>, card.select_one(<span class="st">"h3 a"</span>).get(<span class="st">"title"</span>))</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"price               :"</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>      card.select_one(<span class="st">"p.price_color"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"rating (class list) :"</span>, card.select_one(<span class="st">"p.star-rating"</span>).get(<span class="st">"class"</span>))</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"link                :"</span>, card.select_one(<span class="st">"h3 a"</span>).get(<span class="st">"href"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>title (visible text): A Light in the ...
+title (attribute)   : A Light in the Attic
+price               : £51.77
+rating (class list) : ['star-rating', 'Three']
+link                : a-light-in-the-attic_1000/index.html</code></pre>
+</div>
+</div>
+<p>There are two lessons in that output. First, the visible title is truncated with an ellipsis, and the full one is in the <code>title</code> attribute. What a human reads is not always what you want to store. Second, the rating is not text at all. It is encoded in the class name, <code>star-rating Three</code>, and the stars you see are drawn by CSS. Data hides in attributes as often as in text.</p>
+</section>
+<section id="step-3-the-universal-recipe" class="level2">
+<h2 class="anchored" data-anchor-id="step-3-the-universal-recipe">Step 3: the universal recipe</h2>
+<div id="ddf4368b" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>WORDS <span class="op">=</span> {<span class="st">"One"</span>: <span class="dv">1</span>, <span class="st">"Two"</span>: <span class="dv">2</span>, <span class="st">"Three"</span>: <span class="dv">3</span>, <span class="st">"Four"</span>: <span class="dv">4</span>, <span class="st">"Five"</span>: <span class="dv">5</span>}</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> parse_books(soup):</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Every book card on one page, as a list of dicts."""</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> []</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> card <span class="kw">in</span> soup.select(<span class="st">"article.product_pod"</span>):</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        rating <span class="op">=</span> card.select_one(<span class="st">"p.star-rating"</span>).get(<span class="st">"class"</span>)[<span class="dv">1</span>]</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>        rows.append({</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>            <span class="st">"title"</span>: card.select_one(<span class="st">"h3 a"</span>).get(<span class="st">"title"</span>),</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>            <span class="st">"price"</span>: <span class="bu">float</span>(card.select_one(<span class="st">"p.price_color"</span>)</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                           .get_text(strip<span class="op">=</span><span class="va">True</span>).lstrip(<span class="st">"£"</span>)),</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>            <span class="st">"rating"</span>: WORDS.get(rating),</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">"in_stock"</span>: <span class="st">"In stock"</span> <span class="kw">in</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                        card.select_one(<span class="st">"p.instock.availability"</span>).get_text(),</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>            <span class="st">"url"</span>: card.select_one(<span class="st">"h3 a"</span>).get(<span class="st">"href"</span>),</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>        })</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> rows</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>books_df <span class="op">=</span> pd.DataFrame(parse_books(soup))</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(books_df.head(<span class="dv">5</span>).to_string(index<span class="op">=</span><span class="va">False</span>, max_colwidth<span class="op">=</span><span class="dv">30</span>))</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(books_df)<span class="sc">}</span><span class="ss"> books, mean price £</span><span class="sc">{</span>books_df[<span class="st">'price'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                         title  price  rating  in_stock                            url
+          A Light in the Attic  51.77       3      True a-light-in-the-attic_1000/i...
+            Tipping the Velvet  53.74       1      True tipping-the-velvet_999/inde...
+                    Soumission  50.10       1      True      soumission_998/index.html
+                 Sharp Objects  47.82       4      True   sharp-objects_997/index.html
+Sapiens: A Brief History of...  54.23       5      True sapiens-a-brief-history-of-...
+
+20 books, mean price £38.05</code></pre>
+</div>
+</div>
+<p>That recipe again, in words. Every scraper you will ever write has these five steps:</p>
+<ol type="1">
+<li><strong>Fetch</strong> the page once, and save it to disk.</li>
+<li><strong>Parse</strong> the saved text into a soup.</li>
+<li><strong>Select</strong> the elements that each hold one record.</li>
+<li><strong>Extract</strong> the fields from inside each one, into a dict.</li>
+<li><strong>Tabulate</strong>: a list of dicts becomes a DataFrame in one line.</li>
+</ol>
+<p>Steps 3 and 4 are the only ones that change between sites. Everything else is boilerplate you will copy from job to job. Notice how closely this mirrors the API workflow from Lecture 18: fetch, cache, extract, tidy, tabulate. The shape of the work is the same whether or not there is an API.</p>
+</section>
+<section id="scraping-several-pages" class="level2">
+<h2 class="anchored" data-anchor-id="scraping-several-pages">Scraping several pages</h2>
+<p>Real jobs rarely stop at one page. Here is the loop that fetched three pages of the bookshop, again shown but not executed.</p>
+<div id="1922ab3b" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">"User-Agent"</span>: <span class="st">"DATASCI350-course/1.0 (danilo.freire@emory.edu)"</span>}</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>all_rows <span class="op">=</span> []</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> page <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">4</span>):</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>    url <span class="op">=</span> <span class="ss">f"https://books.toscrape.com/catalogue/page-</span><span class="sc">{</span>page<span class="sc">}</span><span class="ss">.html"</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>    r.raise_for_status()</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="ss">f"data/scraping/books_page</span><span class="sc">{</span>page<span class="sc">}</span><span class="ss">.html"</span>, <span class="st">"wb"</span>) <span class="im">as</span> f:</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>        f.write(r.content)</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> BeautifulSoup(r.content.decode(<span class="st">"utf-8"</span>), <span class="st">"html.parser"</span>)</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> parse_books(soup)</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"page </span><span class="sc">{</span>page<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">len</span>(rows)<span class="sc">}</span><span class="ss"> books"</span>)</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>    all_rows.extend(rows)</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)        <span class="co"># one second between pages</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><code>time.sleep(1)</code> is the same courtesy you learned for APIs, and it matters more here. An API expects programmatic traffic; a website was built for people. Notice also that the loop saves each page as it goes. Run it once, then develop your parser against the files, which is what the next cell does.</p>
+<div id="1fd13abd" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>all_rows <span class="op">=</span> []</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> page <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">4</span>):</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="ss">f"data/scraping/books_page</span><span class="sc">{</span>page<span class="sc">}</span><span class="ss">.html"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>        page_soup <span class="op">=</span> BeautifulSoup(f.read(), <span class="st">"html.parser"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    rows <span class="op">=</span> parse_books(page_soup)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"page </span><span class="sc">{</span>page<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span><span class="bu">len</span>(rows)<span class="sc">}</span><span class="ss"> books"</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    all_rows.extend(rows)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>three <span class="op">=</span> pd.DataFrame(all_rows)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(three)<span class="sc">}</span><span class="ss"> books, mean price £</span><span class="sc">{</span>three[<span class="st">'price'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"rating counts: </span><span class="sc">{</span>three[<span class="st">'rating'</span>]<span class="sc">.</span>value_counts()<span class="sc">.</span>sort_index()<span class="sc">.</span>to_dict()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>page 1: 20 books
+page 2: 20 books
+page 3: 20 books
+
+60 books, mean price £35.00
+rating counts: {1: 15, 2: 8, 3: 13, 4: 10, 5: 14}</code></pre>
+</div>
+</div>
+<p>Three pages, 60 books, no network. This is how the tutorial you are reading was rendered.</p>
+</section>
+<section id="try-it-yourself-1" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself-1">Try it yourself</h2>
+<p>Scrape page 1 of the Mystery category on books.toscrape.com. The live URL is <a href="https://books.toscrape.com/catalogue/category/books/mystery_3/index.html" class="uri">https://books.toscrape.com/catalogue/category/books/mystery_3/index.html</a>, and a saved copy is included at <code>data/scraping/books_mystery.html</code>. Extract the title and price of every book on that page, put them in a DataFrame, and report the mean price to two decimal places. Then report how many books are on the page, and check it against what the page itself says.</p>
+<p>Two hints. The elements you need carry the classes <code>product_pod</code> and <code>price_color</code>; work out for yourself which one is the record and which one is the field. And the price arrives as text with a currency symbol in front, so it will not average until it is a number.</p>
+<p>If you fetch the live page, save it to disk before you start experimenting on it. The solution is in <a href="#sec-solutions" class="quarto-xref">Section&nbsp;11</a>.</p>
+</section>
+</section>
+<section id="ethics-law-and-reliability" class="level1">
+<h1>Ethics, law, and reliability</h1>
+<section id="robots.txt" class="level2">
+<h2 class="anchored" data-anchor-id="robots.txt"><code>robots.txt</code></h2>
+<p>Almost every site publishes a file at <code>/robots.txt</code> saying which paths automated clients should leave alone. Fetch <a href="https://en.wikipedia.org/robots.txt" class="uri">https://en.wikipedia.org/robots.txt</a> and you will find a long, well-commented one. A saved copy ships with the tutorial.</p>
+<div id="3241e3f8" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/wikipedia_robots.txt"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> [l <span class="cf">for</span> l <span class="kw">in</span> f.read().splitlines()</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>             <span class="cf">if</span> l.startswith((<span class="st">"User-agent"</span>, <span class="st">"Disallow"</span>, <span class="st">"Allow"</span>, <span class="st">"Crawl-delay"</span>))]</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(lines)<span class="sc">}</span><span class="ss"> rules in Wikipedia's robots.txt</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(lines[:<span class="dv">14</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>499 rules in Wikipedia's robots.txt
+
+User-agent: MJ12bot
+Disallow: /
+User-agent: Mediapartners-Google*
+Disallow: /
+User-agent: IsraBot
+Disallow:
+User-agent: Orthogaffe
+Disallow:
+User-agent: UbiCrawler
+Disallow: /
+User-agent: DOC
+Disallow: /
+User-agent: Zao
+Disallow: /</code></pre>
+</div>
+</div>
+<p><code>User-agent</code> says which clients the block applies to, and <code>*</code> means everyone. <code>Disallow</code> lists paths to stay away from. <code>Crawl-delay</code>, where present, asks for a pause between requests. Python has a reader in the standard library:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> urllib.robotparser <span class="im">import</span> RobotFileParser</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>rp <span class="op">=</span> RobotFileParser()</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>rp.set_url(<span class="st">"https://en.wikipedia.org/robots.txt"</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>rp.read()</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(rp.can_fetch(<span class="st">"*"</span>, <span class="st">"https://en.wikipedia.org/wiki/Python"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Three things to understand about <code>robots.txt</code>. It is a courtesy standard, not a technical barrier and not a law, so nothing stops you ignoring it; in this course you honour it. Absence is not permission: books.toscrape.com has no <code>robots.txt</code> at all, which means nobody wrote one, not that scraping is welcome (its banner grants that separately). And Google, Bing, and other search engines obey it. If a search engine respects a site’s wishes, so should your script.</p>
+</section>
+<section id="terms-of-service-and-the-law" class="level2">
+<h2 class="anchored" data-anchor-id="terms-of-service-and-the-law">Terms of service and the law</h2>
+<p>This is not legal advice, and I am not a lawyer. Here is the honest shape of it.</p>
+<p>The most cited case is <em>hiQ Labs v. LinkedIn</em>. hiQ scraped public LinkedIn profiles, and LinkedIn tried to stop them using the Computer Fraud and Abuse Act (CFAA), the main US anti-hacking statute. The Ninth Circuit held that scraping publicly available data is unlikely to be unauthorised access under the CFAA, first in 2019 and again on remand in 2022 <span class="citation" data-cites="hiQ2022">(<a href="#ref-hiQ2022" role="doc-biblioref">United States Court of Appeals for the Ninth Circuit 2022</a>)</span>.</p>
+<p>People stopped reading there, and they should not have. In December 2022 the case settled: hiQ accepted a permanent injunction, agreed to delete the scraped data, and paid LinkedIn $500,000. The lesson is precise: <em>not a crime</em> is not the same as <em>allowed</em>. hiQ won on the criminal statute and still lost on breach of contract, because it had agreed to LinkedIn’s terms of service.</p>
+<p>Four things constrain you regardless of the CFAA:</p>
+<ol type="1">
+<li><strong>Terms of service</strong>, especially if you hold an account or clicked to agree.</li>
+<li><strong>Copyright.</strong> The facts in a page are generally not protected. The text and images generally are.</li>
+<li><strong>Personal data.</strong> GDPR, FERPA, and similar rules apply to information about people, whoever collected it.</li>
+<li><strong>Load.</strong> Making a site slower for its actual users is bad behaviour, whatever the law says.</li>
+</ol>
+</section>
+<section id="a-working-rule" class="level2">
+<h2 class="anchored" data-anchor-id="a-working-rule">A working rule</h2>
+<p>Scraping public, factual, non-personal data at a gentle rate, from a site whose <code>robots.txt</code> allows it, for research or teaching, is normal practice and what this tutorial does. Everything outside that description deserves a pause and a question.</p>
+<p>Never scrape personal data for coursework. Not names, not profiles, not anything about identifiable individuals. If you are unsure, ask me. If you are unsure and it is for something real, ask a lawyer. And ask first whether you need to scrape at all: many organisations will send you the dataset if you email and explain what you are doing.</p>
+</section>
+<section id="politeness-engineering" class="level2">
+<h2 class="anchored" data-anchor-id="politeness-engineering">Politeness engineering</h2>
+<p>Four habits cost almost nothing and prevent almost every problem.</p>
+<ol type="1">
+<li><p><strong>Identify yourself.</strong> Put a real <code>User-Agent</code> with your project name and an email address. If you cause a problem, someone can contact you rather than simply blocking you.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">"User-Agent"</span>: <span class="st">"DATASCI350-course/1.0 (danilo.freire@emory.edu)"</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Throttle.</strong> Sleep for a second between pages with <code>time.sleep(1)</code>. If the site publishes a <code>Crawl-delay</code>, use that instead.</p></li>
+<li><p><strong>Cache raw HTML to disk.</strong> You will parse a page twenty times while developing. Fetch it once.</p></li>
+<li><p><strong>Take only what you need.</strong> Three pages beat fifty when three answer your question.</p></li>
+</ol>
+<p>Habit 3 is the one people skip and regret. It makes you faster, makes your work reproducible, and means a site redesign halfway through your project does not destroy your data.</p>
+</section>
+<section id="why-scrapers-rot" class="level2">
+<h2 class="anchored" data-anchor-id="why-scrapers-rot">Why scrapers rot</h2>
+<p>An API is a promise. HTML is not a promise, it is a design decision, and designs change. A site redesign renames <code>product_pod</code> to <code>product-card</code>, and your <code>select</code> quietly returns <code>[]</code>. The dangerous word is <em>quietly</em>. You do not get an exception. You get an empty list, an empty DataFrame, and a plot with no points, and you spend an hour blaming pandas.</p>
+<p>The defence is to fail loudly: check that you found something, and that you found roughly what you expected.</p>
+<div id="856b8b8b" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>cards <span class="op">=</span> soup.select(<span class="st">"article.product_pod"</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> cards:</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"No book cards found. Has the page structure changed?"</span>)</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="bu">len</span>(cards) <span class="op">==</span> <span class="dv">20</span>, <span class="ss">f"Expected 20 books per page, found </span><span class="sc">{</span><span class="bu">len</span>(cards)<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(cards)<span class="sc">}</span><span class="ss"> cards found, as expected"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>20 cards found, as expected</code></pre>
+</div>
+</div>
+<p>Three more defensive habits. Log what you got, printing counts per page while the scrape runs. Pin a copy of the page: the <a href="https://web.archive.org">Wayback Machine</a> keeps snapshots, and you can scrape an archived version when the live page changes. And re-run your scraper occasionally, because scrapers rot even when nobody touches them.</p>
+</section>
+<section id="which-tool-and-when" class="level2">
+<h2 class="anchored" data-anchor-id="which-tool-and-when">Which tool, and when</h2>
+<table class="caption-top table">
+<caption>Which tool to reach for, and why</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Situation</th>
+<th>Reach for</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A documented API exists</td>
+<td><code>requests</code> + JSON</td>
+<td>Stable, fast, explicitly permitted</td>
+</tr>
+<tr class="even">
+<td>No documented API, but the Network tab shows JSON</td>
+<td><code>requests</code> on that URL</td>
+<td>An undocumented API still beats HTML</td>
+</tr>
+<tr class="odd">
+<td>The data is in an HTML <code>&lt;table&gt;</code></td>
+<td><code>pd.read_html</code></td>
+<td>One line, then clean</td>
+</tr>
+<tr class="even">
+<td>The data is in cards, lists, or divs</td>
+<td>BeautifulSoup</td>
+<td>Full control over the tree</td>
+</tr>
+<tr class="odd">
+<td>The page draws itself with JavaScript, and there is no JSON to find</td>
+<td>Playwright or Selenium</td>
+<td>A real browser. Slow, heavy, a last resort</td>
+</tr>
+<tr class="even">
+<td>Personal data, or <code>robots.txt</code> says no, or the ToS forbids it</td>
+<td>Stop</td>
+<td>Ask, or find another source</td>
+</tr>
+</tbody>
+</table>
+<p>Work down this table from the top. Most people start at row four and never discover that row one was available.</p>
+</section>
+</section>
+<section id="language-models-and-scraping" class="level1">
+<h1>Language models and scraping</h1>
+<p>The AI lectures in Module 04 taught you structured-output prompting and coding agents. Both apply directly to scraping, in two distinct patterns, and the difference between them matters.</p>
+<section id="pattern-1-the-model-as-a-parser" class="level2">
+<h2 class="anchored" data-anchor-id="pattern-1-the-model-as-a-parser">Pattern 1: the model as a parser</h2>
+<p>Paste a messy chunk of HTML into a chat model and ask for a specific structure back.</p>
+<pre><code>Here is the HTML of a product listing. Return a JSON array where each element
+has exactly these keys: title (string), price (number, no currency symbol),
+rating (integer 1-5). Return only the JSON, no commentary.
+
+&lt;article class="product_pod"&gt;...&lt;/article&gt;</code></pre>
+<p>This is the structured-output prompting from Lecture 12, applied to a new problem, and it genuinely works. Where it fits: one-off jobs, ugly pages, formats too irregular for a selector, and quick exploration when you are not sure what is in the page. Where it does not: 1,000 pages. You pay per token, you wait per call, and the model will occasionally invent a plausible value rather than admit a field was missing. A selector that returns nothing is obviously broken. A model that returns something wrong is not.</p>
+</section>
+<section id="pattern-2-the-model-writes-the-scraper" class="level2">
+<h2 class="anchored" data-anchor-id="pattern-2-the-model-writes-the-scraper">Pattern 2: the model writes the scraper</h2>
+<p>The better use. Give a coding agent, of the kind you met in Lecture 14, the page and a description, and ask for the code.</p>
+<pre><code>Write a Python function using requests and BeautifulSoup that scrapes
+books.toscrape.com and returns a DataFrame with title, price, and rating.
+The rating is in the class attribute of p.star-rating, as a word.
+Cache the HTML to disk. Include a check that raises if no books are found.</code></pre>
+<p>Now the model’s output is code you can read, test, and version-control, and it runs a thousand times for free. The caveat is not optional: you must still verify the output. Models invent selectors that look right. A class name that does not exist on the page produces an empty list, and an empty list is exactly what a rotted scraper produces. Notice too that the prompt above contains the class name. I could write that prompt because I had already inspected the page.</p>
+</section>
+<section id="what-this-means-for-how-you-work" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-means-for-how-you-work">What this means for how you work</h2>
+<p>Models are good at the boilerplate: the fetch loop, the caching, the DataFrame assembly, the error handling. They are unreliable at the part that requires looking at this particular page and deciding which branch holds one record. That is the skill this tutorial teaches, and you cannot check the delegation without it. The honest summary: a model makes a competent scraper faster. It does not make an inexperienced one competent.</p>
+<p>Whenever a model writes or parses for you, run this checklist:</p>
+<ol type="1">
+<li>Run the scraper.</li>
+<li>Print the DataFrame shape and dtypes.</li>
+<li>Check five rows against the page with your own eyes.</li>
+<li>Check the row count against the page’s own claim, if the page makes one.</li>
+<li>Look for <code>NaN</code> where you expect data.</li>
+<li>Look for data where you expect <code>NaN</code>.</li>
+</ol>
+<p>Every time, no exceptions. A scraper that returns a plausible-looking DataFrame is the most dangerous kind of wrong.</p>
+</section>
+</section>
+<section id="sec-cheatsheet" class="level1">
+<h1>Selector cheat sheet</h1>
+<p>Keep this page as a reference. The left column works in <code>select()</code> and in your browser’s inspector; the right column is the <code>find</code>/<code>find_all</code> equivalent.</p>
+<table class="caption-top table">
+<caption>CSS selectors and their <code>find</code>/<code>find_all</code> equivalents</caption>
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Goal</th>
+<th>CSS selector (<code>select</code>)</th>
+<th><code>find_all</code> equivalent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Every paragraph</td>
+<td><code>p</code></td>
+<td><code>find_all("p")</code></td>
+</tr>
+<tr class="even">
+<td>Class <code>price</code></td>
+<td><code>.price</code></td>
+<td><code>find_all(class_="price")</code></td>
+</tr>
+<tr class="odd">
+<td>Id <code>main</code></td>
+<td><code>#main</code></td>
+<td><code>find(id="main")</code></td>
+</tr>
+<tr class="even">
+<td><code>div</code> with class <code>book</code></td>
+<td><code>div.book</code></td>
+<td><code>find_all("div", class_="book")</code></td>
+</tr>
+<tr class="odd">
+<td>Two classes at once</td>
+<td><code>p.instock.availability</code></td>
+<td><code>find_all("p", class_=["instock",</code> <code>"availability"])</code></td>
+</tr>
+<tr class="even">
+<td>Descendant, any depth</td>
+<td><code>div.book a</code></td>
+<td>chained <code>find_all</code></td>
+</tr>
+<tr class="odd">
+<td>Direct child only</td>
+<td><code>ul &gt; li</code></td>
+<td><code>find_all("li", recursive=False)</code></td>
+</tr>
+<tr class="even">
+<td>Has an attribute</td>
+<td><code>a[href]</code></td>
+<td><code>find_all("a", href=True)</code></td>
+</tr>
+<tr class="odd">
+<td>Attribute equals</td>
+<td><code>a[href="/b1"]</code></td>
+<td><code>find_all("a", href="/b1")</code></td>
+</tr>
+<tr class="even">
+<td>Attribute starts with</td>
+<td><code>a[href^="/books"]</code></td>
+<td>needs a regex</td>
+</tr>
+<tr class="odd">
+<td>Attribute contains</td>
+<td><code>a[href*="page"]</code></td>
+<td>needs a regex</td>
+</tr>
+<tr class="even">
+<td>First match only</td>
+<td><code>select_one(...)</code></td>
+<td><code>find(...)</code></td>
+</tr>
+</tbody>
+</table>
+<p>And for extraction, once you hold an element:</p>
+<table class="caption-top table">
+<caption>Getting data out of an element you already hold</caption>
+<thead>
+<tr class="header">
+<th>Goal</th>
+<th>Code</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Text inside an element</td>
+<td><code>el.get_text(strip=True)</code></td>
+</tr>
+<tr class="even">
+<td>An attribute, safely</td>
+<td><code>el.get("href")</code></td>
+</tr>
+<tr class="odd">
+<td>An attribute, strictly</td>
+<td><code>el["href"]</code> (raises if missing)</td>
+</tr>
+<tr class="even">
+<td>The class list</td>
+<td><code>el.get("class")</code> returns a list</td>
+</tr>
+<tr class="odd">
+<td>Readable HTML, for debugging</td>
+<td><code>el.prettify()</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="going-further" class="level1">
+<h1>Going further</h1>
+<p>The habits matter more than the libraries. Look for an API before you scrape. Look at the response before you parse it. Fetch once, save, and work from the file. Sleep between requests, and say who you are. Check that you got what you expected. Write it all as a script, so the data can be rebuilt. When in doubt, email the data owner and ask.</p>
+<p>To go deeper:</p>
+<ul>
+<li>The <a href="https://www.crummy.com/software/BeautifulSoup/bs4/doc/">BeautifulSoup documentation</a> is short and readable, and covers the tree-navigation methods this tutorial skipped.</li>
+<li>The <a href="https://pandas.pydata.org/docs/reference/api/pandas.read_html.html">pandas <code>read_html</code> reference</a> lists the arguments that handle headers, missing values, and number parsing at read time.</li>
+<li><a href="https://books.toscrape.com">books.toscrape.com</a> and its sibling <a href="https://quotes.toscrape.com">quotes.toscrape.com</a> are safe playgrounds for every technique here, including pagination and login forms.</li>
+<li><a href="https://playwright.dev/python/">Playwright for Python</a> is the tool to learn when you meet a JavaScript-drawn page with no hidden API, the fifth rung of the ladder.</li>
+</ul>
+<p>The workflow you practised here feeds the same pipeline as the rest of the course: once the data is a DataFrame, you save it to Parquet, and the scaling tools from Lectures 21 and 22 take over from there.</p>
+</section>
+<section id="sec-solutions" class="level1">
+<h1>Solutions to exercises</h1>
+<p>Try each exercise before you read its solution.</p>
+<section id="wikipedia-gdp-table" class="level2">
+<h2 class="anchored" data-anchor-id="wikipedia-gdp-table">Wikipedia GDP table</h2>
+<p>The lesson of this exercise is the loop that prints every table’s shape. You do not guess the index, you look.</p>
+<div id="8885432d" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pd.read_html(<span class="st">"data/scraping/wikipedia_gdp_nominal.html"</span>)</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(tables)<span class="sc">}</span><span class="ss"> tables found</span><span class="ch">\n</span><span class="ss">"</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Look at each one until you find the shape you want</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(tables):</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"  [</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">] shape </span><span class="sc">{</span>t<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>8 tables found
+
+  [0] shape (1, 1)
+  [1] shape (1, 2)
+  [2] shape (222, 4)
+  [3] shape (14, 3)
+  [4] shape (8, 2)
+  [5] shape (9, 2)
+  [6] shape (13, 2)
+  [7] shape (2, 2)</code></pre>
+</div>
+</div>
+<p>The main country table is the one with roughly 200 rows. The headers span two rows, so pandas builds a <code>MultiIndex</code>; flatten it, then find the country column and the IMF column by name rather than by position.</p>
+<div id="680af1ad" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>gdp <span class="op">=</span> <span class="bu">next</span>(t <span class="cf">for</span> t <span class="kw">in</span> tables <span class="cf">if</span> t.shape[<span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">150</span>)</span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten the MultiIndex into single strings</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>gdp.columns <span class="op">=</span> [<span class="st">" "</span>.join(<span class="bu">str</span>(c) <span class="cf">for</span> c <span class="kw">in</span> col).strip()</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>               <span class="cf">if</span> <span class="bu">isinstance</span>(col, <span class="bu">tuple</span>) <span class="cf">else</span> <span class="bu">str</span>(col)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> col <span class="kw">in</span> gdp.columns]</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> gdp.columns[:<span class="dv">5</span>]:</span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">" "</span>, c)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>country_col <span class="op">=</span> gdp.columns[<span class="dv">0</span>]</span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>imf_col <span class="op">=</span> <span class="bu">next</span>(c <span class="cf">for</span> c <span class="kw">in</span> gdp.columns <span class="cf">if</span> <span class="st">"IMF"</span> <span class="kw">in</span> c)</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>brazil <span class="op">=</span> gdp[gdp[country_col].astype(<span class="bu">str</span>).<span class="bu">str</span>.contains(<span class="st">"Brazil"</span>, na<span class="op">=</span><span class="va">False</span>)]</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(brazil[[country_col, imf_col]].to_string(index<span class="op">=</span><span class="va">False</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Country/Territory
+  IMF (2026)[1]
+  World Bank (2025)[6]
+  United Nations (2024)[7]
+
+Country/Territory IMF (2026)[1]
+           Brazil       2635912</code></pre>
+</div>
+</div>
+</section>
+<section id="mystery-books" class="level2">
+<h2 class="anchored" data-anchor-id="mystery-books">Mystery books</h2>
+<p>The fetch that created the cached copy, not executed here:</p>
+<div id="c42b8344" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://books.toscrape.com/catalogue/category/books/mystery_3/index.html"</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">"User-Agent"</span>: <span class="st">"DATASCI350-course/1.0 (danilo.freire@emory.edu)"</span>}</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>r.raise_for_status()</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/books_mystery.html"</span>, <span class="st">"wb"</span>) <span class="im">as</span> f:</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    f.write(r.content)          <span class="co"># bytes, so the encoding trap cannot bite</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And the parse, which runs on the saved page:</p>
+<div id="e1b209dc" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/books_mystery.html"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    soup <span class="op">=</span> BeautifulSoup(f.read(), <span class="st">"html.parser"</span>)</span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>cards <span class="op">=</span> soup.select(<span class="st">"article.product_pod"</span>)</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> cards:</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"No book cards found. Has the page structure changed?"</span>)</span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>rows <span class="op">=</span> [{<span class="st">"title"</span>: c.select_one(<span class="st">"h3 a"</span>).get(<span class="st">"title"</span>),</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>         <span class="st">"price"</span>: <span class="bu">float</span>(c.select_one(<span class="st">"p.price_color"</span>)</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>                        .get_text(strip<span class="op">=</span><span class="va">True</span>).lstrip(<span class="st">"£"</span>))}</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> c <span class="kw">in</span> cards]</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>mystery <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span><span class="bu">len</span>(mystery)<span class="sc">}</span><span class="ss"> books on the page"</span>)</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"mean price: £</span><span class="sc">{</span>mystery[<span class="st">'price'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"cheapest:   £</span><span class="sc">{</span>mystery[<span class="st">'price'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.2f}</span><span class="ss">   "</span></span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>      <span class="ss">f"dearest: £</span><span class="sc">{</span>mystery[<span class="st">'price'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.2f}</span><span class="ss">"</span>)</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(mystery.nsmallest(<span class="dv">5</span>, <span class="st">"price"</span>).to_string(index<span class="op">=</span><span class="va">False</span>, max_colwidth<span class="op">=</span><span class="dv">40</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>20 books on the page
+mean price: £32.79
+cheapest:   £10.69   dearest: £59.48
+
+                                 title  price
+  Tastes Like Fear (DI Marnie Rome #3)  10.69
+            Hide Away (Eve Duncan #20)  11.84
+                     Playing with Fire  13.71
+That Darkness (Gardiner and Renner #1)  13.92
+                      A Murder in Time  16.64</code></pre>
+</div>
+</div>
+<p>The page header says “Mystery” with a count. Checking your row count against what the page claims is the cheapest bug-catcher there is.</p>
+<p>That is the end of the tutorial. You read HTML as a tree, pulled a Wikipedia table into pandas and cleaned it, walked a bookshop page with BeautifulSoup, and met the case, <em>hiQ Labs v. LinkedIn</em>, that defines where the legal lines sit. Keep the selector cheat sheet in <a href="#sec-cheatsheet" class="quarto-xref">Section&nbsp;9</a> to hand, and start every future job at the top of the ladder in Section 2.</p>
+</section>
+</section>
+<section id="references" class="level1 unnumbered">
+
+
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-hiQ2022" class="csl-entry" role="listitem">
+United States Court of Appeals for the Ninth Circuit. 2022. <em>Hi<span>Q</span> <span>L</span>abs, <span>I</span>nc. V. <span>L</span>inked<span>I</span>n <span>C</span>orp., 31 <span>F</span>.4th 1180 (9th <span>C</span>ir. 2022)</em>. No. 17-16783, decided 18 April 2022. <a href="https://cdn.ca9.uscourts.gov/datastore/opinions/2022/04/18/17-16783.pdf">https://cdn.ca9.uscourts.gov/datastore/opinions/2022/04/18/17-16783.pdf</a>.
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2026, Danilo Freire. The content of this site is licensed under the <a href="LICENSE.qmd">MIT License</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/danilofreire/datasci350/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/danilofreire/datasci350/blob/main/tutorials/05-web-scraping-tutorial.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/danilofreire/datasci350">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

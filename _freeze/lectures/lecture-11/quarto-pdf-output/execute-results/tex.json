@@ -1,0 +1,12 @@
+{
+  "hash": "f07ef316b590b6297a7715da33f08418",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "---\ntitle: \"Matplotlib Demo\"\nauthor: \"Norah Jones\"\ndate: \"2026-02-18\"\ndate-format: \"MMMM D, YYYY\"\nformat: \n  pdf:\n    fig-width: 3\n    fig-height: 2\n    margins: 2in\nengine: python3\neditor:\n  render-on-save: true\n---\n\nFor a demonstration of a line plot on a polar axis, see @fig-polar.\n\n::: {.cell execution_count=1}\n``` {.python .cell-code}\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n```\n\n::: {.cell-output .cell-output-display}\n![A line plot on a polar axis](quarto-pdf-output_files/figure-pdf/fig-polar-output-1.pdf){#fig-polar fig-pos='H'}\n:::\n:::\n\n\n",
+    "supporting": [
+      "quarto-pdf-output_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

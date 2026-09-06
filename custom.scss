@@ -1,0 +1,25 @@
+/*-- scss:defaults --*/
+
+$font-family-sans-serif: "Source Sans 3", system-ui, sans-serif;
+$headings-font-family:   "Lora", Georgia, serif;
+$font-family-monospace:  "Inconsolata", monospace;
+
+$primary:    #1B3A6B;
+$link-color: #1B3A6B;
+$navbar-bg:  #1B3A6B;
+$navbar-fg:  #FFFFFF;
+
+$border-radius: 0.5rem;
+$font-size-base: 1.1rem;
+
+/*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Source+Sans+3:wght@400;600;700&family=Inconsolata:wght@400;700&display=swap');
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $headings-font-family;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h1.title { color: $primary; }

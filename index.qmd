@@ -1,0 +1,55 @@
+---
+title: "DATASCI 350 - Data Science Computing"
+subtitle: "Emory University, Fall 2026"
+title-block-banner: "#1B3A6B"
+title-block-banner-color: "white"
+---
+
+Welcome to [DATASCI 350](https://github.com/danilofreire/datasci350)! This course introduces key tools in modern data science, focusing on three essential aspects: reliability, reproducibility, and robustness. We will cover the [command-line interface](https://en.wikipedia.org/wiki/Command-line_interface), version control with [Git](https://git-scm.com/) and [GitHub](https://github.com/), and reproducible reports using [Quarto](https://quarto.org/) and [Jupyter Notebooks](https://jupyter.org/). You will then work with language models, first running one on your own laptop with [Ollama](https://ollama.com/), then calling hosted models from Python, and finally building a small retrieval system over your own documents. We will rent machines in the cloud with [Amazon Web Services](https://aws.amazon.com/), collect data from web APIs with [requests](https://requests.readthedocs.io/), and query and process it at scale with [DuckDB](https://duckdb.org/) and [Dask](https://www.dask.org/). We finish with [Docker](https://www.docker.com/) and containerisation.
+
+We will meet every Tuesday and Thursday from 5:30pm to 6:45pm in [Math & Science Center, Room W301](https://maps.app.goo.gl/JAnhzo63ZcT4GgE87). Classes run from August 27 to December 8, 2026.
+
+## Contact Information
+
+### Instructor
+
+- **Name**: [Danilo Freire](https://danilofreire.github.io/)
+- **Email**: [`danilo.freire@emory.edu`](mailto:danilo.freire@emory.edu)
+- **Office Hours**: By appointment at your convenience, please email me to schedule a meeting
+
+## Learning Outcomes
+
+By the end of this course, students will be able to:
+
+- Use the command line interface to manage files and directories.
+- Work with version control systems to track changes in code and collaborate with others.
+- Create reproducible reports and presentations.
+- Use language models and coding agents responsibly to assist with programming tasks.
+- Collect data from web APIs and web pages, and process it at scale.
+- Understand the basics of containerisation and parallel computing.
+
+## Website Structure
+
+This website contains the [course syllabus](https://danilofreire.github.io/datasci350/syllabus.html), [lecture materials](https://danilofreire.github.io/datasci350/lectures.html), [tutorials](https://danilofreire.github.io/datasci350/tutorials.html), and
+[assignments](https://danilofreire.github.io/datasci350/assignments.html) for the course. The course repository at <https://github.com/danilofreire/datasci350> is similarly structured. Feel free to explore the materials and use them as needed.
+
+## Getting Help
+
+If you encounter any issues with the course materials or have questions about the content, please:
+
+1. Check the [course syllabus](https://danilofreire.github.io/datasci350/syllabus.html) and this README for relevant information
+2. Review the [lecture materials](https://danilofreire.github.io/datasci350/lectures.html) and [tutorials](https://danilofreire.github.io/datasci350/tutorials.html) in the repository
+3. Consult with your classmates or post in the [course discussion forum](https://github.com/danilofreire/datasci350/discussions)
+4. Attend office hours or schedule an appointment with the instructor
+
+## Contributing to the Repository
+
+While this repository is primarily maintained by the course instructor, everyone is welcome to contribute. Please feel free to suggest improvements or report issues by [opening a GitHub issue](https://github.com/danilofreire/datasci350/issues), [submitting a pull request](https://github.com/danilofreire/datasci350/pulls), [creating a discussion post](https://github.com/danilofreire/datasci350/discussions), or [contacting the instructor directly](mailto:danilo.freire@emory.edu).
+
+## License
+
+This repository is licensed under the [MIT License](https://github.com/danilofreire/datasci350/blob/main/LICENSE.md). You are free to use, modify, and distribute the materials as needed, with appropriate attribution to the original source.
+
+-----
+
+We look forward to an engaging and productive semester! Happy coding! 

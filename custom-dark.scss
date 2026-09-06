@@ -1,0 +1,16 @@
+/*-- scss:rules --*/
+
+// Dark-mode link contrast fix.
+// $primary in custom.scss is navy #1B3A6B. Against darkly's #222 background
+// that gives poor contrast (fails WCAG AA). We override at the CSS-rule level
+// here (not via $primary) because custom.scss runs first and Quarto's
+// auto-!default treatment makes variable overrides in a later file silently
+// lose. Light mode is untouched: this file is only loaded for dark.
+
+$dark-link: #8AB0F0;        // light periwinkle-blue, high contrast on #222 (passes AA)
+$dark-link-hover: #B3CCF5;  // lighter blue, brighter on hover
+
+a, a:link { color: $dark-link; }
+a:hover, a:focus, a:active { color: $dark-link-hover; }
+h1.title { color: $dark-link; }
+.text-primary { color: $dark-link !important; }

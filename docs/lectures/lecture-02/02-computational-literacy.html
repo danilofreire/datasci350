@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Danilo Freire">
+  <title>DATASCI 350 – DATASCI 350 - Data Science Computing</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-315f922ac5edf4c23d0e12a47f0c2f8e.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/multimodal/multimodal.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">DATASCI 350 - Data Science Computing</h1>
+  <p class="subtitle">Lecture 02: Computational Literacy</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Danilo Freire 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:danilo.freire@emory.edu">danilo.freire@emory.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Department of Data and Decision Sciences <br> Emory University
+          </p>
+    </div>
+</div>
+
+</section>
+<section>
+<section id="recap-and-lecture-overview" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Recap and lecture overview 📚</h1>
+
+</section>
+<section id="course-information" class="slide level2">
+<h2>Course information</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 25px;">
+<ul>
+<li class="fragment">Three themes: <span class="alert">reliability</span>, <span class="alert">reproducibility</span>, and <span class="alert">robustness</span></li>
+<li class="fragment">What we cover:
+<ul>
+<li class="fragment">Command line and shell scripting</li>
+<li class="fragment">Version control with Git and GitHub</li>
+<li class="fragment">Reproducible reports with Quarto</li>
+<li class="fragment">AI-assisted programming</li>
+<li class="fragment">Cloud computing</li>
+<li class="fragment">Getting data from the web</li>
+<li class="fragment">Scaling and parallel computing</li>
+<li class="fragment">Containers with Docker</li>
+</ul></li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 25px;">
+<ul>
+<li class="fragment"><span class="alert">Grading</span>:
+<ul>
+<li class="fragment">50% assignments (10)</li>
+<li class="fragment">30% in-class quizzes (5)</li>
+<li class="fragment">20% final project</li>
+</ul></li>
+</ul>
+<div style="margin-top:10px;">
+
+</div>
+<ul>
+<li class="fragment"><span class="alert">AI is allowed</span> in all assignments and quizzes</li>
+<li class="fragment">Discuss with classmates, but <span class="alert">submit your own work</span></li>
+<li class="fragment"><span class="alert">Late submissions</span>: 10% off per day</li>
+<li class="fragment">More details on the <a href="https://github.com/danilofreire/datasci350">course repository</a></li>
+</ul>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="questions-about-the-course-organisation" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Questions about the course organisation?</h1>
+
+</section>
+<section id="software-installation" class="slide level2">
+<h2>Software installation</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div style="font-size: 24px;">
+<div class="columns">
+<div class="column">
+<ul>
+<li><span class="alert">A terminal</span>
+<ul>
+<li>Windows: install <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a>, and use <a href="https://code.visualstudio.com/">VS Code’s</a> built-in terminal</li>
+<li>Mac: you already have one. <a href="https://iterm2.com/">iTerm2</a>, <a href="https://brew.sh/">Homebrew</a>, and <a href="https://ohmyz.sh/">Oh My Zsh</a> make it nicer</li>
+<li>Linux: you are good to go</li>
+</ul></li>
+</ul>
+</div><div class="column">
+<ul>
+<li><a href="https://git-scm.com/downloads">Git</a> and a <a href="https://github.com">GitHub</a> account</li>
+<li><a href="https://www.anaconda.com/download">Anaconda</a>, or plain Python</li>
+<li><a href="https://quarto.org/docs/get-started/index.html">Quarto</a></li>
+<li><a href="https://docs.astral.sh/uv/getting-started/installation/">uv</a></li>
+<li><a href="https://docs.docker.com/get-docker">Docker</a></li>
+<li><a href="https://code.visualstudio.com/">VS Code</a>, strongly recommended</li>
+</ul>
+</div></div>
+<div style="margin-top:40px;">
+
+</div>
+<div class="callout callout-tip callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Tip</strong></p>
+</div>
+<div class="callout-content">
+<ul>
+<li>Our <a href="https://danilofreire.github.io/datasci350/tutorials.html">installation tutorials</a> explain each step</li>
+<li>You can also ask <a href="https://ats.emory.edu/sdl/StudentTechnologySupport/index.html">Student Tech Support</a></li>
+<li>If you have any questions, please let me know</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="learning-objectives" class="slide level2 scrollable">
+<h2>Learning objectives</h2>
+<h3 id="by-the-end-of-this-lecture-you-will-be-able-to">By the end of this lecture, you will be able to:</h3>
+<div style="margin-top:40px;">
+
+</div>
+<ol type="1">
+<li>Learn how computers work from the ground up, starting with binary code</li>
+<li>Get familiar with other key computer encodings like hexadecimal, ASCII, and Unicode</li>
+<li>Learn about the pioneers of computing and the development of Assembly language</li>
+<li>Understand the difference between low-level and high-level programming languages and when to use each</li>
+</ol>
+</section></section>
+<section id="lets-get-started" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Let’s get started! 🚀 💻</h1>
+
+</section>
+
+<section>
+<section id="brief-history-of-computing" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Brief history of computing</h1>
+
+</section>
+<section id="the-first-computers" class="slide level2">
+<h2>The first computers</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Historically, <span class="alert">a computer was a person who makes calculations</span>, especially with a calculating machine</li>
+<li>To do calculations we use numbers. How to represent them?
+<ul>
+<li>Fingers</li>
+<li>Pebbles</li>
+<li><a href="https://www.ecb.torontomu.ca/~elf/abacus/inca-khipu.html">Strings (Inca Khipu)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Abacus">Abacus</a></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 20px; text-align: center">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/abacus.jpg"><img data-src="figures/abacus.jpg" style="width:100.0%"></a> Video: <a href="https://youtu.be/SkUdjlQy3rk&amp;t=176">How to use an abacus</a></p>
+</div>
+</div></div>
+</section>
+<section id="four-species-mechanical-calculators" class="slide level2">
+<h2>Four-species mechanical calculators</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/mechanical-calculator.jpg"><img data-src="figures/mechanical-calculator.jpg" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p>The <a href="https://www.arithmeum.uni-bonn.de/en/collection/exhibit-of-the-month/archive/01-the-first-mechanical-calculating-machine-for-all-four-arithmetic-operations-by-gottfried-wilhelm-leibniz.html">first mechanical calculator</a> capable of performing all four basic arithmetic operations (addition, subtraction, multiplication, and division)</p></li>
+<li><p>Invented by <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried Wilhelm Leibniz</a> in 1694</p></li>
+<li><p>If you took a statistics course before the late 1970s, you likely used this type of <a href="https://en.wikipedia.org/wiki/Mechanical_calculator">mechanical calculator</a> for your computations</p></li>
+</ul>
+</div></div>
+</section>
+<section id="silicon-based-computers" class="slide level2">
+<h2>Silicon-based computers</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/transistor.gif"><img data-src="figures/transistor.gif" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 26px;">
+<p>The 1970s marked the transition from mechanical to electronic:</p>
+<ul>
+<li class="fragment"><a href="https://en.wikipedia.org/wiki/Transistor">Transistors</a> act as switches for electronic signals</li>
+<li class="fragment"><a href="https://en.wikipedia.org/wiki/Integrated_circuit">Integrated circuits</a> combine multiple transistors on a single chip</li>
+<li class="fragment"><a href="https://en.wikipedia.org/wiki/Microprocessor">Microprocessors</a> are integrated circuits that contain the functions of a computer’s <a href="https://en.wikipedia.org/wiki/Central_processing_unit">central processing unit (CPU)</a></li>
+<li class="fragment">They follow the <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture">Von Neumann architecture</a></li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="von-neumann-architecture" class="slide level2">
+<h2>Von Neumann architecture</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/neumann.webp"><img data-src="figures/neumann.webp" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 24px;">
+<ul>
+<li>The <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture">Von Neumann architecture</a> keeps <span class="alert">programs and data in the same memory</span></li>
+<li>Five parts: memory, control unit (directs the others), arithmetic logic unit (does the maths), input, and output</li>
+<li>Instructions travel from slow storage (a <a href="https://en.wikipedia.org/wiki/Hard_disk_drive">hard disk</a>) to fast <a href="https://en.wikipedia.org/wiki/Random-access_memory">RAM</a>, then to the <a href="https://en.wikipedia.org/wiki/Central_processing_unit">CPU</a></li>
+<li>The CPU repeats one cycle: <span class="alert">fetch, decode, execute</span></li>
+<li>Proposed in 1945, when <a href="https://en.wikipedia.org/wiki/History_of_computing_hardware">programs were still seen as part of the machine</a></li>
+<li>Almost every computer you use today works this way</li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="von-neumann-architecture-1" class="slide level2">
+<h2>Von Neumann architecture</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/von-neumann-architecture.webp"><img data-src="figures/von-neumann-architecture.webp" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 22px;">
+<ul>
+<li><span class="alert">Advantages</span>:
+<ul>
+<li>One memory for everything, so the design stays simple and cheap</li>
+<li>Programs can be loaded, changed, and replaced like any other data</li>
+</ul></li>
+<li><span class="alert">Disadvantages</span>:
+<ul>
+<li>The <a href="https://en.wikipedia.org/wiki/Von_Neumann_architecture#Von_Neumann_bottleneck">Von Neumann bottleneck</a>: one <a href="https://en.wikipedia.org/wiki/Bus_(computing)">bus</a> (the wires linking the CPU to memory) carries both instructions and data, so only one can move at a time</li>
+<li>The CPU sits idle while it waits for memory. Modern chips hide this with <a href="https://en.wikipedia.org/wiki/CPU_cache">caches</a></li>
+<li>The <a href="https://en.wikipedia.org/wiki/Harvard_architecture">Harvard architecture</a> splits the two memories. Most CPUs today use a mix of both</li>
+</ul></li>
+</ul>
+</div>
+</div></div>
+</section></section>
+<section>
+<section id="data-representation" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Data representation</h1>
+
+</section>
+<section id="computers-run-on-0s-and-1s" class="slide level2">
+<h2>Computers run on 0s and 1s</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 24px;">
+<ul>
+<li>Computers store everything as <span class="alert">0s and 1s</span></li>
+<li>A transistor is a <span class="alert">switch</span>: high voltage is 1, low voltage is 0</li>
+<li>They are <span class="alert">tiny and cheap</span>. A modern chip holds ~200 billion transistors and performs billions of operations per second!</li>
+<li>Two states are the simplest thing a switch can do</li>
+</ul>
+<ul>
+<li class="fragment">So how do we get to text, images, and video?</li>
+<li class="fragment">By <span class="alert">abstraction</span>, keeping only the detail we need</li>
+<li class="fragment">A colour becomes three numbers. A number becomes 0s and 1s</li>
+<li class="fragment">Each layer hides the one below</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/picasso.jpg"><img data-src="figures/picasso.jpg" style="width:100.0%"></a></p>
+</div></div>
+</section>
+<section id="converting-coins-to-dollars" class="slide level2">
+<h2>Converting coins to dollars</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/coins.png"><img data-src="figures/coins.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 24px;">
+<ul>
+<li>We can convert between number systems by translating a value from one system to the other</li>
+<li>For example, the coins on the left represent the same value as $0.87</li>
+<li>Using pictures is clunky. Let’s make a new representation system for coins</li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="converting-coins-to-dollars-1" class="slide level2">
+<h2>Converting coins to dollars</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/coins.png"><img data-src="figures/coins.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 24px;">
+<ul>
+<li>To represent coins, we will make a number with four digits</li>
+<li>The first represents quarters, the second dimes, the third nickels, and the fourth pennies
+<ul>
+<li>c3102 =</li>
+<li>3 x $0.25 + 1 x $0.10 + 0 x $0.05 + 2 x $0.01 =</li>
+<li>$0.87</li>
+</ul></li>
+</ul>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/qdnp.png"><img data-src="figures/qdnp.png" style="width:50.0%"></a></p>
+</div>
+</div>
+</div></div>
+</section>
+<section id="converting-dollars-to-coins" class="slide level2">
+<h2>Converting dollars to coins</h2>
+<div style="margin-top:40px; font-size: 26px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/coins.png"><img data-src="figures/coins.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<ul>
+<li class="fragment"><p>How do we convert money from dollars to coins? Assume we want to <span class="alert">minimise the number of coins used</span></p></li>
+<li class="fragment"><p>For example, what is $0.59 in coin representation? Use the same four-digit system: quarters, dimes, nickels, and pennies</p></li>
+<li class="fragment"><p>$0.59 = 2 x $0.25 + 0 x $0.10 + 1 x $0.05 + 4 x $0.01 = <span class="alert">c2014</span></p></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="question-coins" class="slide level2 scrollable">
+<h2>Quick questions!</h2>
+<div style="margin-top:40px; font-size: 28px;">
+<p>Remember, the four digits are <span class="alert">quarters, dimes, nickels, and pennies</span></p>
+<ol type="1">
+<li><p>What is <code>c1112</code> in dollars?</p></li>
+<li><p>What is $0.61 in coin representation? Use as few coins as you can</p></li>
+</ol>
+<p><br></p>
+<ul>
+<li><a href="#/sec-solution-coins"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section>
+<section id="number-systems-binary" class="slide level2">
+<h2>Number systems – binary</h2>
+<div style="margin-top:40px; font-size: 27px;">
+<ul>
+<li class="fragment">Back to computers! 💻</li>
+<li class="fragment">Binary writes numbers with only <span class="alert">0s and 1s</span></li>
+<li class="fragment">Coins counted 1s, 5s, 10s, and 25s. Binary counts 1s, 2s, 4s, and 8s</li>
+<li class="fragment">Why those? They are <span class="alert">powers of 2</span></li>
+<li class="fragment">One digit is a <span class="alert">bit</span>: 101 has three bits</li>
+<li class="fragment">Eight bits are a <span class="alert">byte</span>: 10101010</li>
+<li class="fragment">Counting up:
+<ul>
+<li class="fragment">0 is zero</li>
+<li class="fragment">1 is one</li>
+<li class="fragment">10 is two</li>
+<li class="fragment">100 is four</li>
+<li class="fragment">1000 is eight… and so on!</li>
+</ul></li>
+</ul>
+</div>
+</section>
+<section id="quick-question" class="slide level2 scrollable">
+<h2>Quick question!</h2>
+<div style="margin-top:40px;">
+
+</div>
+<ul>
+<li><span class="alert">Question</span>: what is the binary representation of the decimal number 3?</li>
+</ul>
+<div class="fragment fade-in" data-fragment-index="1">
+<ol type="A">
+<li>101</li>
+</ol>
+</div>
+<div class="fragment fade-in" data-fragment-index="2">
+<div class="fragment highlight-red" data-fragment-index="5">
+<ol start="2" type="A">
+<li>11</li>
+</ol>
+</div>
+</div>
+<div class="fragment fade-in" data-fragment-index="3">
+<ol start="3" type="A">
+<li>111</li>
+</ol>
+</div>
+<div class="fragment fade-in" data-fragment-index="4">
+<ol start="4" type="A">
+<li>010</li>
+</ol>
+</div>
+</section>
+<section id="question01" class="slide level2 scrollable">
+<h2>Your turn!</h2>
+<p><span class="alert">Practice exercise 01</span>:</p>
+<ol type="1">
+<li><p>How would you write 5 in binary?</p></li>
+<li><p>And 12?</p></li>
+<li><p>How many bits do you need to write 11?</p></li>
+<li><p>What is the largest number you can write with 4 bits?</p></li>
+</ol>
+<p><br></p>
+<ul>
+<li><a href="#/sec-solution01"><span class="button">Solutions</span></a></li>
+</ul>
+</section>
+<section id="convert-binary-to-decimal" class="slide level2">
+<h2>Convert binary to decimal</h2>
+<div style="margin-top:40px;">
+
+</div>
+<p>To convert a binary number to decimal, just add each power of 2 that is represented by a 1</p>
+<div style="font-size: 26px;">
+<ul>
+<li>For example, 00011000 = 16 + 8 = 24</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>128</th>
+<th>64</th>
+<th>32</th>
+<th>16</th>
+<th>8</th>
+<th>4</th>
+<th>2</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<ul>
+<li>Another example: 10010001 = 128 + 16 + 1 = 145</li>
+</ul>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th>128</th>
+<th>64</th>
+<th>32</th>
+<th>16</th>
+<th>8</th>
+<th>4</th>
+<th>2</th>
+<th>1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section></section>
+<section id="so-far-so-good" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>So far, so good? 😃</h1>
+
+</section>
+
+<section>
+<section id="binary-and-abstraction" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Binary and abstraction</h1>
+
+</section>
+<section id="binary-and-abstraction-1" class="slide level2">
+<h2>Binary and abstraction</h2>
+<p><br></p>
+<ul>
+<li>Now that we can represent numbers using binary, <span class="alert">we can represent everything computers store using binary!</span> 🤓</li>
+<li>We just need to use <span class="alert">abstraction</span> to interpret bits or numbers in particular ways</li>
+<li>Let’s consider <span class="alert">colours, images, and text</span></li>
+</ul>
+</section>
+<section id="images-as-collections-of-colours" class="slide level2">
+<h2>Images as collections of colours</h2>
+<div style="margin-top:40px; font-size: 28px;">
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/mona-lisa.png"><img data-src="figures/mona-lisa.png" style="width:80.0%"></a></p>
+</div><div class="column" style="width:40%;">
+<ul>
+<li class="fragment">How can we convert an image to numbers?</li>
+<li class="fragment">First, <span class="alert">we need to convert the image into a grid of colours</span>, where each dot of colour has a distinct hue</li>
+<li class="fragment">A dot of colour in this context is called a <a href="https://en.wikipedia.org/wiki/Pixel">pixel</a></li>
+<li class="fragment">Now we just need to <span class="alert">represent a single colour (a pixel) as a number</span></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="images-as-collections-of-colours-1" class="slide level2">
+<h2>Images as collections of colours</h2>
+<h3 id="rgb-colour-model">RGB colour model</h3>
+<div style="font-size: 27px; margin-top: 20px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>The <a href="https://en.wikipedia.org/wiki/RGB_color_model">RGB colour model</a> describes a pixel with <span class="alert">three numbers from 0 to 255</span></li>
+<li>One for <span class="alert">red</span>, one for <span class="alert">green</span>, one for <span class="alert">blue</span></li>
+<li>0 means none of that colour, 255 means as much as possible</li>
+<li>White is (255, 255, 255), black is (0, 0, 0)</li>
+<li>Try different colours <a href="https://www.w3schools.com/colors/colors_rgb.asp">here</a></li>
+<li>In binary, each number needs 8 digits, so one pixel takes 24. That gets long fast</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/rgb.png"><img data-src="figures/rgb.png" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="number-systems-hexadecimal" class="slide level2">
+<h2>Number systems – Hexadecimal</h2>
+<h3 id="what-is-hexadecimal">What is hexadecimal?</h3>
+<div style="margin-top:20px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/hexadecimal.png"><img data-src="figures/hexadecimal.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 22px; margin-top: 20px;">
+<ul>
+<li class="fragment">When we represent values with multiple bytes, it is <span class="alert">hard to distinguish where numbers begin and end</span></li>
+<li class="fragment"><a href="https://en.wikipedia.org/wiki/Hexadecimal">Hexadecimal</a> <span class="alert">is a number system with 16 digits: 0123456789<strong>ABCDEF</strong></span></li>
+<li class="fragment">It is used to represent binary numbers in a more compact way</li>
+<li class="fragment">Each hex digit corresponds to 4 binary bits, making it a shorthand for binary:
+<ul>
+<li class="fragment">0000 = 0</li>
+<li class="fragment">0001 = 1</li>
+<li class="fragment">0010 = 2</li>
+<li class="fragment">…</li>
+<li class="fragment">1110 = E</li>
+<li class="fragment">1111 = F</li>
+</ul></li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="question02" class="slide level2 scrollable">
+<h2>Binary to hex conversion</h2>
+<div style="margin-top:40px; font-size: 25px;">
+<ul>
+<li>Convert binary to hex by grouping into blocks of four bits</li>
+<li>Example: Binary <code>1001 1110 0000 1010</code> converts to Hex <code>9E0A</code> (9 + 14 + 0 + 10)</li>
+</ul>
+<p><br></p>
+<p><span class="alert">Practice Exercise 02</span>:</p>
+<ol type="1">
+<li><p>Convert the decimal number 13 to binary</p></li>
+<li><p>Convert the decimal number 13 to hexadecimal</p></li>
+</ol>
+<p><br></p>
+<ul>
+<li><a href="#/sec-solution02"><span class="button">Solutions</span></a></li>
+</ul>
+</div>
+</section>
+<section id="hexadecimal-and-html" class="slide level2">
+<h2>Hexadecimal and HTML</h2>
+<h3 id="hex-and-rgb">Hex and RGB</h3>
+<div style="margin-top:40px; font-size: 28px;">
+<ul>
+<li class="fragment"><p>HTML uses hexadecimal to represent colours</p></li>
+<li class="fragment"><p>Six-digit hex numbers specify colours:</p>
+<ul>
+<li class="fragment">FFFFFF = White</li>
+<li class="fragment">000000 = Black</li>
+</ul></li>
+<li class="fragment"><p>Each pair of digits represents a colour component (RGB)</p></li>
+<li class="fragment"><p>16 * 16 = 256, so two hex digits can represent values from 0 to 255</p></li>
+<li class="fragment"><p>This gives a total of 256 intensity levels for each primary colour</p></li>
+<li class="fragment"><p>When you combine the three channels, you get a possible colour palette of <span class="math inline">\(256^3\)</span> or about 16.7 million colours… but <span class="alert">described in a compact way using hex</span></p></li>
+</ul>
+</div>
+</section>
+<section id="represent-text-as-individual-characters" class="slide level2">
+<h2>Represent text as individual characters</h2>
+<h3 id="characters-and-glyphs">Characters and glyphs</h3>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/glyph.png"><img data-src="figures/glyph.png" style="width:70.0%"></a></p>
+</div><div class="column" style="width:40%;">
+<div style="font-size: 24px; margin-top: 40px;">
+<ul>
+<li class="fragment">Next, how do we represent text?</li>
+<li class="fragment">First, <span class="alert">we break it down into smaller parts, like with images.</span> In this case, we break text down into <span class="alert">individual characters</span></li>
+<li class="fragment">A <span class="alert">character</span> is the smallest component of text, like A, B, or /</li>
+<li class="fragment">A <a href="https://en.wikipedia.org/wiki/Glyph">glyph</a> is the graphical representation of a character</li>
+<li class="fragment">The display of glyphs is typically handled by <a href="https://en.wikipedia.org/wiki/Graphical_user_interface">GUI (Graphical User Interface) toolkits or font renderers</a></li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="represent-text-as-individual-characters-1" class="slide level2">
+<h2>Represent text as individual characters</h2>
+<h3 id="lookup-tables">Lookup tables</h3>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ascii-art-homer.jpg"><img data-src="figures/ascii-art-homer.jpg" style="width:70.0%"></a></p>
+</div><div class="column" style="width:40%;">
+<div style="font-size: 22px; margin-top: 40px;">
+<ul>
+<li class="fragment">For example, the text “Hello World” becomes <code>H, e, l, l, o, space, W, o, r, l, d</code></li>
+<li class="fragment">Unlike colours, characters do not have a logical connection to numbers</li>
+<li class="fragment">To represent characters as numbers, we use a <span class="alert">lookup table</span> called <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a></li>
+<li class="fragment">ASCII stands for <a href="https://www.ascii-code.com/timeline">American Standard Code for Information Interchange</a></li>
+<li class="fragment">As long as every computer uses the same lookup table, computers can always translate a set of numbers into the same set of characters</li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="ascii-is-nothing-but-a-simple-lookup-table" class="slide level2">
+<h2>ASCII is nothing but a simple lookup table</h2>
+<h3 id="yes-really">Yes, really!</h3>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div style="font-size: 26px;">
+<ul>
+<li><span class="alert">ASCII</span> maps the numbers 0 to 127 to characters</li>
+<li>That range needs 7 bits, so a character fits in one <span class="alert">byte</span></li>
+<li><code>A</code> is 65, <code>a</code> is 97, and a space is 32</li>
+<li>The first 32 entries are not letters at all. They are control codes, like tab and newline</li>
+<li>Explore the whole table <a href="https://www.asciitable.com/">here</a></li>
+</ul>
+</div>
+</div><div class="column" style="width:60%;">
+<div style="margin-top: -25px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ascii-table-wide.svg"><img data-src="figures/ascii-table-wide.svg" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</section>
+<section id="question-ascii" class="slide level2">
+<h2>ASCII is nothing but a simple lookup table</h2>
+<h3 id="can-you-guess-the-binary-hint-split-each-byte-in-half">Can you guess the binary? Hint: split each byte in half!</h3>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div style="font-size: 38px;">
+<p>“Hello World” =</p>
+<p><code>01001000 01100101 01101100 01101100 01101111 00100000 01010111 01101111 01110010 01101100 01100100</code></p>
+</div>
+<ul>
+<li><a href="#/sec-solution-ascii"><span class="button">Solutions</span></a></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ascii-table-wide.svg"><img data-src="figures/ascii-table-wide.svg" style="width:100.0%"></a></p>
+</div></div>
+</section>
+<section id="question03" class="slide level2">
+<h2>Your turn!</h2>
+<h3 id="practice-exercise-03">Practice Exercise 03</h3>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div style="font-size: 38px;">
+<ul>
+<li>Translate the following binary into ASCII text:</li>
+<li>Work in hexadecimal or in decimal</li>
+</ul>
+<p><code>01011001 01100001 01111001</code></p>
+</div>
+<ul>
+<li><a href="#/sec-solution03"><span class="button">Solutions</span></a></li>
+</ul>
+</div><div class="column" style="width:60%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ascii-table-wide.svg"><img data-src="figures/ascii-table-wide.svg" style="width:100.0%"></a></p>
+</div></div>
+</section>
+<section id="ascii-limitations" class="slide level2">
+<h2>ASCII limitations</h2>
+<div style="margin-top:40px; font-size: 32px;">
+<ul>
+<li>128 slots go a long way, but not far enough</li>
+<li>No accents, so “café” is out of reach. No Greek, Arabic, or Chinese either</li>
+</ul>
+<div style="margin-top:20px;">
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Unicode">Unicode</a> has room for about <span class="alert">1.1 million characters</span>, and its first 128 are ASCII</li>
+<li><span class="alert">UTF-8</span> is how we store it: one byte for ASCII, up to four for the rest</li>
+<li>Emoji live there too. 😉 is <code>U+1F609</code></li>
+<li>“Danilo” is <code>\u0044\u0061\u006e\u0069\u006c\u006f</code></li>
+<li>Browse the <a href="https://symbl.cc/en/unicode-table/">table</a>, or decode text <a href="https://symbl.cc/en/tools/decoder/">here</a></li>
+</ul>
+</div>
+</div>
+</section></section>
+<section id="questions" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Questions? 🤔</h1>
+
+</section>
+
+<section>
+<section id="the-genesis-of-programming-languages" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>The genesis of programming languages 🌟 🔡 🐍</h1>
+
+</section>
+<section id="the-genesis-of-programming" class="slide level2">
+<h2>The genesis of programming</h2>
+<h3 id="zuses-computers">Zuse’s computers</h3>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/z3.JPG"><img data-src="figures/z3.JPG" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 24px; margin-top: 40px;">
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Konrad_Zuse">Konrad Zuse</a> was a German engineer and computer pioneer</li>
+<li>He created the first programmable computer, the <a href="https://en.wikipedia.org/wiki/Z3_(computer)">Z3</a>, in 1941</li>
+<li>The Z3 was the first computer to use <span class="alert">binary arithmetic</span> and read binary instructions from punch tape</li>
+<li>Example: Z4 had 512 bytes of memory</li>
+<li>Zuse also created the first high-level programming language, <a href="https://en.wikipedia.org/wiki/Plankalk%C3%BCl">Plankalkül</a> (“calculus for planning”)</li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="what-is-assembly-language" class="slide level2">
+<h2>What is Assembly language?</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/assembly.png"><img data-src="figures/assembly.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:40%;">
+<div style="font-size: 24px; margin-top: 40px;">
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Assembly_language">Assembly language</a> is a low-level programming language that allows writing machine code in human-readable text</li>
+<li>Each instruction corresponds to a single machine code instruction</li>
+<li>The first assemblers were human!</li>
+<li>Programmers wrote assembly code, which secretaries transcribed to binary for machine processing</li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="some-curious-facts-about-assembly" class="slide level2">
+<h2>Some curious facts about Assembly!</h2>
+<div style="margin-top: 40px;">
+<div class="columns">
+<div class="column" style="width:60%;">
+<div style="margin-top: 40px; text-align: center;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/apollo11a.jpg"><img data-src="figures/apollo11a.jpg" style="width:100.0%"></a></p>
+<figcaption>Margaret Hamilton and the Apollo 11 code</figcaption>
+</figure>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<div style="font-size: 22px; margin-top: 40px;">
+<ul>
+<li><p>The <a href="https://en.wikipedia.org/wiki/Apollo_11">Apollo 11</a> mission to the moon was programmed in assembly language</p></li>
+<li><p>The code is available here: <a href="https://github.com/chrislgarry/Apollo-11" class="uri">https://github.com/chrislgarry/Apollo-11</a> (good luck reading it! 😅)</p></li>
+<li><p>One of the files is the <code>BURN_BABY_BURN--MASTER_IGNITION_ROUTINE.agc</code> 🔥 🚀</p></li>
+<li><p>But if Assembly is so fast and efficient, why don’t we use it all the time?</p></li>
+</ul>
+</div>
+</div></div>
+</div>
+</section>
+<section id="low-level-vs-high-level-languages" class="slide level2">
+<h2>Low-level vs high-level languages</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 24px;">
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Low-level_programming_language">Low-level languages</a> are closer to machine code and are harder to read and write</li>
+<li><a href="https://en.wikipedia.org/wiki/High-level_programming_language">High-level languages</a> abstract from hardware details and are portable across different systems</li>
+</ul>
+<div style="margin-top:10px;">
+
+</div>
+<ul>
+<li><strong>Compiled Languages:</strong> Convert code to binary instructions before execution (e.g., <code>C++</code>, <code>Fortran</code>, <code>Go</code>)</li>
+<li><strong>Interpreted Languages:</strong> Run inside a program that interprets and executes commands immediately (e.g., <code>R</code>, <code>Python</code>)</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="margin-top: -20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/high-low-languages.png"><img data-src="figures/high-low-languages.png" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</section>
+<section id="low-level-vs-high-level-languages-1" class="slide level2">
+<h2>Low-level vs high-level languages</h2>
+<h3 id="code-that-is-worth-a-thousand-words">Code that is worth a thousand words</h3>
+<div style="margin-top:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 24px;">
+<ul>
+<li>“Hello, World!” in machine code (hex):</li>
+</ul>
+<div style="font-size: 38px;">
+<pre><code>48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 21</code></pre>
+</div>
+<ul>
+<li>“Hello, World!” in <a href="https://en.wikipedia.org/wiki/Assembly_language">Assembly</a> (x86-64 Assembly for Linux)</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource nasm number-lines code-with-copy"><code class="sourceCode nasm"><span id="cb2-1"><a></a><span class="kw">section</span> <span class="fu">.data</span></span>
+<span id="cb2-2"><a></a>    message <span class="dt">db</span> <span class="st">'Hello, World!'</span><span class="op">,</span> <span class="dv">10</span>  <span class="co">; 10 is ASCII for newline</span></span>
+<span id="cb2-3"><a></a>    msglen  <span class="dt">equ</span> <span class="op">$</span> <span class="op">-</span> message         <span class="co">; length, worked out by the assembler</span></span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a><span class="kw">section</span> <span class="fu">.text</span></span>
+<span id="cb2-6"><a></a>    <span class="kw">global</span> _start</span>
+<span id="cb2-7"><a></a></span>
+<span id="cb2-8"><a></a><span class="fu">_start:</span></span>
+<span id="cb2-9"><a></a>    <span class="kw">mov</span> <span class="kw">rax</span><span class="op">,</span> <span class="dv">1</span>          <span class="co">; system call number for write</span></span>
+<span id="cb2-10"><a></a>    <span class="kw">mov</span> <span class="kw">rdi</span><span class="op">,</span> <span class="dv">1</span>          <span class="co">; file descriptor 1 is stdout</span></span>
+<span id="cb2-11"><a></a>    <span class="kw">mov</span> <span class="kw">rsi</span><span class="op">,</span> message    <span class="co">; address of the string</span></span>
+<span id="cb2-12"><a></a>    <span class="kw">mov</span> <span class="kw">rdx</span><span class="op">,</span> msglen     <span class="co">; how many bytes to write</span></span>
+<span id="cb2-13"><a></a>    <span class="kw">syscall</span>             <span class="co">; hand over to the kernel</span></span>
+<span id="cb2-14"><a></a></span>
+<span id="cb2-15"><a></a>    <span class="kw">mov</span> <span class="kw">rax</span><span class="op">,</span> <span class="dv">60</span>         <span class="co">; system call number for exit</span></span>
+<span id="cb2-16"><a></a>    <span class="kw">xor</span> <span class="kw">rdi</span><span class="op">,</span> <span class="kw">rdi</span>        <span class="co">; exit status 0</span></span>
+<span id="cb2-17"><a></a>    <span class="kw">syscall</span>             <span class="co">; hand over to the kernel</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="font-size: 24px;">
+<ul>
+<li>“Hello, World!” in <a href="https://en.wikipedia.org/wiki/Python_(programming_language)">Python</a>:</li>
+</ul>
+<div style="font-size: 34px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="bu">print</span>(<span class="st">"Hello, World!"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="margin-top: 15px;">
+<ul>
+<li>It’s easy to see why high-level languages are more popular! 😅</li>
+</ul>
+</div>
+</div>
+</div></div>
+</section></section>
+<section id="question-is-natural-language-programming-the-future-of-high-level-languages" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Question: Is Natural Language Programming the Future of High-Level Languages? 🤖</h1>
+
+</section>
+
+<section>
+<section id="summary" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Summary 💡</h1>
+
+</section>
+<section id="summary-1" class="slide level2">
+<h2>Summary</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div style="font-size: 27px;">
+<ul>
+<li>A <span class="alert">computer</span> was once a person. Then came the abacus, Leibniz’s calculator, and the transistor</li>
+<li>The <span class="alert">Von Neumann architecture</span> keeps programs and data in one memory. Almost every machine still works this way</li>
+<li>Everything is stored as <span class="alert">0s and 1s</span>. Binary counts in powers of 2, and hexadecimal packs four bits into one digit</li>
+<li><span class="alert">ASCII</span> gives 128 characters a number each. <span class="alert">Unicode</span> stretches that to about 1.1 million, emoji included</li>
+<li><span class="alert">Konrad Zuse</span> built the first programmable digital computers, and <span class="alert">assembly</span> gave machine code readable names</li>
+<li><span class="alert">High-level languages</span> hide all of it. Compilers translate ahead of time, interpreters as they go</li>
+</ul>
+</div>
+</section>
+<section id="next-class" class="slide level2">
+<h2>Next class</h2>
+<div style="margin-top:40px;">
+
+</div>
+<div style="font-size: 28px;">
+<ul>
+<li class="fragment">We will learn about the <a href="https://en.wikipedia.org/wiki/Command-line_interface">command line</a> and <a href="https://en.wikipedia.org/wiki/Shell_script">shell scripting</a> in the terminal</li>
+<li class="fragment">Please have your <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a> or <a href="https://iterm2.com/">iTerm2</a> installed, and we will start coding!</li>
+<li class="fragment">If you have VS Code, that’s even better! 😉</li>
+<li class="fragment">Please check the <a href="https://danilofreire.github.io/datasci350/tutorials.html">installation tutorials</a> for more information, and let me know if you have any questions 😃</li>
+</ul>
+<div style="margin-top:30px;">
+
+</div>
+<ul>
+<li class="fragment"><a href="https://github.com/danilofreire/datasci350/blob/main/assignments/01-assignment.ipynb">Assignment 01</a> is already online. Please check it out! It is due next Thursday 😉</li>
+</ul>
+</div>
+</section></section>
+<section>
+<section id="thank-you-very-much-and-see-you-next-class" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Thank you very much and see you next class! 😊 🙏</h1>
+
+</section>
+<section id="sec-solution-coins" class="slide level2">
+<h2>Solution - Coin conversions</h2>
+<div style="font-size: 26px; margin-top: 40px;">
+<ul>
+<li><p>What is <code>c1112</code> in dollars?</p></li>
+<li><p><span class="alert">$0.42</span> = 1 x $0.25 + 1 x $0.10 + 1 x $0.05 + 2 x $0.01</p></li>
+<li><p>What is $0.61 in coin representation?</p></li>
+<li><p><span class="alert">c2101</span> = 2 x $0.25 + 1 x $0.10 + 0 x $0.05 + 1 x $0.01</p></li>
+</ul>
+<p><a href="#/question-coins"><span class="button">Back to the questions</span></a></p>
+</div>
+</section>
+<section id="sec-solution01" class="slide level2">
+<h2>Solution - Practice exercise 01</h2>
+<div style="font-size: 24px; margin-top: 40px;">
+<ul>
+<li><p>How would you write 5 in binary?</p></li>
+<li><p><code>101</code>, because <span class="math inline">\(4 + 1 = 5\)</span></p></li>
+<li><p>How would you write 12 in binary?</p></li>
+<li><p><code>1100</code>, because <span class="math inline">\(8 + 4 = 12\)</span></p></li>
+<li><p>How many bits do you need to write 11?</p></li>
+<li><p>Four. <span class="math inline">\(11 = 8 + 2 + 1\)</span>, so <code>1011</code></p></li>
+<li><p>What is the largest number you can write with 4 bits?</p></li>
+<li><p><code>1111</code>, which is <span class="math inline">\(8 + 4 + 2 + 1 = 15\)</span></p></li>
+<li><p>In general, <span class="math inline">\(n\)</span> bits reach <span class="math inline">\(2^n - 1\)</span>. This is why a byte stops at 255</p></li>
+</ul>
+<p><a href="#/question01"><span class="button">Back to the exercise</span></a></p>
+</div>
+</section>
+<section id="sec-solution02" class="slide level2 scrollable">
+<h2>Solution - Practice exercise 02</h2>
+<div style="font-size: 22px; margin-top: 40px;">
+<ol type="1">
+<li>Decimal 13 is <code>1101</code> in binary.</li>
+</ol>
+<ul>
+<li>Break it down: <span class="math inline">\(13 = (1 \times 2^3) + (1 \times 2^2) + (0 \times 2^1) + (1 \times 2^0)\)</span>.</li>
+</ul>
+<ol start="2" type="1">
+<li>Binary 1101 is <code>D</code> in hexadecimal.</li>
+</ol>
+<ul>
+<li>Group the binary into blocks of four: <code>1101</code>.</li>
+<li>Convert each block to hex: <code>1101</code> (binary) = <code>D</code> (hex).</li>
+<li>Let’s take a closer look at how to convert the binary number <code>1101</code> to hexadecimal:</li>
+<li>Start with the binary number: <code>1101</code></li>
+<li>Convert it to decimal by summing the powers of 2:
+<ul>
+<li><span class="math inline">\(1 \times 2^3\)</span> = 8</li>
+<li><span class="math inline">\(1 \times 2^2\)</span> = 4</li>
+<li><span class="math inline">\(0 \times 2^1\)</span> = 0</li>
+<li><span class="math inline">\(1 \times 2^0\)</span> = 1</li>
+</ul></li>
+<li>Add the decimal values: <span class="math inline">\(8 + 4 + 0 + 1 = 13\)</span></li>
+<li>The decimal number <code>13</code> corresponds to the hexadecimal number <code>D</code>.</li>
+<li>Therefore, binary <code>1101</code> is <code>D</code> in hexadecimal.</li>
+<li>You can check your answers with this <a href="https://www.rapidtables.com/convert/number/index.html">number converter</a>.</li>
+</ul>
+<p><a href="#/question02"><span class="button">Back to the exercise</span></a></p>
+</div>
+</section>
+<section id="sec-solution03" class="slide level2">
+<h2>Solution - Practice exercise 03</h2>
+<div style="font-size: 25px; margin-top: 40px;">
+<p>Split each byte in half. Every half is one hex digit, which makes the lookup quicker.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Binary</th>
+<th style="text-align: left;">Halves</th>
+<th style="text-align: left;">Hex</th>
+<th style="text-align: left;">Decimal</th>
+<th style="text-align: left;">Character</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>01011001</code></td>
+<td style="text-align: left;"><code>0101 1001</code></td>
+<td style="text-align: left;">59</td>
+<td style="text-align: left;">89</td>
+<td style="text-align: left;">Y</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>01100001</code></td>
+<td style="text-align: left;"><code>0110 0001</code></td>
+<td style="text-align: left;">61</td>
+<td style="text-align: left;">97</td>
+<td style="text-align: left;">a</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>01111001</code></td>
+<td style="text-align: left;"><code>0111 1001</code></td>
+<td style="text-align: left;">79</td>
+<td style="text-align: left;">121</td>
+<td style="text-align: left;">y</td>
+</tr>
+</tbody>
+</table>
+<p>Result: <code>Yay</code></p>
+<p><a href="#/question03"><span class="button">Back to the exercise</span></a></p>
+</div>
+</section>
+<section id="sec-solution-ascii" class="slide level2">
+<h2>Solution - “Hello World” in binary</h2>
+<div style="font-size: 25px; margin-top: 40px;">
+<p>Split each byte in half. Every half is one hex digit, which makes the lookup quicker.</p>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Binary</th>
+<th style="text-align: left;">Halves</th>
+<th style="text-align: left;">Hex</th>
+<th style="text-align: left;">Decimal</th>
+<th style="text-align: left;">Character</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>01001000</code></td>
+<td style="text-align: left;"><code>0100 1000</code></td>
+<td style="text-align: left;">48</td>
+<td style="text-align: left;">72</td>
+<td style="text-align: left;">H</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>01100101</code></td>
+<td style="text-align: left;"><code>0110 0101</code></td>
+<td style="text-align: left;">65</td>
+<td style="text-align: left;">101</td>
+<td style="text-align: left;">e</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>01101100</code></td>
+<td style="text-align: left;"><code>0110 1100</code></td>
+<td style="text-align: left;">6C</td>
+<td style="text-align: left;">108</td>
+<td style="text-align: left;">l</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>01101100</code></td>
+<td style="text-align: left;"><code>0110 1100</code></td>
+<td style="text-align: left;">6C</td>
+<td style="text-align: left;">108</td>
+<td style="text-align: left;">l</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>01101111</code></td>
+<td style="text-align: left;"><code>0110 1111</code></td>
+<td style="text-align: left;">6F</td>
+<td style="text-align: left;">111</td>
+<td style="text-align: left;">o</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>00100000</code></td>
+<td style="text-align: left;"><code>0010 0000</code></td>
+<td style="text-align: left;">20</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: left;">space</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>01010111</code></td>
+<td style="text-align: left;"><code>0101 0111</code></td>
+<td style="text-align: left;">57</td>
+<td style="text-align: left;">87</td>
+<td style="text-align: left;">W</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>01101111</code></td>
+<td style="text-align: left;"><code>0110 1111</code></td>
+<td style="text-align: left;">6F</td>
+<td style="text-align: left;">111</td>
+<td style="text-align: left;">o</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>01110010</code></td>
+<td style="text-align: left;"><code>0111 0010</code></td>
+<td style="text-align: left;">72</td>
+<td style="text-align: left;">114</td>
+<td style="text-align: left;">r</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>01101100</code></td>
+<td style="text-align: left;"><code>0110 1100</code></td>
+<td style="text-align: left;">6C</td>
+<td style="text-align: left;">108</td>
+<td style="text-align: left;">l</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>01100100</code></td>
+<td style="text-align: left;"><code>0110 0100</code></td>
+<td style="text-align: left;">64</td>
+<td style="text-align: left;">100</td>
+<td style="text-align: left;">d</td>
+</tr>
+</tbody>
+</table>
+<p><a href="#/question-ascii"><span class="button">Back to the question</span></a></p>
+</div>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p><a href="https://danilofreire.github.io/datasci350/lectures/lecture-02/02-computational-literacy.html">Computational Literacy</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/multimodal/multimodal.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Multimodal, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

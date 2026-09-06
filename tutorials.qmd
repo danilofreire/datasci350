@@ -1,0 +1,68 @@
+---
+title: "Tutorials"
+---
+
+Below you will find a list of available tutorials with instructions on how to install and use the tools we will be using in class. 
+
+## Available Tutorials
+
+- [01 - VSCode and Anaconda Tutorial](tutorials/01-vscode-anaconda-tutorial.qmd)
+- [02 - Jupyter Notebook and Markdown Tutorial](tutorials/02-jupyter-markdown-tutorial.qmd)
+- [03 - GitHub Tutorial](tutorials/03-github-tutorial.qmd)
+- [04 - SQL Essentials with DuckDB](tutorials/04-duckdb-sql-tutorial.qmd)
+- [05 - Web Scraping with Python](tutorials/05-web-scraping-tutorial.qmd)
+- [06 - Setting Up WSL on Windows](tutorials/06-wsl-tutorial.qmd)
+- [07 - Polars for Data Analysis](tutorials/07-polars-tutorial.qmd)
+
+Tutorials 01 to 03 set up the tools the course uses, and you should read them in order at the start of the semester. Tutorial 06 is for Windows users, and it is worth doing before Lecture 03. Tutorials 04, 05 and 07 cover material that is not taught in the lectures, and you can read them whenever you need them.
+
+PDF versions of the tutorials are also available on GitHub: <https://github.com/danilofreire/datasci350/tree/main/tutorials>.
+
+## Additional Resources
+
+### Further examples
+
+- [testing-ipython.ipynb](https://github.com/danilofreire/datasci350/blob/main/tutorials/testing-ipython.ipynb): A Jupyter Notebook for showing Markdown and code cells
+- [testing-anaconda.py](https://github.com/danilofreire/datasci350/blob/main/tutorials/testing-anaconda.py): A Python script for testing Anaconda installation
+
+### Suggested Books
+
+- [Data Science on the Command Line](https://www.datascienceatthecommandline.com/) by Jeroen Janssens
+- [Pro Git](https://git-scm.com/book/en/v2) by Scott Chacon and Ben Straub
+- [The Turing Way](https://book.the-turing-way.org/) by The Turing Way Community
+- [Python for Data Analysis](https://wesmckinney.com/book/) by Wes McKinney
+- [Elements of Data Science](https://allendowney.github.io/ElementsOfDataScience/README.html) by Allen Downey
+- [DuckDB in Action](https://motherduck.com/duckdb-book/) by Mark Needham, Michael Hunger, and Michael Simons
+- [Free programming books](https://github.com/EbookFoundation/free-programming-books)
+
+### Online Courses
+
+- [MIT: The Missing Semester of Your CS Education](https://missing.csail.mit.edu/)
+- [Coursera: Python for Everybody Specialisation](https://www.coursera.org/specializations/python)
+- [Class Central: Introduction to Git and GitHub](https://www.classcentral.com/course/introduction-git-github-18060)
+- [Hugging Face: LLM Course](https://huggingface.co/learn/llm-course)
+- [AWS Skill Builder: Cloud Practitioner Essentials](https://skillbuilder.aws/)
+- [Kaggle: Learn](https://www.kaggle.com/learn)
+
+### Documentation
+
+- [Official Python Documentation](https://docs.python.org/3/)
+- [NumPy Documentation](https://numpy.org/doc/)
+- [Pandas Documentation](https://pandas.pydata.org/docs/)
+- [Matplotlib Documentation](https://matplotlib.org/stable/index.html)
+- [Quarto Documentation](https://quarto.org/docs/guide/)
+- [Git Documentation](https://git-scm.com/doc)
+- [GitHub Documentation](https://docs.github.com/en)
+- [Ollama Documentation](https://docs.ollama.com/)
+- [Requests Documentation](https://requests.readthedocs.io/)
+- [Polars Documentation](https://docs.pola.rs/)
+- [DuckDB Documentation](https://duckdb.org/docs/)
+- [Dask Documentation](https://docs.dask.org/en/latest/)
+- [Docker Documentation](https://docs.docker.com/)
+
+For any questions or issues regarding these tutorials, please [open a GitHub issue](https://github.com/danilofreire/datasci350/issues), [submit a pull request](https://github.com/danilofreire/datasci350/pulls), or [create a discussion post](https://github.com/danilofreire/datasci350/discussions). 
+
+Please do not forget that, in addition to the tutorials here, the [course syllabus](https://danilofreire.github.io/datasci350/syllabus.html#course-outline-and-suggested-readings)
+also contains a list of recommended weekly readings and additional resources.
+
+I hope you like the tutorials and find them useful! 

@@ -1,0 +1,54 @@
+---
+title: Assignments
+---
+
+Here you will find information about the assignments for [DATASCI 350](https://github.com/danilofreire/datasci350). There are ten of them, each worth 5% of your final grade. The assignments are designed to help you practice the concepts covered in class and to develop your data science skills.
+
+All ten assignments are in the course repository from the first day of class, so you can start any of them whenever you like. The release dates below mark the rhythm of the course, not the moment the work appears.
+
+Assignment submissions are due on Thursdays at 11:59pm in the week following their release. You may submit via Canvas (preferred) or email (<danilo.freire@emory.edu>).
+
+We encourage you to complete assignments in Jupyter Notebooks and submit them in PDF format. You can also submit them as a Word document, provided that code and results are included in the same document.
+
+You will find the assignments in `.ipynb` format in the `assignments` folder on [the course repository](https://github.com/danilofreire/datasci350/tree/main/assignments). For your convenience, rendered versions are available on the course website; links are provided below.
+
+When submitting, please name your files as follows: `assignment-01-your-name.pdf`. For instance: `assignment-01-john-doe.pdf`.
+
+## Assignment Timeline
+
+| Assignment | Released | Submission Deadline |
+|------------|----------|---------------------|
+| [Assignment 01](https://github.com/danilofreire/datasci350/blob/main/assignments/01-assignment.ipynb) | September 3, 2026 | September 10, 2026 |
+| [Assignment 02](https://github.com/danilofreire/datasci350/blob/main/assignments/02-assignment.ipynb) | September 10, 2026 | September 17, 2026 |
+| [Assignment 03](https://github.com/danilofreire/datasci350/blob/main/assignments/03-assignment.ipynb) | September 17, 2026 | September 24, 2026 |
+| [Assignment 04](https://github.com/danilofreire/datasci350/blob/main/assignments/04-assignment.ipynb) | September 24, 2026 | October 1, 2026 |
+| [Assignment 05](https://github.com/danilofreire/datasci350/blob/main/assignments/05-assignment.ipynb) | October 1, 2026 | October 8, 2026 |
+| [Assignment 06](https://github.com/danilofreire/datasci350/blob/main/assignments/06-assignment.ipynb) | October 8, 2026 | October 22, 2026 |
+| [Assignment 07](https://github.com/danilofreire/datasci350/blob/main/assignments/07-assignment.ipynb) | October 22, 2026 | October 29, 2026 |
+| [Assignment 08](https://github.com/danilofreire/datasci350/blob/main/assignments/08-assignment.ipynb) | November 5, 2026 | November 12, 2026 |
+| [Assignment 09](https://github.com/danilofreire/datasci350/blob/main/assignments/09-assignment.ipynb) | November 12, 2026 | November 19, 2026 |
+| [Assignment 10](https://github.com/danilofreire/datasci350/blob/main/assignments/10-assignment.ipynb) | November 19, 2026 | December 3, 2026 |
+
+Assignment 06 has a two-week window because of Fall Break on October 13. Assignment 10 has a two-week window because of the Thanksgiving recess on November 26.
+
+## In-Class Quizzes
+
+There are five in-class quizzes, each worth 6% of your final grade, 30% in total. They will be held on Thursdays and will be based on the material covered in the previous weeks. The quizzes will be open-book and open-notes, but you will not be allowed to communicate with others during the quiz. You may use AI tools during a quiz, on the same terms as any other resource. You must be able to explain every command and answer you submit. After each quiz I may ask any student to walk me through part of their work. Students who cannot explain what they submitted will lose marks at my discretion, up to and including a zero for the quiz, depending on how much of the work they can account for.
+
+| Quiz | Date | Coverage |
+|------|------|----------|
+| [Quiz 01](https://github.com/danilofreire/datasci350-quiz01) | September 24, 2026 | Lectures 02-07 |
+| [Quiz 02](https://github.com/danilofreire/datasci350-quiz02) | October 8, 2026 | Lectures 10 and 11 |
+| [Quiz 03](https://github.com/danilofreire/datasci350-quiz03) | November 5, 2026 | Lectures 12, 14, 15, 16, and 17 |
+| [Quiz 04](https://github.com/danilofreire/datasci350-quiz04) | November 19, 2026 | Lectures 18 and 19 |
+| [Quiz 05](https://github.com/danilofreire/datasci350-quiz05) | December 3, 2026 | Lectures 21, 22, 23, and 25 |
+
+There is a review session for Quiz 01 on September 22, and a course revision session before Quiz 05 on December 1.
+
+## Final Project
+
+The final project is a group effort, with three to four students per group. You will collect data from a web API, process it with Polars or DuckDB, write the report in Quarto, and package the whole thing in a Docker container. The default is the World Bank API, and you may use another public API if you clear it with me first. The instructions are released on October 27 and the project is due on December 8.
+
+Two things are worth knowing before you start. First, a script pulls the data once and saves a snapshot to `data/raw/`, which you commit; your report reads only that saved copy, so the container renders identically in December even if the API changes or goes down. Second, the sophistication of your statistics is not graded. Careful descriptive work, correctly interpreted, scores better than an advanced method used badly.
+
+Read the full [project instructions](https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf), and clone the [starter repository](https://github.com/danilofreire/datasci350-project-starter), which comes with a working Dockerfile, a pinned `requirements.txt`, and a World Bank pull script.

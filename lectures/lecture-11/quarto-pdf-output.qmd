@@ -1,0 +1,36 @@
+---
+title: "Matplotlib Demo"
+author: "Norah Jones"
+date: "2026-02-18"
+date-format: "MMMM D, YYYY"
+format: 
+  pdf:
+    fig-width: 3
+    fig-height: 2
+    margins: 2in
+engine: python3
+editor:
+  render-on-save: true
+---
+
+For a demonstration of a line plot on a polar axis, see @fig-polar.
+
+```{python}
+#| label: fig-polar
+#| fig-cap: "A line plot on a polar axis"
+#|  
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+r = np.arange(0, 2, 0.01)
+theta = 2 * np.pi * r
+fig, ax = plt.subplots(
+  subplot_kw = {'projection': 'polar'} 
+)
+ax.plot(theta, r)
+ax.set_rticks([0.5, 1, 1.5, 2])
+ax.grid(True)
+plt.show()
+```
+

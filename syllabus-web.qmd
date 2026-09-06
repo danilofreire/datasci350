@@ -1,0 +1,137 @@
+---
+title: "Syllabus"
+format:
+  html:
+    output-file: syllabus.html
+---
+
+# Course Description
+
+Welcome to [DATASCI 350](https://github.com/danilofreire/datasci350)! This course introduces key tools in modern data science, focusing on three essential aspects: reliability, reproducibility, and robustness. We will cover the [command-line interface](https://en.wikipedia.org/wiki/Command-line_interface), version control with [Git](https://git-scm.com/) and [GitHub](https://github.com/), and reproducible reports using [Quarto](https://quarto.org/) and [Jupyter Notebooks](https://jupyter.org/). You will then work with language models, first running one on your own laptop with [Ollama](https://ollama.com/), then calling hosted models from Python, and finally building a small retrieval system over your own documents. We will rent machines in the cloud with [Amazon Web Services](https://aws.amazon.com/), collect data from web APIs with [requests](https://requests.readthedocs.io/), and query and process it at scale with [DuckDB](https://duckdb.org/) and [Dask](https://www.dask.org/). We finish with [Docker](https://www.docker.com/) and containerisation.
+
+By working with real-world datasets and problems, students will gain hands-on experience using these tools and methods to extract insights from data. This course will develop technical skills and critical thinking needed to solve complex data challenges. Upon completion, students will be prepared to apply these tools to their own research and professional work.
+
+# Learning Objectives
+
+By the end of this course, students will be able to:
+
+- Use the command line interface to manage files and directories.
+- Work with version control systems to track changes in code and collaborate with others.
+- Create reproducible reports and presentations.
+- Use language models and coding agents responsibly to assist with programming tasks.
+- Collect data from web APIs and web pages, and process it at scale.
+- Understand the basics of containerisation and parallel computing.
+ 
+# Course Requirements
+
+Some knowledge of programming is recommended, and familiarity with basic data manipulation and visualisation techniques is helpful. However, no prior experience with the tools covered in the course is required.
+
+In terms of software, you will need to install the following tools: [Anaconda distribution of Python 3.x](https://www.anaconda.com/), [VS Code](https://code.visualstudio.com/), [Git](https://git-scm.com/), [GitHub Desktop](https://github.com/apps/desktop), [Quarto](https://quarto.org/), [Ollama](https://ollama.com/), and [Docker](https://www.docker.com/). Several lectures also need Python packages that Anaconda does not ship. Install them with `pip install ollama openai python-dotenv requests pyarrow duckdb dask joblib`. You will open two free accounts during the course, one on [OpenRouter](https://openrouter.ai/) for Lecture 14 and one on [Amazon Web Services](https://aws.amazon.com/) for Lectures 16 and 17. Neither costs anything if you follow the steps in the lecture READMEs.
+
+Please feel free to reach out if you have any questions about the course content or your readiness to take the class.
+
+# Materials
+
+This course is designed to be self-contained, providing all the necessary resources and materials to succeed in mastering the core concepts. However, students are encouraged to explore the following suggested books, online courses, and documentation to deepen their understanding of the topics covered in the course. Everything listed here is free to read.
+
+## Suggested Books
+
+- [Data Science on the Command Line](https://www.datascienceatthecommandline.com/) by Jeroen Janssens
+- [Pro Git](https://git-scm.com/book/en/v2) by Scott Chacon and Ben Straub
+- [The Turing Way](https://book.the-turing-way.org/) by The Turing Way Community
+- [Python for Data Analysis](https://wesmckinney.com/book/) by Wes McKinney
+- [Elements of Data Science](https://allendowney.github.io/ElementsOfDataScience/README.html) by Allen Downey
+- [Speech and Language Processing](https://web.stanford.edu/~jurafsky/slp3/) by Dan Jurafsky and James H. Martin. Note: the chapters on embeddings and transformers explain what Lectures 12 and 15 use.
+- [DuckDB in Action](https://motherduck.com/duckdb-book/) by Mark Needham, Michael Hunger, and Michael Simons
+- [Free programming books](https://github.com/EbookFoundation/free-programming-books)
+
+### Online Courses
+
+- [MIT: The Missing Semester of Your CS Education](https://missing.csail.mit.edu/)
+- [Coursera: Python for Everybody Specialisation](https://www.coursera.org/specializations/python)
+- [Class Central: Introduction to Git and GitHub](https://www.classcentral.com/course/introduction-git-github-18060)
+- [Hugging Face: LLM Course](https://huggingface.co/learn/llm-course)
+- [AWS Skill Builder: Cloud Practitioner Essentials](https://skillbuilder.aws/)
+- [Kaggle: Learn](https://www.kaggle.com/learn)
+
+### Documentation
+
+- [Official Python Documentation](https://docs.python.org/3/)
+- [NumPy Documentation](https://numpy.org/doc/)
+- [Pandas Documentation](https://pandas.pydata.org/docs/)
+- [Matplotlib Documentation](https://matplotlib.org/stable/index.html)
+- [Quarto Documentation](https://quarto.org/docs/guide/)
+- [Git Documentation](https://git-scm.com/doc)
+- [GitHub Documentation](https://docs.github.com/en)
+- [Ollama Documentation](https://docs.ollama.com/)
+- [OpenRouter Documentation](https://openrouter.ai/docs)
+- [Requests Documentation](https://requests.readthedocs.io/)
+- [DuckDB Documentation](https://duckdb.org/docs/)
+- [Dask Documentation](https://docs.dask.org/en/latest/)
+- [AWS Documentation](https://docs.aws.amazon.com/)
+- [Docker Documentation](https://docs.docker.com/)
+
+# Course Information
+
+We will meet every Tuesday and Thursday from 5:30pm to 6:45pm in [Math & Science Center, Room W301](https://maps.app.goo.gl/JAnhzo63ZcT4GgE87). Classes run from August 27 to December 8, 2026. It is important that you read the materials before class. All information about the course is available on the course's GitHub repository at <https://github.com/danilofreire/datasci350>. While I will try to adhere to the course schedule as much as possible, I also want to adapt to your learning pace and style. The syllabus and course plan may change in the semester. Again, please check [the course repository](https://github.com/danilofreire/datasci350) regularly to check for updates. I will also announce any changes in class and via email.
+
+# Software
+
+We will mainly use [Python](https://www.python.org) in this course. Python is a free and powerful programming language that is widely used in data science, machine learning, and scientific computing. I recommend using the [Anaconda distribution](https://www.anaconda.com/products/individual) as it comes with many necessary Python libraries for data analysis, such as [Pandas](https://pandas.pydata.org/), [NumPy](https://numpy.org/), and [Jupyter](https://jupyter.org/). 
+
+You can write your Python code in any text editor, but I recommend [VS Code](https://code.visualstudio.com/) with the [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python). [Pycharm](https://www.jetbrains.com/pycharm/) is also well-regarded by developers. If you are feeling adventurous, you can also use [Neovim](https://neovim.io/) with the [coc-pyright](https://github.com/fannheyward/coc-pyright) plugin. That is, if [you can exit the editor](https://stackoverflow.blog/2017/05/23/stack-overflow-helping-one-million-developers-exit-vim/). :)
+
+We will collect our own data rather than query a database. Lectures 18 and 19 use [requests](https://requests.readthedocs.io/) to pull data from web APIs, and we save the results as CSV and parquet files. Lecture 22 revises SQL with [DuckDB](https://duckdb.org/), which runs inside Python and queries those files directly. If you want more practice, work through the self-study [DuckDB tutorial](https://danilofreire.github.io/datasci350/04-duckdb-sql-tutorial.html) in the course repository. DATASCI 151 also covers SQL basics in more depth than we could here.
+
+We will also use [Jupyter Notebooks](https://jupyter.org/) and [Quarto](https://quarto.org) in class. Jupyter itself comes pre-installed with Anaconda, but please install the [Jupyter extension for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter&ssr=false) as well. To install Quarto, please follow the instructions on the [official website](https://quarto.org). We will have a hands-on session to learn how to use both of them (but I assume you are already familiar with Jupyter).
+
+Please also install [Docker](https://www.docker.com/) to work with containers. Docker is a platform for developing, shipping, and running applications in containers. Containers allow you to package your application and its dependencies together into a single unit. This makes it easy to ensure that your application will run on any other machine, regardless of any custom settings that machine might have that could differ from the machine that was used for writing and testing the code.
+
+Finally, we will use [GitHub](https://github.com) for version control. Please create a free account on GitHub and install [GitHub Desktop](https://desktop.github.com/) to manage your repositories. We will also use [Git](https://git-scm.com/) in the course. Git is a distributed version control system that allows you to track changes in your codebase and collaborate with others. You can install Git from the [official website](https://git-scm.com/).
+
+To help you get started, I have prepared [six tutorials](https://danilofreire.github.io/datasci350/tutorials.html) for the course:
+
+- [Installing VS Code and connecting it with Anaconda](https://danilofreire.github.io/datasci350/01-vscode-anaconda-tutorial.html)
+- [Jupyter Notebook and Markdown](https://danilofreire.github.io/datasci350/02-jupyter-markdown-tutorial.html)
+- [Opening a free educational account on GitHub](https://danilofreire.github.io/datasci350/03-github-tutorial.html)
+- [SQL essentials with DuckDB](https://danilofreire.github.io/datasci350/04-duckdb-sql-tutorial.html)
+- [Web scraping with Python](https://danilofreire.github.io/datasci350/05-web-scraping-tutorial.html)
+- [Setting up WSL on Windows](https://danilofreire.github.io/datasci350/06-wsl-tutorial.html)
+
+Read tutorials 01 to 03 in order at the start of the semester. Windows users should also read tutorial 06 before Lecture 03. Tutorials 04, 05 and 07 cover material we do not teach in class, and you can read them whenever you need them. Tutorial 07 covers Polars, the option the class voted against in Lecture 02.
+
+# Office Hours
+
+I am very flexible with office hours, and we can schedule an online meeting at any time that works for you. Feel free to send me a message at [danilo.freire@emory.edu](mailto:danilo.freire@emory.edu), and I will likely reply within a few hours. If you prefer, you can meet me in the afternoon at my office. My office address is in the [Psychology and Interdisciplinary Sciences Building, 36 Eagle Row, room 480](https://maps.app.goo.gl/bGHKwasQyp5MnQND6). If possible, please email me before coming to ensure that no two students book the same time slot.
+
+# Academic Integrity
+
+Upon every individual who is a part of Emory University falls the responsibility for maintaining in the life of Emory a standard of unimpeachable honour in all academic work. The [Honour Code of Emory College](http://catalog.college.emory.edu/academic/policies-regulations/honor-code.html) is based on the fundamental assumption that every loyal person of the University not only will conduct his or her own life according to the dictates of the highest honor, but will also refuse to tolerate in others action which would sully the good name of the institution. Academic misconduct is an offense generally defined as any action or inaction which is offensive to the integrity and honesty of the members of the academic community. Any suspected case of academic misconduct will be referred to the Emory Honour Council.
+
+# Artificial Intelligence
+
+Students have to submit ten problem sets and complete five in-class quizzes. You are allowed to use AI to assist with your assignments, and you may also use AI tools during quizzes. However, any errors or omissions resulting from the use of AI tools are your responsibility, and you must always double-check your work. Remember to cite all sources used in your problem sets and projects, including AI tools. Please include a note at the end of any document indicating that AI was used in its development. Quizzes carry an explanation requirement, which is described in the grading policy below. Using AI tools in a manner prohibited in this course syllabus constitutes cheating under the Emory Honor Code and is thus a form of academic misconduct.
+
+# Special Needs and Accessibility Services
+
+I am committed to providing necessary accommodations to ensure all students have an equal opportunity to succeed in this course. Students with medical or health conditions that may impact their academic performance should visit the [Department of Accessibility Services (DAS)](http://accessibility.emory.edu/) to determine eligibility for appropriate accommodations. Those who receive accommodations should provide me with an Accommodation Letter from DAS at the beginning of the semester or as soon as the accommodation is granted. Please note that DAS accommodations, such as extra time or quiet spaces, will apply only to quizzes, not assignments. This is because assignments are released in advance, allowing students to work at their own pace. Athletes and students with other commitments should also inform me of any scheduling conflicts at the beginning of the semester. I will do my best to accommodate these students, but I cannot guarantee that all requests will be granted. If you have any questions or concerns, please contact me.
+
+# English Language Learners
+
+Emory University welcomes students from around the country and the world, and the unique perspectives international and multilingual students bring enrich the campus community. To empower multilingual learners, an array of support is available including language and culture workshops and individual appointments. For more information about English Language Learning support at Emory, please contact the ELLP Specialists at <https://writingcenter.emory.edu>. No student will be penalised for their command of the English language.
+
+# Assignments and Grading Policy
+
+**Problem Sets (50%).** There will be ten problem sets throughout the course. These assignments are designed to reinforce concepts covered in lectures and readings, and to provide hands-on practice with statistical programming. Problem sets will include a mix of theoretical questions and practical applications. They will be assigned regularly and must be completed individually. All ten problem sets are in the course repository from the first day of class, so you can start any of them whenever you like. The dates in the schedule are the rhythm I mark to, not the moment the work appears. Please acknowledge any sources you used in your work, including textbooks, articles, and AI resources. *Any assignment submitted after the due date/time will be penalised by 10% per day*. Please submit your assignments as Jupyter Notebooks (`.ipynb`) or `.pdf` files via Canvas or email until midnight on the due date.
+
+**Class Quizzes (30%).** Students will also take five in-class quizzes throughout the semester. These quizzes will be based on the lectures from the previous weeks. They will be designed to test your understanding of the material and your ability to apply the concepts to new problems. Quizzes will be open-book and open-notes, and students have the entire class period to complete them. They are individual assessments, and students are not allowed to discuss the questions with their classmates in class. You may use AI tools during a quiz, on the same terms as any other resource. *You must be able to explain every command and answer you submit.* After each quiz I may ask any student to walk me through part of their work. Students who cannot explain what they submitted will lose marks at my discretion, up to and including a zero for the quiz, depending on how much of the work they can account for.
+
+**Final Project (20%)**: For the final project, you will work in groups of three to four to create a short report. This report will require you to apply the tools and methods we have covered in class to a real-world dataset. You should host your report in a GitHub repository, use Quarto for the document, and collect the data through the World Bank API or another public API you clear with me. Make sure to include visualisations and statistical analyses as well. Your repository must also include a Dockerfile, because the report has to render inside a container on my machine. The project is due on the last day of class. You can read the full [project instructions](https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf) and clone the [starter repository](https://github.com/danilofreire/datasci350-project-starter), which comes with a working Dockerfile and a data pull script.
+
+# Grading Scale
+
+Each student's final grade will be based on the following after rounding up to the nearest point:
+
+| Grade | A       | A-      | B+      | B       | B-      | C+      | C       | C-      | D+      | D       | F    |
+|-------|---------|---------|---------|---------|---------|---------|---------|---------|---------|---------|------|
+| Range | 93\% and above | 90-92.9\%| 87-89.9\%| 83-86.9\%| 80-82.9\%| 77-79.9\%| 73-76.9\%| 70-72.9\%| 67-69.9\%| 60-66.9\%| <60\% |

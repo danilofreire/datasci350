@@ -1,0 +1,1612 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Danilo Freire">
+  <title>DATASCI 350 – DATASCI 350 - Data Science Computing</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-2ae8a0dcce565690374c94722aabe1a4.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/multimodal/multimodal.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">DATASCI 350 - Data Science Computing</h1>
+  <p class="subtitle">Lecture 16 - Introduction to Cloud Computing</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Danilo Freire 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:danilo.freire@emory.edu">danilo.freire@emory.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Department of Data and Decision Sciences <br> Emory University
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="hello-everyone" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Hello, everyone! 👋</h1>
+
+</section>
+
+<section>
+<section id="brief-recap" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Brief recap 📚</h1>
+
+</section>
+<section id="the-ai-module" class="slide level2">
+<h2>The AI module</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Last class closed the module with <span class="alert">retrieval-augmented generation</span></li>
+<li>Four stages: chunk → embed → retrieve → generate</li>
+<li>The whole pipeline was about 50 lines of Python, on your own laptop</li>
+<li><span class="alert">Fine-tuning</span> changes the model’s weights, never its context</li>
+<li>Use it for behaviour and style. Facts that change belong in retrieval</li>
+<li>The ladder to take with you: <span class="alert">prompt → RAG → fine-tune</span></li>
+<li>Climb a rung only when the one below fails</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="background: rgba(27, 58, 107, 0.08); padding: 18px; border-radius: 10px; font-size: 22px; margin-top: 10px;">
+<p><strong>Today we change the constraint</strong></p>
+<ul>
+<li>Every computer in the module was <span class="alert">yours</span></li>
+<li>One CPU, limited RAM, and it sleeps in your bag</li>
+<li>Today we rent <span class="alert">someone else’s</span></li>
+<li>AWS, and a machine you control from your terminal</li>
+</ul>
+</div>
+<div style="text-align: center; margin-top: 15px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ollama.png"><img data-src="figures/ollama.png" style="width:35.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="lecture-overview" class="slide level2">
+<h2>Lecture overview</h2>
+<h3 id="what-we-will-cover-today">What we will cover today</h3>
+<div style="margin-top: 20px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li><span class="alert">We start with the money</span>: what a company pays for when it owns servers, and what changes when it rents them</li>
+<li>Two newsroom stories from 2008 make the difference concrete</li>
+<li>Then the vocabulary you will meet everywhere: <span class="alert">IaaS, PaaS, SaaS, FaaS</span>, and the virtual machines underneath</li>
+<li>After that, <span class="alert">a tour of the AWS catalogue</span>, from compute to storage to databases</li>
+<li>We look at <span class="alert">what happens when AWS breaks</span>, because it did, for <span class="alert">fifteen hours</span> last October</li>
+<li><span class="alert">You open your own account</span>, choose the free plan, and set a budget that emails you</li>
+<li>We finish by handing a scanned document to <a href="https://aws.amazon.com/textract/">Amazon Textract</a> and reading what comes back</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/aws-regions-2026.png"><img data-src="figures/aws-regions-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 20px;">
+<p>AWS lists <a href="https://aws.amazon.com/about-aws/global-infrastructure/">123 availability zones in 39 regions</a>. The one that failed last October is on this page</p>
+</div>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="cloud-computing" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Cloud computing ☁️</h1>
+
+</section>
+<section id="what-is-cloud-computing" class="slide level2">
+<h2>What is cloud computing?</h2>
+<div style="margin-top: 30px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Cloud computing is the <span class="alert">on-demand delivery</span> of computing resources over the internet, with <span class="alert">pay-as-you-go pricing</span></li>
+<li>The machine sits in <span class="alert">someone else’s data centre</span>, and you rent it by the second</li>
+<li>Four service types: <span class="alert">SaaS, PaaS, IaaS, and FaaS</span></li>
+<li>The “Big Three” are <span class="alert">AWS, Microsoft Azure, and Google Cloud</span>
+<ul>
+<li>AWS holds about 28% of the market, Azure 21%, and Google Cloud 14% (<a href="https://www.statista.com/chart/18819/worldwide-market-share-of-leading-cloud-infrastructure-service-providers/">Synergy Research</a>, first quarter of 2026)</li>
+<li>The world spent <span class="alert">$129 billion</span> on cloud infrastructure in those three months, 35% more than a year earlier</li>
+</ul></li>
+<li>AWS is Amazon’s <span class="alert">most profitable division</span>
+<ul>
+<li>21% of sales in the second quarter of 2026, and 60% of the company’s operating profit ($16.6 billion in three months)</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/amazon.png"><img data-src="figures/amazon.png" style="width:100.0%"></a></p>
+<p>Source: <a href="https://www.geekwire.com/2025/amazons-quarterly-profits-soar-to-a-record-20-billion-but-cloud-growth-comes-up-short/">GeekWire (2025)</a></p>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="why-should-we-care-about-cloud-computing" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Why should we care about cloud computing?</h1>
+
+</section>
+<section id="imagine-you-are-opening-a-business" class="slide level2 scrollable">
+<h2>Imagine you are opening a business…</h2>
+<h3 id="traditional-approach">Traditional approach</h3>
+<div style="margin-top: 30px; font-size: 28px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ol type="1">
+<li>Estimate supply and demand</li>
+<li>Estimate infrastructural needs</li>
+<li>Purchase and deploy infrastructure</li>
+<li>Install and test your system</li>
+<li>Offer your services to clients</li>
+</ol>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Infrastructure is <span class="alert">very expensive</span>:
+<ul>
+<li>Hardware (Dell’s <a href="https://www.dell.com/en-us/shop/ipovw/poweredge-r360">cheapest rack server</a> starts at $6,500, and a useful one costs much more)</li>
+<li>Real estate costs</li>
+<li>Cooling system, power bill</li>
+<li>A few systems engineers</li>
+<li>Redundancy for high reliability</li>
+</ul></li>
+<li>It takes time to deploy the infrastructure</li>
+<li><span class="alert">What if the estimations were wrong?</span></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="imagine-you-are-opening-a-business-1" class="slide level2 scrollable">
+<h2>Imagine you are opening a business…</h2>
+<h3 id="cloud-approach">Cloud approach</h3>
+<div style="margin-top: 30px; font-size: 28px;">
+<ol type="1">
+<li>Choose one or more cloud services providers</li>
+<li>Deploy your systems on the cloud</li>
+<li>Offer your services to clients</li>
+<li>Pay for what you use</li>
+</ol>
+<div style="margin-top: 40px;">
+
+</div>
+<table class="caption-top">
+<thead>
+<tr class="header">
+<th><strong>Traditional process</strong></th>
+<th><strong>With Cloud Computing</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>❌ High investment risk</td>
+<td>✅ Reduced risk</td>
+</tr>
+<tr class="even">
+<td>❌ Long time-to-market</td>
+<td>✅ Shorter time-to-market</td>
+</tr>
+<tr class="odd">
+<td>✅ Manages own data</td>
+<td>❌ Trust the vendor?</td>
+</tr>
+<tr class="even">
+<td>✅ Completely in control</td>
+<td>❌ Dependent on a specific vendor?</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="case-study-animoto" class="slide level2">
+<h2>Case study: Animoto</h2>
+<div style="margin-top: 30px; font-size: 26px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><a href="https://animoto.com/">Animoto</a>: Lets users create videos from their own photos/music</li>
+<li>Built using <a href="https://aws.amazon.com/ec2/">Amazon EC2</a> (Elastic Compute Cloud) + <a href="https://aws.amazon.com/s3/">S3</a> (Simple Storage Service) + <a href="https://aws.amazon.com/sqs/">SQS</a> (Simple Queue Service)</li>
+<li>Released a Facebook app in mid-April 2008</li>
+<li>More than <span class="alert">750,000 people signed up within 3 days</span></li>
+<li>EC2 usage went <span class="alert">from 50 machines to 3,500 (x70 scalability!)</span></li>
+<li><span class="alert">No way they could have done this with traditional infrastructure!</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/animoto.jpg"><img data-src="figures/animoto.jpg" style="width:100.0%"></a></p>
+<p>Source: <a href="https://youtu.be/6nKfFHuouzA?si=M5LCwMxMUC5Ay3oY">Jeff Bezos’ talk at Stanford in 2008</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="case-study-the-washington-post" class="slide level2">
+<h2>Case study: The Washington Post</h2>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><span class="alert">Hillary Clinton’s White House schedule</span> was released to the public in 2008</li>
+<li>17,481 pages of low-quality PDF, none of it searchable</li>
+<li>Reading it by hand would have taken <span class="alert">hundreds of hours</span></li>
+<li>Peter Harkins, a senior engineer at the paper, asked: “Can we make that data available more quickly, ideally within the same news cycle?”</li>
+<li>He tested optical character recognition programs, then launched <span class="alert">200 EC2 instances</span></li>
+<li>Nine hours of waiting, 1,407 hours of machine time, <span class="alert">$144.62</span></li>
+<li>The results were online <span class="alert">26 hours after the release</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; margin-top: -20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/wapo.png"><img data-src="figures/wapo.png" style="width:100.0%"></a></p>
+<p>Source: <a href="https://www.washingtonpost.com/archive/politics/2008/03/21/hillary-clinton-in-the-white-house/200a2e1f-efb4-469a-b5dd-05e87675b598/">The Washington Post</a></p>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="cloud-computing-services" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Cloud computing services ☁️</h1>
+
+</section>
+<section id="cloud-computing-services-1" class="slide level2">
+<h2>Cloud computing services</h2>
+<div style="margin-top: 30px; font-size: 26px;">
+<ul>
+<li><span class="alert">SaaS (Software as a Service)</span>: a finished application, used through your browser
+<ul>
+<li>Someone else runs the updates, the security, and the maintenance</li>
+<li>You pay a subscription, monthly or yearly</li>
+<li>Nothing to install and nothing to configure</li>
+<li>Examples: <a href="https://gmail.com">Gmail</a>, <a href="https://www.office.com">Office 365</a>, <a href="https://www.salesforce.com">Salesforce</a>, <a href="https://github.com/features/copilot">GitHub Copilot</a></li>
+</ul></li>
+</ul>
+<div style="margin-top: 20px;">
+<ul>
+<li><span class="alert">PaaS (Platform as a Service)</span>: a place to run code you wrote
+<ul>
+<li>You supply the application. The platform supplies the servers</li>
+<li>You reach it through an API</li>
+<li>You pay for the platform, plus the storage and bandwidth you use</li>
+<li>Examples: <a href="https://cloud.google.com/appengine">Google App Engine</a>, <a href="https://aws.amazon.com/elasticbeanstalk">AWS Elastic Beanstalk</a>, <a href="https://www.heroku.com">Heroku</a>, <a href="https://github.com/features/actions">GitHub Actions/Codespaces/Pages</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="cloud-computing-services-2" class="slide level2">
+<h2>Cloud computing services</h2>
+<h3 id="saas">SaaS</h3>
+<div style="margin-top: 30px; font-size: 26px; text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/saas.jpg"><img data-src="figures/saas.jpg" style="width:65.0%"></a></p>
+</div>
+</section>
+<section id="cloud-computing-services-3" class="slide level2">
+<h2>Cloud computing services</h2>
+<h3 id="paas">PaaS</h3>
+<div style="margin-top: 30px; font-size: 26px; text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/paas.png"><img data-src="figures/paas.png" style="width:100.0%"></a></p>
+</div>
+</section>
+<section id="cloud-computing-services-4" class="slide level2">
+<h2>Cloud computing services</h2>
+<div style="margin-top: 30px; font-size: 28px;">
+<ul>
+<li><span class="alert">FaaS (Function as a Service)</span>:
+<ul>
+<li>Allows you to run code without provisioning or managing servers</li>
+<li>You pay for the time your code/function runs</li>
+<li>Examples: <a href="https://aws.amazon.com/lambda">AWS Lambda</a>, <a href="https://cloud.google.com/functions">Google Cloud Functions</a>, <a href="https://azure.microsoft.com/en-us/services/functions">Azure Functions</a></li>
+</ul></li>
+</ul>
+<div style="margin-top: 20px;">
+<ul>
+<li><span class="alert">IaaS (Infrastructure as a Service)</span>:
+<ul>
+<li>Provides virtualised computing resources over the internet</li>
+<li>You can rent virtual machines, storage, and networking</li>
+<li>You pay for the resources you use</li>
+<li>Examples: <a href="https://aws.amazon.com/ec2">AWS EC2</a>, <a href="https://cloud.google.com/compute">Google Compute Engine</a>, <a href="https://azure.microsoft.com/en-us/services/virtual-machines">Azure Virtual Machines</a></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="cloud-computing-services-5" class="slide level2">
+<h2>Cloud computing services</h2>
+<h3 id="faas">FaaS</h3>
+<div style="margin-top: 30px; font-size: 26px; text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/faas.png"><img data-src="figures/faas.png" style="width:70.0%"></a></p>
+</div>
+</section>
+<section id="cloud-computing-services-6" class="slide level2">
+<h2>Cloud computing services</h2>
+<h3 id="iaas">IaaS</h3>
+<div style="margin-top: 30px; font-size: 26px; text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/iaas.png"><img data-src="figures/iaas.png" style="width:70.0%"></a></p>
+</div>
+</section>
+<section id="comparison-of-cloud-services" class="slide level2">
+<h2>Comparison of cloud services</h2>
+<div style="margin-top: 120px; font-size: 26px; text-align: center;">
+<table style="border-collapse: collapse; width: 90%; margin: 20px auto;">
+<tbody><tr>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">
+On-premise
+</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">
+IaaS
+</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">
+PaaS
+</th>
+<th style="border: 1px solid #ddd; padding: 8px; text-align: center; background-color: #f2f2f2;">
+SaaS
+</th>
+</tr>
+<tr>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Application
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Application
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Application
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Application
+</td>
+</tr>
+<tr>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Middleware
+</td>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Middleware
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Middleware
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Middleware
+</td>
+</tr>
+<tr>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+OS
+</td>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+OS
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+OS
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+OS
+</td>
+</tr>
+<tr>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Virtualisation
+</td>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Virtualisation
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Virtualisation
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Virtualisation
+</td>
+</tr>
+<tr>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Servers
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Servers
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Servers
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Servers
+</td>
+</tr>
+<tr>
+<td class="user-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #f44336; color: white; text-align: center;">
+Networking
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Networking
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Networking
+</td>
+<td class="other-manages" style="border: 1px solid #ddd; padding: 8px; text-align: left; background-color: #4CAF50; color: white; text-align: center;">
+Networking
+</td>
+</tr>
+</tbody></table>
+<div style="margin-top: 10px; text-align: center;">
+<p>
+<span style="color: #f44336;">User manages</span><br><span style="color: #4CAF50;">Provider manages</span>
+</p>
+</div>
+</div>
+</section>
+<section id="what-is-middleware" class="slide level2">
+<h2>What is middleware?</h2>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Middleware is software that <span class="alert">connects two separate applications</span></li>
+<li>The name is literal: it sits between the operating system and the application</li>
+<li>We rarely see it, and the internet stops working without it</li>
+<li>It handles <span class="alert">authentication, encryption</span>, and the drivers that <span class="alert">talk to databases</span></li>
+<li>A <span class="alert">message queue</span> holds work until a machine is free, so neither side waits for the other</li>
+<li>Animoto used <a href="https://aws.amazon.com/sqs">SQS</a> that way: the queue held the video jobs while EC2 grew to 3,500 machines</li>
+<li><a href="https://kafka.apache.org">Apache Kafka</a> and <a href="https://www.rabbitmq.com">RabbitMQ</a> do the same job outside AWS</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/middleware.avif"><img data-src="figures/middleware.avif" style="width:100.0%"></a></p>
+<p>More about middleware: <a href="https://aws.amazon.com/what-is/middleware/" class="uri">https://aws.amazon.com/what-is/middleware/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="what-is-virtualisation" class="slide level2">
+<h2>What is virtualisation?</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Suppose Alice has a machine with 4 CPUs and 8 GB of memory, and three customers:
+<ul>
+<li>Bob wants a machine with 1 CPU and 3 GB of memory</li>
+<li>Charlie wants 2 CPUs and 1 GB of memory</li>
+<li>Daniel wants 1 CPU and 4 GB of memory</li>
+</ul></li>
+<li><span class="alert">What should Alice do?</span></li>
+<li>Alice can sell each customer a <span class="alert">virtual machine (VM) with the requested resources</span></li>
+<li>From each customer’s perspective, it appears as if they had a <span class="alert">physical machine all by themselves (isolation)</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/virtualisation.png"><img data-src="figures/virtualisation.png" style="width:100.0%"></a></p>
+<p>More about virtualisation: <a href="https://aws.amazon.com/what-is/virtualization/" class="uri">https://aws.amazon.com/what-is/virtualization/</a></p>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="amazon-web-services-aws" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Amazon Web Services (AWS)</h1>
+
+</section>
+<section id="amazon-web-services-aws-1" class="slide level2">
+<h2>Amazon Web Services (AWS)</h2>
+<div style="margin-top: 30px; font-size: 25px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>AWS is a collection of cloud-based services</li>
+<li>It’s a very <span class="alert">large platform</span></li>
+<li>Let me say it again: <span class="alert">a VERY LARGE ONE</span> 😂</li>
+<li>They offer a wide range of services:
+<ul>
+<li><span class="alert">Compute, storage, databases, analytics, machine learning, AI, IoT, security, and more</span></li>
+</ul></li>
+<li>Many companies use AWS, including <a href="https://aws.amazon.com/solutions/case-studies/innovators/netflix/">Netflix</a>, <a href="https://aws.amazon.com/solutions/case-studies/airbnb-case-study/">Airbnb</a>, and <a href="https://www.earthdata.nasa.gov/engage/partnerships/aws-storage-cloud-compute-request">NASA</a></li>
+<li>The most widely used services are <a href="https://aws.amazon.com/ec2">EC2</a>, <a href="https://aws.amazon.com/s3">S3</a>, and <a href="https://aws.amazon.com/rds">RDS</a>, for computing, storage, and databases, respectively</li>
+<li>Let’s look at them in more detail</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/aws.png"><img data-src="figures/aws.png" style="width:100.0%"></a></p>
+<p><a href="https://aws.amazon.com" class="uri">https://aws.amazon.com</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="amazon-ec2---elastic-compute-cloud" class="slide level2">
+<h2>Amazon EC2 - Elastic Compute Cloud</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Amazon EC2 is a web service that provides <span class="alert">resizable compute capacity</span></li>
+<li>It’s designed to make web-scale cloud computing easier</li>
+<li>You can launch instances with a <span class="alert">many operating systems (mainly Linux)</span></li>
+<li>Which means that <span class="alert">you can use Bash and run any software you want from the command line</span></li>
+<li>You can also use a <span class="alert">GUI</span>, but it is not necessary</li>
+<li>You can use EC2 to host a website, run a database, run a machine learning model, etc</li>
+<li><a href="https://aws.amazon.com/ec2/" class="uri">https://aws.amazon.com/ec2/</a></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>However, please be <span class="alert">mindful of the costs!</span></li>
+<li>You pay for the instances you use, and the <span class="alert">costs can add up quickly</span></li>
+<li>Per-second (or per-hour) billing</li>
+<li>Data transfer <span class="alert">is not</span> included!</li>
+<li>Persistent storage <span class="alert">is not</span> included!</li>
+<li>Scaling <span class="alert">is not</span> included!</li>
+</ul>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ec2meme.jpg"><img data-src="figures/ec2meme.jpg" style="width:90.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="ec2-auto-scaling" class="slide level2">
+<h2>EC2 auto scaling</h2>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Scaling is the ability to <span class="alert">increase or decrease</span> the compute capacity of your application</li>
+<li>You can do it manually or automatically</li>
+<li>Useful when you have <span class="alert">fluctuating workloads</span>, such as a website that gets more traffic during the day, or a machine learning model that gets more requests at certain times</li>
+<li>You set a <span class="alert">minimum, desired, and maximum</span> number of instances, and AWS keeps the group inside those bounds</li>
+<li>A rule triggers the change, usually average CPU or the number of requests</li>
+<li>You can also set up <span class="alert">load balancers</span> to distribute traffic across multiple instances</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; font-size: 20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/auto-scaling.png"><img data-src="figures/auto-scaling.png" style="width:100.0%"></a></p>
+<p><a href="https://aws.amazon.com/autoscaling" class="uri">https://aws.amazon.com/autoscaling</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="elb---elastic-load-balancer" class="slide level2">
+<h2>ELB - Elastic Load Balancer</h2>
+<div style="margin-top: 30px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>ELB is a service that <span class="alert">distributes incoming application traffic</span> across multiple targets</li>
+<li>It handles the <span class="alert">varying load of your application traffic</span> in a single availability zone or across multiple availability zones</li>
+<li>ELB is a <span class="alert">key component</span> of auto scaling</li>
+<li>As with EC2, you pay for the data transfer and the number of requests</li>
+<li><span class="alert">And it can be quite expensive too!</span></li>
+<li>It can detect unhealthy instances and reroute traffic to healthy instances, so your <span class="alert">application is always available</span></li>
+<li><span class="alert">Health checks</span> run every few seconds, and a failing instance stops receiving traffic until it recovers</li>
+<li>The load balancer also holds the <span class="alert">HTTPS certificate</span>, so your instances do not each need one</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; font-size: 20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/elb.png"><img data-src="figures/elb.png" style="width:100.0%"></a></p>
+<p><a href="https://aws.amazon.com/elasticloadbalancing/" class="uri">https://aws.amazon.com/elasticloadbalancing/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="cloud-storage" class="slide level2">
+<h2>Cloud storage</h2>
+<h3 id="amazon-s3---simple-storage-service">Amazon S3 - Simple Storage Service</h3>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Amazon has three main storage services: <a href="https://aws.amazon.com/s3">S3</a> (Simple Storage Service), <a href="https://aws.amazon.com/ebs">EBS</a> (Elastic Block Store), and <a href="https://aws.amazon.com/efs">EFS</a> (Elastic File System)</li>
+<li>S3 is a web service that provides <span class="alert">scalable object storage</span> for data backup, archival, and analytics</li>
+<li>You can store data in <span class="alert">buckets</span>, which are like folders</li>
+<li>Data are distributed across a minimum of <span class="alert">three availability zones</span>
+<ul>
+<li>99.999999999% durability (eleven nines!)</li>
+</ul></li>
+<li>You can set up <span class="alert">lifecycle policies</span> to automatically move data to cheaper storage classes
+<ul>
+<li><span class="alert">Standard, Intelligent-Tiering, Glacier, Glacier Deep Archive</span></li>
+</ul></li>
+<li>You can also set up <span class="alert">versioning</span> to keep multiple versions of an object (works like <code>git</code>)</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; font-size: 20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/s3.png"><img data-src="figures/s3.png" style="width:100.0%"></a></p>
+<p><a href="https://aws.amazon.com/s3/" class="uri">https://aws.amazon.com/s3/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="cloud-storage-1" class="slide level2">
+<h2>Cloud storage</h2>
+<h3 id="amazon-ebs---elastic-block-store">Amazon EBS - Elastic Block Store</h3>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>EBS is a web service that provides <span class="alert">block storage</span> volumes for use with EC2 instances</li>
+<li>The difference between S3 and EBS is that EBS is <span class="alert">block storage</span>, while S3 is <span class="alert">object storage</span>
+<ul>
+<li><span class="alert">Block storage is like a hard drive</span>, while object storage is like a file system</li>
+</ul></li>
+<li>Why would you use it? <span class="alert">Mainly for SQL files</span>
+<ul>
+<li>Low-latency, high-performance storage for frequent access</li>
+</ul></li>
+<li>You can attach EBS volumes to your EC2 instances</li>
+<li>You can also take <span class="alert">snapshots</span> of your volumes for backup (like <code>git</code> again!)</li>
+<li>Up to 64 TiB per volume</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; font-size: 20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ebs.webp"><img data-src="figures/ebs.webp" style="width:100.0%"></a></p>
+<p><a href="https://aws.amazon.com/ebs/" class="uri">https://aws.amazon.com/ebs/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="amazon-efs---elastic-file-system" class="slide level2">
+<h2>Amazon EFS - Elastic File System</h2>
+<div style="margin-top: 30px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>EFS is a web service that provides <span class="alert">scalable file storage</span> for use with EC2 instances</li>
+<li>EFS is mainly used for <span class="alert">shared file storage</span>
+<ul>
+<li>Multiple EC2 instances can access the same file system</li>
+<li>Useful for <span class="alert">big data and analytics</span></li>
+<li>Also for <span class="alert">content management and web serving</span></li>
+</ul></li>
+<li>You can create file systems and mount them to your EC2 instances</li>
+<li>An EBS volume attaches to one instance at a time, while many instances mount the same EFS file system</li>
+<li>EFS grows and shrinks on its own, so there is no volume size to choose</li>
+<li>As with S3 and EBS, you pay for the storage you use</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; font-size: 20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/efs.png"><img data-src="figures/efs.png" style="width:50.0%"></a></p>
+<p><a href="https://aws.amazon.com/efs/" class="uri">https://aws.amazon.com/efs/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="database-services" class="slide level2">
+<h2>Database services</h2>
+<h3 id="amazon-rds---relational-database-service">Amazon RDS - Relational Database Service</h3>
+<div style="margin-top: 30px; font-size: 20px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><a href="https://aws.amazon.com/rds/">Amazon RDS</a> is a web service that makes it easy to set up and operate a <span class="alert">relational database</span></li>
+<li>You can choose from <span class="alert">seven popular database engines</span>:
+<ul>
+<li><span class="alert">Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle, SQL Server, and Db2</span></li>
+</ul></li>
+<li>It’s a managed service, so you don’t have to worry about <span class="alert">backups, patches, or updates</span></li>
+<li>It works well with another AWS service called <a href="https://aws.amazon.com/athena/">Athena</a>, which allows you to query data in S3 using SQL</li>
+<li>The database runs on a machine you never log into. You get a hostname and a port, and no <code>ssh</code></li>
+<li><span class="alert">Multi-AZ</span> keeps a standby copy in another availability zone and fails over on its own</li>
+<li>You can also use <a href="https://aws.amazon.com/redshift/">Redshift</a> for data warehousing and business analytics, and <a href="https://aws.amazon.com/dynamodb/">DynamoDB</a> for NoSQL databases</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; font-size: 20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/rds.png"><img data-src="figures/rds.png" style="width:60.0%"></a></p>
+<p><a href="https://aws.amazon.com/rds/" class="uri">https://aws.amazon.com/rds/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="amazon-sagemaker-ai" class="slide level2">
+<h2>Amazon SageMaker AI</h2>
+<div style="margin-top: 30px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Finally, let’s talk about <a href="https://aws.amazon.com/sagemaker/ai/">Amazon SageMaker AI</a></li>
+<li>SageMaker AI is a fully managed service that allows you to build, train, and deploy <span class="alert">machine learning models at scale</span>
+<ul>
+<li>AWS renamed the original service in 2025, so tutorials still say “SageMaker”</li>
+</ul></li>
+<li>It has several pre-configured models, such as <span class="alert">TensorFlow, PyTorch, and Scikit-learn</span></li>
+<li>You can also bring your own models too, and use <span class="alert">Jupyter notebooks</span> to train them</li>
+<li>Lots of other models available in the <a href="https://aws.amazon.com/marketplace">AWS Marketplace</a>, and <a href="https://aws.amazon.com/sagemaker/unified-studio/">SageMaker Unified Studio</a> is the single workbench for data and AI projects</li>
+<li>Some application services
+<ul>
+<li><a href="https://aws.amazon.com/comprehend/">Comprehend (for NLP)</a></li>
+<li><a href="https://aws.amazon.com/rekognition/">Rekognition (Visual Analysis)</a></li>
+<li><a href="https://aws.amazon.com/translate/">Translate</a></li>
+<li><a href="https://aws.amazon.com/polly/">Polly (text-to-speech)</a></li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; font-size: 20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/sagemaker.png"><img data-src="figures/sagemaker.png" style="width:100.0%"></a></p>
+<p><a href="https://aws.amazon.com/sagemaker/" class="uri">https://aws.amazon.com/sagemaker/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="when-aws-has-a-bad-night" class="slide level2">
+<h2>When AWS has a bad night</h2>
+<h3 id="october-2025-us-east-1">19 October 2025, us-east-1</h3>
+<div style="margin-top: 20px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Two of DynamoDB’s DNS programs updated the same record at once, and the stale one finished last</li>
+<li>That is a <span class="alert">race condition</span>: two processes touch the same thing at the same time, and the result depends on who wins</li>
+<li>The address for <code>dynamodb.us-east-1.amazonaws.com</code> was left empty, so nothing could find the database</li>
+<li>The failure spread to EC2 launches, load balancer health checks, and signing in to the console</li>
+<li>The region took roughly <span class="alert">fifteen hours</span> to recover</li>
+<li><a href="https://www.cnn.com/business/live-news/amazon-tech-outage-10-20-25-intl">Snapchat, Fortnite, Duolingo, Signal, Ring doorbells and several banks</a> went down with it, and <a href="https://www.techradar.com/pro/security/downtime-caused-historic-issues-in-2025-but-who-lost-out-most">17 million people reported problems</a></li>
+<li>Analysts put the losses above <span class="alert">$550 million</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/aws-outage-2025.png"><img data-src="figures/aws-outage-2025.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>Source: <a href="https://aws.amazon.com/message/101925/">AWS post-event summary</a></p>
+</div>
+<ul>
+<li>You rent capacity from AWS. <span class="alert">Reliability stays your problem</span>, and it starts with not keeping everything in one region!</li>
+</ul>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="creating-and-managing-an-aws-account" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Creating and managing an AWS account 🛠️</h1>
+
+</section>
+<section id="creating-an-aws-account" class="slide level2 scrollable">
+<h2>Creating an AWS account</h2>
+<h3 id="ten-minutes-and-you-need-a-payment-card">Ten minutes, and you need a payment card</h3>
+<div style="margin-top: 20px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:52%;">
+<ol type="1">
+<li>Open <a href="https://aws.amazon.com/free/" class="uri">https://aws.amazon.com/free/</a></li>
+<li>Choose <span class="alert">Create a Free Account</span></li>
+<li>Enter a personal email address. Keep your Emory address for coursework</li>
+<li>Choose any account name</li>
+<li>Choose <span class="alert">Verify email address</span></li>
+<li>Copy the code from the email into the form</li>
+<li>AWS requires a card and may place a small temporary authorisation on it. Enter your card details</li>
+<li>Complete the phone verification</li>
+<li>Choose your account plan. The next slide covers that choice</li>
+</ol>
+</div><div class="column" style="width:48%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/sign-up-2026.png"><img data-src="figures/sign-up-2026.png" style="width:68.0%"></a></p>
+</div>
+<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 10px;">
+<p>Do this at home, before or after class. Please let me know if you have any problems</p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="free-plan-or-paid-plan" class="slide level2">
+<h2>Free plan or paid plan?</h2>
+<h3 id="choose-the-free-plan">Choose the free plan</h3>
+<div style="margin-top: 20px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>The account starts with <span class="alert">$100 in credits</span>, and the console offers up to <span class="alert">$100 more</span> for trying key services</li>
+<li>That is $200 across the <span class="alert">six months</span> of the free plan</li>
+<li>The plan ends after six months or when the credits run out, whichever comes first</li>
+<li>AWS puts it plainly: <span class="alert">you will not be charged unless you convert to a paid plan</span></li>
+<li>The free plan blocks some services, and workloads stop at the credit thresholds</li>
+<li>Everything this course asks of you fits inside those limits</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center; margin-top: -20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/free-paid-2026.png"><img data-src="figures/free-paid-2026.png" style="width:62.0%"></a></p>
+</div>
+<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;">
+<p>When the free plan ends, <span class="alert">the account closes on its own</span> and takes your files with it. Download anything you want to keep</p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="set-a-zero-spend-budget" class="slide level2 scrollable">
+<h2>Set a zero-spend budget</h2>
+<h3 id="your-first-job-in-the-console">Your first job in the console</h3>
+<div style="margin-top: 20px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:47%;">
+<ol type="1">
+<li>Open the <a href="https://console.aws.amazon.com/costmanagement/">Billing and Cost Management</a> console.</li>
+<li>Choose <span class="alert">Budgets</span> in the left menu.</li>
+<li>Choose <span class="alert">Create budget</span>.</li>
+<li>Keep <span class="alert">Use a template (simplified)</span>.</li>
+<li>Choose <span class="alert">Zero spend budget</span>.</li>
+<li>Keep the suggested name.</li>
+<li>Enter your email address.</li>
+<li>Choose <span class="alert">Create budget</span>.</li>
+</ol>
+<p>The template emails you once your spending passes <span class="alert">$0.01</span></p>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
+<p>The budget accepts up to ten addresses. Use one you actually read!</p>
+</div>
+</div><div class="column" style="width:53%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/zero-spend-budget-2026.png"><img data-src="figures/zero-spend-budget-2026.png" style="width:100.0%"></a></p>
+<p><a href="https://console.aws.amazon.com/costmanagement/" class="uri">https://console.aws.amazon.com/costmanagement/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="check-that-it-worked" class="slide level2">
+<h2>Check that it worked</h2>
+<h3 id="and-what-the-alert-will-not-do-for-you">And what the alert will not do for you</h3>
+<div style="margin-top: 20px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/budgets-2026.png"><img data-src="figures/budgets-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The budget list after saving</p>
+</div>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/cost-monitor-2026.png"><img data-src="figures/cost-monitor-2026.png" style="width:46.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The same budget on the billing home</p>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<ul>
+<li>The budget appears in the list with a <span class="alert">Healthy</span> status</li>
+<li><span class="alert">Billing and Cost Management home</span> repeats it in the Cost monitor panel</li>
+<li><span class="alert">Billing and Payments, then Credits</span> is where you watch the $200 drain</li>
+</ul>
+<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
+<p>Billing data refreshes about <span class="alert">once a day</span>, so the email arrives late. An instance left running overnight bills you before anyone warns you</p>
+</div>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 12px;">
+<p>Forecast alerts need roughly five weeks of history, so a new account gets none this term. Terminating what you start is still the real protection</p>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="reading-a-scanned-document" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Reading a scanned document</h1>
+
+</section>
+<section id="amazon-textract" class="slide level2 scrollable">
+<h2>Amazon Textract</h2>
+<h3 id="the-2008-job-in-a-browser-in-about-a-minute">The 2008 job, in a browser, in about a minute</h3>
+<div style="margin-top: 20px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ol type="1">
+<li>Open the console and search for <code>Textract</code></li>
+<li>Choose <span class="alert">Analyze Document</span> under Demos</li>
+<li>Upload <code>clinton-schedule-2001-pages-11-20.pdf</code></li>
+<li>Tick the outputs you want</li>
+<li>Choose <span class="alert">Apply configuration</span></li>
+</ol>
+<ul>
+<li>The file is in the course repository, under <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-16/data/clinton-schedule-2001-pages-11-20.pdf"><code>lectures/lecture-16/data/</code></a></li>
+</ul>
+<p>Ten pages of Hillary Clinton’s 2001 schedule, the same typewritten paper The Washington Post fed through OCR</p>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 17px; margin-top: 15px;">
+<p>New accounts get 1,000 pages a month of plain text detection for three months. The layout, forms and tables features cost more, so read the pricing page before a large run</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/textract-console-2026.png"><img data-src="figures/textract-console-2026.png" style="width:100.0%"></a></p>
+<p><a href="https://aws.amazon.com/textract/" class="uri">https://aws.amazon.com/textract/</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="what-you-can-ask-for" class="slide level2">
+<h2>What you can ask for</h2>
+<h3 id="five-kinds-of-structure-one-document">Five kinds of structure, one document</h3>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li><span class="alert">Layout</span>: titles, paragraphs, headers, lists, page numbers, and the reading order</li>
+<li><span class="alert">Forms</span>: key and value pairs, the way a paper form pairs a label with its box</li>
+<li><span class="alert">Tables</span>: cells, rows, and columns</li>
+<li><span class="alert">Queries</span>: put a question to the page, such as who signed it</li>
+<li><span class="alert">Signature detection</span>: where a signature sits</li>
+</ul>
+<p>Plain text detection is the cheap option. Everything above it costs more per page</p>
+</div><div class="column" style="width:58%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/textract-configure-2026.png"><img data-src="figures/textract-configure-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>Page 1 of 10, with the outputs about to be applied</p>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="what-came-back" class="slide level2">
+<h2>What came back</h2>
+<h3 id="blocks-in-reading-order-each-with-a-confidence-score">Blocks in reading order, each with a confidence score</h3>
+<div style="margin-top: 20px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li>Textract returns <span class="alert">blocks in reading order</span>, each labelled by type</li>
+<li>Page 8 came back as a header, a list, and eleven text blocks</li>
+<li>The header reads “SCHEDULE FOR HILLARY <span class="alert">RODAHM</span> CLINTON”</li>
+<li>The typo is in the 2001 document. Textract copied the page faithfully</li>
+<li>Anyone searching these files for “Rodham” would miss this page</li>
+<li>Scores on this page ran from 28% to 92%. They rate how sure Textract is about the <span class="alert">type</span> of block, not the spelling inside it</li>
+<li>The <span class="alert">Raw text</span> tab gives the plain transcript to copy</li>
+<li>The appendix runs an audio transcription job using <a href="#/sec-appendix-transcribe">Amazon Transcribe</a></li>
+</ul>
+</div><div class="column" style="width:58%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/textract-results-2026.png"><img data-src="figures/textract-results-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The Layout tab, page 8 of 10</p>
+</div>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="conclusion" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Conclusion</h1>
+
+</section>
+<section id="what-we-learned-today" class="slide level2">
+<h2>What we learned today</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Why cloud computing is important and <span class="alert">how it can help your business</span></li>
+<li>The <span class="alert">Big Three cloud computing platforms</span>: AWS, Azure, and GCP</li>
+<li><span class="alert">The main types of cloud computing services</span>: IaaS, PaaS, SaaS, FaaS</li>
+<li>The most popular AWS services: <span class="alert">EC2, S3, RDS, SageMaker</span></li>
+<li>How to create an AWS account and set up a billing alarm</li>
+<li>How to create an S3 bucket, upload an audio file, and transcribe it with Amazon Transcribe</li>
+<li><span class="alert">And that’s just the beginning</span>!</li>
+<li>In the next sessions, we will learn more about AWS services, and how to use them to build and deploy applications</li>
+<li><span class="alert">Remember to close your EC2 instances and S3 buckets</span> when you’re done!</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/cloud-meme.webp"><img data-src="figures/cloud-meme.webp" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="next-class" class="slide level2 scrollable">
+<h2>Next class</h2>
+<h3 id="inside-the-machine-you-just-rented">Inside the machine you just rented</h3>
+<div style="margin-top: 20px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:52%;">
+<ul>
+<li>We launch an <span class="alert">EC2 instance</span> from the console and connect to it over <span class="alert">SSH</span> with a key pair</li>
+<li>That key pair is a file on your laptop. It <span class="alert">never goes into a Git repository</span>, because bots scan public repositories for AWS keys</li>
+<li>Ubuntu Linux, so every command from the shell module works there</li>
+<li>We install software with <code>apt</code>, move files with <code>scp</code>, and run a Python script on the instance</li>
+<li>We finish by <span class="alert">terminating</span> it, which is the habit that keeps the bill at zero</li>
+<li>The final project is released the same day</li>
+</ul>
+<div style="text-align: center; margin-top: 10px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ssh-ec2-2026.png"><img data-src="figures/ssh-ec2-2026.png" style="width:78.0%"></a></p>
+</div>
+</div><div class="column" style="width:48%;">
+<p>Before then:</p>
+<ol type="1">
+<li>Create your AWS account</li>
+<li>Set the zero-spend budget</li>
+<li>Windows users, install WSL. Tutorial 06 has the steps</li>
+<li>Check that <code>ssh</code> runs in your terminal</li>
+</ol>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
+<p>Bring the laptop you will use in class. Setting up SSH on a borrowed machine costs the whole session</p>
+</div>
+<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 12px;">
+<p><span class="alert">Quiz 03</span> covers the AI module and this cloud module</p>
+</div>
+</div></div>
+</div>
+</section></section>
+<section id="thank-you-very-much-see-you-next-time" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Thank you very much! <br> See you next time! 😊🙏🏽</h1>
+
+</section>
+
+<section>
+<section id="sec-appendix-transcribe" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Appendix: Amazon Transcribe 🎤</h1>
+
+</section>
+<section id="audio-transcription-at-scale" class="slide level2">
+<h2>Audio transcription at scale</h2>
+<div style="margin-top: 30px; font-size: 26px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Imagine that you have a task similar to that of the Washington Post journalists</li>
+<li>You found a series of audio files that you need to transcribe, and you have to do it quickly</li>
+<li>So let’s create an S3 bucket (folder), upload an audio file, and transcribe it</li>
+<li>The file we will use is available here: <a href="https://d1.awsstatic.com/tmt/create-audio-transcript-transcribe/transcribe-sample.5fc2109bb28268d10fbc677e64b7e59256783d3c.mp3">transcribe-sample.mp3</a></li>
+<li>Select <a href="https://us-east-1.console.aws.amazon.com/console/home?region=us-east-1">AWS Management Console</a> to open the console, then search for <code>S3</code> in the search bar</li>
+<li>Click on <span class="alert">Create bucket</span>, give it a name, accept the permissions, and click <span class="alert">Create bucket</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/s3-search.png"><img data-src="figures/s3-search.png" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="audio-transcription-at-scale-1" class="slide level2">
+<h2>Audio transcription at scale</h2>
+<div style="margin-top: 30px; font-size: 26px; text-align: center;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/s3-create.png"><img data-src="figures/s3-create.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/s3-bucket.png"><img data-src="figures/s3-bucket.png" style="width:100.0%"></a></p>
+</div></div>
+</div>
+</section>
+<section id="s3-bucket" class="slide level2">
+<h2>S3 bucket</h2>
+<div style="margin-top: 30px; font-size: 25px; text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/s3-bucket2.png"><img data-src="figures/s3-bucket2.png" style="width:90.0%"></a></p>
+<p>Then click on the bucket and upload the file</p>
+</div>
+</section>
+<section id="create-transcription-job" class="slide level2">
+<h2>Create transcription job</h2>
+<div style="margin-top: 30px; font-size: 26px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Now let’s go to <a href="https://us-east-1.console.aws.amazon.com/transcribe/home?region=us-east-1">Amazon Transcribe</a></li>
+<li>Just search for <code>Transcribe</code> in the search bar</li>
+<li>Click on <span class="alert">Transcription jobs</span> (left sidebar), then click on <span class="alert">Create job</span></li>
+<li>Give it a name, select the language, and choose the S3 bucket where the file is located</li>
+<li>Click <span class="alert">Create</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/transcription.png"><img data-src="figures/transcription.png" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="transcription-job" class="slide level2">
+<h2>Transcription job</h2>
+<div style="margin-top: 30px; font-size: 25px; text-align: center;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/details.png"><img data-src="figures/details.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/details2.png"><img data-src="figures/details2.png" style="width:100.0%"></a></p>
+</div></div>
+</div>
+</section>
+<section id="transcription-job-1" class="slide level2">
+<h2>Transcription job</h2>
+<div style="margin-top: 30px; font-size: 25px; text-align: center;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/results2.png"><img data-src="figures/results2.png" style="width:100.0%"></a></p>
+</div><div class="column" style="width:50%;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/results.png"><img data-src="figures/results.png" style="width:100.0%"></a></p>
+</div></div>
+</div>
+
+
+</section></section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p><a href="https://danilofreire.github.io/datasci350/lectures/lecture-16/16-cloud.html">Cloud</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/multimodal/multimodal.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Multimodal, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

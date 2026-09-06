@@ -1,0 +1,232 @@
+---
+title: "DATASCI 350 - Installing VS Code and Connecting it with Anaconda"
+aliases: ["/01-vscode-anaconda-tutorial.html"]
+lang: en-GB
+author: 
+  - Danilo Freire
+jupyter: python3
+highlight-style: arrow
+format: 
+    pdf:
+      template: article-template.latex
+      toc: true
+      toc-depth: 1
+      number-sections: true
+      fig-pos: 'H'
+      appendix: false
+      fontfamily: libertine
+      monofont: inconsolata
+      monofontoptions: scaled=.95
+      fontsize: 12pt
+      spacing: double
+      geometry: 
+        - top=2cm
+        - bottom=2cm
+        - left=2cm
+        - right=2cm
+      urlcolor: darkblue
+      linkcolor: Mahogany
+      citecolor: Mahogany
+      pdf-engine: pdflatex
+    html:
+      toc: true
+      toc-depth: 1
+      number-sections: false
+editor:
+  render-on-save: true
+---
+
+::: {.content-visible when-format="pdf"}
+\newpage
+:::
+
+# Introduction
+
+This tutorial installs Visual Studio Code, installs Anaconda, and connects the two. It assumes you have never written a line of code. Every step has a screenshot. If a step fails, email me (<danilo.freire@emory.edu>) or ask one of the teaching assistants.
+
+# Why VS Code?
+
+VS Code is a free code editor made by Microsoft. In the [2025 Stack Overflow Developer Survey](https://survey.stackoverflow.co/2025/technology), 75.9% of developers reported using it, more than twice the share of any other editor. Three reasons matter for this course.
+
+- It does what an editor should do, with syntax highlighting, autocompletion, and a debugger built in. Hundreds of extensions cover anything missing.
+- It runs on Windows, macOS, and Linux, so everyone in the class works with the same screen.
+- It works with Git and GitHub out of the box, which you will need for every assignment.
+
+# Download and install VS Code
+
+Open <https://code.visualstudio.com/>. Click "Download" for your operating system.
+
+![The VS Code website.](images/vscode-download.png){width=70%}
+
+## Windows
+
+Run the `VSCodeUserSetup-{version}.exe` file.
+
+![The Windows installer.](images/windows01.png){width=70%}
+
+Accept the licence agreement. Click "Next".
+
+![The licence agreement.](images/windows02.png){width=70%}
+
+Keep the default installation location. Click "Next".
+
+![The installation location.](images/windows03.png){width=70%}
+
+Select "Open with Code" under additional tasks. Click "Next".
+
+![Additional tasks.](images/windows05.png){width=70%}
+
+Click "Install".
+
+![Installation in progress.](images/windows06.png){width=70%}
+
+## macOS
+
+Open the downloaded `.zip` file.
+
+![Unzip the downloaded file.](images/macos01.png){width=50%}
+
+Drag the VS Code application to the Applications folder.
+
+![Drag VS Code to the Applications folder.](images/macos02.png){width=70%}
+
+## Linux
+
+Follow the instructions for your distribution on the [VS Code download page](https://code.visualstudio.com/Download).
+
+## Start VS Code
+
+Open VS Code. The welcome screen appears.
+
+![The VS Code welcome screen.](images/vscode-screen.png){width=70%}
+
+Microsoft publishes short [introductory videos](https://code.visualstudio.com/docs/introvideos/basics) and full [documentation](https://code.visualstudio.com/docs) if you want to explore further.
+
+# Installing Anaconda
+
+Anaconda is a distribution of Python. It ships with the packages this course uses, and it keeps the Python for one project separate from the Python for another.
+
+## Download Anaconda
+
+Open <https://www.anaconda.com/download>. You can skip the registration.
+
+![The Anaconda website.](images/anaconda01.png){width=70%}
+
+Click "Download" for your operating system.
+
+![Download Anaconda.](images/anaconda02.png){width=70%}
+
+## Windows
+
+Select "Just Me" as the installation type.
+
+![Installation type.](images/anaconda-windows01.png){width=70%}
+
+Keep the default installation location.
+
+![Installation location.](images/anaconda-windows02.png){width=70%}
+
+The installer marks the next two options in red and advises against them. Select them anyway. They make the terminal commands in this course work without extra configuration.
+
+Under "Advanced Options", tick "Add Anaconda to my PATH environment variable".
+
+Tick "Register Anaconda as my default Python".
+
+![Advanced options.](images/anaconda-windows03.png){width=70%}
+
+## macOS
+
+Open the downloaded `.pkg` file. You can install Anaconda for all users.
+
+![The macOS installer.](images/anaconda-macos01.png){width=70%}
+
+Accept the default option on each screen.
+
+![Installation in progress.](images/anaconda-macos02.png){width=70%}
+
+## Linux
+
+Follow the instructions for your distribution on the [Anaconda website](https://docs.anaconda.com/anaconda/install/linux/).
+
+## Verify the installation
+
+Open a terminal. In VS Code, click "Terminal" > "New Terminal".
+
+Type `conda --version`. Press Enter. The Conda version number appears.
+
+Type `python --version`. Press Enter. The version of Python that Anaconda installed appears.
+
+![Both version numbers printed in the VS Code terminal.](images/anaconda-verify.png){width=90%}
+
+If either command reports that it is not found, Anaconda is installed but your terminal cannot see it. Close the terminal and open a new one. If the error persists, reinstall Anaconda and check the PATH option described above.
+
+# Connecting VS Code with Anaconda
+
+Both programs are now installed. The next step tells VS Code to run Anaconda's Python rather than any other Python on your machine.
+
+## Install the Python and Jupyter extensions
+
+Click the Extensions icon in the left sidebar. It looks like four squares.
+
+Type "Python" in the search box.
+
+![The Python extension in VS Code.](images/vscode-python-extension.png){width=70%}
+
+Install the [official Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python) by Microsoft.
+
+Install the [Jupyter extension](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.jupyter) as well. Tutorial 02 needs it.
+
+![The Jupyter extension in VS Code.](images/vscode-jupyter-extension.png){width=70%}
+
+## Select the Anaconda interpreter
+
+Click "New File" in the top left corner. Save the file with a `.py` extension.
+
+![A new Python file in VS Code.](images/vscode-new-file.png){width=70%}
+
+Type this code in the file:
+
+```{python}
+#| eval: false
+#| output: false
+import sys
+print(sys.version)
+print(sys.executable)
+```
+
+Save the file again. I saved mine as `testing-anaconda.py`.
+
+![Saving the Python file.](images/vscode-save-file.png){width=70%}
+
+Press `Ctrl+Shift+P` (Windows and Linux) or `Cmd+Shift+P` (macOS). The Command Palette opens.
+
+![The Command Palette in VS Code.](images/vscode-command-palette.png){width=70%}
+
+Type "Python: Select Interpreter". Select it from the list.
+
+![Selecting the Python interpreter.](images/vscode-select-interpreter.png){width=70%}
+
+Select the Anaconda interpreter. It is labelled something like "Python 3.x.x ('base') Conda".
+
+## Verify the connection
+
+Click "Run" in the top right corner of the editor. Select "Run Current File in Dedicated Terminal".
+
+![Running a Python file in VS Code.](images/vscode-run-file.png){width=70%}
+
+The output shows the Anaconda Python version and the path to it. The word `anaconda` should appear in that path. If it does not, VS Code is running a different Python, and you should select the interpreter again.
+
+![The version and path printed in the terminal.](images/vscode-output.png){width=70%}
+
+# Conclusion
+
+VS Code and Anaconda are installed and connected, and you can run a Python file from the editor. As your projects grow, create a separate Conda environment for each one so their packages cannot conflict.
+
+For more:
+
+- VS Code Python tutorial: <https://code.visualstudio.com/docs/python/python-tutorial>
+- Anaconda documentation: <https://docs.anaconda.com/>
+- VS Code documentation: <https://code.visualstudio.com/docs>
+
+Happy coding!
+

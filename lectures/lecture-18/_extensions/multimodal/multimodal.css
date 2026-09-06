@@ -1,0 +1,236 @@
+
+/*****************************************************************
+ *
+ * Multimodal for Reveal.js 
+ * Version 1.0.1
+ * 
+ * @author: Martijn De Jongh (Martino), martijn.de.jongh@gmail.com
+ * https://github.com/martinomagnifico
+ *
+ * @license 
+ * MIT licensed
+ * 
+ * Copyright (C) 2023 Martijn De Jongh (Martino)
+ *
+ ******************************************************************/
+
+
+
+.multimodal .mm-close {
+  --close-stroke-color: white;
+  --close-stroke-width: 1.2;
+  --close-hover-ratio: 1.2;
+  --close-mainlength: 16px;
+  --close-hovarratio: 1.2;
+  padding: 0;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 2px;
+  position: absolute;
+  right: 1em;
+  top: 1em;
+  width: 28px;
+  height: 28px;
+  transform-origin: top right;
+  transform: scale(var(--mm-inversescale, 1));
+}
+.multimodal .mm-close:before {
+  content: "";
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border-radius: 20px;
+  background: transparent;
+  transition: all 0.0675s linear;
+  pointer-events: none;
+  z-index: -1;
+}
+.multimodal .mm-close svg {
+  width: 24px;
+  height: 24px;
+}
+.multimodal .mm-close svg line {
+  transition: all 0.0675s linear;
+  stroke: var(--close-stroke-color);
+  stroke-linecap: round;
+  stroke-width: 1.25;
+}
+.multimodal .mm-close svg line, .multimodal .mm-close:active:hover svg line {
+  stroke-dasharray: 16 8;
+  stroke-dashoffset: -4;
+}
+.multimodal .mm-close.sm svg line, .multimodal .mm-close.sm:active:hover svg line {
+  stroke-dasharray: 12 12;
+  stroke-dashoffset: -6;
+}
+.multimodal .mm-close:hover:before, .multimodal .mm-close:focus:before {
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.2);
+}
+.multimodal .mm-close:hover svg line {
+  stroke-dasharray: 20 4;
+  stroke-dashoffset: -2;
+}
+.multimodal .mm-close.sm:hover svg line {
+  stroke-dasharray: 16 8;
+  stroke-dashoffset: -4;
+}
+.multimodal .mm-close:focus {
+  outline: 3px solid #00C6CB;
+  outline-offset: 4px;
+}
+.multimodal .mm-close.sm:focus {
+  outline-offset: 0;
+}
+.multimodal .mm-close:focus:not(:focus-visible) {
+  outline: 0;
+  box-shadow: none;
+}
+
+:root {
+  --mm-borderwidth: 1px;
+  --mm-bordercolor: white;
+  --mm-transspeed: 0.3s;
+  --mm-transtiming: ease-in-out;
+  --mm-overlaycolor: rgba(0,0,0,0.30);
+  --mm-shadow: 0 0.5em 0.75em 0.5em rgba(0, 0, 0, 0.25);
+  --mm-initialscale: 0.9;
+  --mm-minwidth: 100px;
+  --mm-minheight: 100px;
+  --mm-htmlpadding: 1em;
+  --mm-htmlbgcolor: var(--r-background-color);
+  --mm-iframepadding: 0;
+  --mm-iframebgcolor: var(--r-background-color);
+  --mm-mediapadding: none;
+  --mm-mediabgcolor: white;
+  --mm-outerradius: 0.5em;
+}
+
+.mm-dialog.hidden,
+section > .mm-dialog {
+  display: none;
+}
+
+.multimodal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--mm-overlaycolor);
+  z-index: 9999;
+  opacity: 0;
+  transition: all var(--mm-transspeed) var(--mm-transtiming);
+}
+.multimodal, .multimodal * {
+  box-sizing: border-box;
+}
+.multimodal .mm-max {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: var(--mm-maxwidth);
+  height: var(--mm-maxheight);
+  transition: all var(--mm-transspeed) var(--mm-transtiming);
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%) scale(calc(var(--slide-scale) * var(--mm-initialscale)));
+}
+.multimodal .mm-max .mm-dialog {
+  width: fit-content;
+  height: fit-content;
+  max-height: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: var(--mm-modal-background, var(--mm-mediabgcolor));
+  border-style: solid;
+  border-width: var(--mm-borderwidth);
+  border-color: var(--mm-bordercolor);
+  border-radius: var(--mm-outerradius);
+  box-shadow: var(--mm-shadow);
+  z-index: 0;
+}
+.multimodal .mm-max .mm-dialog.hidden {
+  display: none;
+}
+.multimodal .mm-max iframe {
+  opacity: 0;
+  transition: opacity 0.8s var(--mm-transtiming);
+  transition-delay: var(0.25s);
+}
+.multimodal .mm-max .mm-body {
+  z-index: 0;
+}
+.multimodal .mm-max .mm-scrollbody {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.multimodal[data-modal-type*=html] .mm-body {
+  min-width: var(--mm-minwidth);
+  min-height: var(--mm-minheight);
+  overflow-y: auto;
+}
+.multimodal[data-modal-type*=html] .mm-dialog {
+  background: var(--mm-modal-background, var(--mm-htmlbgcolor));
+  padding: var(--mm-modal-padding, var(--mm-htmlpadding));
+}
+.multimodal[data-modal-type=image] .mm-body {
+  max-width: var(--mm-maxwidth);
+  max-height: var(--mm-maxheight);
+  margin: 0;
+}
+.multimodal[data-modal-type=image] .mm-dialog {
+  background: var(--mm-modal-background, var(--mm-mediabgcolor));
+  padding: var(--mm-modal-padding, var(--mm-mediapadding));
+}
+.multimodal[data-modal-type=video] .mm-body {
+  max-width: var(--mm-maxwidth);
+  max-height: var(--mm-maxheight);
+  margin: 0;
+}
+.multimodal[data-modal-type=video] .mm-dialog {
+  background: var(--mm-modal-background, var(--mm-mediabgcolor));
+  padding: var(--mm-modal-padding, var(--mm-mediapadding));
+}
+.multimodal[data-modal-type*=iframe] .mm-body {
+  max-width: 100%;
+  max-height: 100%;
+  margin: 0;
+  width: calc(var(--mm-maxwidth));
+  height: calc(var(--mm-maxheight));
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+.multimodal[data-modal-type*=iframe] .mm-dialog {
+  background: var(--mm-modal-background, var(--mm-iframebgcolor));
+  padding: var(--mm-modal-padding, var(--mm-iframepadding));
+}
+.multimodal.show {
+  opacity: 1;
+}
+.multimodal.show .mm-max {
+  transform: translate(-50%, -50%) scale(var(--slide-scale));
+}
+.multimodal.show iframe {
+  opacity: 1;
+}
+.multimodal.show.shown .mm-max {
+  transition: none;
+}

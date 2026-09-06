@@ -1,0 +1,42 @@
+# Penguin field survey, Windmill Islands, season 2026
+# One line per observation: date, species, count, site, notes
+2026-01-02, Adelie, 34, north-ridge, colony active at dawn
+2026-01-02, Gentoo, 12, east-beach, two nests abandoned
+2026-01-02, Chinstrap, 8, south-cove, calm sea
+2026-01-03, Adelie, 31, north-ridge, light snow
+2026-01-03, Gentoo, 15, east-beach, feeding offshore
+2026-01-03, Adelie, 29, west-slope, new nest spotted
+2026-01-04, Chinstrap, 9, south-cove, strong wind from the east
+2026-01-04, Adelie, 36, north-ridge, chicks visible in eleven nests
+2026-01-04, Gentoo, 11, east-beach, skua circling the colony
+2026-01-05, Adelie, 33, north-ridge, overcast
+2026-01-05, Chinstrap, 7, south-cove, one adelie seen among the group
+2026-01-05, Gentoo, 14, east-beach, calm sea
+2026-01-06, Adelie, 35, north-ridge, colony noisy after midday
+2026-01-06, Gentoo, 13, east-beach, light rain
+2026-01-06, Chinstrap, 10, south-cove, pair displaying near the shore
+2026-01-07, Adelie, 32, west-slope, snow melting on the slope
+2026-01-07, Gentoo, 16, east-beach, largest gentoo count so far
+2026-01-07, Adelie, 30, north-ridge, two birds tagged
+2026-01-08, Chinstrap, 8, south-cove, fog until noon
+2026-01-08, Adelie, 37, north-ridge, chicks in fourteen nests
+2026-01-08, Gentoo, 12, east-beach, no change from yesterday
+2026-01-09, Adelie, 34, west-slope, one chinstrap seen on the slope
+2026-01-09, Gentoo, 15, east-beach, feeding offshore
+2026-01-09, Chinstrap, 11, south-cove, highest count this season
+2026-01-10, Adelie, 33, north-ridge, calm and clear
+2026-01-10, Gentoo, 14, east-beach, skua chased from the nests
+2026-01-10, Adelie, 28, west-slope, strong wind after sunset
+2026-01-11, Chinstrap, 9, south-cove, calm sea
+2026-01-11, Adelie, 36, north-ridge, colony active all day
+2026-01-11, Gentoo, 13, east-beach, one bird limping, tagged for follow-up
+2026-01-12, Adelie, 35, north-ridge, light snow in the morning
+2026-01-12, Gentoo, 15, east-beach, two new nests
+2026-01-12, Chinstrap, 10, south-cove, group moved closer to the water
+2026-01-13, Adelie, 31, west-slope, quiet day
+2026-01-13, Gentoo, 12, east-beach, rain most of the afternoon
+2026-01-13, Adelie, 34, north-ridge, chicks growing fast
+2026-01-14, Chinstrap, 8, south-cove, one gentoo seen near the cove
+2026-01-14, Adelie, 38, north-ridge, best adelie count of the survey
+2026-01-14, Gentoo, 16, east-beach, calm sea
+2026-01-15, Adelie, 33, north-ridge, survey closed at sunset

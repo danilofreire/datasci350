@@ -1,0 +1,10 @@
+title: Multimodal
+author:  Martijn De Jongh (Martino)
+version: 1.0.1
+quarto-required: ">=1.2.198"
+contributes:
+  revealjs-plugins:
+    -
+      name: Multimodal
+      script: multimodal.js
+      stylesheet: multimodal.css

@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.38">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Danilo Freire">
+
+<title>DATASCI 350 - SQL Essentials with DuckDB – DATASCI 350</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-df58a58052b55e393ee96285dd0abd71.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-17d91d356485da7232ca3767b9ee3bc9.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-df58a58052b55e393ee96285dd0abd71.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fbd40e9b3707be723a0160bef88a8784.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-faf377aaab257944a360f971de304719.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-fbd40e9b3707be723a0160bef88a8784.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">DATASCI 350</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../syllabus.html"> <i class="bi bi-journal-text" role="img">
+</i> 
+<span class="menu-text">Syllabus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../lectures.html"> <i class="bi bi-mortarboard" role="img">
+</i> 
+<span class="menu-text">Lectures</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tutorials.html"> <i class="bi bi-tools" role="img">
+</i> 
+<span class="menu-text">Tutorials</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../assignments.html"> <i class="bi bi-pencil-square" role="img">
+</i> 
+<span class="menu-text">Assignments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../LICENSE.html"> 
+<span class="menu-text"> </span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+    <a href="https://github.com/danilofreire/datasci350" title="" class="quarto-navigation-tool px-1" aria-label=""><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul class="collapse">
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#why-learn-sql-and-why-duckdb" id="toc-why-learn-sql-and-why-duckdb" class="nav-link" data-scroll-target="#why-learn-sql-and-why-duckdb">Why learn SQL, and why DuckDB</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">Setup</a>
+  <ul class="collapse">
+  <li><a href="#optional-the-duckdb-command-line-tool" id="toc-optional-the-duckdb-command-line-tool" class="nav-link" data-scroll-target="#optional-the-duckdb-command-line-tool">Optional: the DuckDB command-line tool</a></li>
+  </ul></li>
+  <li><a href="#connecting-to-a-database" id="toc-connecting-to-a-database" class="nav-link" data-scroll-target="#connecting-to-a-database">Connecting to a database</a></li>
+  <li><a href="#databases-and-tables" id="toc-databases-and-tables" class="nav-link" data-scroll-target="#databases-and-tables">Databases and tables</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-table" id="toc-creating-a-table" class="nav-link" data-scroll-target="#creating-a-table">Creating a table</a></li>
+  <li><a href="#inserting-rows" id="toc-inserting-rows" class="nav-link" data-scroll-target="#inserting-rows">Inserting rows</a></li>
+  <li><a href="#changing-a-table" id="toc-changing-a-table" class="nav-link" data-scroll-target="#changing-a-table">Changing a table</a></li>
+  </ul></li>
+  <li><a href="#querying-files-directly" id="toc-querying-files-directly" class="nav-link" data-scroll-target="#querying-files-directly">Querying files directly</a></li>
+  <li><a href="#core-queries" id="toc-core-queries" class="nav-link" data-scroll-target="#core-queries">Core queries</a>
+  <ul class="collapse">
+  <li><a href="#selecting-columns-and-filtering-rows" id="toc-selecting-columns-and-filtering-rows" class="nav-link" data-scroll-target="#selecting-columns-and-filtering-rows">Selecting columns and filtering rows</a></li>
+  <li><a href="#matching-lists-ranges-and-patterns" id="toc-matching-lists-ranges-and-patterns" class="nav-link" data-scroll-target="#matching-lists-ranges-and-patterns">Matching lists, ranges, and patterns</a></li>
+  <li><a href="#aggregating" id="toc-aggregating" class="nav-link" data-scroll-target="#aggregating">Aggregating</a></li>
+  <li><a href="#grouping" id="toc-grouping" class="nav-link" data-scroll-target="#grouping">Grouping</a></li>
+  <li><a href="#try-it-yourself" id="toc-try-it-yourself" class="nav-link" data-scroll-target="#try-it-yourself">Try it yourself</a></li>
+  </ul></li>
+  <li><a href="#nulls-case-and-window-functions" id="toc-nulls-case-and-window-functions" class="nav-link" data-scroll-target="#nulls-case-and-window-functions">NULLs, CASE, and window functions</a>
+  <ul class="collapse">
+  <li><a href="#handling-missing-values" id="toc-handling-missing-values" class="nav-link" data-scroll-target="#handling-missing-values">Handling missing values</a></li>
+  <li><a href="#conditional-logic-with-case" id="toc-conditional-logic-with-case" class="nav-link" data-scroll-target="#conditional-logic-with-case">Conditional logic with CASE</a></li>
+  <li><a href="#window-functions" id="toc-window-functions" class="nav-link" data-scroll-target="#window-functions">Window functions</a></li>
+  <li><a href="#try-it-yourself-1" id="toc-try-it-yourself-1" class="nav-link" data-scroll-target="#try-it-yourself-1">Try it yourself</a></li>
+  </ul></li>
+  <li><a href="#combining-tables" id="toc-combining-tables" class="nav-link" data-scroll-target="#combining-tables">Combining tables</a>
+  <ul class="collapse">
+  <li><a href="#inner-join" id="toc-inner-join" class="nav-link" data-scroll-target="#inner-join">Inner join</a></li>
+  <li><a href="#left-join" id="toc-left-join" class="nav-link" data-scroll-target="#left-join">Left join</a></li>
+  <li><a href="#right-and-full-joins" id="toc-right-and-full-joins" class="nav-link" data-scroll-target="#right-and-full-joins">Right and full joins</a></li>
+  <li><a href="#cross-and-self-joins" id="toc-cross-and-self-joins" class="nav-link" data-scroll-target="#cross-and-self-joins">Cross and self joins</a></li>
+  <li><a href="#combining-rows-union-intersect-except" id="toc-combining-rows-union-intersect-except" class="nav-link" data-scroll-target="#combining-rows-union-intersect-except">Combining rows: UNION, INTERSECT, EXCEPT</a></li>
+  <li><a href="#upsert-insert-or-update" id="toc-upsert-insert-or-update" class="nav-link" data-scroll-target="#upsert-insert-or-update">Upsert: insert or update</a></li>
+  <li><a href="#views" id="toc-views" class="nav-link" data-scroll-target="#views">Views</a></li>
+  <li><a href="#try-it-yourself-2" id="toc-try-it-yourself-2" class="nav-link" data-scroll-target="#try-it-yourself-2">Try it yourself</a></li>
+  </ul></li>
+  <li><a href="#duckdb-and-dataframes" id="toc-duckdb-and-dataframes" class="nav-link" data-scroll-target="#duckdb-and-dataframes">DuckDB and DataFrames</a>
+  <ul class="collapse">
+  <li><a href="#querying-a-dataframe-with-sql" id="toc-querying-a-dataframe-with-sql" class="nav-link" data-scroll-target="#querying-a-dataframe-with-sql">Querying a DataFrame with SQL</a></li>
+  <li><a href="#returning-results-as-pandas-or-polars" id="toc-returning-results-as-pandas-or-polars" class="nav-link" data-scroll-target="#returning-results-as-pandas-or-polars">Returning results as pandas or Polars</a></li>
+  <li><a href="#when-to-use-sql-and-when-to-use-a-dataframe" id="toc-when-to-use-sql-and-when-to-use-a-dataframe" class="nav-link" data-scroll-target="#when-to-use-sql-and-when-to-use-a-dataframe">When to use SQL, and when to use a DataFrame</a></li>
+  </ul></li>
+  <li><a href="#going-further" id="toc-going-further" class="nav-link" data-scroll-target="#going-further">Going further</a></li>
+  <li><a href="#sec-solutions" id="toc-sec-solutions" class="nav-link" data-scroll-target="#sec-solutions">Solutions to exercises</a></li>
+  </ul>
+<div class="toc-actions"><ul class="collapse"><li><a href="https://github.com/danilofreire/datasci350/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/danilofreire/datasci350/blob/main/tutorials/04-duckdb-sql-tutorial.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div><div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="04-duckdb-sql-tutorial.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">DATASCI 350 - SQL Essentials with DuckDB</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Danilo Freire </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>SQL is no longer taught in the lectures of DATASCI 350. Module 06 now covers getting data from the web, and DATASCI 151 already introduces the basics of SQL. This self-study tutorial keeps the SQL material available for you. Read it if you want to add a widely used skill to your toolkit, or if you meet SQL in a job and want a reference written for this course.</p>
+<p>The tutorial is self-contained. You will install one Python package, run every query yourself, and finish able to read and write the SQL you are most likely to see in a data science role. All the code here executes when the document is rendered, so every output you read below is real.</p>
+<p>We use <a href="https://duckdb.org/">DuckDB</a> as the engine. If you have met SQL before, it was probably through SQLite. DuckDB is a better fit for data science, and the reasons are worth a short section of their own.</p>
+</section>
+<section id="why-learn-sql-and-why-duckdb" class="level1">
+<h1>Why learn SQL, and why DuckDB</h1>
+<p>SQL (Structured Query Language) is the common language of databases. You write a description of the data you want, and the database engine works out how to fetch it. The same language, with small dialect differences, drives SQLite on your laptop, PostgreSQL on a server, and BigQuery in the cloud. Learn it once and you can query almost any tabular data store you meet.</p>
+<p>Two features make it worth your time. First, SQL is declarative: you say <em>what</em> you want, not <em>how</em> to compute it, so a short query can replace a long loop. Second, SQL is everywhere in data work. Analyst and data-scientist job adverts list it more often than any single Python library.</p>
+<p><a href="https://duckdb.org/">DuckDB</a> is an SQL engine built for analytics. Three properties make it the right choice for this course:</p>
+<ul>
+<li><strong>Zero setup.</strong> DuckDB is a single Python package. There is no server to start and no account to create. You run <code>pip install duckdb</code> and you have a working database.</li>
+<li><strong>It reads files directly.</strong> DuckDB can query a CSV or Parquet file in place, with no import step. You point a query at a file and it returns rows.</li>
+<li><strong>It lives inside Python.</strong> DuckDB runs in the same process as your Python code. It reads pandas and Polars DataFrames by name, and it returns results as DataFrames. SQL and Python stop being separate worlds.</li>
+</ul>
+<p>You met DuckDB once already. Lecture 22 uses it, alongside Polars, as a tool for processing data at scale. This tutorial fills in the SQL underneath that lecture.</p>
+</section>
+<section id="setup" class="level1">
+<h1>Setup</h1>
+<p>You install DuckDB the same way you install any Python package. The instructions below assume you have a working Python environment from earlier in the course.</p>
+<p>Install the package first.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install duckdb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The tutorial also uses pandas and Polars in the final section. Install them too if they are missing.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install pandas polars pyarrow</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now verify the installation. Open Python. Run the two lines below. The version number appears.</p>
+<div id="d3c898fa" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(duckdb.__version__)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>1.5.5</code></pre>
+</div>
+</div>
+<p>You now have a working SQL engine. No server runs in the background. The engine is a library that your Python process loads.</p>
+<section id="optional-the-duckdb-command-line-tool" class="level2">
+<h2 class="anchored" data-anchor-id="optional-the-duckdb-command-line-tool">Optional: the DuckDB command-line tool</h2>
+<p>You can also use DuckDB outside Python, in a terminal. The command-line tool is a separate download. It is optional for this tutorial, so skip this section if you only want the Python interface.</p>
+<p>To install the command-line tool, visit the <a href="https://duckdb.org/docs/installation/">DuckDB installation page</a>. Follow the instructions for your operating system. To start it, type <code>duckdb</code> in a terminal. To leave it, type <code>.quit</code>.</p>
+<p>The tool also has a browser interface. Start it with <code>duckdb -ui</code>. A local page opens where you can type SQL in a notebook cell and read the result as a table, as in the figure below. Everything in this tutorial works the same way, whether you type it in Python or in the command-line tool.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/duckdb-ui.png" class="img-fluid figure-img" style="width:95.0%"></p>
+<figcaption>The DuckDB browser interface, running one of this tutorial’s queries against the World Bank data. Attached databases and their tables appear on the left.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="connecting-to-a-database" class="level1">
+<h1>Connecting to a database</h1>
+<p>A DuckDB database is either a file on disk or a temporary space in memory. You choose when you connect.</p>
+<p>An <strong>in-memory</strong> database exists only while your program runs. It is fast and leaves nothing behind, which is ideal for learning and for one-off analysis. Connect with no argument.</p>
+<div id="55a1b381" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A <strong>file-backed</strong> database saves your tables to disk, so they survive after the program ends. Pass a filename to keep your work.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>(<span class="st">"course.duckdb"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The only difference is the argument. Everything else in this tutorial works the same either way. We use an in-memory connection so the tutorial leaves no files behind.</p>
+<p>You run a query with <code>con.sql()</code>. The result is a DuckDB <em>relation</em>. Add <code>.df()</code> to turn it into a pandas DataFrame, which prints as a familiar table.</p>
+<div id="9b377dcb" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT 'Hello, DuckDB' AS greeting, 2 + 2 AS sum"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>        greeting  sum
+0  Hello, DuckDB    4</code></pre>
+</div>
+</div>
+<p>We use <code>.df()</code> throughout so every result prints clearly. The last section shows the other ways to collect a result.</p>
+</section>
+<section id="databases-and-tables" class="level1">
+<h1>Databases and tables</h1>
+<p>A relational database stores data in <strong>tables</strong>. A table is a grid of rows and columns, like a single spreadsheet. Each column has a fixed <strong>data type</strong>, so a column of whole numbers cannot suddenly hold text. Each row is one record.</p>
+<p>Two ideas connect tables to each other:</p>
+<ul>
+<li>A <strong>primary key</strong> is a column whose value is unique for every row. It identifies a record without ambiguity. A <code>driver_id</code> that is different for every driver is a primary key.</li>
+<li>A <strong>foreign key</strong> is a column in one table that points at the primary key of another. It is how a row in an <code>orders</code> table says which <code>customer</code> placed the order. Foreign keys are how relational databases avoid repeating the same information in many places.</li>
+</ul>
+<p>DuckDB’s core data types are few and predictable:</p>
+<ul>
+<li><code>INTEGER</code> holds whole numbers.</li>
+<li><code>DOUBLE</code> holds decimal numbers.</li>
+<li><code>VARCHAR</code> holds text of any length.</li>
+<li><code>BOOLEAN</code> holds true or false.</li>
+<li><code>DATE</code> and <code>TIMESTAMP</code> hold calendar dates and times.</li>
+<li><code>NULL</code> is not a type but a marker for a missing value. Any column can hold it.</li>
+</ul>
+<section id="creating-a-table" class="level2">
+<h2 class="anchored" data-anchor-id="creating-a-table">Creating a table</h2>
+<p>You create a table with <code>CREATE TABLE</code>. You list each column and its type. Marking a column <code>PRIMARY KEY</code> tells DuckDB the values must be unique and present.</p>
+<p>We build a small table of Formula 1 drivers, small enough to check by eye.</p>
+<div id="a5f13dbf" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE drivers (</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="st">    driver_id   INTEGER PRIMARY KEY,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="st">    driver_name VARCHAR,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="st">    team        VARCHAR,</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="st">    nationality VARCHAR,</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="st">    victories   INTEGER</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="st">);</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Notice two conventions. SQL keywords are written in capitals, which separates them from your own column names. Each statement ends with a semicolon, which marks where one command stops and the next begins.</p>
+</section>
+<section id="inserting-rows" class="level2">
+<h2 class="anchored" data-anchor-id="inserting-rows">Inserting rows</h2>
+<p>You add rows with <code>INSERT INTO</code>. List the values for each row in the same order as the columns. Python’s <code>None</code> becomes SQL’s <code>NULL</code>, which is how we record that we do not know a driver’s nationality or win count.</p>
+<div id="12aabb77" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT INTO drivers VALUES</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="st"> (1, 'Lewis Hamilton',  'Mercedes',        'British',    103),</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st"> (2, 'Max Verstappen',  'Red Bull Racing', 'Dutch',       55),</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st"> (3, 'Fernando Alonso', 'Aston Martin',     NULL,        NULL),</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="st"> (4, 'Charles Leclerc', 'Ferrari',         'Monégasque', NULL),</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st"> (5, 'Valtteri Bottas', 'Mercedes',        'Finnish',     10),</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="st"> (6, 'Sergio Pérez',    'Red Bull Racing', 'Mexican',      5),</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="st"> (7, 'Lando Norris',    'McLaren',         'British',      4),</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="st"> (8, 'Esteban Ocon',    'Alpine',          'French',       1);</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT * FROM drivers"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<pre><code>   driver_id      driver_name             team nationality  victories
+0          1   Lewis Hamilton         Mercedes     British        103
+1          2   Max Verstappen  Red Bull Racing       Dutch         55
+2          3  Fernando Alonso     Aston Martin         NaN       &lt;NA&gt;
+3          4  Charles Leclerc          Ferrari  Monégasque       &lt;NA&gt;
+4          5  Valtteri Bottas         Mercedes     Finnish         10
+5          6     Sergio Pérez  Red Bull Racing     Mexican          5
+6          7     Lando Norris          McLaren     British          4
+7          8     Esteban Ocon           Alpine      French          1</code></pre>
+</div>
+</div>
+<p>The <code>SELECT * FROM drivers</code> at the end reads every column (<code>*</code>) and every row back. <code>SELECT</code> is the command you will use most. It extracts data without changing it.</p>
+</section>
+<section id="changing-a-table" class="level2">
+<h2 class="anchored" data-anchor-id="changing-a-table">Changing a table</h2>
+<p>Real tables change over time. A few commands cover most needs. Read the warning before you use <code>DROP TABLE</code>.</p>
+<ul>
+<li>Add a column: <code>ALTER TABLE drivers ADD COLUMN points INTEGER;</code></li>
+<li>Remove a column: <code>ALTER TABLE drivers DROP COLUMN points;</code></li>
+<li>Delete rows that match a condition: <code>DELETE FROM drivers WHERE victories = 0;</code></li>
+</ul>
+<p><strong>Warning: <code>DROP TABLE</code> deletes the table and all its data at once. The action cannot be undone.</strong> Use it only when you are certain.</p>
+<ul>
+<li>Delete a whole table: <code>DROP TABLE drivers;</code></li>
+</ul>
+<p>We keep the <code>drivers</code> table, so we do not run those here.</p>
+</section>
+</section>
+<section id="querying-files-directly" class="level1">
+<h1>Querying files directly</h1>
+<p>This is where DuckDB pulls ahead of a traditional database. You do not have to load a file into a table before you query it. You point a query straight at the file.</p>
+<p>We use the course’s World Bank data throughout the rest of the tutorial. It is the same dataset the final project pulls from the World Bank API, so the queries you practise here transfer directly.</p>
+<p>The file <code>data/wdi_panel.parquet</code> ships with the tutorial. Copy it next to your own script first.</p>
+<p>Copy the file <code>wdi_panel.parquet</code> into a folder named <code>data</code> beside your script. Confirm the path <code>data/wdi_panel.parquet</code> exists.</p>
+<p>The data is in <strong>long</strong> format. Each row is one country, one indicator, and one year. Read five rows to see the shape.</p>
+<div id="24fbe499" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT * FROM 'data/wdi_panel.parquet' LIMIT 5"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>  country iso3       indicator  year     value
+0   Aruba  ABW  co2_per_capita  1990  3.203034
+1   Aruba  ABW  co2_per_capita  1991  3.435717
+2   Aruba  ABW  co2_per_capita  1992  3.634519
+3   Aruba  ABW  co2_per_capita  1993  3.414535
+4   Aruba  ABW  co2_per_capita  1994  3.683227</code></pre>
+</div>
+</div>
+<p>The quoted filename stands in for a table name. DuckDB opens the Parquet file, reads it, and treats it as a table for the length of the query.</p>
+<p>Two commands describe a dataset before you query it. <code>DESCRIBE</code> lists the columns and their types.</p>
+<div id="893bf3c2" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"DESCRIBE SELECT * FROM 'data/wdi_panel.parquet'"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>  column_name column_type null   key default extra
+0     country     VARCHAR  YES  None    None  None
+1        iso3     VARCHAR  YES  None    None  None
+2   indicator     VARCHAR  YES  None    None  None
+3        year    SMALLINT  YES  None    None  None
+4       value      DOUBLE  YES  None    None  None</code></pre>
+</div>
+</div>
+<p><code>SUMMARIZE</code> goes further. It reports counts, ranges, and the share of missing values per column, which is a fast way to learn a new dataset.</p>
+<div id="231e6365" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT column_name, min, max, count, null_percentage</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM (SUMMARIZE SELECT country, indicator, year, value</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="st">      FROM 'data/wdi_panel.parquet')</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>  column_name             min            max  count  null_percentage
+0     country     Afghanistan       Zimbabwe  59024             0.00
+1   indicator  co2_per_capita  urban_pop_pct  59024             0.00
+2        year            1990           2023  59024             0.00
+3       value             0.0   1438069596.0  59024            11.06</code></pre>
+</div>
+</div>
+<p>Typing the filename in every query is tedious. Register the file once as a <strong>view</strong>, a saved query that behaves like a table. From here on we write <code>FROM wdi</code>.</p>
+<div id="911aaf80" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE VIEW wdi AS</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT * FROM 'data/wdi_panel.parquet';</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT COUNT(*) AS rows, COUNT(DISTINCT country) AS countries FROM wdi"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>    rows  countries
+0  59024        217</code></pre>
+</div>
+</div>
+<p>Which indicators does the dataset contain? A quick query answers it.</p>
+<div id="19b34a34" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT DISTINCT indicator FROM wdi ORDER BY indicator"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="11">
+<pre><code>               indicator
+0         co2_per_capita
+1         fertility_rate
+2         gdp_per_capita
+3     internet_users_pct
+4        life_expectancy
+5             population
+6  primary_enrolment_net
+7          urban_pop_pct</code></pre>
+</div>
+</div>
+</section>
+<section id="core-queries" class="level1">
+<h1>Core queries</h1>
+<p>Every SQL query is built from a few clauses in a fixed order. You select columns, filter rows, group them, and sort the result. This section covers each clause on both the small <code>drivers</code> table and the real World Bank data.</p>
+<section id="selecting-columns-and-filtering-rows" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-columns-and-filtering-rows">Selecting columns and filtering rows</h2>
+<p><code>SELECT</code> chooses columns. <code>WHERE</code> keeps only the rows that meet a condition.</p>
+<div id="28c5122d" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT driver_name, team, victories</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE victories &gt; 10</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="12">
+<pre><code>      driver_name             team  victories
+0  Lewis Hamilton         Mercedes        103
+1  Max Verstappen  Red Bull Racing         55</code></pre>
+</div>
+</div>
+<p>Combine conditions with <code>AND</code> and <code>OR</code>. Parentheses make the logic explicit.</p>
+<div id="ec7963d5" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT driver_name, nationality, victories</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE (nationality = 'British') AND (victories &gt; 5)</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="13">
+<pre><code>      driver_name nationality  victories
+0  Lewis Hamilton     British        103</code></pre>
+</div>
+</div>
+<p>On the World Bank data, the same clauses pull one indicator for one year. <code>ORDER BY</code> sorts the result, and <code>DESC</code> sorts from high to low. <code>LIMIT</code> keeps only the first rows.</p>
+<div id="ff3836bf" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, ROUND(value, 0) AS gdp_per_capita</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'gdp_per_capita' AND year = 2020</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY value DESC</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 8</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="14">
+<pre><code>          country  gdp_per_capita
+0          Monaco        161263.0
+1      Luxembourg        105274.0
+2         Bermuda         98846.0
+3     Isle of Man         86595.0
+4     Switzerland         86294.0
+5         Ireland         80928.0
+6          Norway         78387.0
+7  Cayman Islands         75200.0</code></pre>
+</div>
+</div>
+</section>
+<section id="matching-lists-ranges-and-patterns" class="level2">
+<h2 class="anchored" data-anchor-id="matching-lists-ranges-and-patterns">Matching lists, ranges, and patterns</h2>
+<p>Three operators make <code>WHERE</code> conditions shorter and clearer.</p>
+<p><code>IN</code> checks whether a value is in a list. <code>NOT IN</code> excludes the list.</p>
+<div id="7ae8ce9f" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT driver_name, team</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE team IN ('Ferrari', 'Mercedes')</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>       driver_name      team
+0   Lewis Hamilton  Mercedes
+1  Charles Leclerc   Ferrari
+2  Valtteri Bottas  Mercedes</code></pre>
+</div>
+</div>
+<p><code>BETWEEN</code> checks a range, and it includes both endpoints.</p>
+<div id="762959db" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, year, ROUND(value, 1) AS life_expectancy</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'life_expectancy'</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="st">  AND country = 'Japan'</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="st">  AND year BETWEEN 2010 AND 2015</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY year</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="16">
+<pre><code>  country  year  life_expectancy
+0   Japan  2010             82.8
+1   Japan  2011             82.6
+2   Japan  2012             83.1
+3   Japan  2013             83.3
+4   Japan  2014             83.6
+5   Japan  2015             83.8</code></pre>
+</div>
+</div>
+<p><code>LIKE</code> matches text patterns. The <code>%</code> sign matches any run of characters, and <code>_</code> matches exactly one character.</p>
+<div id="2aa5717f" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT DISTINCT country</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE country LIKE 'United%'</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+<pre><code>                country
+0        United Kingdom
+1         United States
+2  United Arab Emirates</code></pre>
+</div>
+</div>
+<p>In SQLite, <code>LIKE</code> ignores case for ASCII letters by default. In DuckDB it is case-sensitive, and <code>ILIKE</code> is the version that matches the same pattern while ignoring upper and lower case.</p>
+<div id="989e14ef" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT driver_name FROM drivers WHERE driver_name ILIKE 'l%'"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>      driver_name
+0  Lewis Hamilton
+1    Lando Norris</code></pre>
+</div>
+</div>
+</section>
+<section id="aggregating" class="level2">
+<h2 class="anchored" data-anchor-id="aggregating">Aggregating</h2>
+<p>Aggregate functions reduce many rows to a single summary value. <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, and <code>MAX</code> are the common ones. <code>AS</code> names the result column, and <code>ROUND</code> controls decimal places.</p>
+<div id="e0fbf66a" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(*)              AS num_drivers,</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="st">    SUM(victories)        AS total_wins,</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="st">    ROUND(AVG(victories), 1) AS mean_wins,</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="st">    MAX(victories)        AS most_wins</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>   num_drivers  total_wins  mean_wins  most_wins
+0            8       178.0       29.7        103</code></pre>
+</div>
+</div>
+<p><code>AVG</code> and the other aggregates skip <code>NULL</code> values automatically. The mean above divides by the number of non-missing wins, not by all eight drivers.</p>
+</section>
+<section id="grouping" class="level2">
+<h2 class="anchored" data-anchor-id="grouping">Grouping</h2>
+<p><code>GROUP BY</code> splits rows into groups and computes an aggregate for each, returning one row per group. This is the workhorse of analysis. Here it gives the average value of each indicator for one year.</p>
+<div id="cc14a726" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT indicator,</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="st">       COUNT(*)              AS n,</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="st">       ROUND(AVG(value), 2)  AS mean_value</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE year = 2020</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY indicator</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY indicator</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="20">
+<pre><code>               indicator    n   mean_value
+0         co2_per_capita  217         4.45
+1         fertility_rate  217         2.49
+2         gdp_per_capita  217     16149.94
+3     internet_users_pct  217        64.11
+4        life_expectancy  217        72.50
+5             population  217  36084236.48
+6  primary_enrolment_net  217          NaN
+7          urban_pop_pct  217        61.82</code></pre>
+</div>
+</div>
+<p>To filter groups after aggregating, use <code>HAVING</code>. The difference from <code>WHERE</code> matters: <code>WHERE</code> filters rows before grouping, and <code>HAVING</code> filters groups after. You cannot put an aggregate in <code>WHERE</code>, so <code>HAVING</code> is where a condition on a group total belongs.</p>
+<div id="24862681" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT team,</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="st">       COUNT(*)                 AS drivers,</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="st">       SUM(victories)           AS team_wins</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY team</span></span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="st">HAVING SUM(victories) &gt; 10</span></span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY team_wins DESC</span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>              team  drivers  team_wins
+0         Mercedes        2      113.0
+1  Red Bull Racing        2       60.0</code></pre>
+</div>
+</div>
+</section>
+<section id="try-it-yourself" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself">Try it yourself</h2>
+<p>Write queries against the <code>wdi</code> view for each task.</p>
+<ol type="1">
+<li>List the ten countries with the highest life expectancy in 2019.</li>
+<li>Count how many countries have an <code>internet_users_pct</code> value recorded for the year 2000.</li>
+<li>For the year 2015, report the average <code>co2_per_capita</code> grouped by whether the country’s name starts with a letter before ‘N’. Use a <code>WHERE</code> filter of your choice to keep it simple.</li>
+</ol>
+<p>The solutions are in <a href="#sec-solutions" class="quarto-xref">Section&nbsp;12</a>.</p>
+</section>
+</section>
+<section id="nulls-case-and-window-functions" class="level1">
+<h1>NULLs, CASE, and window functions</h1>
+<p>Real data is missing values, needs conditional labels, and often asks a question that <code>GROUP BY</code> cannot answer on its own. Three tools handle these cases.</p>
+<section id="handling-missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="handling-missing-values">Handling missing values</h2>
+<p>SQL marks a missing value as <code>NULL</code>. A <code>NULL</code> is not zero and not an empty string. It means “unknown”. Test for it with <code>IS NULL</code> or <code>IS NOT NULL</code>, never with <code>=</code>.</p>
+<p>The World Bank data has real gaps. Count them for one indicator.</p>
+<div id="3000ae18" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(*)                                  AS total_rows,</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="st">    COUNT(value)                              AS rows_with_value,</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a><span class="st">    SUM(CASE WHEN value IS NULL THEN 1 ELSE 0 END) AS missing</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'primary_enrolment_net' AND year = 2020</span></span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="22">
+<pre><code>   total_rows  rows_with_value  missing
+0         217                0    217.0</code></pre>
+</div>
+</div>
+<p><code>COALESCE</code> returns the first value in its list that is not <code>NULL</code>. Use it to supply a default in place of a gap.</p>
+<div id="533ddda2" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT driver_name, COALESCE(victories, 0) AS victories_filled</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY driver_id</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>       driver_name  victories_filled
+0   Lewis Hamilton               103
+1   Max Verstappen                55
+2  Fernando Alonso                 0
+3  Charles Leclerc                 0
+4  Valtteri Bottas                10
+5     Sergio Pérez                 5
+6     Lando Norris                 4
+7     Esteban Ocon                 1</code></pre>
+</div>
+</div>
+<p>Here every missing win count becomes 0, so Fernando Alonso and Charles Leclerc now read as zero rather than blank.</p>
+</section>
+<section id="conditional-logic-with-case" class="level2">
+<h2 class="anchored" data-anchor-id="conditional-logic-with-case">Conditional logic with CASE</h2>
+<p><code>CASE</code> is SQL’s if-then-else. It reads each <code>WHEN</code> in order and returns the result of the first one that is true. The <code>ELSE</code> catches everything else. It is the natural way to turn a number into a label.</p>
+<p>We classify countries by the World Bank’s rough income bands, using GDP per capita in 2020.</p>
+<div id="01b411c3" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, ROUND(value, 0) AS gdp_per_capita,</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a><span class="st">    CASE</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN value &gt;= 13846 THEN 'High income'</span></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN value &gt;= 4466  THEN 'Upper middle'</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN value &gt;= 1136  THEN 'Lower middle'</span></span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN value IS NULL  THEN 'No data'</span></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a><span class="st">        ELSE 'Low income'</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a><span class="st">    END AS income_band</span></span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'gdp_per_capita' AND year = 2020</span></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a><span class="st">  AND country IN ('Norway', 'Brazil', 'India', 'Burundi', 'China')</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY value DESC NULLS LAST</span></span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
+<pre><code>   country  gdp_per_capita   income_band
+0   Norway         78387.0   High income
+1    China         10573.0  Upper middle
+2   Brazil          8435.0  Upper middle
+3    India          1807.0  Lower middle
+4  Burundi           263.0    Low income</code></pre>
+</div>
+</div>
+<p>Order the <code>WHEN</code> clauses carefully. Because only the first true branch fires, a <code>NULL</code> check placed last would never run if an earlier branch matched. Put the most specific condition first.</p>
+</section>
+<section id="window-functions" class="level2">
+<h2 class="anchored" data-anchor-id="window-functions">Window functions</h2>
+<p><code>GROUP BY</code> collapses each group to one row. A <strong>window function</strong> keeps every row and adds a value computed across a related set of rows. That is exactly what you need to rank rows, or to compare each row against its group’s average, without losing the detail.</p>
+<p>The <code>OVER()</code> clause defines the window. An empty <code>OVER()</code> uses the whole result. <code>PARTITION BY</code> splits it into groups. <code>ORDER BY</code> inside <code>OVER()</code> sets the order for ranking.</p>
+<p>We rank countries by GDP per capita within one year, and show each country’s gap from the global average that year.</p>
+<div id="71e122fc" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country,</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a><span class="st">       ROUND(value, 0) AS gdp_per_capita,</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a><span class="st">       RANK() OVER (ORDER BY value DESC) AS world_rank,</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a><span class="st">       ROUND(value - AVG(value) OVER (), 0) AS gap_from_mean</span></span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'gdp_per_capita' AND year = 2020</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a><span class="st">  AND value IS NOT NULL</span></span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY world_rank</span></span>
+<span id="cb48-10"><a href="#cb48-10" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 8</span></span>
+<span id="cb48-11"><a href="#cb48-11" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="25">
+<pre><code>          country  gdp_per_capita  world_rank  gap_from_mean
+0          Monaco        161263.0           1       145113.0
+1      Luxembourg        105274.0           2        89124.0
+2         Bermuda         98846.0           3        82697.0
+3     Isle of Man         86595.0           4        70445.0
+4     Switzerland         86294.0           5        70144.0
+5         Ireland         80928.0           6        64778.0
+6          Norway         78387.0           7        62237.0
+7  Cayman Islands         75200.0           8        59050.0</code></pre>
+</div>
+</div>
+<p>Compare the two approaches directly on the small <code>drivers</code> table. <code>GROUP BY team</code> would give one average win count per team and drop the driver names. A window function with <code>PARTITION BY team</code> attaches that same team average to every driver while keeping each driver’s row.</p>
+<div id="77f4e045" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT driver_name, team, victories,</span></span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a><span class="st">       ROUND(AVG(victories) OVER (PARTITION BY team), 1) AS team_avg</span></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers</span></span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE victories IS NOT NULL</span></span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY team, victories DESC</span></span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>       driver_name             team  victories  team_avg
+0     Esteban Ocon           Alpine          1       1.0
+1     Lando Norris          McLaren          4       4.0
+2   Lewis Hamilton         Mercedes        103      56.5
+3  Valtteri Bottas         Mercedes         10      56.5
+4   Max Verstappen  Red Bull Racing         55      30.0
+5     Sergio Pérez  Red Bull Racing          5      30.0</code></pre>
+</div>
+</div>
+</section>
+<section id="try-it-yourself-1" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself-1">Try it yourself</h2>
+<ol type="1">
+<li>Use <code>RANK()</code> to rank countries by <code>life_expectancy</code> in 2019, highest first, and show the top five.</li>
+<li>Use <code>CASE</code> to label each country’s 2020 <code>internet_users_pct</code> as ‘High’ (60 or more), ‘Medium’ (30 to 59), ‘Low’ (below 30), or ‘No data’. Show ten rows.</li>
+</ol>
+<p>The solutions are in <a href="#sec-solutions" class="quarto-xref">Section&nbsp;12</a>.</p>
+</section>
+</section>
+<section id="combining-tables" class="level1">
+<h1>Combining tables</h1>
+<p>Analysis usually needs data from more than one table. A <strong>join</strong> matches rows from two tables on a shared column. We add a small <code>regions</code> table by hand, then join it to the World Bank data.</p>
+<p>First, build a subset of one indicator as a real table, so the joins have a clear left side.</p>
+<div id="78693f9b" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE gdp2020 AS</span></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, iso3, ROUND(value, 0) AS gdp_per_capita</span></span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'gdp_per_capita' AND year = 2020</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="st">  AND iso3 IN ('USA','BRA','CHN','IND','DEU','FRA','ZAF','JPN');</span></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT * FROM gdp2020 ORDER BY iso3"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="27">
+<pre><code>         country iso3  gdp_per_capita
+0         Brazil  BRA          8435.0
+1          China  CHN         10573.0
+2        Germany  DEU         42373.0
+3         France  FRA         35709.0
+4          India  IND          1807.0
+5          Japan  JPN         35363.0
+6  United States  USA         59534.0
+7   South Africa  ZAF          5570.0</code></pre>
+</div>
+</div>
+<p>Now create a <code>regions</code> table. We give it a region for most of those countries, but leave Japan out on purpose, so the different joins produce visibly different results.</p>
+<div id="266fc491" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE regions (</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="st">    iso3   VARCHAR PRIMARY KEY,</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="st">    region VARCHAR</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="st">);</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT INTO regions VALUES</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="st"> ('USA', 'North America'),</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="st"> ('BRA', 'Latin America'),</span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="st"> ('CHN', 'East Asia'),</span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="st"> ('IND', 'South Asia'),</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="st"> ('DEU', 'Europe'),</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="st"> ('FRA', 'Europe'),</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="st"> ('ZAF', 'Sub-Saharan Africa'),</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="st"> ('KOR', 'East Asia');</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT * FROM regions ORDER BY iso3"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="28">
+<pre><code>  iso3              region
+0  BRA       Latin America
+1  CHN           East Asia
+2  DEU              Europe
+3  FRA              Europe
+4  IND          South Asia
+5  KOR           East Asia
+6  USA       North America
+7  ZAF  Sub-Saharan Africa</code></pre>
+</div>
+</div>
+<p>Note the asymmetry. <code>gdp2020</code> has Japan (<code>JPN</code>), which is missing from <code>regions</code>. <code>regions</code> has South Korea (<code>KOR</code>), which is missing from <code>gdp2020</code>. Each join treats these unmatched rows differently.</p>
+<section id="inner-join" class="level2">
+<h2 class="anchored" data-anchor-id="inner-join">Inner join</h2>
+<p>An <code>INNER JOIN</code> keeps only rows that match in both tables. Japan and South Korea both drop out, because neither has a partner.</p>
+<div id="3e2b6488" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT g.country, r.region, g.gdp_per_capita</span></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM gdp2020 AS g</span></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="st">INNER JOIN regions AS r ON g.iso3 = r.iso3</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY g.country</span></span>
+<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="29">
+<pre><code>         country              region  gdp_per_capita
+0         Brazil       Latin America          8435.0
+1          China           East Asia         10573.0
+2         France              Europe         35709.0
+3        Germany              Europe         42373.0
+4          India          South Asia          1807.0
+5   South Africa  Sub-Saharan Africa          5570.0
+6  United States       North America         59534.0</code></pre>
+</div>
+</div>
+<p>The <code>g</code> and <code>r</code> after the table names are <strong>aliases</strong>, short nicknames that save typing and make the <code>ON</code> condition readable.</p>
+</section>
+<section id="left-join" class="level2">
+<h2 class="anchored" data-anchor-id="left-join">Left join</h2>
+<p>A <code>LEFT JOIN</code> keeps every row from the left table, matched or not. Where the right table has no match, its columns come back as <code>NULL</code>. Japan stays, with no region.</p>
+<div id="7951d342" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT g.country, r.region, g.gdp_per_capita</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM gdp2020 AS g</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="st">LEFT JOIN regions AS r ON g.iso3 = r.iso3</span></span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY g.country</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="30">
+<pre><code>         country              region  gdp_per_capita
+0         Brazil       Latin America          8435.0
+1          China           East Asia         10573.0
+2         France              Europe         35709.0
+3        Germany              Europe         42373.0
+4          India          South Asia          1807.0
+5          Japan                 NaN         35363.0
+6   South Africa  Sub-Saharan Africa          5570.0
+7  United States       North America         59534.0</code></pre>
+</div>
+</div>
+<p>The left join is the one you will reach for most, because it keeps the table you care about whole and adds detail where it exists.</p>
+</section>
+<section id="right-and-full-joins" class="level2">
+<h2 class="anchored" data-anchor-id="right-and-full-joins">Right and full joins</h2>
+<p>Older versions of SQLite could not write these joins directly. They needed a swapped <code>LEFT JOIN</code>, and a <code>UNION</code> of two joins for the full case. SQLite added both in 2022 (version 3.39), and DuckDB has always had them, so the query says what it means.</p>
+<p>A <code>RIGHT JOIN</code> keeps every row from the right table. South Korea now stays, with no GDP value.</p>
+<div id="579c791b" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT g.country, r.region, g.gdp_per_capita</span></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM gdp2020 AS g</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="st">RIGHT JOIN regions AS r ON g.iso3 = r.iso3</span></span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY r.region</span></span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="31">
+<pre><code>         country              region  gdp_per_capita
+0          China           East Asia         10573.0
+1            NaN           East Asia             NaN
+2        Germany              Europe         42373.0
+3         France              Europe         35709.0
+4         Brazil       Latin America          8435.0
+5  United States       North America         59534.0
+6          India          South Asia          1807.0
+7   South Africa  Sub-Saharan Africa          5570.0</code></pre>
+</div>
+</div>
+<p>A <code>FULL OUTER JOIN</code> keeps every row from both tables. Japan and South Korea both appear, each with <code>NULL</code> on the side that lacks a match.</p>
+<div id="e5e09604" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT g.country, r.iso3, r.region, g.gdp_per_capita</span></span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM gdp2020 AS g</span></span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="st">FULL OUTER JOIN regions AS r ON g.iso3 = r.iso3</span></span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY r.region NULLS LAST</span></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="32">
+<pre><code>         country iso3              region  gdp_per_capita
+0          China  CHN           East Asia         10573.0
+1            NaN  KOR           East Asia             NaN
+2        Germany  DEU              Europe         42373.0
+3         France  FRA              Europe         35709.0
+4         Brazil  BRA       Latin America          8435.0
+5  United States  USA       North America         59534.0
+6          India  IND          South Asia          1807.0
+7   South Africa  ZAF  Sub-Saharan Africa          5570.0
+8          Japan  NaN                 NaN         35363.0</code></pre>
+</div>
+</div>
+</section>
+<section id="cross-and-self-joins" class="level2">
+<h2 class="anchored" data-anchor-id="cross-and-self-joins">Cross and self joins</h2>
+<p>A <code>CROSS JOIN</code> pairs every row of one table with every row of the other. It has no <code>ON</code> condition. Use it to generate all combinations, such as every size with every colour.</p>
+<div id="237acb42" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE colours (colour VARCHAR);</span></span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE sizes (size VARCHAR);</span></span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT INTO colours VALUES ('Black'), ('Red');</span></span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT INTO sizes VALUES ('S'), ('M');</span></span>
+<span id="cb64-6"><a href="#cb64-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb64-7"><a href="#cb64-7" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb64-8"><a href="#cb64-8" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT colour, size, colour || ' - ' || size AS variant</span></span>
+<span id="cb64-9"><a href="#cb64-9" aria-hidden="true" tabindex="-1"></a><span class="st">FROM colours</span></span>
+<span id="cb64-10"><a href="#cb64-10" aria-hidden="true" tabindex="-1"></a><span class="st">CROSS JOIN sizes</span></span>
+<span id="cb64-11"><a href="#cb64-11" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY colour, size</span></span>
+<span id="cb64-12"><a href="#cb64-12" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="33">
+<pre><code>  colour size    variant
+0  Black    M  Black - M
+1  Black    S  Black - S
+2    Red    M    Red - M
+3    Red    S    Red - S</code></pre>
+</div>
+</div>
+<p>A <strong>self join</strong> joins a table to itself, which is how you follow a hierarchy stored in one table. A <code>family</code> table where <code>mother_id</code> points back to <code>person_id</code> is the classic example.</p>
+<div id="0064f776" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE TABLE family (</span></span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="st">    person_id INTEGER PRIMARY KEY,</span></span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="st">    name      VARCHAR,</span></span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="st">    mother_id INTEGER</span></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="st">);</span></span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT INTO family VALUES</span></span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a><span class="st"> (1, 'Emma',  NULL),</span></span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a><span class="st"> (2, 'Sarah', 1),</span></span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a><span class="st"> (3, 'Lisa',  1),</span></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="st"> (4, 'Tom',   2),</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a><span class="st"> (5, 'Alice', 2);</span></span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT child.name AS child, mother.name AS mother</span></span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a><span class="st">FROM family AS child</span></span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a><span class="st">JOIN family AS mother ON child.mother_id = mother.person_id</span></span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY mother.name</span></span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<pre><code>   child mother
+0  Sarah   Emma
+1   Lisa   Emma
+2    Tom  Sarah
+3  Alice  Sarah</code></pre>
+</div>
+</div>
+<p>The two aliases <code>child</code> and <code>mother</code> are two views of the same table. The join matches each child’s <code>mother_id</code> to a mother’s <code>person_id</code>.</p>
+</section>
+<section id="combining-rows-union-intersect-except" class="level2">
+<h2 class="anchored" data-anchor-id="combining-rows-union-intersect-except">Combining rows: UNION, INTERSECT, EXCEPT</h2>
+<p>Joins add columns side by side. Set operators stack results on top of each other. Each query must return the same columns.</p>
+<p><code>UNION</code> stacks two results and removes duplicate rows. <code>UNION ALL</code> keeps duplicates and is faster.</p>
+<div id="79142dd9" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, 'rich' AS tag FROM gdp2020 WHERE gdp_per_capita &gt; 30000</span></span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a><span class="st">UNION</span></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, 'poor' AS tag FROM gdp2020 WHERE gdp_per_capita &lt; 10000</span></span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY country</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="35">
+<pre><code>         country   tag
+0         Brazil  poor
+1         France  rich
+2        Germany  rich
+3          India  poor
+4          Japan  rich
+5   South Africa  poor
+6  United States  rich</code></pre>
+</div>
+</div>
+<p><code>INTERSECT</code> returns rows present in both results. <code>EXCEPT</code> returns rows in the first result that are absent from the second. Here they compare the country codes in the two tables.</p>
+<div id="406f6273" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT iso3 FROM gdp2020</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a><span class="st">INTERSECT</span></span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT iso3 FROM regions</span></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY iso3</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="36">
+<pre><code>  iso3
+0  BRA
+1  CHN
+2  DEU
+3  FRA
+4  IND
+5  USA
+6  ZAF</code></pre>
+</div>
+</div>
+<div id="e1accd46" class="cell" data-execution_count="37">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT iso3 FROM gdp2020</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a><span class="st">EXCEPT</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT iso3 FROM regions</span></span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="37">
+<pre><code>  iso3
+0  JPN</code></pre>
+</div>
+</div>
+<p>Only <code>JPN</code> is in <code>gdp2020</code> but not in <code>regions</code>, which matches the asymmetry we built in.</p>
+</section>
+<section id="upsert-insert-or-update" class="level2">
+<h2 class="anchored" data-anchor-id="upsert-insert-or-update">Upsert: insert or update</h2>
+<p>Sometimes you want to insert a row, but update it instead if it already exists. SQL calls this an <strong>upsert</strong>, written as <code>INSERT ... ON CONFLICT</code>. It needs a <code>PRIMARY KEY</code> or <code>UNIQUE</code> column to detect the conflict. The <code>excluded</code> keyword refers to the row you tried to insert.</p>
+<p>The <code>regions</code> table has <code>iso3</code> as its primary key. We reassign the United States to a new region. Because <code>USA</code> already exists, <code>DO UPDATE</code> runs instead of a failed insert.</p>
+<div id="ce086d9d" class="cell" data-execution_count="38">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT INTO regions VALUES ('USA', 'Americas')</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a><span class="st">ON CONFLICT (iso3) DO UPDATE SET region = excluded.region;</span></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT * FROM regions WHERE iso3 = 'USA'"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="38">
+<pre><code>  iso3    region
+0  USA  Americas</code></pre>
+</div>
+</div>
+<p><code>DO NOTHING</code> is the other option. It skips the insert quietly when the row already exists, which is useful when you load from several sources and want to keep the first version.</p>
+<div id="24de6534" class="cell" data-execution_count="39">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="st">INSERT INTO regions VALUES ('USA', 'This is ignored')</span></span>
+<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a><span class="st">ON CONFLICT (iso3) DO NOTHING;</span></span>
+<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT * FROM regions WHERE iso3 = 'USA'"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="39">
+<pre><code>  iso3    region
+0  USA  Americas</code></pre>
+</div>
+</div>
+<p>The syntax here is identical to SQLite’s. Upsert is one place where the two engines agree exactly.</p>
+</section>
+<section id="views" class="level2">
+<h2 class="anchored" data-anchor-id="views">Views</h2>
+<p>A <strong>view</strong> is a saved query that behaves like a table. It stores no data. It runs its query every time you read it. Views save you from rewriting a long query, and they give a stable name to a result even if the underlying tables change. You already made one: the <code>wdi</code> view.</p>
+<p>Here is a view that joins <code>gdp2020</code> to <code>regions</code> and averages GDP by region. Once created, anyone can query it without knowing the join.</p>
+<div id="33db0616" class="cell" data-execution_count="40">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>con.execute(<span class="st">"""</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a><span class="st">CREATE VIEW region_gdp AS</span></span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT r.region,</span></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="st">       COUNT(*)                    AS countries,</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a><span class="st">       ROUND(AVG(g.gdp_per_capita), 0) AS mean_gdp</span></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="st">FROM gdp2020 AS g</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="st">INNER JOIN regions AS r ON g.iso3 = r.iso3</span></span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY r.region;</span></span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"SELECT * FROM region_gdp ORDER BY mean_gdp DESC"</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="40">
+<pre><code>               region  countries  mean_gdp
+0            Americas          1   59534.0
+1              Europe          2   39041.0
+2           East Asia          1   10573.0
+3       Latin America          1    8435.0
+4  Sub-Saharan Africa          1    5570.0
+5          South Asia          1    1807.0</code></pre>
+</div>
+</div>
+</section>
+<section id="try-it-yourself-2" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-yourself-2">Try it yourself</h2>
+<ol type="1">
+<li>Join <code>gdp2020</code> and <code>regions</code> with an <code>INNER JOIN</code>, then report the single richest country in each region using <code>MAX</code>.</li>
+<li>Use <code>EXCEPT</code> to list the country codes in <code>regions</code> that have no matching row in <code>gdp2020</code>.</li>
+</ol>
+<p>The solutions are in <a href="#sec-solutions" class="quarto-xref">Section&nbsp;12</a>.</p>
+</section>
+</section>
+<section id="duckdb-and-dataframes" class="level1">
+<h1>DuckDB and DataFrames</h1>
+<p>DuckDB and pandas are not rivals. DuckDB reads a DataFrame by its Python variable name, and returns results as DataFrames, so you move between SQL and Python freely.</p>
+<section id="querying-a-dataframe-with-sql" class="level2">
+<h2 class="anchored" data-anchor-id="querying-a-dataframe-with-sql">Querying a DataFrame with SQL</h2>
+<p>Put a DataFrame in a variable, then name it in a query as if it were a table. DuckDB finds it in your Python session.</p>
+<div id="b8c0dfeb" class="cell" data-execution_count="41">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a>drivers_df <span class="op">=</span> con.sql(<span class="st">"SELECT * FROM drivers"</span>).df()</span>
+<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb80-6"><a href="#cb80-6" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT team, COUNT(*) AS n, ROUND(AVG(victories), 1) AS mean_wins</span></span>
+<span id="cb80-7"><a href="#cb80-7" aria-hidden="true" tabindex="-1"></a><span class="st">FROM drivers_df</span></span>
+<span id="cb80-8"><a href="#cb80-8" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY team</span></span>
+<span id="cb80-9"><a href="#cb80-9" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY n DESC</span></span>
+<span id="cb80-10"><a href="#cb80-10" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="41">
+<pre><code>              team  n  mean_wins
+0         Mercedes  2       56.5
+1  Red Bull Racing  2       30.0
+2          Ferrari  1        NaN
+3           Alpine  1        1.0
+4     Aston Martin  1        NaN
+5          McLaren  1        4.0</code></pre>
+</div>
+</div>
+<p>This is the feature that makes DuckDB comfortable inside a data science workflow. You clean data in pandas, run a fast SQL aggregation on it, and read the result straight back.</p>
+</section>
+<section id="returning-results-as-pandas-or-polars" class="level2">
+<h2 class="anchored" data-anchor-id="returning-results-as-pandas-or-polars">Returning results as pandas or Polars</h2>
+<p>A DuckDB relation converts to whichever frame you want. <code>.df()</code> gives pandas. <code>.pl()</code> gives Polars, the fast DataFrame library from Lecture 22. <code>.fetchall()</code> gives a plain list of tuples.</p>
+<div id="2f03ba5e" class="cell" data-execution_count="42">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a>result <span class="op">=</span> con.sql(<span class="st">"""</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, ROUND(value, 1) AS life_expectancy</span></span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'life_expectancy' AND year = 2020</span></span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY value DESC</span></span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 3</span></span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>)</span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-9"><a href="#cb82-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"As tuples:"</span>, result.fetchall())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>As tuples: [('Monaco', 86.1), ('Hong Kong SAR, China', 85.5), ('Japan', 84.6)]</code></pre>
+</div>
+</div>
+<p>The Polars conversion is one method call. The query below reshapes the long World Bank data into a wide table with pandas after the SQL step, which shows the two tools working together.</p>
+<div id="7ed3323d" class="cell" data-execution_count="43">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>long_df <span class="op">=</span> con.sql(<span class="st">"""</span></span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, indicator, value</span></span>
+<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE year = 2020</span></span>
+<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a><span class="st">  AND country IN ('Brazil', 'Germany', 'Japan')</span></span>
+<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a><span class="st">  AND indicator IN ('gdp_per_capita', 'life_expectancy', 'internet_users_pct')</span></span>
+<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span>
+<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-9"><a href="#cb84-9" aria-hidden="true" tabindex="-1"></a>wide <span class="op">=</span> long_df.pivot(index<span class="op">=</span><span class="st">"country"</span>, columns<span class="op">=</span><span class="st">"indicator"</span>, values<span class="op">=</span><span class="st">"value"</span>).<span class="bu">round</span>(<span class="dv">1</span>)</span>
+<span id="cb84-10"><a href="#cb84-10" aria-hidden="true" tabindex="-1"></a>wide</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="43">
+<pre><code>indicator  gdp_per_capita  internet_users_pct  life_expectancy
+country                                                       
+Brazil             8435.0                81.3             74.5
+Germany           42372.9                89.8             81.0
+Japan             35363.3                90.2             84.6</code></pre>
+</div>
+</div>
+</section>
+<section id="when-to-use-sql-and-when-to-use-a-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="when-to-use-sql-and-when-to-use-a-dataframe">When to use SQL, and when to use a DataFrame</h2>
+<p>Neither tool wins every time. A rough guide:</p>
+<ul>
+<li>Reach for <strong>SQL</strong> to join tables, to aggregate with <code>GROUP BY</code>, and to filter large files before loading them. These read clearly as one query, and DuckDB runs them quickly on data larger than memory.</li>
+<li>Reach for a <strong>DataFrame</strong> for row-by-row transformations, for plotting, for machine-learning input, and for anything that chains many small steps you want to inspect between.</li>
+</ul>
+<p>Most real work mixes both. DuckDB makes the mixing cheap, because the data never leaves the process.</p>
+</section>
+</section>
+<section id="going-further" class="level1">
+<h1>Going further</h1>
+<p>You now have the SQL you are most likely to need. To go deeper:</p>
+<ul>
+<li>The <a href="https://duckdb.org/docs/">DuckDB documentation</a> is clear and full of examples. The SQL reference lists every function.</li>
+<li><a href="https://motherduck.com/duckdb-book-brief/"><em>DuckDB in Action</em></a> is a full book, free as a PDF from MotherDuck. It covers analytics, data pipelines, and the Python API in depth.</li>
+<li>The <a href="https://mode.com/sql-tutorial/">Mode SQL tutorial</a> is a well-paced interactive course for general SQL practice.</li>
+<li><a href="https://sqlbolt.com/">SQLBolt</a> gives short interactive lessons in the browser, good for a quick refresher.</li>
+</ul>
+<p>Lecture 22 returns to DuckDB as a tool for scaling and performance, alongside Polars. The SQL in this tutorial is the foundation that lecture builds on. When you meet a large Parquet or CSV file in the final project or in a job, you can now query it in place, join it, aggregate it, and hand the result to Python.</p>
+</section>
+<section id="sec-solutions" class="level1">
+<h1>Solutions to exercises</h1>
+<p>The queries below answer the “Try it yourself” tasks. Try each task before you read its solution.</p>
+<p><strong>Core queries, task 1.</strong> Ten countries with the highest life expectancy in 2019.</p>
+<div id="3a41e798" class="cell" data-execution_count="44">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, ROUND(value, 1) AS life_expectancy</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb86-4"><a href="#cb86-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'life_expectancy' AND year = 2019</span></span>
+<span id="cb86-5"><a href="#cb86-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY value DESC</span></span>
+<span id="cb86-6"><a href="#cb86-6" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 10</span></span>
+<span id="cb86-7"><a href="#cb86-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="44">
+<pre><code>                country  life_expectancy
+0                Monaco             86.2
+1            San Marino             85.3
+2  Hong Kong SAR, China             85.2
+3                 Japan             84.4
+4         Liechtenstein             84.2
+5               Andorra             84.1
+6      Macao SAR, China             83.9
+7           Switzerland             83.9
+8                 Spain             83.8
+9             Singapore             83.6</code></pre>
+</div>
+</div>
+<p><strong>Core queries, task 2.</strong> Countries with an internet figure recorded in 2000.</p>
+<div id="d9c30e14" class="cell" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb88"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT COUNT(*) AS countries_with_data</span></span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'internet_users_pct' AND year = 2000</span></span>
+<span id="cb88-5"><a href="#cb88-5" aria-hidden="true" tabindex="-1"></a><span class="st">  AND value IS NOT NULL</span></span>
+<span id="cb88-6"><a href="#cb88-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+<pre><code>   countries_with_data
+0                  196</code></pre>
+</div>
+</div>
+<p><strong>Core queries, task 3.</strong> Average CO2 per capita in 2015, split by an initial-letter condition.</p>
+<div id="054f523c" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT</span></span>
+<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a><span class="st">    CASE WHEN country &lt; 'N' THEN 'A to M' ELSE 'N to Z' END AS name_group,</span></span>
+<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a><span class="st">    ROUND(AVG(value), 2) AS mean_co2</span></span>
+<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'co2_per_capita' AND year = 2015</span></span>
+<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY name_group</span></span>
+<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY name_group</span></span>
+<span id="cb90-9"><a href="#cb90-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="46">
+<pre><code>  name_group  mean_co2
+0     A to M      4.09
+1     N to Z      5.89</code></pre>
+</div>
+</div>
+<p><strong>NULLs, CASE, windows, task 1.</strong> Top five countries by life expectancy in 2019 with <code>RANK()</code>.</p>
+<div id="7d9a7136" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country,</span></span>
+<span id="cb92-3"><a href="#cb92-3" aria-hidden="true" tabindex="-1"></a><span class="st">       ROUND(value, 1) AS life_expectancy,</span></span>
+<span id="cb92-4"><a href="#cb92-4" aria-hidden="true" tabindex="-1"></a><span class="st">       RANK() OVER (ORDER BY value DESC) AS rank</span></span>
+<span id="cb92-5"><a href="#cb92-5" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb92-6"><a href="#cb92-6" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'life_expectancy' AND year = 2019 AND value IS NOT NULL</span></span>
+<span id="cb92-7"><a href="#cb92-7" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY rank</span></span>
+<span id="cb92-8"><a href="#cb92-8" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 5</span></span>
+<span id="cb92-9"><a href="#cb92-9" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>                country  life_expectancy  rank
+0                Monaco             86.2     1
+1            San Marino             85.3     2
+2  Hong Kong SAR, China             85.2     3
+3                 Japan             84.4     4
+4         Liechtenstein             84.2     5</code></pre>
+</div>
+</div>
+<p><strong>NULLs, CASE, windows, task 2.</strong> Internet-use labels for 2020.</p>
+<div id="efed3d84" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT country, ROUND(value, 1) AS internet_pct,</span></span>
+<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a><span class="st">    CASE</span></span>
+<span id="cb94-4"><a href="#cb94-4" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN value IS NULL THEN 'No data'</span></span>
+<span id="cb94-5"><a href="#cb94-5" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN value &gt;= 60   THEN 'High'</span></span>
+<span id="cb94-6"><a href="#cb94-6" aria-hidden="true" tabindex="-1"></a><span class="st">        WHEN value &gt;= 30   THEN 'Medium'</span></span>
+<span id="cb94-7"><a href="#cb94-7" aria-hidden="true" tabindex="-1"></a><span class="st">        ELSE 'Low'</span></span>
+<span id="cb94-8"><a href="#cb94-8" aria-hidden="true" tabindex="-1"></a><span class="st">    END AS usage_band</span></span>
+<span id="cb94-9"><a href="#cb94-9" aria-hidden="true" tabindex="-1"></a><span class="st">FROM wdi</span></span>
+<span id="cb94-10"><a href="#cb94-10" aria-hidden="true" tabindex="-1"></a><span class="st">WHERE indicator = 'internet_users_pct' AND year = 2020</span></span>
+<span id="cb94-11"><a href="#cb94-11" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY value DESC NULLS LAST</span></span>
+<span id="cb94-12"><a href="#cb94-12" aria-hidden="true" tabindex="-1"></a><span class="st">LIMIT 10</span></span>
+<span id="cb94-13"><a href="#cb94-13" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="48">
+<pre><code>                country  internet_pct usage_band
+0  United Arab Emirates         100.0       High
+1               Bahrain          99.7       High
+2                 Qatar          99.7       High
+3               Iceland          99.5       High
+4                Kuwait          99.1       High
+5                Monaco          98.6       High
+6            Luxembourg          98.5       High
+7          Saudi Arabia          97.9       High
+8               Denmark          96.5       High
+9           Korea, Rep.          96.5       High</code></pre>
+</div>
+</div>
+<p><strong>Combining tables, task 1.</strong> Richest country in each region.</p>
+<div id="24f35667" class="cell" data-execution_count="49">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT r.region, MAX(g.gdp_per_capita) AS top_gdp</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a><span class="st">FROM gdp2020 AS g</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a><span class="st">INNER JOIN regions AS r ON g.iso3 = r.iso3</span></span>
+<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY r.region</span></span>
+<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY top_gdp DESC</span></span>
+<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="49">
+<pre><code>               region  top_gdp
+0            Americas  59534.0
+1              Europe  42373.0
+2           East Asia  10573.0
+3       Latin America   8435.0
+4  Sub-Saharan Africa   5570.0
+5          South Asia   1807.0</code></pre>
+</div>
+</div>
+<p><strong>Combining tables, task 2.</strong> Region codes with no GDP row.</p>
+<div id="f948ef9c" class="cell" data-execution_count="50">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>con.sql(<span class="st">"""</span></span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT iso3 FROM regions</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a><span class="st">EXCEPT</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a><span class="st">SELECT iso3 FROM gdp2020</span></span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY iso3</span></span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a><span class="st">"""</span>).df()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="50">
+<pre><code>  iso3
+0  KOR</code></pre>
+</div>
+</div>
+<p>That is the end of the tutorial. You installed DuckDB, queried files in place, and worked through the core of SQL on real World Bank data. Keep this document as a reference, and open the <a href="https://duckdb.org/docs/">DuckDB documentation</a> when you need a function it did not cover.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Copyright 2026, Danilo Freire. The content of this site is licensed under the <a href="LICENSE.qmd">MIT License</a>.</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/danilofreire/datasci350/issues/new" class="toc-action"><i class="bi bi-github"></i>Report an issue</a></li><li><a href="https://github.com/danilofreire/datasci350/blob/main/tutorials/04-duckdb-sql-tutorial.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/danilofreire/datasci350">
+      <i class="bi bi-github" role="img">
+</i> 
+    </a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

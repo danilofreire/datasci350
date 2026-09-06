@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/tabby.min.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.38">
+
+  <meta name="author" content="Danilo Freire">
+  <title>DATASCI 350 – DATASCI 350 - Data Science Computing</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/reveal.css">
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="../../site_libs/revealjs/dist/theme/quarto-2ae8a0dcce565690374c94722aabe1a4.css">
+  <link href="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/multimodal/multimodal.css" rel="stylesheet">
+  <link href="../../site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" class="quarto-title-block center">
+  <h1 class="title">DATASCI 350 - Data Science Computing</h1>
+  <p class="subtitle">Lecture 17 - Cloud Computing II</p>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Danilo Freire 
+</div>
+<div class="quarto-title-author-email">
+<a href="mailto:danilo.freire@emory.edu">danilo.freire@emory.edu</a>
+</div>
+        <p class="quarto-title-affiliation">
+            Department of Data and Decision Sciences <br> Emory University
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="hello-everyone" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Hello, everyone! 👋</h1>
+
+</section>
+
+<section>
+<section id="brief-recap" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Brief recap 📚</h1>
+
+</section>
+<section id="where-we-left-off" class="slide level2">
+<h2>Where we left off</h2>
+<h3 id="you-now-have-an-aws-account">You now have an AWS account</h3>
+<div style="margin-top: 25px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul>
+<li>Last class made the case for <span class="alert">renting</span> servers instead of buying them</li>
+<li><span class="alert">Animoto</span> grew from 50 EC2 machines to 3,500 in three days when its Facebook app went viral</li>
+<li>The Washington Post read 17,481 pages of Clinton schedules in nine hours of machine time, for $144.62</li>
+<li>We learnt the vocabulary, <span class="alert">IaaS, PaaS and SaaS</span>, and the virtual machines underneath</li>
+<li>We toured the catalogue: EC2, S3, RDS and SageMaker</li>
+<li>We watched <code>us-east-1</code> fail for fifteen hours last October and take Snapchat, Signal and several banks with it</li>
+<li>You opened an account on the <span class="alert">six-month free plan</span> and set a <span class="alert">zero-spend budget</span></li>
+<li>We finished by handing a scanned document to Amazon Textract</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/meme.png"><img data-src="figures/meme.png" style="width:58.0%"></a></p>
+<div style="font-size: 17px;">
+<p>Cartoon by <a href="https://forrestbrazeal.com/">Forrest Brazeal</a></p>
+</div>
+</div>
+<ul>
+<li>Everything so far happened in the browser. Today we open a terminal and drive the machine from the command line</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="todays-plan" class="slide level2">
+<h2>Today’s plan</h2>
+<div style="margin-top: 30px; font-size: 19px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Using <span class="alert">EC2</span> instances from your <span class="alert">local machine</span>
+<ul>
+<li>Launching instances via AWS Console</li>
+<li>Connecting via SSH with <span class="alert">key pairs</span></li>
+</ul></li>
+<li>Essential <span class="alert">Linux commands</span> for instance management:
+<ul>
+<li>Package management: <code>apt update</code>, <code>apt upgrade</code>, <code>apt install</code></li>
+<li>File operations: <code>scp</code> and <code>chmod</code></li>
+</ul></li>
+<li><span class="alert">CloudShell</span>: a terminal in the browser
+<ul>
+<li>The <code>aws</code> command line, already signed in</li>
+</ul></li>
+<li>Activity 01: Launching a <span class="alert">Jupyter notebook</span> on an EC2 instance
+<ul>
+<li>Installing Jupyter and running a Python script</li>
+<li>Forwarding ports with SSH</li>
+<li>Running Jupyter on a remote server</li>
+</ul></li>
+<li>Activity 02: <span class="alert">Data analysis on the cloud</span> (time permitting)
+<ul>
+<li>Creating a weather dataset and uploading it to an EC2 instance</li>
+<li>Analysing the data with Python and downloading the results</li>
+</ul></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ubuntu.jpg"><img data-src="figures/ubuntu.jpg" style="width:80.0%"></a></p>
+<p><a href="https://en.wikipedia.org/wiki/Ubuntu">About Ubuntu (Wikipedia)</a></p>
+<p><a href="https://ubuntu.com/">Ubuntu (Official Site)</a></p>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="ec2-from-your-local-machine" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>EC2 from your local machine 🖥️</h1>
+
+</section>
+<section id="ec2-instances-in-a-nutshell" class="slide level2">
+<h2>EC2 instances in a nutshell</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Just to recap: <span class="alert">EC2</span> is a virtual server in the cloud</li>
+<li>Each instance has a full <span class="alert">OS</span> and can run any software (mostly <a href="https://ubuntu.com/">Ubuntu</a> or <a href="https://aws.amazon.com/amazon-linux-2/">Amazon Linux</a>)</li>
+<li><span class="alert">Virtualisation</span> allows multiple instances on the same hardware
+<ul>
+<li>A <a href="https://www.datacamp.com/blog/what-is-a-virtual-machine">virtual machine</a> is a software emulation of a physical computer</li>
+<li><a href="https://www.redhat.com/en/topics/virtualization/what-is-a-hypervisor">Hypervisors</a> manage VMs and allocate resources</li>
+</ul></li>
+<li><span class="alert">Instance types</span> vary in CPU, memory, storage, and network capacity
+<ul>
+<li><span class="alert">T2</span> instances are general-purpose, <span class="alert">M5</span> are memory-optimised, etc</li>
+</ul></li>
+<li>Your account runs on the <a href="https://aws.amazon.com/free/">six-month free plan</a>: $100 in credits, and up to $100 more for trying services</li>
+<li>The types marked <span class="alert">free tier eligible</span> for your account are <code>t3.micro</code>, <code>t3.small</code>, <code>t4g.micro</code> and <code>t4g.small</code></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/hypervisor.avif"><img data-src="figures/hypervisor.avif" style="width:80.0%"></a></p>
+<p>Source: <a href="https://www.datacamp.com/blog/what-is-a-virtual-machine">DataCamp</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="ubuntu-linux" class="slide level2">
+<h2>Ubuntu Linux</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><span class="alert">Linux</span> is an open-source operating system, and it runs most of the servers on the internet</li>
+<li>It is <span class="alert">free</span> to install on as many machines as you like, and you can change any part of it</li>
+<li>The most widely used Linux distribution is <a href="https://ubuntu.com/">Ubuntu</a>
+<ul>
+<li><a href="https://www.debian.org/">Debian</a>-based, with a focus on usability and security</li>
+<li><a href="https://ubuntu.com/about/release-cycle">Long-term support (LTS)</a> versions are supported for 5 years</li>
+<li><a href="https://ubuntu.com/desktop">Desktop</a> and <a href="https://ubuntu.com/server">server</a> editions available</li>
+</ul></li>
+<li><a href="https://cloud.google.com/">Google</a>, <a href="https://aws.amazon.com/">Amazon</a>, and <a href="https://azure.microsoft.com/en-us/">Microsoft</a> all offer Ubuntu instances</li>
+<li><a href="https://docs.microsoft.com/en-us/windows/wsl/">Windows Subsystem for Linux (WSL)</a> allows you to run Ubuntu on Windows</li>
+<li>For our purposes, we will use <span class="alert">Ubuntu instances on AWS</span></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ubuntu.png"><img data-src="figures/ubuntu.png" style="width:90.0%"></a></p>
+<p><a href="https://ubuntu.com/desktop">Ubuntu Desktop</a></p>
+</div>
+<ul>
+<li>All Linux distributions share a common set of commands and <span class="alert">use bash as the default shell</span></li>
+<li>Therefore, <span class="alert">all commands we have learnt so far will work on Ubuntu</span></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="ubuntu-server" class="slide level2">
+<h2>Ubuntu server</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>While Ubuntu is a complete OS (with a GUI), we will use the <span class="alert">terminal</span> to interact with our instances</li>
+<li>Why should we only use the terminal?
+<ul>
+<li>A bare-bones Ubuntu instance is <span class="alert">cheaper</span> and <span class="alert">faster</span> than a full desktop</li>
+<li>And as you already know, the terminal has <span class="alert">everything you need</span> to manage your instance and run your code</li>
+</ul></li>
+<li>Again, <span class="alert">all commands are the same</span> (<code>ls</code>, <code>cd</code>, <code>pwd</code>, etc)</li>
+<li>However, you have to use <code>sudo</code> to run commands as <span class="alert">root</span> (superuser)
+<ul>
+<li>This is because <span class="alert">root has full control over the system</span> and can do anything</li>
+<li><span class="alert">Be careful with root!</span></li>
+</ul></li>
+<li>To install software, use <code>apt</code> (Advanced Package Tool)</li>
+<li><code>apt update</code> refreshes the package list</li>
+<li><code>apt install</code> installs a package</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/terminal.jpg"><img data-src="figures/terminal.jpg" style="width:100.0%"></a></p>
+<p><a href="https://ubuntu.com/tutorials/command-line-for-beginners">Ubuntu Terminal</a></p>
+</div>
+<ul>
+<li><code>sudo apt install python3</code> installs Python 3</li>
+<li><code>sudo apt install python3-pip</code> installs <a href="https://pypi.org/project/pip/">pip</a></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="windows-subsystem-for-linux-wsl" class="slide level2">
+<h2>Windows Subsystem for Linux (WSL)</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/windows/wsl/">WSL</a> is nothing but Ubuntu running natively on Windows!</li>
+<li>I hope many of you have already installed it! 😊</li>
+<li>If you work with WSL, <span class="alert">make sure to store your SSH key file in your Ubuntu home directory</span></li>
+<li>That’s because Windows FS does not work well with <code>chmod 400</code> (which is required to set the correct permissions on your key file)</li>
+<li>To locate your <code>/home/user</code> directory, type <code>cd ~</code> and then <code>pwd</code> in your WSL terminal</li>
+<li>You can then move your key file there using Windows Explorer or the <code>mv</code> command in WSL</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/wsl.jpg"><img data-src="figures/wsl.jpg" style="width:100.0%"></a></p>
+<p><a href="https://ubuntu.com/wsl">Ubuntu on Windows (WSL)</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-01-launching-an-ec2-instance" class="slide level2">
+<h2>Step 01: Launching an EC2 instance</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Now we are ready to launch an <span class="alert">EC2 instance</span>!</li>
+<li>Go to the AWS Console: <a href="https://aws.amazon.com/console/" class="uri">https://aws.amazon.com/console/</a>, sign in, and click on (search for) EC2</li>
+<li>You will see the EC2 Dashboard, with a big orange button saying “Launch Instance”</li>
+<li>Click on it, and you will be taken to the <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html">AMI (Amazon Machine Image)</a> selection page</li>
+<li>There, we will choose an Ubuntu AMI (free tier eligible)</li>
+<li>Amazon has <span class="alert">thousands of AMIs</span> available, including Windows, macOS, and other Linux distributions</li>
+<li>Many are already pre-configured to run specific software (e.g.&nbsp;<a href="https://jupyter.org/">Jupyter</a>, <a href="https://www.tensorflow.org/">TensorFlow</a>, <a href="https://www.docker.com/">Docker</a>, etc.)</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ec2-dashboard-2026.png"><img data-src="figures/ec2-dashboard-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The <a href="https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#Home:">EC2 Dashboard</a></p>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-02-choosing-an-instance-type" class="slide level2">
+<h2>Step 02: Choosing an instance type</h2>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li>Type a name under <code>Name and tags</code>. For example, <code>datasci350</code></li>
+<li>Under <code>Application and OS Images</code>, choose <span class="alert">Ubuntu</span>. The console offers the current release, <code>Ubuntu Server 26.04 LTS</code>, marked <code>Free tier eligible</code></li>
+<li>Keep <code>64-bit (x86)</code> as the architecture</li>
+<li>You can also say how many instances to launch. To start off, <span class="alert">choose 1</span></li>
+<li>The <code>Summary</code> panel on the right lists every choice before you commit to it</li>
+<li>The next slide covers the instance type</li>
+<li><span class="alert">So far, so good?</span> 😊</li>
+</ul>
+</div><div class="column" style="width:58%;">
+<div style="text-align: center; margin-top: -10px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/launch-instance-2026.png"><img data-src="figures/launch-instance-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The <a href="https://us-east-1.console.aws.amazon.com/ec2/v2/home?region=us-east-1#LaunchInstanceWizard:">launch wizard</a>. Click the image to read the <code>Summary</code> panel</p>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="which-instance-type-is-free" class="slide level2">
+<h2>Which instance type is free?</h2>
+<h3 id="the-consoles-own-note-is-out-of-date">The console’s own note is out of date</h3>
+<div style="margin-top: 25px; font-size: 20px;">
+<div class="columns">
+<div class="column" style="width:45%;">
+<ul>
+<li>Choose <span class="alert"><code>t3.micro</code></span>, which carries the <code>Free tier eligible</code> label</li>
+<li>The full eligible list for accounts opened after 15 July 2025 is <code>t3.micro</code>, <code>t3.small</code>, <code>t4g.micro</code>, <code>t4g.small</code>, <code>c7i-flex.large</code> and <code>m7i-flex.large</code></li>
+<li>The dropdown prices every type as you scroll. A <code>t3.micro</code> is 2 vCPUs, 1 GiB of memory, and <span class="alert">0.0104 USD an hour</span> on Linux</li>
+<li>If you need more power, you can <span class="alert">change the instance type later</span></li>
+</ul>
+<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 18px; margin-top: 15px;">
+<p>The blue <code>Free tier</code> note in the <code>Summary</code> panel still describes the old offer: 750 hours a month of <code>t2.micro</code> for a year. That offer closed to accounts opened after <span class="alert">15 July 2025</span>. Yours runs on credits, and <code>t2.micro</code> is not on your list. Read that note as history</p>
+</div>
+</div><div class="column" style="width:55%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/instance-type-2026.png"><img data-src="figures/instance-type-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The instance type dropdown, with the hourly price under every entry</p>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-03-choose-an-ssh-key-pair" class="slide level2">
+<h2>Step 03: Choose an SSH key pair</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Next, you will be asked to choose a <span class="alert">key pair</span></li>
+<li>You just have to <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">do it once</a>, and then <span class="alert">you can use the same key pair for all your instances</span></li>
+<li>A key pair is a pair of cryptographic keys that you use to <span class="alert">authenticate</span> to an instance</li>
+<li>Click on <code>Create a new key pair</code> and give it a name (e.g.&nbsp;<code>datasci350</code>)</li>
+<li>Choose <code>ED25519</code> and <code>.pem</code> as the file format</li>
+<li>Click on <code>Create Key Pair</code> and <span class="alert">save it to a secure location</span></li>
+<li>It is important to <span class="alert">keep this key safe and know where it is</span>, as it is the only way to access your instance</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div style="margin-top: -30px; text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/key-pair-2026.png"><img data-src="figures/key-pair-2026.png" style="width:88.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-04-check-httphttps-options" class="slide level2">
+<h2>Step 04: Check HTTP/HTTPS options</h2>
+<div style="margin-top: 30px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Under <code>Network settings</code>, you may check <code>Allow HTTPS traffic from the internet</code> and <code>Allow HTTP traffic from the internet</code> so that you can access the web servers hosted on your EC2 VM</li>
+<li>We will allow all traffic for now, but in a production environment, you should <span class="alert">restrict traffic to only what is necessary</span></li>
+<li>Why so? <span class="alert">Security</span>! The more open ports you have, the more vulnerable your instance is to attacks</li>
+<li>You can always <span class="alert">edit the security group later</span> to add or remove rules</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/security-group.png"><img data-src="figures/security-group.png" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-05-configure-storage" class="slide level2">
+<h2>Step 05: Configure storage</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>You may also increase the storage capacity of the <code>Root</code> volume under Configure storage</li>
+<li>By default you will be allocated a small 8-GB root disk</li>
+<li>The default 8 GB is enough for everything we do today, and a larger disk spends more of your credits</li>
+<li>You can also add additional volumes if you need more storage</li>
+<li><code>gp3</code> is the default volume type, and it works fine for most use cases</li>
+<li><code>io2</code> is the fastest and most expensive volume type, usually used for high-performance databases (which require millisecond latency)</li>
+<li>If you have data that is not frequently accessed, you can use <code>sc1</code> or <code>st1</code> for cost savings</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/storage.png"><img data-src="figures/storage.png" style="width:100.0%"></a></p>
+</div>
+<ul>
+<li><span class="alert">Now you just have to click on <code>Launch instance</code></span>! 🚀</li>
+</ul>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/launch.png"><img data-src="figures/launch.png" style="width:90.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="step-06-log-in-to-the-ec2-instance-through-ssh" class="slide level2">
+<h2>Step 06: Log in to the EC2 instance through SSH</h2>
+<div style="margin-top: 30px; font-size: 20px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>Once you click on <code>Launch</code>, you will be taken to the Instances page</li>
+<li>Click on <code>Connect to instance</code> to see the instructions</li>
+</ul>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/connect.png"><img data-src="figures/connect.png" style="width:100.0%"></a></p>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>Choose the <span class="alert"><code>In SSH client</code></span> tab to see the commands for your instance</li>
+<li><span class="alert">Open a terminal</span> on your local machine and go to the directory where you saved the key pair</li>
+<li>AWS writes both commands out for you under <code>How to connect</code>. Run step 3, <code>chmod 400 "your-key.pem"</code>, then step 4, <code>ssh -i "your-key.pem" ubuntu@your-public-dns</code></li>
+</ul>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/connect-ssh-2026.png"><img data-src="figures/connect-ssh-2026.png" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="and-you-are-in" class="slide level2">
+<h2>And you are in! 🎉</h2>
+<h3 id="welcome-to-the-cloud">Welcome to the cloud! 🌥️</h3>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:58%;">
+<div style="text-align: center; margin-top: -20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/ssh-session-2026.png"><img data-src="figures/ssh-session-2026.png" style="width:100.0%"></a></p>
+</div>
+</div><div class="column" style="width:42%;">
+<ul>
+<li>The first connection asks you to confirm the host fingerprint. Type <code>yes</code> once, and SSH remembers the machine</li>
+<li>The banner tells you what you rented: <span class="alert">Ubuntu 26.04 LTS</span>, 6.61 GB of disk in use, 118 processes, nobody else logged in</li>
+<li>The prompt changes from your own machine’s name to <code>ubuntu@ip-172-31-13-146</code></li>
+<li>Every command you type from here runs on a computer in <span class="alert">Virginia</span></li>
+<li>Type <code>exit</code> to <span class="alert">log out and return to your own machine</span></li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="check-the-instance-details-on-the-aws-console" class="slide level2">
+<h2>Check the instance details on the AWS Console</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li>You can click on the instance ID or on the <code>Instances</code> link on the left to see the details of your instance</li>
+<li>You can see the <span class="alert">public IP address</span> of your instance, the <span class="alert">instance type</span>, the <span class="alert">security group</span>, the <span class="alert">key pair</span>, and other details</li>
+<li>You can also <span class="alert">stop</span>, <span class="alert">terminate</span>, or <span class="alert">reboot</span> your instance from this page (we will see how to do this later)</li>
+</ul>
+</div><div class="column" style="width:70%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/instance-details-2026.png"><img data-src="figures/instance-details-2026.png" style="width:100.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="aws-cloudshell" class="slide level2">
+<h2>AWS CloudShell</h2>
+<h3 id="a-terminal-in-the-browser-already-signed-in">A terminal in the browser, already signed in</h3>
+<div style="margin-top: 30px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:46%;">
+<ul>
+<li>Open it from the <span class="alert">bottom left corner</span> of the console. Nothing to install</li>
+<li><span class="alert">Amazon Linux 2023</span>: 1 vCPU, 2 GiB of RAM, 1 GB of storage kept between sessions</li>
+<li>Free. You pay only for the AWS resources you drive from it</li>
+<li>The <span class="alert">AWS CLI</span> is installed and signed in as you. No keys to configure</li>
+<li>Also there: <code>git</code>, <code>python3</code>, <code>pip</code>, <code>boto3</code>, <code>jq</code>, <code>wget</code>, <code>ssh</code>, <code>vim</code>, <code>nano</code>, <code>tmux</code></li>
+<li>It is <span class="alert">bash</span>, so <code>ls</code>, <code>cd</code>, <code>grep</code> and <code>chmod</code> work as on your laptop</li>
+<li>Sessions end after 20 to 30 idle minutes, or 12 hours. Your home directory goes after 120 unused days</li>
+</ul>
+</div><div class="column" style="width:54%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/cloudshell-open-2026.png"><img data-src="figures/cloudshell-open-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The panel you meet on first launch, stating the tools and the 1 GB of storage per region</p>
+</div>
+</div>
+<ul>
+<li>I still recommend <span class="alert">your local terminal</span> for this course, so you can write code in your own editor</li>
+<li>CloudShell is the fallback when that is not available</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="cloudshell-commands" class="slide level2">
+<h2>CloudShell commands</h2>
+<h3 id="what-is-actually-new">What is actually new</h3>
+<div style="margin-top: 25px; font-size: 20px;">
+<div class="columns">
+<div class="column" style="width:52%;">
+<p><span class="alert">Everything from the shell module works unchanged.</span> What is new is the <code>aws</code> command line, already signed in as you:</p>
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px; font-size: 19px;">
+<table class="caption-top">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Command</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>aws sts get-caller-identity</code></td>
+<td>Prints which account and user you are signed in as</td>
+</tr>
+<tr class="even">
+<td><code>aws ec2 describe-instances --output table</code></td>
+<td>Lists your instances without leaving the browser</td>
+</tr>
+<tr class="odd">
+<td><code>aws ec2 stop-instances --instance-ids i-...</code></td>
+<td>Stops an instance from the command line</td>
+</tr>
+<tr class="even">
+<td><code>aws s3 ls</code></td>
+<td>Lists your S3 buckets</td>
+</tr>
+<tr class="odd">
+<td><code>aws s3 cp report.pdf s3://my-bucket/</code></td>
+<td>Copies a file into a bucket</td>
+</tr>
+<tr class="even">
+<td><code>sudo dnf install &lt;package&gt;</code></td>
+<td>Installs software for this session only</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>Amazon Linux uses <span class="alert"><code>dnf</code></span> where Ubuntu uses <code>apt</code>, and software installed with it lands in <code>/usr/bin</code>, which is wiped when the session ends</li>
+<li>Anything you want to keep goes in your home directory</li>
+</ul>
+</div><div class="column" style="width:48%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/cloudshell-cli-2026.png"><img data-src="figures/cloudshell-cli-2026.png" style="width:100.0%"></a></p>
+</div>
+<div style="font-size: 17px;">
+<p>Two <code>aws</code> commands and what they return. The account number is blanked out, and <code>describe-instances</code> reports one machine running and one already terminated. <a href="https://docs.aws.amazon.com/cloudshell/latest/userguide/getting-started.html">More commands here</a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="cloudshell-as-a-way-back-in" class="slide level2 scrollable">
+<h2>CloudShell as a way back in</h2>
+<h3 id="when-your-own-terminal-will-not-cooperate">When your own terminal will not cooperate</h3>
+<div style="margin-top: 20px; font-size: 19px;">
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li>The <span class="alert">WSL problem</span> from earlier: Windows will not apply <code>chmod 400</code> to a file sitting in the Windows filesystem, and SSH then refuses the key</li>
+<li>CloudShell sidesteps that, because the key lands on a Linux machine:</li>
+</ul>
+<ol type="1">
+<li>Open CloudShell from the console.</li>
+<li>Choose <code>Actions</code>, then <code>Upload file</code>.</li>
+<li>Select your <code>.pem</code> file. It arrives in <code>/home/cloudshell-user</code>.</li>
+<li>Run <code>chmod 400 your-key.pem</code>.</li>
+<li>Run the same <code>ssh -i ...</code> command the console gave you.</li>
+</ol>
+<ul>
+<li>The instance neither knows nor cares that the connection came from a browser tab</li>
+</ul>
+</div><div class="column" style="width:58%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/cloudshell-actions-2026.png"><img data-src="figures/cloudshell-actions-2026.png" style="width:18.0%"></a></p>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/cloudshell-ssh-2026.png"><img data-src="figures/cloudshell-ssh-2026.png" style="width:92.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The whole thing from a browser tab: the upload confirmation, <code>chmod 400</code>, and an Ubuntu 26.04 prompt on the instance</p>
+</div>
+</div>
+<ul>
+<li>Remember the <span class="alert">20 to 30 minute</span> idle timeout. A CloudShell session that goes quiet takes your SSH connection down with it</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="step-07-update-and-install-software" class="slide level2">
+<h2>Step 07: Update and install software</h2>
+<div style="margin-top: 30px; font-size: 20px;">
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>Once you are in, the first thing you should do is to update the package list</li>
+<li>Run <code>sudo apt update</code> to refresh the package list</li>
+<li>Then, type <code>sudo apt upgrade</code> to install the latest updates
+<ul>
+<li>You can use the <code>-y</code> flag to automatically answer <code>yes</code> to all prompts, e.g., <code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></li>
+</ul></li>
+<li>You can also install software using <code>sudo apt install</code></li>
+<li>For example, to install Python 3, run <code>sudo apt install python3</code></li>
+<li>To install pip, run <code>sudo apt install python3-pip</code></li>
+<li>You can also install <a href="https://jupyter.org/">Jupyter</a> or any other software you need</li>
+<li>And we will be ready to go! 🚀</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/update.png"><img data-src="figures/update.png" style="width:100.0%"></a></p>
+<p><code>sudo apt update &amp;&amp; sudo apt upgrade -y &amp;&amp; sudo apt install -y python3 &amp;&amp; sudo apt install -y python3-pip</code></p>
+</div>
+<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
+<p>On recent Ubuntu versions, install with <code>sudo apt install python3-&lt;package&gt;</code>, or build a virtual environment first with <code>python3 -m venv env</code> and <code>source env/bin/activate</code></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="adding-files-to-your-instance" class="slide level2">
+<h2>Adding files to your instance</h2>
+<div style="margin-top: 25px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:42%;">
+<ul>
+<li><code>scp</code> means “secure copy”. It moves files securely</li>
+<li>The <code>-i</code> flag stands for “identity file”</li>
+<li>The direction comes from <span class="alert">the order of the two paths. Whichever one you write first is the source</span></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource verbatim number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a></a># laptop to instance</span>
+<span id="cb1-2"><a></a>scp -i key.pem myfile ubuntu@public-dns:~</span>
+<span id="cb1-3"><a></a></span>
+<span id="cb1-4"><a></a># instance to laptop</span>
+<span id="cb1-5"><a></a>scp -i key.pem ubuntu@public-dns:~/myfile .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>That <code>.</code> at the end of the second command means “into the folder I am in right now”</li>
+<li><code>scp</code> also copies <span class="alert">between two remote servers</span></li>
+<li><span class="alert">Windows users</span>: <a href="https://winscp.net/eng/index.php">WinSCP</a> and <a href="https://www.putty.org/">PuTTY</a> do the same job with a window you can drag files into</li>
+</ul>
+</div><div class="column" style="width:58%;">
+<ul>
+<li>Open a <span class="alert">new local terminal</span>. Do not use the one connected to your instance, because <span class="alert"><code>scp</code> runs on your own machine</span>:</li>
+</ul>
+<div style="font-size: 19px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource verbatim number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>echo "print('Hello, DATASCI350!')" &gt; hello.py</span>
+<span id="cb2-2"><a></a>scp -i datasci350.pem hello.py ubuntu@XXXXXX.compute-1.amazonaws.com:~</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/scp.png"><img data-src="figures/scp.png" style="width:100.0%"></a></p>
+</div>
+<ul>
+<li>Replace <code>XXXXXX</code> with your own public DNS. You will find it on the Instances page</li>
+<li><span class="alert">Keep the <code>:~</code> at the end</span> (home directory)</li>
+<li>Back in your SSH session, <code>ls</code> shows that the file arrived and <code>python3 hello.py</code> runs it</li>
+</ul>
+<div style="text-align: center; margin-top: -20px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/hello.png"><img data-src="figures/hello.png" style="width:58.0%"></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="stopping-and-terminating-your-instance" class="slide level2">
+<h2>Stopping and terminating your instance</h2>
+<div style="margin-top: 25px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:40%;">
+<ul>
+<li>It is very important to <span class="alert">stop or terminate your instance</span> when you are not using it</li>
+<li>Stopping <span class="alert">pauses</span> the machine. Compute stops costing you anything, and the disk carries on charging</li>
+<li>Terminating <span class="alert">deletes</span> it. Nothing left to pay for, and every file on it is gone</li>
+<li>Stopping also releases the <span class="alert">public IP address</span>. The instance gets a new one when you start it again, and your old <code>ssh</code> command stops working</li>
+<li>A <code>t3.micro</code> at 0.0104 USD an hour, left running for a month, is <span class="alert">about $7.50</span> of your $100 in credits</li>
+<li>You can stop, terminate or <span class="alert">reboot</span> from the <span class="alert">Instances page</span></li>
+<li>So let’s <span class="alert">terminate</span> our instance now! 🛑</li>
+</ul>
+</div><div class="column" style="width:60%;">
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/stop-2026.png"><img data-src="figures/stop-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>The <code>Instance state</code> menu. <code>Terminate (delete) instance</code> is the last entry</p>
+</div>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/terminated-2026.png"><img data-src="figures/terminated-2026.png" style="width:100.0%"></a></p>
+<div style="font-size: 17px;">
+<p>Afterwards both instances read <code>Terminated</code>, and the <code>Public IPv4 DNS</code> column is empty. The address is gone</p>
+</div>
+</div>
+</div></div>
+</div>
+</section></section>
+<section>
+<section id="now-it-is-your-turn" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Now it is your turn! 🚀</h1>
+
+</section>
+<section id="activity-01" class="slide level2 scrollable">
+<h2>Activity 01</h2>
+<div style="margin-top: 20px; font-size: 20px;">
+<ol type="1">
+<li>Create an EC2 instance on AWS called <code>jupyter</code> (as we did in the previous slides)</li>
+<li>Connect to your instance <span class="alert">with port forwarding</span> from your local terminal:
+<ul>
+<li><code>ssh -i "&lt;your-key&gt;.pem" ubuntu@&lt;public_IPv4_DNS_address&gt; -L 8000:localhost:8888</code></li>
+<li>The <code>-L 8000:localhost:8888</code> part forwards port 8888 on the instance to port 8000 on your machine</li>
+</ul></li>
+<li>Update, upgrade, and install Python 3, pip, and Jupyter:
+<ul>
+<li><code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></li>
+<li><code>sudo apt install -y python3 python3-pip jupyter-notebook</code></li>
+<li>The package is <span class="alert"><code>jupyter-notebook</code></span>, with a hyphen, and it pulls the library in with it. <code>python3-notebook</code> on its own gives you the library without the command, and <code>jupyter notebook</code> then fails</li>
+</ul></li>
+<li>Check that everything is installed: <code>which python3</code>, <code>which pip3</code>, <code>which jupyter</code></li>
+<li>Start Jupyter: <code>jupyter notebook</code></li>
+<li>Open your browser and go to <code>http://localhost:8000</code>. Copy the token from the terminal to log in
+<ul>
+<li>You can also click the link in the terminal (it looks like <code>http://localhost:8888/?token=...</code>) and change <code>8888</code> to <code>8000</code></li>
+</ul></li>
+<li>Create a new notebook and run <code>print('Hello, DATASCI350!')</code> (or any other code you like!)</li>
+<li><span class="alert">Do not</span> terminate your instance, we will use it later</li>
+</ol>
+<div style="margin-top: 20px;">
+<p>Closing the SSH connection kills Jupyter. <code>tmux</code> keeps a session alive across disconnections and <code>tmux attach</code> returns to it, but the instance carries on billing for every minute it runs. <a href="https://linuxize.com/post/getting-started-with-tmux/">More on tmux here</a></p>
+</div>
+</div>
+</section>
+<section id="activity-01-1" class="slide level2">
+<h2>Activity 01</h2>
+<div style="text-align: center; margin-top: 30px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/jupyter.png"><img data-src="figures/jupyter.png" style="width:85.0%"></a></p>
+</div>
+</section>
+<section id="activity-01-2" class="slide level2">
+<h2>Activity 01</h2>
+<div style="margin-top: 30px; font-size: 23px; text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/hello-jupyter.png"><img data-src="figures/hello-jupyter.png" style="width:100.0%"></a></p>
+</div>
+</section></section>
+<section>
+<section id="another-one" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Another one? 🚀</h1>
+
+</section>
+<section id="activity-02" class="slide level2">
+<h2>Activity 02</h2>
+<div style="margin-top: 30px; font-size: 21px;">
+<ul>
+<li>Now that you have your EC2 instance running, let’s do some data analysis</li>
+<li>We will practise <span class="alert">two ways</span> of getting files onto your instance:
+<ul>
+<li><strong>Method 1 (<code>scp</code>)</strong>: Create a file on your local machine, then upload it to the instance. Use this when you have files on your own computer that are not available online (e.g., your own datasets, private code)</li>
+<li><strong>Method 2 (<code>wget</code>)</strong>: Download a file directly from the internet to the instance. Use this when the file is already hosted somewhere (e.g., GitHub, a public dataset URL). This skips your local machine entirely</li>
+</ul></li>
+<li>First, install the required packages on your instance:
+<ul>
+<li><code>sudo apt install -y python3-numpy python3-pandas python3-matplotlib python3-seaborn</code></li>
+</ul></li>
+<li><strong>Method 1: local to cloud with <code>scp</code>.</strong> On your <span class="alert">local machine</span>, create a weather dataset with the Python code below, or download it here: <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-17/weather_data.py">weather_data.py</a></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="co"># weather_data.py</span></span>
+<span id="cb3-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-3"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a></a><span class="im">import</span> datetime</span>
+<span id="cb3-5"><a></a></span>
+<span id="cb3-6"><a></a><span class="co"># Set seed for reproducibility</span></span>
+<span id="cb3-7"><a></a>np.random.seed(<span class="dv">42</span>)</span>
+<span id="cb3-8"><a></a></span>
+<span id="cb3-9"><a></a><span class="co"># Generate dates for the past 30 days</span></span>
+<span id="cb3-10"><a></a>dates <span class="op">=</span> pd.date_range(end<span class="op">=</span>datetime.datetime.now(), periods<span class="op">=</span><span class="dv">30</span>).tolist()</span>
+<span id="cb3-11"><a></a>dates <span class="op">=</span> [d.strftime(<span class="st">'%Y-%m-</span><span class="sc">%d</span><span class="st">'</span>) <span class="cf">for</span> d <span class="kw">in</span> dates]</span>
+<span id="cb3-12"><a></a></span>
+<span id="cb3-13"><a></a><span class="co"># Generate temperature data with some randomness</span></span>
+<span id="cb3-14"><a></a>temp_high <span class="op">=</span> np.random.normal(<span class="dv">75</span>, <span class="dv">8</span>, <span class="dv">30</span>)</span>
+<span id="cb3-15"><a></a>temp_low <span class="op">=</span> temp_high <span class="op">-</span> np.random.uniform(<span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">30</span>)</span>
+<span id="cb3-16"><a></a>precipitation <span class="op">=</span> np.random.exponential(<span class="fl">0.5</span>, <span class="dv">30</span>)</span>
+<span id="cb3-17"><a></a>humidity <span class="op">=</span> np.random.normal(<span class="dv">65</span>, <span class="dv">10</span>, <span class="dv">30</span>)</span>
+<span id="cb3-18"><a></a></span>
+<span id="cb3-19"><a></a><span class="co"># Create a structured dataset</span></span>
+<span id="cb3-20"><a></a>weather_data <span class="op">=</span> pd.DataFrame({</span>
+<span id="cb3-21"><a></a>    <span class="st">'date'</span>: dates,</span>
+<span id="cb3-22"><a></a>    <span class="st">'temp_high'</span>: temp_high,</span>
+<span id="cb3-23"><a></a>    <span class="st">'temp_low'</span>: temp_low,</span>
+<span id="cb3-24"><a></a>    <span class="st">'precipitation'</span>: precipitation,</span>
+<span id="cb3-25"><a></a>    <span class="st">'humidity'</span>: humidity</span>
+<span id="cb3-26"><a></a>})</span>
+<span id="cb3-27"><a></a></span>
+<span id="cb3-28"><a></a><span class="co"># Save to a text file</span></span>
+<span id="cb3-29"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'weather_data.txt'</span>, <span class="st">'w'</span>) <span class="im">as</span> f:</span>
+<span id="cb3-30"><a></a>    f.write(<span class="st">"# Weather data for the past 30 days</span><span class="ch">\n</span><span class="st">"</span>)</span>
+<span id="cb3-31"><a></a>    f.write(weather_data.to_string(index<span class="op">=</span><span class="va">False</span>))</span>
+<span id="cb3-32"><a></a>    </span>
+<span id="cb3-33"><a></a><span class="bu">print</span>(<span class="st">"Weather data saved to weather_data.txt"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-02-1" class="slide level2">
+<h2>Activity 02</h2>
+<div style="margin-top: 30px; font-size: 22px;">
+<ul>
+<li><p>Run this script on your <span class="alert">local machine</span>: <code>python3 weather_data.py</code></p></li>
+<li><p>It will create a file called <code>weather_data.txt</code> with 30 days of weather data</p></li>
+<li><p>Now upload it to your EC2 instance using <code>scp</code> (from a <span class="alert">local terminal</span>):</p>
+<ul>
+<li><code>scp -i &lt;your-key&gt;.pem weather_data.txt ubuntu@&lt;your-instance-ip&gt;:~/</code></li>
+</ul></li>
+<li><p>You can verify it arrived by running <code>ls</code> on your instance</p></li>
+<li><p><strong>Method 2: internet to cloud with <code>wget</code>.</strong> Now let’s get the analysis script <span class="alert">directly on the instance</span>, without going through your local machine. Run this on your <span class="alert">EC2 instance</span>:</p></li>
+</ul>
+<div style="font-size: 20px;">
+<ul>
+<li><code>wget https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-17/weather_analysis.py</code> (one line)</li>
+</ul>
+</div>
+<ul>
+<li>The code is shown below for reference (you don’t need to copy it, <code>wget</code> already downloaded it):</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a></a><span class="co"># weather_analysis.py</span></span>
+<span id="cb4-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-3"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-4"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-5"><a></a><span class="im">from</span> io <span class="im">import</span> StringIO  <span class="co"># Add proper import for StringIO</span></span>
+<span id="cb4-6"><a></a></span>
+<span id="cb4-7"><a></a><span class="co"># Read the weather data</span></span>
+<span id="cb4-8"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'weather_data.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb4-9"><a></a>    lines <span class="op">=</span> f.readlines()</span>
+<span id="cb4-10"><a></a></span>
+<span id="cb4-11"><a></a><span class="co"># Skip the header comment</span></span>
+<span id="cb4-12"><a></a>data_str <span class="op">=</span> <span class="st">''</span>.join(lines[<span class="dv">1</span>:])</span>
+<span id="cb4-13"><a></a>df <span class="op">=</span> pd.read_csv(StringIO(data_str), sep<span class="op">=</span><span class="vs">r'</span><span class="dv">\s</span><span class="op">+</span><span class="vs">'</span>)  <span class="co"># Fix StringIO import and use raw string for regex</span></span>
+<span id="cb4-14"><a></a></span>
+<span id="cb4-15"><a></a><span class="co"># Print basic statistics</span></span>
+<span id="cb4-16"><a></a><span class="bu">print</span>(<span class="st">"Weather Data Analysis:"</span>)</span>
+<span id="cb4-17"><a></a><span class="bu">print</span>(<span class="st">"====================="</span>)</span>
+<span id="cb4-18"><a></a><span class="bu">print</span>(<span class="ss">f"Number of days: </span><span class="sc">{</span><span class="bu">len</span>(df)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-19"><a></a><span class="bu">print</span>(<span class="ss">f"Average high temperature: </span><span class="sc">{</span>df[<span class="st">'temp_high'</span>]<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">°F"</span>)</span>
+<span id="cb4-20"><a></a><span class="bu">print</span>(<span class="ss">f"Average low temperature: </span><span class="sc">{</span>df[<span class="st">'temp_low'</span>]<span class="sc">.</span>mean()<span class="sc">:.1f}</span><span class="ss">°F"</span>)</span>
+<span id="cb4-21"><a></a><span class="bu">print</span>(<span class="ss">f"Maximum temperature: </span><span class="sc">{</span>df[<span class="st">'temp_high'</span>]<span class="sc">.</span><span class="bu">max</span>()<span class="sc">:.1f}</span><span class="ss">°F on </span><span class="sc">{</span>df<span class="sc">.</span>loc[df[<span class="st">'temp_high'</span>].idxmax(), <span class="st">'date'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-22"><a></a><span class="bu">print</span>(<span class="ss">f"Minimum temperature: </span><span class="sc">{</span>df[<span class="st">'temp_low'</span>]<span class="sc">.</span><span class="bu">min</span>()<span class="sc">:.1f}</span><span class="ss">°F on </span><span class="sc">{</span>df<span class="sc">.</span>loc[df[<span class="st">'temp_low'</span>].idxmin(), <span class="st">'date'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-23"><a></a><span class="bu">print</span>(<span class="ss">f"Days with precipitation &gt; 1 inch: </span><span class="sc">{</span><span class="bu">len</span>(df[df[<span class="st">'precipitation'</span>] <span class="op">&gt;</span> <span class="dv">1</span>])<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb4-24"><a></a></span>
+<span id="cb4-25"><a></a><span class="co"># Create a visualisation</span></span>
+<span id="cb4-26"><a></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">6</span>))</span>
+<span id="cb4-27"><a></a>sns.set_style(<span class="st">"whitegrid"</span>)</span>
+<span id="cb4-28"><a></a></span>
+<span id="cb4-29"><a></a><span class="co"># Plot temperature range</span></span>
+<span id="cb4-30"><a></a>plt.fill_between(df[<span class="st">'date'</span>], df[<span class="st">'temp_low'</span>], df[<span class="st">'temp_high'</span>], alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">'skyblue'</span>)</span>
+<span id="cb4-31"><a></a>plt.plot(df[<span class="st">'date'</span>], df[<span class="st">'temp_high'</span>], marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'High Temp'</span>)</span>
+<span id="cb4-32"><a></a>plt.plot(df[<span class="st">'date'</span>], df[<span class="st">'temp_low'</span>], marker<span class="op">=</span><span class="st">'o'</span>, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Low Temp'</span>)</span>
+<span id="cb4-33"><a></a></span>
+<span id="cb4-34"><a></a><span class="co"># Add precipitation as bars on a secondary axis</span></span>
+<span id="cb4-35"><a></a>ax2 <span class="op">=</span> plt.twinx()</span>
+<span id="cb4-36"><a></a>ax2.bar(df[<span class="st">'date'</span>], df[<span class="st">'precipitation'</span>], alpha<span class="op">=</span><span class="fl">0.3</span>, color<span class="op">=</span><span class="st">'navy'</span>, width<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">'Precipitation'</span>)</span>
+<span id="cb4-37"><a></a>ax2.set_ylabel(<span class="st">'Precipitation (inches)'</span>, color<span class="op">=</span><span class="st">'navy'</span>)</span>
+<span id="cb4-38"><a></a>ax2.tick_params(axis<span class="op">=</span><span class="st">'y'</span>, labelcolor<span class="op">=</span><span class="st">'navy'</span>)</span>
+<span id="cb4-39"><a></a></span>
+<span id="cb4-40"><a></a><span class="co"># Formatting</span></span>
+<span id="cb4-41"><a></a>plt.title(<span class="st">'30-Day Weather Report: Temperature Range and Precipitation'</span>, fontsize<span class="op">=</span><span class="dv">16</span>)</span>
+<span id="cb4-42"><a></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>, ha<span class="op">=</span><span class="st">'right'</span>)</span>
+<span id="cb4-43"><a></a>plt.ylabel(<span class="st">'Temperature (°F)'</span>)</span>
+<span id="cb4-44"><a></a>plt.legend(loc<span class="op">=</span><span class="st">'upper left'</span>)</span>
+<span id="cb4-45"><a></a>plt.tight_layout()</span>
+<span id="cb4-46"><a></a></span>
+<span id="cb4-47"><a></a><span class="co"># Save the figure</span></span>
+<span id="cb4-48"><a></a>plt.savefig(<span class="st">'weather_analysis.png'</span>)</span>
+<span id="cb4-49"><a></a><span class="bu">print</span>(<span class="st">"Analysis complete. Results saved to 'weather_analysis.png'"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="activity-02-2" class="slide level2">
+<h2>Activity 02</h2>
+<div style="margin-top: 30px; font-size: 24px;">
+<ul>
+<li>Both files are now on your instance: <code>weather_data.txt</code> (uploaded via <code>scp</code>) and <code>weather_analysis.py</code> (downloaded via <code>wget</code>)</li>
+<li>Run the analysis on your instance: <code>python3 weather_analysis.py</code></li>
+<li>Or, if you prefer, open Jupyter (<code>jupyter notebook</code>) and run it there</li>
+<li>Download the resulting image back to your <span class="alert">local machine</span> (using <code>scp</code> again, from a local terminal):
+<ul>
+<li><code>scp -i &lt;your-key&gt;.pem ubuntu@&lt;your-instance-ip&gt;:~/weather_analysis.png ./</code></li>
+</ul></li>
+<li>View the image on your local machine</li>
+<li><span class="alert">Don’t forget to terminate your instance when done!</span></li>
+</ul>
+<div style="margin-top: 15px; background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px;">
+<p><strong>Recap</strong>: we used <code>scp</code> to move files between your computer and the instance, and <code>wget</code> to download files from the internet directly to the instance. Both are useful in different situations!</p>
+</div>
+</div>
+</section>
+<section id="activity-02-result" class="slide level2">
+<h2>Activity 02 Result</h2>
+<div style="margin-top: 20px; font-size: 21px;">
+<p>When you run the activity, you should get a weather analysis graph similar to this one:</p>
+<div style="text-align: center;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/weather_analysis.png"><img data-src="figures/weather_analysis.png" style="width:80.0%"></a></p>
+</div>
+</div>
+</section>
+<section id="activity-02-result-1" class="slide level2 scrollable">
+<h2>Activity 02 Result</h2>
+<div style="margin-top: 20px; font-size: 27px;">
+<p>You’ve just completed a full data analysis workflow in the cloud 🎉</p>
+<ol type="1">
+<li>Created data locally</li>
+<li>Uploaded it to the cloud</li>
+<li>Processed it on a cloud server</li>
+<li>Generated visualisations</li>
+<li>Downloaded results to your local machine</li>
+</ol>
+<p>This workflow is similar to how data scientists use cloud resources for larger datasets and more complex analyses!</p>
+</div>
+</section></section>
+<section>
+<section id="conclusion" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Conclusion</h1>
+
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<h3 id="what-we-learned-today">What we learned today</h3>
+<div style="margin-top: 25px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li>We launched an <span class="alert">EC2</span> instance from the console, with an Ubuntu image and a <code>t3.micro</code> type</li>
+<li>We created a <span class="alert">key pair</span> once, and used the same <code>.pem</code> file for every connection after that</li>
+<li>We connected over <span class="alert">SSH</span>, updated the machine with <code>apt</code>, and installed Python and Jupyter</li>
+<li>We forwarded a port, so a notebook running on the instance opened in the browser on our own laptop</li>
+<li>We moved files two ways: <span class="alert"><code>scp</code></span> from our laptop, and <span class="alert"><code>wget</code></span> straight from the internet</li>
+<li>We met <span class="alert">CloudShell</span>, and the <code>aws</code> command line that comes signed in with it</li>
+<li>And we learnt to <span class="alert">stop and terminate</span>, which is the habit that keeps the bill at zero</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul>
+<li>This is a small corner of AWS, and the console is worth an hour of browsing on your own</li>
+<li><a href="https://aws.amazon.com/lambda/">Lambda</a> runs a function on demand with no server to manage, and it is the easiest thing to try next</li>
+<li><a href="https://aws.amazon.com/s3/">S3</a> stores files, <a href="https://aws.amazon.com/rds/">RDS</a> runs managed databases, and <a href="https://aws.amazon.com/sagemaker/">SageMaker</a> handles machine learning workflows</li>
+<li>The workflow you practised today is the one used on datasets far larger than a laptop can hold: upload the data, rent a machine, run the code, bring the results home</li>
+<li>The only difference at that scale is the size of the machine and the length of the wait</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="next-class" class="slide level2 scrollable">
+<h2>Next class</h2>
+<h3 id="getting-data-from-the-web">Getting data from the web</h3>
+<div style="margin-top: 25px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:52%;">
+<ul>
+<li>We leave the cloud and start on how data gets from the internet into your analysis</li>
+<li><span class="alert">What an API is</span>, and the client and the server on either side of it</li>
+<li><span class="alert">HTTP</span>: how a URL is put together, query strings, <code>GET</code> and <code>POST</code>, and what the status codes mean</li>
+<li><span class="alert">JSON</span>, the format almost every API answers in, and how it maps onto a Python dictionary</li>
+<li><span class="alert"><code>requests</code></span>, the library that turns all of this into three lines of code</li>
+<li>You have already done this once. The API key you saved in a <code>.env</code> file in Lecture 14 was exactly this</li>
+</ul>
+</div><div class="column" style="width:48%;">
+<div style="margin-top: -20px;">
+<p>Before then:</p>
+<ol type="1">
+<li>Terminate every instance you started today</li>
+<li>Open <a href="https://console.aws.amazon.com/billing/home">Billing and Cost Management</a> and check that the total is zero</li>
+<li>Read the final project instructions here: <a href="https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf" class="uri">https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf</a></li>
+</ol>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
+<p>The final project is out. Groups of three to four, due 8 December 2026. You will pull the data from a web API (the World Bank by default, or another one you clear with me) and submit everything as a Docker container, starting from the starter repository: <a href="https://github.com/danilofreire/datasci350-project-starter" class="uri">https://github.com/danilofreire/datasci350-project-starter</a></p>
+</div>
+</div>
+</div></div>
+</div>
+</section></section>
+<section id="and-thats-all-for-today" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>And that’s all for today! 🎉</h1>
+
+</section>
+
+<section id="thank-you-and-see-you-soon" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>Thank you and see you soon! 🙏</h1>
+
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p><a href="https://danilofreire.github.io/datasci350/lectures/lecture-17/17-cloud2.html">Cloud Computing II</a></p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="../../site_libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="../../site_libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="../../site_libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="../../site_libs/revealjs/plugin/multimodal/multimodal.js"></script>
+  <script src="../../site_libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="../../site_libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="../../site_libs/revealjs/plugin/search/search.js"></script>
+  <script src="../../site_libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="../../site_libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': true,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, Multimodal, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

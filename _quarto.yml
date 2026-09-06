@@ -1,0 +1,62 @@
+project:
+  type: website
+  output-dir: docs
+  render:
+    - index.qmd
+    - syllabus-web.qmd
+    - lectures.qmd
+    - tutorials.qmd
+    - assignments.qmd
+    - LICENSE.qmd
+    - "lectures/*/*.qmd"
+    - "tutorials/*.qmd"
+  post-render:
+    - "find . -name '*.quarto_ipynb*' -delete"
+
+execute:
+  freeze: auto
+
+website:
+  title: "DATASCI 350"
+  page-navigation: true
+  back-to-top-navigation: true
+  reader-mode: false
+  repo-url: https://github.com/danilofreire/datasci350
+  repo-actions: [issue, source]
+  repo-branch: main
+  navbar:
+    pinned: true
+    tools:
+      - icon: github
+        href: https://github.com/danilofreire/datasci350
+    left:
+      - href: syllabus-web.qmd
+        text: Syllabus
+        icon: journal-text
+      - href: lectures.qmd
+        text: Lectures
+        icon: mortarboard
+      - href: tutorials.qmd
+        text: Tutorials
+        icon: tools
+      - href: assignments.qmd
+        text: Assignments
+        icon: pencil-square
+      - href: LICENSE.html
+        text: " "
+  page-footer:
+    left: "Copyright 2026, Danilo Freire. The content of this site is licensed under the [MIT License](LICENSE.qmd)."
+    right:
+      - icon: github
+        href: https://github.com/danilofreire/datasci350
+
+format:
+  html:
+    theme:
+      light: [cosmo, custom.scss]
+      dark: [darkly, custom.scss, custom-dark.scss]
+    css: styles.css
+    mainfont: "Source Sans 3"
+    monofont: "Inconsolata"
+    highlight-style: github
+    toc: true

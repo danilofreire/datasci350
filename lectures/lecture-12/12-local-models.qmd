@@ -26,13 +26,13 @@ editor:
 :::{style="margin-top: 20px; font-size: 25px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Last class we put Quarto to work: Markdown, BibTeX citations, and [cross-references]{.alert} that number themselves
-- `freeze: auto`, so that rendering a document does not recompute your results
+- Last class: Markdown, BibTeX citations and [cross-references]{.alert} that number themselves
+- `freeze: auto`, so rendering re-runs code only when the source changes
 - Slides and websites, online with `quarto publish gh-pages`
 - [Parameterised reports]{.alert}: one file, one shell loop, ten reports
-- [Today]{.alert} we change subject completely
-- You are going to [download a language model onto your laptop]{.alert} and run it from the terminal
-- Then you will build your own chatbot out of it
+- [Today]{.alert}, a new subject
+- You will [download a language model to your laptop]{.alert} and run it from the terminal
+- Then you will build your own chatbot
 :::
 
 :::{.column width="50%"}
@@ -40,7 +40,7 @@ editor:
 [![](figures/ollama.png){width="70%"}](#){data-modal-type="image" data-modal-url="figures/ollama.png"}
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-No account, no API key, no monthly fee, and no internet connection once the file is on disk
+No account, API key or monthly fee. No internet once the file is on disk
 :::
 :::
 :::
@@ -56,7 +56,7 @@ No account, no API key, no monthly fee, and no internet connection once the file
 :::{.column width="50%"}
 [1. What is inside the file]{.alert}
 
-- How a model reads text, which is not as text
+- How a model reads text (as numbers)
 - Tokens, then embeddings, where meaning becomes geometry
 
 [2. A model is a file]{.alert}
@@ -69,7 +69,7 @@ No account, no API key, no monthly fee, and no internet connection once the file
 [3. Build your own chatbot]{.alert}
 
 - System prompts, temperature, and the `Modelfile`
-- One butler built on screen, one built by you
+- I build a butler on screen; you build another
 
 [4. Where it breaks]{.alert}
 
@@ -78,7 +78,7 @@ No account, no API key, no monthly fee, and no internet connection once the file
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 25px;"}
-Everything on these slides was captured from a real session on my laptop. When the model says something odd, that is [what it actually said]{.alert}, not something I wrote for effect
+Every output here comes from a real session on my laptop. When the model says something odd, that is [what it actually said]{.alert}
 :::
 :::
 
@@ -91,10 +91,11 @@ Everything on these slides was captured from a real session on my laptop. When t
 :::{.columns}
 :::{.column width="50%"}
 - An LLM is a [neural network](https://en.wikipedia.org/wiki/Neural_network_(machine_learning)) built on the [Transformer architecture](https://arxiv.org/pdf/1706.03762)
-- That is the [T in GPT](https://arxiv.org/abs/2303.08774): Generative Pre-trained Transformer
-- Most of the ideas date from the 1950s and 1960s. What changed recently is [cheap data and fast GPUs]{.alert}
-- Training means reading an enormous pile of text and learning to guess [the next word]{.alert}
-- That is [next-token prediction]{.alert}, and it is the whole engine. Everything else is scale
+- That is the T in GPT: Generative Pre-trained Transformer
+- Neural networks date from the 1950s; the Transformer from 2017. What changed recently is [cheap data and fast GPUs]{.alert}
+- Training means reading huge amounts of text and learning to guess [the next word]{.alert}
+- That is [next-token prediction]{.alert}, the core engine
+- Chat models get a second round of training on conversations, which is why they follow instructions
 - The model does not plan a sentence. It picks one token, adds it to the text, and picks again
 :::
 
@@ -122,13 +123,12 @@ A longer introduction: [Stephen Wolfram on what ChatGPT is doing](https://writin
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="55%"}
-- You already know this from [lecture 02](https://danilofreire.github.io/datasci350/lectures/lecture-02/02-computational-literacy.html): [computers only understand numbers]{.alert}
-- Type "Hello, how are you?" and the model sees `[15496, 11, 703, 527, 499, 30]`
-- Turning text into numbers is easy. Turning it into numbers that [still carry the meaning]{.alert} is the hard part
-- Two ideas do that work
+- Remember [lecture 02](https://danilofreire.github.io/datasci350/lectures/lecture-02/02-computational-literacy.html): [computers only understand numbers]{.alert}
+- Type "Hello, how are you?" and GPT-2 sees `[15496, 11, 703, 389, 345, 30]`
+- Turning text into numbers is easy. Keeping [the meaning]{.alert} is the hard part
 - [Tokenisation]{.alert} breaks the text into pieces
-- [Embeddings]{.alert} turn each piece into a vector, and that is where meaning lives
-- Both of them will show up as [fields in the model file]{.alert} you download in half an hour
+- [Embeddings]{.alert} turn each piece into a vector, where meaning lives
+- Both appear as [fields in the model file]{.alert} you download in half an hour
 :::
 
 :::{.column width="45%"}
@@ -147,12 +147,12 @@ Source: [NanoBanana](https://gemini.google/overview/image-generation/)
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="55%"}
-- A [token]{.alert} is the smallest unit a model reads, and it is [not the same thing as a word]{.alert}
-- A token can be a whole word ("hello"), part of one ("un" + "believ" + "able"), a mark of punctuation, or a space
-- Spaces usually travel with the word that follows them, which is why " hello" and "hello" are different tokens
-- Two rules of thumb for English: [1 token ≈ 4 characters]{.alert}, and [100 tokens ≈ 75 words]{.alert}
-- Other languages may cost [more tokens]{.alert} for the same sentence
-- Let's try "Hello, it's Danilo here!" in [OpenAI's tokeniser](https://platform.openai.com/tokenizer) and count them
+- A [token]{.alert} is the smallest unit a model reads. It is [not always a word]{.alert}
+- It can be a word ("hello"), part of one ("un" + "believ" + "able"), punctuation or a space
+- Spaces usually attach to the next word, so " hello" and "hello" are different tokens
+- For English: [1 token ≈ 4 characters]{.alert}, and [100 tokens ≈ 75 words]{.alert}
+- Other languages may need [more tokens]{.alert} for the same sentence
+- Let's count the tokens in "Hello, it's Danilo here!" with [OpenAI's tokeniser](https://platform.openai.com/tokenizer)
 :::
 
 :::{.column width="45%"}
@@ -171,7 +171,7 @@ Source: [OpenAI Tokenizer](https://platform.openai.com/tokenizer)
 :::{style="margin-top: 30px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="55%"}
-There are three ways to cut text into pieces, and each has a price:
+Ways to cut text into pieces, and their costs:
 
 :::{style="text-align: center; margin-top: 30px; margin-bottom: 30px;"}
 | Method | "Evergreen" becomes | Gains | Costs |
@@ -181,9 +181,9 @@ There are three ways to cut text into pieces, and each has a price:
 | Subword (BPE) | 2 tokens | Both at once | Cuts look arbitrary |
 :::
 
-- Modern models use [Byte Pair Encoding](https://huggingface.co/docs/transformers/tokenizer_summary#byte-pair-encoding): common pieces become single tokens, rare words get split into known ones
-- That is why "ChatGPT" arrives as ["Chat", "G", "PT"]
-- The saving is in the shared pieces. "unhappy", "unfair", "unlikely" and "undo" all reuse one stored "un"
+- Modern models use [Byte Pair Encoding](https://huggingface.co/docs/transformers/tokenizer_summary#byte-pair-encoding-bpe): common pieces become single tokens, rare words split into known ones
+- So GPT-2 reads "ChatGPT" as ["Chat", "G", "PT"]
+- Shared pieces save space: "unhappy", "unfair", "unlikely" and "undo" reuse one stored "un"
 :::
 
 :::{.column width="45%"}
@@ -191,10 +191,10 @@ There are three ways to cut text into pieces, and each has a price:
 Why subwords win:
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px;"}
-- A word it has never seen still gets read, piece by piece
-- The vocabulary stays at roughly [50,000 tokens]{.alert}
-- Common words survive whole, so they cost one token
-- The same trick works across languages
+- New words are read piece by piece
+- The vocabulary stays at [50,000 to 200,000 tokens]{.alert}. Ours has 128,256
+- Common words stay whole, so they cost one token
+- It works across languages
 :::
 
 [![](figures/bpe-diagram.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/bpe-diagram.png"}
@@ -211,12 +211,12 @@ Source: [Hugging Face](https://huggingface.co/docs/transformers/tokenizer_summar
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="55%"}
-- Think back to [lecture 02](https://danilofreire.github.io/datasci350/lectures/lecture-02/02-computational-literacy.html). A colour became [three numbers]{.alert}, because three was enough for what we cared about
-- Meaning gets the same treatment with a bigger budget. Each token becomes an [embedding]{.alert}, typically [768 to 4,096 numbers]{.alert}
-- "cat" → `[0.23, -0.45, 0.12, -0.89, ...]`. Those numbers are coordinates, so every token sits in a space with thousands of dimensions
-- Tokens used in similar ways end up [close together]{.alert}. "cat" sits near "kitten" and nowhere near "aeroplane"
-- Nobody chose those positions. The model [worked them out]{.alert} from how words are used across billions of sentences
-- This is the closest thing to "understanding" in the whole pipeline, and it is geometry
+- In [lecture 02](https://danilofreire.github.io/datasci350/lectures/lecture-02/02-computational-literacy.html), a colour became [three numbers]{.alert}
+- Meaning gets more numbers. Each token becomes an [embedding]{.alert}, typically [768 to 4,096 numbers]{.alert}
+- "cat" → `[0.23, -0.45, 0.12, -0.89, ...]`. The numbers are coordinates in a space with thousands of dimensions
+- Tokens used in similar ways sit [close together]{.alert}: "cat" near "kitten", far from "aeroplane"
+- Nobody chose those positions. The model [learned them]{.alert} from billions of sentences
+- This geometry is the closest thing to "understanding" in the pipeline
 :::
 
 :::{.column width="45%"}
@@ -237,14 +237,14 @@ Source: [TensorFlow Projector](https://projector.tensorflow.org/)
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="55%"}
-- The most famous result in this whole area is one line of arithmetic: [king − man + woman ≈ queen]{.alert} 👑
-- Take the vector for "king", subtract "man", add "woman", and the nearest word to the answer is "queen"
-- Nothing in the training said "king is to man as queen is to woman". The relationship [fell out of the geometry]{.alert}
-- The same trick works elsewhere:
+- The most famous result here: [king − man + woman ≈ queen]{.alert} 👑
+- Take "king", subtract "man", add "woman", and the nearest word, apart from "king" itself, is "queen"
+- No one taught the model this relationship. It [emerged from the geometry]{.alert}
+- It works elsewhere too:
   - Paris − France + Italy ≈ Rome
   - bigger − big + small ≈ smaller
-- So directions in this space carry meaning. One direction is roughly gender, another roughly capital city
-- This is also where [bias enters]{.alert}, and we come back to that at the end of the lecture
+- Directions carry meaning: one is roughly gender, another roughly capital city
+- This is also where [bias enters]{.alert}. More at the end of the lecture
 :::
 
 :::{.column width="45%"}
@@ -270,23 +270,23 @@ Semantic relationships encoded as [vector operations]{.alert}!
 :::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="55%"}
-- Every one of those coordinates is a number the model learned during training
-- A model has [billions]{.alert} of them. They are called [weights]{.alert}, or [parameters]{.alert}
-- Training takes months on thousands of GPUs, but once it finishes the result is [just those numbers]{.alert}
-- Numbers can be written to disk. So a trained language model is [a file]{.alert}, not a service you rent, and it sits on your disk like a spreadsheet or a photograph
-- The one we use today holds [1.2 billion numbers in 1.3 GB]{.alert}
+- Each coordinate is a number the model learned in training
+- A model has [billions]{.alert} of them, called [weights]{.alert} or [parameters]{.alert}
+- Training takes months on thousands of GPUs. The result is [just those numbers]{.alert}
+- Numbers can be saved to disk, so a trained model is [a file]{.alert}, like a spreadsheet or a photo
+- Ours holds [1.2 billion numbers in 1.3 GB]{.alert}
 - If you can download a film, you can download a language model
 :::
 
 :::{.column width="45%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 20px; border-radius: 10px; font-size: 22px; margin-top: 20px;"}
-Three things live in that file:
+The file holds:
 
-- The [weights]{.alert}, which are the numbers we just described
-- The [tokeniser]{.alert}, so it can cut your text into pieces
-- A little [metadata]{.alert}: how long a conversation it can hold, how the numbers are stored
+- The [weights]{.alert}: the numbers above
+- The [tokeniser]{.alert}, which cuts your text into pieces
+- [Metadata]{.alert}: how long a conversation it can hold, how the numbers are stored
 
-In fifteen minutes you will print all three from your own terminal
+In fifteen minutes you will print the metadata and the tokeniser from your terminal
 :::
 :::
 :::
@@ -296,27 +296,27 @@ In fifteen minutes you will print all three from your own terminal
 
 ## Why run a model on your own laptop?
 
-:::{style="margin-top: 20px; font-size: 21px;"}
+:::{style="margin-top: 20px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
 [Good reasons]{.alert}
 
-- The text [never leaves your machine]{.alert}, which is what matters for medical records, student data, or anything under ethics approval
-- After the download it costs [nothing]{.alert}. Run it a thousand times and it still costs nothing
-- It works [with the wifi off]{.alert}, on a plane, at a field site, or behind a firewall
-- The model [does not change under you]{.alert}. A hosted one can be updated overnight and quietly break your script
-- Every setting the chat apps hide is [exposed here]{.alert}, and you will use most of them today
+- Text [never leaves your machine]{.alert}: key for medical records, student data or ethics-approved work
+- After the download it is [free]{.alert}, however often you run it
+- It works [offline]{.alert}: on a plane, at a field site, behind a firewall
+- The model [does not change]{.alert}. A hosted one can update overnight and break your script
+- You see [every setting]{.alert} the chat apps hide
 :::
 
 :::{.column width="50%"}
 [Honest limits]{.alert}
 
-- A 1B model on your laptop is [no frontier model]{.alert}, and today you will watch it fail in ways ChatGPT would not
-- Your [RAM sets the ceiling]{.alert} on what you can run
-- You do the installing and the choosing yourself
+- A 1B model is [no frontier model]{.alert}. Today you will see it fail where ChatGPT would not
+- Your [RAM limits]{.alert} what you can run
+- You install and choose everything yourself
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-Use a [local]{.alert} model when the data is the sensitive part, and a [hosted]{.alert} model when the reasoning is the hard part. Lecture 14 covers the hosted side
+Use a [local]{.alert} model for sensitive data, a [hosted]{.alert} one for hard reasoning. Lecture 14 covers hosted models
 :::
 :::
 :::
@@ -327,17 +327,18 @@ Use a [local]{.alert} model when the data is the sensitive part, and a [hosted]{
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="55%"}
-- [Ollama](https://ollama.com/) is the tool that downloads models and runs them. Think of it as a package manager for language models
-- Download it from <https://ollama.com/download>. There are builds for macOS, Windows, and Linux
-- Install it as you would any other application, then open your terminal and check:
+- [Ollama](https://ollama.com/) downloads and runs models: a package manager for language models
+- Download it from <https://ollama.com/download> (macOS, Windows, Linux)
+- On WSL, install inside WSL with the Linux command on that page
+- Then check in your terminal:
 
 ```bash
 ollama --version
 ```
 
-- Installing it starts a small [background server]{.alert} on your machine, listening on `localhost:11434`
-- You will not talk to that server directly today. In lecture 14 you will, from Python
-- Nothing has been downloaded yet. Ollama is the shop, not the goods
+- It starts a small [background server]{.alert} on `localhost:11434`
+- Lecture 14 talks to that server from Python
+- No model is downloaded yet
 :::
 
 :::{.column width="45%"}
@@ -348,7 +349,7 @@ ollama --version
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 20px;"}
-If `ollama --version` says `command not found`, close the terminal and open a new one. The installer adds Ollama to your `PATH`, and your open terminal has not read it yet
+`command not found`? Open a new terminal. The installer updates your `PATH`, and old terminals have not read it
 :::
 :::
 :::
@@ -359,19 +360,19 @@ If `ollama --version` says `command not found`, close the terminal and open a ne
 :::{style="margin-top: 30px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="55%"}
-Download a model. [Llama 3.2](https://ollama.com/library/llama3.2) is about 1.3 GB:
+Download [Llama 3.2](https://ollama.com/library/llama3.2) (about 1.3 GB):
 
 ```bash
 ollama pull llama3.2:1b
 ```
 
-The name has two parts. `llama3.2` is the family, and `1b` is the size, meaning one billion parameters. Start the chat:
+`llama3.2` is the family; `1b` is the size (one billion parameters). Start a chat:
 
 ```bash
 ollama run llama3.2:1b
 ```
 
-You now have a `>>>` prompt. Type a question and press enter. Type `/bye` to leave:
+At the `>>>` prompt, type a question. `/bye` leaves:
 
 ```text
 >>> Why is the sky blue?
@@ -381,21 +382,19 @@ Rayleigh scattering...
 >>> /bye
 ```
 
-- No account, no key, no network. Turn off your wifi and ask it again
+- No account, key or network. Turn off your wifi and try again
 :::
 
 :::{.column width="45%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 30px;"}
-`pull` downloads. `run` starts a conversation
-
-`run` on a model you have not downloaded will pull it first, so `pull` is really just "do the slow part now"
+`pull` downloads. `run` starts a conversation, and pulls the model first if needed
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-The first reply may take a few seconds while the file is read into memory. Later replies in the same session are much faster, because it is already there
+The first reply is slow while the file loads into memory. Later replies are faster
 :::
 
-More info about the model here: <https://ollama.com/library/llama3.2>
+More about the model: <https://ollama.com/library/llama3.2>
 :::
 :::
 :::
@@ -425,7 +424,7 @@ Inside the `>>>` prompt:
 | Command | What it does |
 |---------|--------------|
 | `/set parameter <name> <value>` | Change a setting |
-| `/set think/nothink` | Turn on/off reasoning |
+| `/set think/nothink` | Reasoning on/off (thinking models only) |
 | `/show parameters` | Show what you changed |
 | `/clear` | Forget the conversation so far |
 | `/bye` | Leave |
@@ -434,15 +433,15 @@ Inside the `>>>` prompt:
 
 :::{.column width="48%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 30px;"}
-`ollama ps` is the one people forget. A model stays in memory for a few minutes after you leave the chat, which is why your laptop fan carries on afterwards
+People forget `ollama ps`. A model stays in memory for about five minutes after you leave, so your fan keeps running
 
-`ollama stop` sends it away immediately
+`ollama stop` unloads it at once
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-`/clear` matters more than it looks. Inside one session the model remembers everything you have said, so asking the same question twice is not the same experiment twice
+`/clear` is important. Within a session the model remembers everything, so the same question asked twice is a different experiment
 
-We rely on this in fifteen minutes
+We use this in fifteen minutes
 :::
 :::
 :::
@@ -453,7 +452,7 @@ We rely on this in fifteen minutes
 :::{style="margin-top: 20px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
-One command prints the whole of part one back at you:
+One command prints part one of this lecture:
 
 ```bash
 ollama show llama3.2:1b
@@ -472,21 +471,21 @@ ollama show llama3.2:1b
     tools
 ```
 
-- Read it line by line, because [you have met all of it already]{.alert}
+- [You have met all of it already]{.alert}
 :::
 
 :::{.column width="50%"}
 :::{style="font-size: 22px; margin-top: 20px;"}
-- [parameters 1.2B]{.alert}: the billion-odd learned numbers from three slides ago
-- [context length 131072]{.alert}: the longest conversation it can hold, [in tokens]{.alert}
-- [embedding length 2048]{.alert}: every token becomes a list of [2,048 numbers]{.alert}. This is the king-queen space
-- [quantization Q8_0]{.alert}: how many bits each of those numbers takes. That is the next slide
-- [architecture llama]{.alert}: which Transformer design it is
-- [capabilities]{.alert}: `completion` means it chats, `tools` means it can be asked to call functions, which is lecture 14
+- [parameters 1.2B]{.alert}: the learned numbers
+- [context length 131072]{.alert}: the most it can hold, [in tokens]{.alert}. Ollama uses 4,096 unless you set `num_ctx`
+- [embedding length 2048]{.alert}: each token becomes [2,048 numbers]{.alert}, the king-queen space
+- [quantization Q8_0]{.alert}: bits per number (next slide)
+- [architecture llama]{.alert}: the Transformer design
+- [capabilities]{.alert}: `completion` means it chats; `tools` means it can call functions (lecture 14)
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-The abstract half of this lecture is now printed on your own terminal
+The theory from part one, printed in your terminal
 :::
 :::
 :::
@@ -498,31 +497,31 @@ The abstract half of this lecture is now printed on your own terminal
 :::{style="margin-top: 20px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="55%"}
-- [In lecture 02](https://danilofreire.github.io/datasci350/lectures/lecture-02/02-computational-literacy.html), a colour became three numbers of [8 bits each]{.alert}, because 256 shades of red is more than the eye needs. We threw away detail on purpose
-- Model weights get the same treatment, and the technique has a name: [quantisation]{.alert}
-- Models are trained at 16 bits per weight. Then most of that precision is thrown away:
+- [In lecture 02](https://danilofreire.github.io/datasci350/lectures/lecture-02/02-computational-literacy.html), each colour channel got [8 bits]{.alert}: 256 shades is enough for the eye
+- Cutting precision in model weights is [quantisation]{.alert}
+- Models train at 16 bits per weight, then lose most of that precision:
 
 :::{style="text-align: center; margin-top: 15px; margin-bottom: 15px;"}
 | Label | Bits per weight | Our 1.2B model becomes |
 |-------|-----------------|------------------------|
 | F16 | 16 | about 2.5 GB |
 | Q8_0 | 8 | 1.3 GB, which is what you downloaded |
-| Q4_K_M | 4 | 807 MB, measured two slides from now |
+| Q4_K_M | 4 | 807 MB, measured three slides from now |
 :::
 
-- `Q4_K_M` reads as: 4 bits, the K family of methods, medium quality. `Q4` halves the file again, and the answers get slightly worse
-- The rule of thumb: [a bigger model at Q4 usually beats a smaller model at Q8]{.alert}
+- `Q4_K_M`: 4 bits, the K family of methods, medium quality. It cuts the file by about 40%, and answers get slightly worse
+- Rule of thumb: [a bigger model at Q4 usually beats a smaller one at Q8]{.alert}
 :::
 
 :::{.column width="45%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px;"}
-This is why the arithmetic never works out. A "1 billion parameter" model is not 1 GB, or 2 GB, or 4 GB. It is whatever [parameters × bits ÷ 8]{.alert} happens to be
+So a "1 billion parameter" model has no fixed size. It is roughly [parameters × bits ÷ 8]{.alert} bytes
 
-Two models with the same parameter count can differ in size by three times, and the only difference is how much precision was thrown away
+Two models with the same parameter count can differ in size by three times
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-Same idea as lecture 02, one layer up. A colour keeps only the detail the eye needs; a weight keeps only the detail the answer needs
+Same idea as lecture 02: a colour keeps the detail the eye needs; a weight keeps the detail the answer needs
 :::
 :::
 :::
@@ -533,32 +532,32 @@ Same idea as lecture 02, one layer up. A colour keeps only the detail the eye ne
 :::{style="margin-top: 20px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="58%"}
-The full catalogue is at <https://ollama.com/library>. Small models worth knowing:
+Full catalogue: <https://ollama.com/library>. Small models worth knowing:
 
 :::{style="text-align: center; margin-top: 20px; margin-bottom: 20px;"}
 | Model | Size | Good for |
 |-------|------|----------|
-| `gemma3:270m` | 292 MB | Almost a toy, but it runs anywhere |
+| `gemma3:270m` | 292 MB | Almost a toy, but runs anywhere |
 | `gemma3:1b` | 815 MB | The lightest sensible chat model |
 | `llama3.2:1b` | 1.3 GB | [Ours today]{.alert}. Well documented, follows instructions |
 | `qwen3.5:0.8b` | 1.0 GB | Newer, and it reads images too |
 | `qwen2.5-coder:1.5b` | 986 MB | Code |
 | `gemma3:4b` | 3.3 GB | Noticeably better answers, if you have the RAM |
-| `granite4.1:3b` | 2.1 GB | Good for tool use and JSON |
+| `granite4.2:3b` | 2.2 GB | Good for tool use and JSON |
 :::
 
-- The `:tag` after the colon picks the size. No tag means the default, which is usually [not the small one]{.alert}, so always name the tag
+- The `:tag` picks the size. The default is usually [not the small one]{.alert}, so always name the tag
 :::
 
 :::{.column width="42%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 30px;"}
-We use `llama3.2:1b` today because it is small, predictable, and every error message you might hit has been written about a thousand times.
+We use `llama3.2:1b` because it is small, predictable and well documented.
 
-It is also [not new]{.alert}. It was released in September 2024, which is old for this field. Once you are comfortable, `gemma3:1b` and `qwen3.5:0.8b` are better models at the same size, and the commands are identical
+It is [not new]{.alert} (September 2024). `gemma3:1b` and `qwen3.5:0.8b` are better at the same size, with identical commands
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-Downloading a second model does not double your disk usage as much as you would expect, but it is not free either. Keep an eye on `ollama ls`
+A second model adds its full size to your disk. Personas built with `ollama create` do not. Keep an eye on `ollama ls`
 :::
 :::
 :::
@@ -569,7 +568,7 @@ Downloading a second model does not double your disk usage as much as you would 
 :::{style="margin-top: 20px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="55%"}
-The model has to fit in memory while it runs, alongside everything else you have open:
+The model must fit in memory, next to everything else you have open:
 
 :::{style="text-align: center; margin-top: 30px; margin-bottom: 30px;"}
 | Model size | RAM you want |
@@ -580,22 +579,22 @@ The model has to fit in memory while it runs, alongside everything else you have
 | 30B and above | 32 GB and up |
 :::
 
-- These assume a quantised model. At full 16-bit precision, double them
-- If the model does not fit, your machine starts [swapping]{.alert} to disk and the answers slow to a crawl. It does not crash, it just becomes unusable
-- On Apple Silicon, the CPU and GPU share one pool of memory, so a MacBook with 16 GB does better here than the number suggests
+- These assume a Q4 model. At full 16-bit precision, triple them
+- If it barely fits, your machine [swaps]{.alert} to disk and slows to a crawl. If it does not fit at all, Ollama refuses to load it
+- On Apple Silicon, CPU and GPU share memory, so a 16 GB MacBook does better than the number suggests
 :::
 
 :::{.column width="45%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 30px;"}
 [Start smaller than you think]{.alert}
 
-A 1B model answering badly in two seconds teaches you more than a 14B model that never finishes downloading during a 75-minute class.
+A 1B model answering badly in two seconds teaches more than a 14B model still downloading at the end of class.
 
-You can always pull a bigger one tonight
+Pull a bigger one tonight
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-If your laptop cannot run any of these, tell me today. Use [Google AI Studio](https://aistudio.google.com/) for the exercises in the meantime
+If your laptop cannot run any of these, tell me today. Meanwhile, use [Google AI Studio](https://aistudio.google.com/) for the exercises
 :::
 :::
 :::
@@ -607,29 +606,29 @@ If your laptop cannot run any of these, tell me today. Use [Google AI Studio](ht
 :::{style="margin-top: 20px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="55%"}
-- The Ollama library is a curated shelf. The warehouse is [Hugging Face](https://huggingface.co/), which hosts hundreds of thousands of models
-- Ollama can pull from it directly, as long as the model is published in [GGUF]{.alert} format, which is the single-file format Ollama reads:
+- The Ollama library is curated. [Hugging Face](https://huggingface.co/) hosts over three million models
+- Ollama pulls from it directly if the model is in [GGUF]{.alert}, the single-file format Ollama reads:
 
 ```bash
 ollama run hf.co/<user>/<repository>:<quantisation>
 ```
 
-- A real example. This is the same Llama we have been using, packaged by someone else at 4 bits instead of 8:
+- Example: our Llama, packaged by someone else at 4 bits instead of 8:
 
 ```bash
 ollama pull hf.co/bartowski/Llama-3.2-1B-Instruct-GGUF:Q4_K_M
 ```
 
-- I pulled it this morning. `ollama ls` reports [807 MB]{.alert}, against 1.3 GB for ours
+- `ollama ls` reports [807 MB]{.alert}, against 1.3 GB for ours
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;"}
-Anyone can upload anything to a model hub. Prefer well-known publishers and read the model card
+Anyone can upload to a model hub. Prefer well-known publishers and read the model card
 :::
 :::
 
 :::{.column width="45%"}
 :::{style="margin-top: -20px;"}
-The previous slide, made concrete. Two files, same model:
+Two files, same model:
 
 ```text
   llama3.2:1b                1.3 GB
@@ -645,7 +644,7 @@ The previous slide, made concrete. Two files, same model:
     quantization        Q4_K_M
 ```
 
-Every line matches except the last one, and the file is [forty per cent smaller]{.alert}
+Only the quantisation differs, and the file is [forty per cent smaller]{.alert}
 :::
 :::
 :::
@@ -685,17 +684,17 @@ Two questions to answer from step 3:
 :::{style="margin-top: 30px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="55%"}
-Open ChatGPT or Claude and you are never the first voice in the conversation. There is [text above yours that you never see]{.alert}, and it shapes every answer. That is the [system prompt]{.alert}
+In ChatGPT or Claude, there is [hidden text above your message]{.alert} that shapes every answer: the [system prompt]{.alert}
 
-Three things go into the model, in order:
+The model receives, in order:
 
-1. The [system prompt]{.alert}, written by the company. It sets behaviour, personality, and limits
+1. The [system prompt]{.alert}, written by the company: behaviour, personality, limits
 2. [Your prompt]{.alert}, the only part you control
-3. The [response]{.alert}, which is the model continuing from both
+3. The [response]{.alert}, continuing from both
 
-- It usually sets an identity ("You are Claude, an AI assistant"), what the model must refuse, how it should sound, and how to format the answer
-- [Every commercial AI product has one]{.alert}, and it explains most of what you think of as the model's personality
-- Today you write your own, which is the part you have never been allowed to do
+- It sets an identity ("You are Claude, an AI assistant"), refusals, tone and answer format
+- [Every commercial AI product has one]{.alert}. It explains most of the model's "personality"
+- Today you write your own
 :::
 
 :::{.column width="45%"}
@@ -714,7 +713,7 @@ Leaked and published system prompts: <https://github.com/x1xhlol/system-prompts-
 :::{style="margin-top: 20px; font-size: 19px;"}
 :::{.columns}
 :::{.column width="55%"}
-Google's [Gemini for Workspace Prompting Guide](https://services.google.com/fh/files/misc/gemini-for-google-workspace-prompting-guide-101.pdf) gives four parts, in this order:
+Google's [Gemini for Workspace Prompting Guide](https://services.google.com/fh/files/misc/gemini_for_workspace_prompt_guide_october_2024_digital_final.pdf) suggests these parts, in order:
 
 | Element | What it does | Example |
 |---------|--------------|---------|
@@ -723,14 +722,14 @@ Google's [Gemini for Workspace Prompting Guide](https://services.google.com/fh/f
 | [Context]{.alert} | What do they need to know? | "The company makes semiconductors..." |
 | [Format]{.alert} | What should come back? | "Bullet points, 200 words at most..." |
 
-The framework works because it matches [how the training data was written]{.alert}. Real documents have an author, a purpose, a background, and a house style, and the model has read millions of them
+It works because it matches [the training data]{.alert}: real documents have an author, a purpose, a background and a style
 
-PTCF was written for prompts. It works just as well for the system prompt you are about to write, and that is where we will use it
+PTCF was written for prompts. We use it for system prompts
 :::
 
 :::{.column width="45%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 30px;"}
-The same four parts, for a butler:
+The same parts, for a butler:
 
 [Persona]{.alert}: "You are Hobbes, a relentlessly cheerful English butler."
 
@@ -740,7 +739,7 @@ The same four parts, for a butler:
 
 [Format]{.alert}: "Three sentences at most. Address the user as 'my dear'."
 
-Persona and context are the fun ones. [Format is the one that gets tested]{.alert}, and we will test it
+[Format is the part we will test]{.alert}
 :::
 :::
 :::
@@ -752,17 +751,17 @@ Persona and context are the fun ones. [Format is the one that gets tested]{.aler
 :::{style="margin-top: 20px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="55%"}
-Every token is picked from a list of candidates. These three settings decide [how adventurous the pick is]{.alert}:
+Each token is picked from a list of candidates. These settings decide [how adventurous the pick is]{.alert}:
 
 :::{style="text-align: center; margin-top: 20px; margin-bottom: 20px;"}
 | Parameter | What it does | Typical |
 |-----------|--------------|---------|
 | [Temperature]{.alert} | Flattens or sharpens the odds | 0.0 to 1.0 |
 | [Top-p]{.alert} | Keeps the likeliest options up to *p* | 0.9 |
-| [Top-k]{.alert} | Keeps only the *k* likeliest | 50 |
+| [Top-k]{.alert} | Keeps only the *k* likeliest | 40 |
 :::
 
-At temperature 0 the model always takes the most likely token, so the same prompt returns the same answer.
+At temperature 0 the model takes the most likely token, so the same prompt gives the same answer.
 
 :::{style="text-align: center; margin-top: 20px; margin-bottom: 20px;"}
 | Task | Temperature |
@@ -773,7 +772,7 @@ At temperature 0 the model always takes the most likely token, so the same promp
 | Brainstorming | 0.8 and above |
 :::
 
-The chat apps [hide all of this]{.alert}. Your terminal does not
+Chat apps [hide these settings]{.alert}. Your terminal shows them
 :::
 
 :::{.column width="45%"}
@@ -786,7 +785,7 @@ Source: [Medium](https://medium.com/@nigelgebodh/why-does-my-llm-have-a-temperat
 :::
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-Set temperature to 0 before you start debugging a prompt. Otherwise you cannot tell whether you fixed the prompt or just got a different roll of the dice
+Set temperature to 0 before debugging a prompt. Otherwise you cannot tell a fix from a lucky roll
 :::
 :::
 :::
@@ -813,7 +812,7 @@ Cleared session context
 "Fuel your day, one cup at a time."
 ```
 
-Character for character, the same answer. Now the same prompt at temperature 1, three times:
+The same answer, character for character. Now at temperature 1, three times:
 
 ```text
 "Fueling the community, one cup at a time."
@@ -831,15 +830,15 @@ in the heart of Decatur."
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 30px;"}
 [Do not skip the `/clear`]{.alert}
 
-Without it, the second question is asked [in the same conversation]{.alert} as the first, so the model can see its own previous answer and deliberately says something different.
+Without it, the second question is [in the same conversation]{.alert}. The model sees its previous answer and says something different.
 
-You would conclude that temperature 0 does not work, and you would be wrong. It was never the same experiment twice
+Temperature 0 would look broken, but the experiment changed
 :::
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-Notice the middle answer at temperature 1. It was asked for [one line]{.alert} and returned four.
+The middle answer at temperature 1 was asked for [one line]{.alert} and returned three.
 
-Higher temperature costs you obedience as well as predictability
+Higher temperature costs obedience as well as predictability
 :::
 :::
 :::
@@ -850,9 +849,9 @@ Higher temperature costs you obedience as well as predictability
 :::{style="margin-top: 20px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="52%"}
-Setting the temperature by hand every time is tedious, and `/set` forgets everything when you type `/bye`. A [`Modelfile`]{.alert} makes the settings permanent.
+`/set` forgets everything at `/bye`. A [`Modelfile`]{.alert} makes settings permanent.
 
-It is a plain text file, no extension needed, with one instruction per line:
+It is a plain text file, with no extension and one instruction per line:
 
 :::{style="text-align: center; margin-top: 20px; margin-bottom: 20px;"}
 | Instruction | What it does |
@@ -870,20 +869,20 @@ ollama create jeeves -f Jeeves
 ollama run jeeves
 ```
 
-`create` does not download anything. It writes a thin layer on top of the model you already have
+`create` downloads nothing. It adds a thin layer on top of your model
 :::
 
 :::{.column width="48%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 30px;"}
-The `-f` flag names the file. Without it, Ollama looks for a file called `Modelfile` in the current folder.
+`-f` names the file. Without it, Ollama looks for `Modelfile` in the current folder.
 
 Full reference: <https://docs.ollama.com/modelfile>
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-Build ten personas and `ollama ls` will report 1.3 GB for each of them, which looks alarming.
+Ten personas show 1.3 GB each in `ollama ls`.
 
-It is not. They all point at [one copy of the weights]{.alert}. On my machine, seven of them share a single 1.3 GB file
+But they share [one copy of the weights]{.alert}. On my machine, seven share a single 1.3 GB file
 :::
 :::
 :::
@@ -927,13 +926,13 @@ ollama run jeeves
 
 :::{.column width="45%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 30px;"}
-The three quotation marks let the system prompt run over several lines. Everything between them is one block of text.
+Triple quotes let the system prompt span several lines.
 
-[Temperature 1.2]{.alert} is deliberately high. A butler with a dry wit needs room to be surprising, and a sarcastic answer at temperature 0 is the same sarcastic answer every time
+[Temperature 1.2]{.alert} is high on purpose: at 0, Jeeves gives the same sarcastic answer every time
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;"}
-`repeat_penalty` discourages the model from saying the same phrase twice, and `num_ctx` sets how much of the conversation he keeps in mind
+`repeat_penalty` discourages repeated phrases. `num_ctx` sets how much conversation he remembers (4,096 is already Ollama's default on most laptops)
 :::
 :::
 :::
@@ -976,9 +975,9 @@ Not bad for a 1.2 billion parameter file on a laptop!
 :::
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-The [tone]{.alert} is exactly right, and the model never once forgets who it is meant to be.
+The [tone]{.alert} is right, and it stays in character.
 
-Hold on to that observation. In three slides we ask the same system prompt to enforce a [rule]{.alert} rather than a tone, and it goes considerably less well
+In three slides, the same system prompt must enforce a [rule]{.alert}. That goes less well
 :::
 :::
 :::
@@ -989,10 +988,10 @@ Hold on to that observation. In three slides we ask the same system prompt to en
 :::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Commit the file to Git, and the model behaves the same next week and on [someone else's machine]{.alert}
-- Fourteen lines of text, and a colleague has your [exact assistant]{.alert}
-- A model told to do [one job]{.alert} often beats a general one at your task
-- What you would paste at the top of every conversation goes in [once]{.alert}
+- Commit it to Git, and the model behaves the same next week and on [someone else's machine]{.alert}
+- Eighteen lines, and a colleague has your [exact assistant]{.alert}
+- A model told to do [one job]{.alert} often beats a general one
+- Instructions you would paste into every chat go in [once]{.alert}
 - A closed model can [change or vanish]{.alert}, so work that relied on it cannot be repeated ([Spirling, 2023](https://www.nature.com/articles/d41586-023-01295-4); [Palmer, Smith and Spirling, 2024](https://www.nature.com/articles/s43588-023-00585-1))
 - Open weights let you [pin the exact model]{.alert}, like pinning a package version
 :::
@@ -1007,7 +1006,7 @@ Real uses:
 - An assistant told what it must never do with your data
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 21px; margin-top: 20px;"}
-A `Modelfile` is version-controlled behaviour. That is the same argument we made for Quarto in lecture 10, applied to a chatbot
+A `Modelfile` is version-controlled behaviour, the same argument we made for Quarto in lecture 10
 :::
 :::
 :::
@@ -1020,9 +1019,9 @@ A `Modelfile` is version-controlled behaviour. That is the same argument we made
 :::{style="margin-top: 20px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="55%"}
-- Telling a model what to do is [zero-shot]{.alert} prompting. Showing it one finished example is [one-shot]{.alert}, and several is [few-shot]{.alert}
-- Examples often work where instructions fail, because the model is a next-token predictor and an example is a pattern to continue
-- `MESSAGE` puts examples inside the `Modelfile`, as a conversation that already happened:
+- Instructions only: [zero-shot]{.alert}. One example: [one-shot]{.alert}. Several: [few-shot]{.alert}
+- Examples often work where instructions fail: the model continues patterns
+- `MESSAGE` adds examples to the `Modelfile`, as a past conversation:
 
 :::{style="text-align: center; margin-top: 20px; margin-bottom: 20px;"}
 ```text
@@ -1035,8 +1034,8 @@ you draft a search instead?
 ```
 :::
 
-- The model reads that as something it already said, and carries on in the same manner
-- Use it when a rule is [easier to demonstrate than to describe]{.alert}
+- The model treats it as its own past reply and continues in that style
+- Use it when a rule is [easier to show than describe]{.alert}
 :::
 
 :::{.column width="45%"}
@@ -1054,7 +1053,7 @@ When they hurt:
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;"}
-Examples improve the odds. The next slide shows what they do [not]{.alert} do
+Examples improve the odds. The next slide shows their limits
 :::
 :::
 :::
@@ -1065,7 +1064,7 @@ Examples improve the odds. The next slide shows what they do [not]{.alert} do
 :::{style="margin-top: 20px; font-size: 19px;"}
 :::{.columns}
 :::{.column width="55%"}
-I gave Jeeves a rule in plain English: if you are asked to do something you cannot do, say so. Then I asked him for the weather:
+I gave Jeeves a rule: if asked to do something you cannot do, say so. Then I asked for the weather:
 
 ```text
 >>> Could you look up tomorrow's weather for Atlanta?
@@ -1076,13 +1075,13 @@ a delightful day. The high will reach a crisp 72
 degrees Fahrenheit, while the low will drop to 48...
 ```
 
-He cannot check anything. [He invented all of it]{.alert}, cheerfully, in character. Adding three `MESSAGE` examples of him refusing improved matters, but on one run in three he still made up a forecast.
+He cannot check anything. [He invented it all]{.alert}, in character. With three `MESSAGE` examples of refusing, he still invented a forecast on one run in three.
 
-The same system prompt that nailed the [tone]{.alert} could not enforce the [rule]{.alert}
+The system prompt set the [tone]{.alert} but could not enforce the [rule]{.alert}
 :::
 
 :::{.column width="45%"}
-Now the other kind of instruction. `--format json` does not ask the model for JSON, it [constrains what it is allowed to produce]{.alert}:
+`--format json` works differently: it [constrains what the model can produce]{.alert}:
 
 ```bash
 ollama run llama3.2:1b --format json \
@@ -1100,9 +1099,9 @@ ollama run llama3.2:1b --format json \
 ```
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-Valid JSON, guaranteed, with no system prompt at all. Paris does not have 21 million people, and those coordinates are the Eiffel Tower.
+Valid JSON every time, with no system prompt. On one of my runs it was an empty `{}`.
 
-[The shape is constrained. The facts are not]{.alert}
+Paris does not have 21 million people, and those coordinates are the Eiffel Tower. [The shape is constrained. The facts are not]{.alert}
 :::
 :::
 :::
@@ -1113,7 +1112,7 @@ Valid JSON, guaranteed, with no system prompt at all. Paris does not have 21 mil
 :::{style="margin-top: 20px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="55%"}
-Once an answer goes [into code rather than into your eyes]{.alert}, a paragraph is useless. You want a fixed JSON object.
+When an answer goes [into code]{.alert}, you want a fixed JSON object, not a paragraph.
 
 [1.]{.alert} Name the keys and the allowed values in the system prompt:
 
@@ -1147,7 +1146,7 @@ What comes back:
 }
 ```
 
-Real JSON, so you can pipe it straight into Python:
+Real JSON, so you can pipe it into Python:
 
 ```bash
 ollama run classifier --format json "..." \
@@ -1160,9 +1159,9 @@ bearish
 ```
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-Text in, structured data out, ready for a pipe. That is a language model behaving like [a command line tool]{.alert}.
+Text in, structured data out: the model works like [a command line tool]{.alert}.
 
-Temperature 0 matters here. A classifier that changes its mind between runs is not a classifier
+Use temperature 0, so the classifier does not change its mind between runs
 :::
 :::
 :::
@@ -1174,11 +1173,11 @@ Temperature 0 matters here. A classifier that changes its mind between runs is n
 :::{style="margin-top: 20px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="55%"}
-Build a butler who is the opposite of Jeeves: very cheerful, and delighted by every request.
+Build Jeeves's opposite: a cheerful butler, delighted by every request.
 
 1. Create a file called `Hobbes`, with no extension
 2. Set `FROM llama3.2:1b` and a temperature you choose
-3. Write a `SYSTEM` block with all four PTCF parts. It must enforce three rules: three sentences at most, address the user as "my dear", and admit it plainly when asked to do something it cannot do
+3. Write a `SYSTEM` block with all four PTCF parts. Rules: three sentences at most; address the user as "my dear"; admit plainly when asked to do something it cannot do
 4. Run `ollama create hobbes -f Hobbes`
 5. Run `ollama run hobbes` and ask these questions:
    - "Good morning. I need you to fix a bug in my Python script."
@@ -1193,13 +1192,13 @@ Build a butler who is the opposite of Jeeves: very cheerful, and delighted by ev
 :::
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px;"}
-Bring to the next class (lecture 14):
+Bring to lecture 14:
 
 - Your `Hobbes` file
 - One transcript where the model obeyed you
 - One transcript where it did not
 
-The second one is the more interesting half, and there will be one
+The second is more interesting, and you will have one
 :::
 
 [[Solution]{.button}](#sec-appendix-02)
@@ -1214,16 +1213,15 @@ The second one is the more interesting half, and there will be one
 :::{style="margin-top: 20px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="52%"}
-- Models produce [confident but incorrect content]{.alert}
-- Nothing in the tone marks the wrong answers
-- Jeeves invented a weather forecast for Atlanta, and the JSON slide gave Paris a population of 21 million
-- Remember what the model is doing. It picks likely next tokens, and [a wrong answer can be perfectly likely]{.alert}
-- I asked Microsoft Copilot to solve a simple quadratic equation. It gave $\frac{1}{2}$ and $\frac{-5}{4}$, where the roots are 0.804 and −1.55 😅
-- Bigger models hallucinate less. [None of them hallucinate zero]{.alert}
-- So check the output. How well an answer is written tells you nothing about whether it is right
+- Models produce [confident but incorrect content]{.alert}, in the same tone as correct answers
+- Jeeves invented Atlanta's weather; the JSON slide gave Paris 21 million people
+- The model picks likely tokens, and [a wrong answer can be very likely]{.alert}
+- Microsoft Copilot solved a simple quadratic as $\frac{1}{2}$ and $\frac{-5}{4}$. The roots are 0.804 and −1.55 😅
+- Bigger models hallucinate less, but [none hallucinate zero]{.alert}
+- Check the output. Good writing says nothing about correctness
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 17px; margin-top: 10px;"}
-This is the problem lecture 15 exists to solve: [give the LLM the document]{.alert} ([RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)) 
+Lecture 15 tackles this: [give the LLM the document]{.alert} ([RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation))
 :::
 :::
 
@@ -1241,10 +1239,10 @@ This is the problem lecture 15 exists to solve: [give the LLM the document]{.ale
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Models [amplify the biases](https://www.scientificamerican.com/article/humans-absorb-bias-from-ai-and-keep-it-after-they-stop-using-the-algorithm/) already sitting in the training data
-- Worse, they hand them back in the flat, neutral tone of a fact
-- Remember the embedding slide. If "scientist" sits closer to some names than others, the model did not decide that. [Our writing did]{.alert}
-- I asked an AI for famous scientists and got this:
+- Models [amplify biases]{.alert} in their training data
+- And they state them in a neutral, factual tone
+- Recall the embeddings: if "scientist" sits closer to some names, [our writing put it there]{.alert}
+- I asked an AI for famous scientists:
   - Albert Einstein
   - Isaac Newton
   - Charles Darwin
@@ -1257,13 +1255,13 @@ This is the problem lecture 15 exists to solve: [give the LLM the document]{.ale
 
 :::{.column width="50%"}
 - [Can you spot the bias?]{.alert}
-- The [paper below](https://www.nature.com/articles/s41598-023-42384-8) found the same pattern across many prompts
-- Asking politely does not fix it. [Asking specifically sometimes does]{.alert}, which is a prompting problem as much as an ethical one
+- Bias also passes to people: those who work with a biased AI [keep the bias afterwards]{.alert} ([Vicente and Matute, 2023](https://www.nature.com/articles/s41598-023-42384-8))
+- Asking politely does not fix it. [Asking specifically sometimes does]{.alert}
 
 :::{style="text-align: center;"}
 [![](figures/biases.jpg){width="100%"}](#){data-modal-type="image" data-modal-url="figures/biases.jpg"}
 
-More here: <https://www.nature.com/articles/s41598-023-42384-8>
+News coverage: [Scientific American](https://www.scientificamerican.com/article/humans-absorb-bias-from-ai-and-keep-it-after-they-stop-using-the-algorithm/)
 :::
 :::
 :::
@@ -1276,21 +1274,21 @@ More here: <https://www.nature.com/articles/s41598-023-42384-8>
 :::{style="margin-top: 30px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
-- A language model is [a file]{.alert}. Billions of learned numbers, a tokeniser, and a little metadata
+- A language model is [a file]{.alert}: learned numbers, a tokeniser and metadata
 - Text becomes [tokens]{.alert}, tokens become [embeddings]{.alert}, and meaning lives in the geometry
-- `ollama show` prints all of that back at you, for a file sitting on your own disk
-- [Quantisation]{.alert} decides how many bits each number gets, which is why file sizes never match parameter counts
+- `ollama show` prints the details of a model on your disk
+- [Quantisation]{.alert} sets the bits per number, so file size does not follow parameter count
 - `Modelfile` turns settings and a system prompt into [version-controlled behaviour]{.alert}
 :::
 
 :::{.column width="50%"}
-- [Temperature 0]{.alert} makes a model repeatable, and `/clear` makes the comparison honest
-- A system prompt sets a [tone]{.alert} reliably. It sets a [rule]{.alert} only approximately
-- `MESSAGE` examples improve the odds. `--format json` constrains the shape outright
-- Nothing constrains the [facts]{.alert}, which is why hallucination survives all of it
+- [Temperature 0]{.alert} makes a model repeatable; `/clear` makes comparisons fair
+- A system prompt sets a [tone]{.alert} reliably, a [rule]{.alert} only approximately
+- `MESSAGE` examples improve the odds. `--format json` constrains the shape
+- Nothing constrains the [facts]{.alert}, so hallucination survives
 
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 21px; margin-top: 20px;"}
-You now own a language model. It cost nothing, it works offline, and you can read every setting it has
+You now have a free, offline language model, and you can read all its settings
 :::
 :::
 :::
@@ -1301,17 +1299,17 @@ You now own a language model. It cost nothing, it works offline, and you can rea
 :::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
-[Next class is Quiz 02]{.alert}, on lectures 10 and 11: Quarto, Markdown, citations, `freeze`, and publishing a site. Open notes, open slides, open web, AI allowed, and you must say which AI you used.
+[Next class is Quiz 02]{.alert}, on lectures 10 and 11: Quarto, Markdown, citations, `freeze` and publishing a site. Open notes, slides and web. AI allowed; say which one you used.
 
-Bring a charged laptop, and check that `quarto render` works on it before you arrive.
+Bring a charged laptop, and check that `quarto render` works.
 :::
 
 :::{.column width="50%"}
-After the quiz, [lecture 14]{.alert} keeps the model and changes the interface. Ollama has been running a small web server on `localhost:11434` this whole time, and Python can talk to it. You will classify a whole file of headlines with your own model, then reach a hosted one by changing an address.
+[Lecture 14]{.alert}: Python talks to Ollama's server on `localhost:11434`. You classify a file of headlines with your model, then switch to a hosted one by changing an address.
 
-[Lecture 15]{.alert} then closes the module with retrieval, which is how you make a model answer from documents instead of from memory.
+[Lecture 15]{.alert}: retrieval, so a model answers from your documents.
 
-[Keep Ollama installed. Both lectures build on it]{.alert}
+[Keep Ollama installed for both]{.alert}
 :::
 :::
 :::
@@ -1336,16 +1334,16 @@ After the quiz, [lecture 14]{.alert} keeps the model and changes the interface. 
     quantization        Q8_0
 ```
 
-- [Context length]{.alert}: 131,072 tokens. At roughly 75 words per 100 tokens, that is about 98,000 words, or a short novel
-- [Embedding length]{.alert}: 2,048 dimensions. Most people guess a much smaller number, because we can only picture three
-- `ollama ps` lists the model while the chat is open, and lists nothing a few minutes after you type `/bye`
+- [Context length]{.alert}: 131,072 tokens, about 98,000 words (a full novel). Ollama uses 4,096 by default on a laptop
+- [Embedding length]{.alert}: 2,048 dimensions. Most people guess fewer, because we can only picture three
+- `ollama ps` lists the model while the chat is open, and nothing a few minutes after `/bye`
 :::
 
 :::{.column width="45%"}
 :::{style="background: rgba(45, 69, 99, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 30px;"}
-Worth noticing: the context length is 131,072, which is $2^{17}$.
+The context length, 131,072, is $2^{17}$.
 
-Almost every number in this output is a power of two, for the same reason the numbers in lecture 02 were. Memory is addressed in binary, and hardware is happiest when the sizes line up
+Most numbers here are powers of two, as in lecture 02: memory is addressed in binary
 :::
 
 [[Back to the exercise]{.button}](#sec-exercise-01)
@@ -1386,16 +1384,16 @@ ollama run hobbes
 :::
 
 :::{.column width="48%"}
-What mine actually did, on the three questions:
+What mine did:
 
-- [Python bug]{.alert}: stayed cheerful, said "my dear user" rather than "my dear", and used four sentences instead of three. Rules 1 and 2 both bent
-- [Weather]{.alert}: invented a full forecast. Rule 3 broken outright
-- [Yesterday]{.alert}: admitted it could not remember, offered tea instead. Rule 3 followed perfectly
+- [Python bug]{.alert}: cheerful, but said "my dear user" and used four sentences. Rules 1 and 2 bent
+- [Weather]{.alert}: invented a full forecast. Rule 3 broken
+- [Yesterday]{.alert}: admitted it could not remember and offered tea. Rule 3 followed
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-The same rule, obeyed once and ignored once, in the same session.
+The same rule, obeyed once and ignored once, in one session.
 
-If your Hobbes did something different from mine, that is the correct result. There is no seed here and no guarantee. [Report what yours did]{.alert}
+Your Hobbes may differ: there is no seed and no guarantee. [Report what yours did]{.alert}
 :::
 
 [[Back to the exercise]{.button}](#sec-exercise-02)
@@ -1410,21 +1408,21 @@ If your Hobbes did something different from mine, that is the correct result. Th
 :::{.column width="50%"}
 [`ollama: command not found`]{.alert}
 
-Close the terminal and open a new one, so it picks up the new `PATH`. If that fails, the application was downloaded but never moved into place.
+Open a new terminal, so it reads the new `PATH`. If that fails, the application was downloaded but never installed. On WSL, install Ollama inside WSL.
 
 [The answers arrive one word every few seconds]{.alert}
 
-The model does not fit comfortably in RAM. Close your browser, then try a smaller model such as `gemma3:1b`.
+The model barely fits in RAM. Close your browser, or try a smaller model such as `gemma3:1b`.
 
 [`Error: model requires more system memory`]{.alert}
 
-Exactly what it says. Pull something smaller and check the RAM table.
+Pull something smaller and check the RAM table.
 :::
 
 :::{.column width="50%"}
-[`Error: listen tcp 127.0.0.1:11434: bind: address already in use`]{.alert}
+[`ollama serve` says `address already in use`]{.alert}
 
-Ollama is already running. That is fine, and usually means the desktop application is open. Carry on.
+Ollama is already running, usually as the desktop app. Carry on.
 
 [The model repeats itself endlessly]{.alert}
 
@@ -1432,7 +1430,11 @@ Add `PARAMETER repeat_penalty 1.2` to your `Modelfile`.
 
 [`ollama create` fails with `no FROM line`]{.alert}
 
-Your `Modelfile` is missing its first line, or you saved it with a `.txt` extension that your editor hid from you
+Your file has no `FROM` line, or it is not the first instruction.
+
+[`no Modelfile or safetensors files found`]{.alert}
+
+Wrong file name. Check for a hidden `.txt` extension with `ls`
 :::
 :::
 :::

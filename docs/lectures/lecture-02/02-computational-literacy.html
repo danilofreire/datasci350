@@ -326,9 +326,9 @@ Danilo Freire
 
 </div>
 <ol type="1">
-<li>Learn how computers work from the ground up, starting with binary code</li>
+<li>Explain how computers work from the ground up, starting with binary code</li>
 <li>Get familiar with other key computer encodings like hexadecimal, ASCII, and Unicode</li>
-<li>Learn about the pioneers of computing and the development of Assembly language</li>
+<li>Describe the pioneers of computing and the development of Assembly language</li>
 <li>Understand the difference between low-level and high-level programming languages and when to use each</li>
 </ol>
 </section></section>
@@ -361,7 +361,7 @@ Danilo Freire
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="font-size: 20px; text-align: center">
-<p><a href="#/" data-modal-type="image" data-modal-url="figures/abacus.jpg"><img data-src="figures/abacus.jpg" style="width:100.0%"></a> Video: <a href="https://youtu.be/SkUdjlQy3rk&amp;t=176">How to use an abacus</a></p>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/abacus.jpg"><img data-src="figures/abacus.jpg" style="width:100.0%"></a> Video: <a href="https://youtu.be/SkUdjlQy3rk?t=176">How to use an abacus</a></p>
 </div>
 </div></div>
 </section>
@@ -375,7 +375,7 @@ Danilo Freire
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/mechanical-calculator.jpg"><img data-src="figures/mechanical-calculator.jpg" style="width:100.0%"></a></p>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><p>The <a href="https://www.arithmeum.uni-bonn.de/en/collection/exhibit-of-the-month/archive/01-the-first-mechanical-calculating-machine-for-all-four-arithmetic-operations-by-gottfried-wilhelm-leibniz.html">first mechanical calculator</a> capable of performing all four basic arithmetic operations (addition, subtraction, multiplication, and division)</p></li>
+<li><p>The <a href="https://en.wikipedia.org/wiki/Stepped_reckoner">first mechanical calculator</a> capable of performing all four basic arithmetic operations (addition, subtraction, multiplication, and division)</p></li>
 <li><p>Invented by <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Gottfried Wilhelm Leibniz</a> in 1694</p></li>
 <li><p>If you took a statistics course before the late 1970s, you likely used this type of <a href="https://en.wikipedia.org/wiki/Mechanical_calculator">mechanical calculator</a> for your computations</p></li>
 </ul>
@@ -391,7 +391,7 @@ Danilo Freire
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/transistor.gif"><img data-src="figures/transistor.gif" style="width:100.0%"></a></p>
 </div><div class="column" style="width:50%;">
 <div style="font-size: 26px;">
-<p>The 1970s marked the transition from mechanical to electronic:</p>
+<p>The 1970s put a whole CPU on one silicon chip:</p>
 <ul>
 <li class="fragment"><a href="https://en.wikipedia.org/wiki/Transistor">Transistors</a> act as switches for electronic signals</li>
 <li class="fragment"><a href="https://en.wikipedia.org/wiki/Integrated_circuit">Integrated circuits</a> combine multiple transistors on a single chip</li>
@@ -464,7 +464,7 @@ Danilo Freire
 <ul>
 <li>Computers store everything as <span class="alert">0s and 1s</span></li>
 <li>A transistor is a <span class="alert">switch</span>: high voltage is 1, low voltage is 0</li>
-<li>They are <span class="alert">tiny and cheap</span>. A modern chip holds ~200 billion transistors and performs billions of operations per second!</li>
+<li>They are <span class="alert">tiny and cheap</span>. A laptop chip holds tens of billions of transistors (up to ~200 billion in the largest GPUs) and performs billions of operations per second!</li>
 <li>Two states are the simplest thing a switch can do</li>
 </ul>
 <ul>
@@ -773,7 +773,7 @@ Danilo Freire
 <div style="margin-top:40px; font-size: 25px;">
 <ul>
 <li>Convert binary to hex by grouping into blocks of four bits</li>
-<li>Example: Binary <code>1001 1110 0000 1010</code> converts to Hex <code>9E0A</code> (9 + 14 + 0 + 10)</li>
+<li>Example: Binary <code>1001 1110 0000 1010</code> converts to Hex <code>9E0A</code> (9, 14, 0, 10)</li>
 </ul>
 <p><br></p>
 <p><span class="alert">Practice Exercise 02</span>:</p>
@@ -798,8 +798,10 @@ Danilo Freire
 <li class="fragment">FFFFFF = White</li>
 <li class="fragment">000000 = Black</li>
 </ul></li>
-<li class="fragment"><p>Each pair of digits represents a colour component (RGB)</p></li>
-<li class="fragment"><p>16 * 16 = 256, so two hex digits can represent values from 0 to 255</p></li>
+<li class="fragment"><p>Each pair of digits represents a colour component (RGB)</p>
+<ul>
+<li class="fragment">16 * 16 = 256, so two hex digits can represent values from 0 to 255</li>
+</ul></li>
 <li class="fragment"><p>This gives a total of 256 intensity levels for each primary colour</p></li>
 <li class="fragment"><p>When you combine the three channels, you get a possible colour palette of <span class="math inline">\(256^3\)</span> or about 16.7 million colours… but <span class="alert">described in a compact way using hex</span></p></li>
 </ul>
@@ -952,9 +954,9 @@ Danilo Freire
 <div style="font-size: 24px; margin-top: 40px;">
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Konrad_Zuse">Konrad Zuse</a> was a German engineer and computer pioneer</li>
-<li>He created the first programmable computer, the <a href="https://en.wikipedia.org/wiki/Z3_(computer)">Z3</a>, in 1941</li>
-<li>The Z3 was the first computer to use <span class="alert">binary arithmetic</span> and read binary instructions from punch tape</li>
-<li>Example: Z4 had 512 bytes of memory</li>
+<li>He built the <a href="https://en.wikipedia.org/wiki/Z3_(computer)">Z3</a> in 1941, the first working programmable, fully automatic digital computer</li>
+<li>Like his earlier <a href="https://en.wikipedia.org/wiki/Z1_(computer)">Z1</a> (1938), the Z3 used <span class="alert">binary arithmetic</span> and read its instructions from punched film</li>
+<li>His Z4 (1945) started with 64 words of memory, just 256 bytes</li>
 <li>Zuse also created the first high-level programming language, <a href="https://en.wikipedia.org/wiki/Plankalk%C3%BCl">Plankalkül</a> (“calculus for planning”)</li>
 </ul>
 </div>
@@ -973,8 +975,8 @@ Danilo Freire
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Assembly_language">Assembly language</a> is a low-level programming language that allows writing machine code in human-readable text</li>
 <li>Each instruction corresponds to a single machine code instruction</li>
-<li>The first assemblers were human!</li>
-<li>Programmers wrote assembly code, which secretaries transcribed to binary for machine processing</li>
+<li>The first assemblers were human! Programmers translated their code to binary by hand</li>
+<li><a href="https://en.wikipedia.org/wiki/Kathleen_Booth">Kathleen Booth</a> wrote the first assembly language in 1947</li>
 </ul>
 </div>
 </div></div>
@@ -1040,7 +1042,7 @@ Danilo Freire
 <div class="column" style="width:50%;">
 <div style="font-size: 24px;">
 <ul>
-<li>“Hello, World!” in machine code (hex):</li>
+<li>“Hello, World!” as raw bytes (hex), straight from the ASCII table:</li>
 </ul>
 <div style="font-size: 38px;">
 <pre><code>48 65 6C 6C 6F 2C 20 57 6F 72 6C 64 21</code></pre>
@@ -1116,7 +1118,7 @@ Danilo Freire
 <div style="font-size: 28px;">
 <ul>
 <li class="fragment">We will learn about the <a href="https://en.wikipedia.org/wiki/Command-line_interface">command line</a> and <a href="https://en.wikipedia.org/wiki/Shell_script">shell scripting</a> in the terminal</li>
-<li class="fragment">Please have your <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a> or <a href="https://iterm2.com/">iTerm2</a> installed, and we will start coding!</li>
+<li class="fragment">Please have your terminal ready (<a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a> on Windows), and we will start coding!</li>
 <li class="fragment">If you have VS Code, that’s even better! 😉</li>
 <li class="fragment">Please check the <a href="https://danilofreire.github.io/datasci350/tutorials.html">installation tutorials</a> for more information, and let me know if you have any questions 😃</li>
 </ul>

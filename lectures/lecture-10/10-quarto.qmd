@@ -47,13 +47,13 @@ editor:
 :::{style="margin-top: 30px; font-size: 25px;"}
 :::{.columns}
 :::{.column width="50%"}
-Today we start a new module, and a new question: [can anyone check your work?]{.alert}
+A new module starts today: [can anyone check your work?]{.alert}
 
-- The [reproducibility crisis]{.alert}: why so much published research fails when someone re-runs it
-- The habits that prevent it: project structure, raw data, paths, seeds, environments
-- [Literate programming]{.alert}: text, code, and results in one file, so they cannot drift apart
-- [Quarto](https://quarto.org/), the tool we will use for it: installing it and writing your first document
-- Next class: PDFs, citations, websites, and reports that write themselves
+- The [reproducibility crisis]{.alert}: why published research often fails when re-run
+- Habits that prevent it: project structure, raw data, paths, seeds, environments
+- [Literate programming]{.alert}: text, code and results in one file
+- [Quarto](https://quarto.org/): installing it and writing your first document
+- Next class: PDFs, citations, websites and parameterised reports
 :::
 
 :::{.column width="50%"}
@@ -86,21 +86,21 @@ Today we start a new module, and a new question: [can anyone check your work?]{.
 
 ## The reproducibility crisis
 
-:::{style="margin-top: 30px; font-size: 24px;"}
+:::{style="margin-top: 30px; font-size: 26px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [Reproducibility](https://en.wikipedia.org/wiki/Reproducibility): someone else, using your data and code, can get the same results you got
-- Sounds like a low bar. Across many fields, [a large share of published findings fail it]{.alert}
-- This is the [reproducibility crisis](https://en.wikipedia.org/wiki/Replication_crisis). Psychology, medicine, and economics were hit hardest, but no empirical field escaped
-- The usual suspects: small samples, p-hacking, selective reporting, and code that is never shared
-- Our focus in this course: [code and data]{.alert}. Most computational results fail for a mundane reason, as you will see in a minute
+- [Reproducibility](https://en.wikipedia.org/wiki/Reproducibility): someone using your data and code gets your results
+- A low bar, yet [many published findings fail it]{.alert}
+- The [reproducibility crisis](https://en.wikipedia.org/wiki/Replication_crisis) hit psychology, medicine and economics hardest. No empirical field escaped
+- Causes: small samples, p-hacking, selective reporting, unshared code
+- This course focuses on [code and data]{.alert}. Most computational results fail for a mundane reason
 :::
 
 :::{.column width="50%"}
 :::{style="text-align: center; font-size: 18px;"}
 [![](figures/power-posing.jpg){width="50%"}](#){data-modal-type="image" data-modal-url="figures/power-posing.jpg"}
 
-Amy Cuddy's "power posing" theory. 78 million TED Talk views, [but it could never be replicated](https://www.ted.com/talks/amy_cuddy_your_body_language_may_shape_who_you_are?language=en)
+Amy Cuddy's "power posing": 78 million TED views, [but its hormone effects failed to replicate](https://doi.org/10.1177/0956797614553946)
 :::
 :::
 :::
@@ -118,8 +118,8 @@ Amy Cuddy's "power posing" theory. 78 million TED Talk views, [but it could neve
 :::
 
 - [Ioannidis (2005)](https://doi.org/10.1371/journal.pmed.0020124), one of the most cited papers in medicine
-- Argument: for most study designs, a positive finding is [more likely to be false than true]{.alert}
-- Why: small samples, flexible analyses, financial interests, many teams racing on the same question
+- For most study designs, a positive finding is [more likely false than true]{.alert}
+- Causes: small samples, flexible analyses, financial interests, many teams chasing one question
 :::
 
 :::{.column width="50%"}
@@ -129,9 +129,9 @@ Amy Cuddy's "power posing" theory. 78 million TED Talk views, [but it could neve
 [![](figures/science.png){width="80%"}](#){data-modal-type="image" data-modal-url="figures/science.png"}
 :::
 
-- [Open Science Collaboration (2015)](https://www.science.org/doi/10.1126/science.aac4716): 270 researchers re-ran 100 published psychology experiments
-- Originals: 97% significant. Replications: [36% significant]{.alert}, with effect sizes cut in half
-- The fallout changed journal policy: pre-registration, open data, registered reports
+- [Open Science Collaboration (2015)](https://www.science.org/doi/10.1126/science.aac4716): 270 researchers re-ran 100 psychology experiments
+- Originals: 97% significant. Replications: [36%]{.alert}, with effects halved
+- Journals responded with pre-registration, open data and registered reports
 :::
 :::
 :::
@@ -150,11 +150,11 @@ Amy Cuddy's "power posing" theory. 78 million TED Talk views, [but it could neve
 
 :::{.column width="55%"}
 :::{style="margin-top: 30px;"}
-- [Trisovic et al. (2022)](https://www.nature.com/articles/s41597-022-01143-6) downloaded 2,109 `R` files from Harvard Dataverse and tried to run them
-- [74% produced errors]{.alert} on the first attempt. After automated fixes, 56% still failed
-- The reasons are not exotic: missing packages, hardcoded paths, functions that changed, data left out of the repository
-- These are files that [authors chose to deposit]{.alert} alongside their publications
-- If the code people publish on purpose does not run, imagine the code they do not publish 😅
+- [Trisovic et al. (2022)](https://www.nature.com/articles/s41597-022-01143-6) re-ran 9,078 `R` files from 2,109 replication packages on Harvard Dataverse
+- [74% failed]{.alert} on the first run. 56% still failed after automated fixes
+- Common causes: missing packages, hardcoded paths, changed functions, missing data
+- Authors [chose to deposit]{.alert} these files with their papers
+- Imagine the code they did not publish 😅
 :::
 :::
 :::
@@ -162,17 +162,17 @@ Amy Cuddy's "power posing" theory. 78 million TED Talk views, [but it could neve
 
 ## Five selfish reasons to work reproducibly
 
-:::{style="margin-top: 30px; font-size: 24px;"}
-So far this sounds like a duty to science. [Markowetz (2015)](https://doi.org/10.1186/s13059-015-0850-7) argues you should do it for yourself:
+:::{style="margin-top: 30px; font-size: 26px;"}
+[Markowetz (2015)](https://doi.org/10.1186/s13059-015-0850-7) argues reproducibility helps you, too:
 
-1. It helps you [avoid disaster]{.alert}: you catch your own errors before a reviewer, a retraction, or a job interview does
-2. It makes [writing easier]{.alert}: when the data changes, every number and figure in the paper regenerates itself
-3. It helps [reviewers see it your way]{.alert}: they can run your analysis instead of guessing what you did
-4. It gives your work [continuity]{.alert}: a new collaborator, or future-you, can pick the project up tomorrow
-5. It [builds your reputation]{.alert}: working, shared code is public proof that you know what you are doing
+1. [Avoid disaster]{.alert}: catch your errors before a reviewer, a retraction or a job interview does
+2. [Easier writing]{.alert}: when the data change, every number and figure updates
+3. [Reviewers see it your way]{.alert}: they run your analysis instead of guessing
+4. [Continuity]{.alert}: a new collaborator, or future-you, can pick it up tomorrow
+5. [Reputation]{.alert}: working, shared code shows you know what you are doing
 
 :::{.fragment style="margin-top: 15px;"}
-Reason 2 alone will save you hours in this course. And keep reason 1 in mind: in a few slides you will meet two famous economists who needed it
+Reason 2 will save you hours in this course. Reason 1 returns in a few slides, with two famous economists
 :::
 :::
 
@@ -180,19 +180,22 @@ Reason 2 alone will save you hours in this course. And keep reason 1 in mind: in
 
 ## The reproducibility ladder
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 30px; font-size: 25px;"}
 :::{.columns}
 :::{.column width="52%"}
-- People use four words for this, and they mean different things
+- These words mean different things:
+
+:::{.incremental}
 - [Re-runnable]{.alert}: the code runs again on your machine, today
-- [Reproducible]{.alert}: same code, same data, same results, on anyone's machine
-- [Replicable]{.alert}: new data, collected independently, gives the same finding
-- [Reusable]{.alert}: others can apply your work to their own questions
+- [Reproducible]{.alert}: same code and data give the same results, on any machine
+- [Reusable]{.alert}: others can apply your work to new questions
+- [Replicable]{.alert}: new, independent data give the same finding
 - Each step is harder than the one below it
-- Replicability depends on data you may never get, so it sits mostly outside your control
+- Replicability needs data you may never get, so it is mostly outside your control
+:::
 
 :::{.fragment style="margin-top: 15px;"}
-[Reproducibility is entirely within your control]{.alert}, and that is why this course grades you on it
+[Reproducibility is fully in your control]{.alert}, so this course grades you on it
 :::
 :::
 
@@ -211,9 +214,9 @@ easier
 :::
 
 :::{style="flex: 1; display: flex; flex-direction: column; gap: 8px; text-align: center; font-size: 19px;"}
-[reusable]{style="background:#1B3A6B; color:#fff; padding:9px; border-radius:6px; display:block;"}
+[replicable]{style="background:#1B3A6B; color:#fff; padding:9px; border-radius:6px; display:block;"}
 
-[replicable]{style="background:#3A5B8C; color:#fff; padding:9px; border-radius:6px; display:block;"}
+[reusable]{style="background:#3A5B8C; color:#fff; padding:9px; border-radius:6px; display:block;"}
 
 [reproducible]{style="background:#6E8AB0; color:#fff; padding:9px; border-radius:6px; display:block;"}
 
@@ -222,46 +225,45 @@ easier
 :::
 
 :::{style="font-size: 18px; margin-top: 15px; text-align: center;"}
-Most published work does not clear the first step
+In one large study, most deposited R files did not clear the first step
 :::
 :::
 :::
 :::
 
-## The four ingredients
+## What a reproducible project needs
 
-:::{style="margin-top: 30px; font-size: 25px;"}
+:::{style="margin-top: 30px; font-size: 26px;"}
 A result is reproducible only if [all four of these travel together]{.alert}:
 
 :::{.columns}
 :::{.column width="50%"}
-1. [Code]{.alert}: every step from raw data to final number, written down and runnable
+1. [Code]{.alert}: every step from raw data to final number, runnable
 2. [Data]{.alert}: the raw inputs, or a script that fetches them
 :::
 
 :::{.column width="50%"}
-3. [Environment]{.alert}: the language and package versions the code needs
-4. [Documentation]{.alert}: what the project does, and the order to run things in
+3. [Environment]{.alert}: the language and package versions
+4. [Documentation]{.alert}: what the project does and the run order
 :::
 :::
 
 :::{style="margin-top: 25px;"}
-Each one fails on its own:
+[Leave one out and it fails]{.alert}:
 
-- Code without data: readers can admire your work, but they cannot check it
-- Code and data without the environment: it runs today and breaks next year
-- All three without documentation: nobody knows which script to run first
-- [Miss one ingredient and the result is not reproducible]{.alert}
+- No data: readers cannot check your code
+- No environment: it runs today and breaks next year
+- No documentation: nobody knows which script runs first
 :::
 :::
 
 ## Project structure
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="48%"}
-- [One folder per project]{.alert}, and the same layout in every project, so you never wonder where a file goes
-- We will use this one for the rest of the course, and [the final project requires it]{.alert}
+- [One folder per project]{.alert}, with the same layout every time
+- We use it for the rest of the course, and [the final project requires it]{.alert}
 
 ```{verbatim}
 my-project/
@@ -275,15 +277,15 @@ my-project/
 :::
 
 :::{.column width="52%"}
-- The layout separates [inputs from outputs]{.alert}: `data/raw/` holds what you collected, and everything else can be rebuilt from it
-- `data/raw/` is [read-only]{.alert}: download the files once and never touch them again
-- Numbered scripts (`01-clean.py`, `02-analyse.py`) make the run order part of the name
-- `data/clean/` and `output/` are disposable: delete them and the scripts bring them back
-- Generated files often stay out of Git: put `data/clean/` and `output/` in `.gitignore` and commit only sources
-- `README.md` explains the project to the next person, who is usually you in six months
+- `data/raw/` holds your [inputs]{.alert}. Everything else can be rebuilt from it
+- `data/raw/` is [read-only]{.alert}: download once, never edit
+- Numbered scripts (`01-clean.py`, `02-analyse.py`) show the run order
+- `data/clean/` and `output/` are disposable: the scripts rebuild them
+- Put them in `.gitignore` and commit only sources
+- `README.md` explains the project to the next person, usually you in six months
 
 :::{style="margin-top: 15px;"}
-[If you deleted everything except `data/raw/` and `scripts/`, could you rebuild the project?]{.alert}
+[Delete everything except `data/raw/` and `scripts/`. Can you rebuild the project?]{.alert}
 :::
 :::
 :::
@@ -294,12 +296,12 @@ my-project/
 :::{style="margin-top: 30px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="45%"}
-- You have been reading READMEs all term: GitHub shows one on [every repository page]{.alert}
-- A good one answers three questions: [what is this]{.alert}, [how do I rebuild it]{.alert}, and [in what order]{.alert}
-- List each data source and the date you downloaded it, so stale data is easy to spot
-- List the commands that rebuild the project, in run order, ready to copy and paste
-- Note the language and package versions (more on those in a minute)
-- Ten lines are enough. Write it while the project is small, and keep it current as the project grows
+- GitHub shows a README on [every repository page]{.alert}
+- It answers [what is this]{.alert}, [how do I rebuild it]{.alert} and [in what order]{.alert}
+- List each data source and its download date, so stale data is easy to spot
+- List the rebuild commands in run order, ready to paste
+- Note the language and package versions (more in a minute)
+- Ten lines are enough. Start early and keep it current
 :::
 
 :::{.column width="55%"}
@@ -333,11 +335,11 @@ Python 3.13, pandas 3.0, matplotlib 3.10
 :::{.column width="55%"}
 - [Reinhart and Rogoff (2010)](https://www.aeaweb.org/articles?id=10.1257/aer.100.2.573), "Growth in a Time of Debt": above [90% debt-to-GDP]{.alert}, growth turns negative
 - After 2008, it became the standard citation for [austerity]{.alert}
-- In 2013, a graduate student, Thomas Herndon, could not reproduce it, and asked for the spreadsheet
+- In 2013, graduate student Thomas Herndon could not reproduce it and asked for the spreadsheet
 - One formula [averaged rows 30 to 44, not 30 to 49]{.alert}, dropping five countries
-- Corrected, growth above the threshold was [+2.2%, not -0.1%](https://doi.org/10.1093/cje/bet075)
-- Three years of policy debate passed before anyone noticed, because the analysis sat in a [private spreadsheet]{.alert}
-- A public script and dataset would have caught it in an afternoon!
+- With two other fixes (excluded data, odd weighting), growth above 90% was [+2.2%, not -0.1%](https://doi.org/10.1093/cje/bet075)
+- The analysis sat in a [private spreadsheet]{.alert}, so three years of policy debate passed before anyone noticed
+- A public script and dataset would have caught it in an afternoon
 :::
 
 :::{.column width="45%"}
@@ -353,7 +355,7 @@ Python 3.13, pandas 3.0, matplotlib 3.10
 :::{style="margin-top: 30px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="52%"}
-The single most common reason code fails on another machine:
+A top reason code fails on another machine:
 
 :::{style="font-size: 18px;"}
 ```{.python filename="analysis.py"}
@@ -375,15 +377,11 @@ or directory:
 :::
 
 :::{.column width="48%"}
-- An [absolute path]{.alert} starts at the root (`/`) and names one exact spot on one exact machine
-- Only Ana has a `/Users/ana`. The script fails everywhere else, however good the rest of the code is
-- A [relative path]{.alert} starts from the [working directory]{.alert} instead, the same idea as `pwd` in the shell
-- Every running program has one, inherited from wherever you launched it
-- Which is why "it works when I run it" proves very little
-
-:::{.fragment style="margin-top: 15px;"}
-Hardcoded paths were among the top causes of failure in the Trisovic study. [The fix costs nothing]{.alert}
-:::
+- An [absolute path]{.alert} starts at `/` and names one spot on one machine
+- Only Ana has `/Users/ana`, so the script fails everywhere else
+- A [relative path]{.alert} starts from the [working directory]{.alert}, like `pwd` in the shell
+- A program inherits it from where you launch it, so "it works for me" proves little
+- Hardcoded paths were a top cause of failure in the Trisovic study
 :::
 :::
 :::
@@ -393,7 +391,7 @@ Hardcoded paths were among the top causes of failure in the Trisovic study. [The
 :::{style="margin-top: 30px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="52%"}
-Write paths [relative to the project folder]{.alert}, and the project works anywhere:
+Write paths [relative to the project folder]{.alert}:
 
 ```{.python filename="analysis.py"}
 import pandas as pd
@@ -401,7 +399,7 @@ import pandas as pd
 df = pd.read_csv("data/raw/rainfall.csv")
 ```
 
-Use `pathlib` when you need to build paths safely across operating systems:
+Or build them with `pathlib`:
 
 ```{.python filename="analysis.py"}
 from pathlib import Path
@@ -412,9 +410,9 @@ df = pd.read_csv(raw)
 :::
 
 :::{.column width="48%"}
-- `pathlib` handles the separator for you, so the same line works on macOS, Linux, and Windows
-- Quarto renders each document relative to [the folder holding the `.qmd` file]{.alert}, which is usually what you want
-- Avoid `os.chdir()`. It changes state halfway through a script and makes the rest of the file hard to follow
+- `pathlib` picks the right separator on macOS, Linux and Windows
+- Quarto runs each document from [the folder holding the `.qmd` file]{.alert}
+- Avoid `os.chdir()`: it changes state mid-script and makes the code hard to follow
 
 :::{.fragment style="margin-top: 20px;"}
 [If your code contains your username, it is not reproducible]{.alert}
@@ -428,7 +426,7 @@ df = pd.read_csv(raw)
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="50%"}
-Run this twice, get two answers, and the numbers in your report change on every render:
+Without a seed, every run gives new numbers:
 
 ```{python}
 #| echo: true
@@ -438,7 +436,7 @@ print(np.random.normal(size=3).round(3))
 print(np.random.normal(size=3).round(3))
 ```
 
-Set a seed first and the sequence is fixed, so anyone running your code gets exactly what you got:
+With a seed, everyone gets the same sequence:
 
 ```{python}
 #| echo: true
@@ -451,19 +449,18 @@ print(np.random.normal(size=3).round(3))
 :::
 
 :::{.column width="50%"}
-- Computers cannot produce true randomness
-- `np.random` is a [pseudorandom generator]{.alert}: a formula that walks through a fixed sequence of numbers
-- The [seed]{.alert} picks where that walk starts, which fixes the whole sequence in advance
-- Newer code makes the generator an explicit object:
+- `np.random` is not truly random. It is a [pseudorandom generator]{.alert}: a formula that walks a fixed sequence
+- The [seed]{.alert} sets the starting point, which fixes the whole sequence
+- Newer code uses a generator object:
 
 ```{.python}
 rng = np.random.default_rng(350)
 rng.normal(size=3)
 ```
 
-- Every library keeps its own generator. Python's `random` and scikit-learn's `random_state=` need seeding separately
-- Randomness hides in sampling, train-test splits, and the starting weights of most models
-- [If a number came from a random draw, seed it]{.alert}
+- Python's `random` has its own generator. scikit-learn needs `random_state=`
+- Randomness hides in sampling, train-test splits and model starting weights
+- [Seed every random draw]{.alert}
 :::
 :::
 :::
@@ -473,11 +470,11 @@ rng.normal(size=3)
 :::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Packages change. A function gains an argument, a default flips, a method is removed
-- Code that worked in 2024 can give different numbers in 2026, or refuse to run at all. This is called [version drift]{.alert}
-- The fix is to record what you used, so the next person can match it
+- Packages change: new arguments, flipped defaults, removed methods
+- Code from 2024 may give different numbers in 2026, or not run. This is [version drift]{.alert}
+- Record your versions so others can match them
 
-At minimum, note the versions in your README:
+At minimum, note them in your README:
 
 ```{python}
 #| echo: true
@@ -490,10 +487,10 @@ print("pandas:", pandas.__version__)
 :::
 
 :::{.column width="50%"}
-You can also ask `pip` for the full list:
+`pip` lists every package. `python -m` uses the Python you actually run:
 
 ```{.bash filename="Terminal"}
-pip list
+python -m pip list
 ```
 
 ```{verbatim}
@@ -506,7 +503,7 @@ pandas          3.0.2
 ```
 
 :::{.fragment style="margin-top: 20px;"}
-A version list helps the next person diagnose a failure. [Module 08 adds the tools that prevent one]{.alert}: virtual environments, `uv`, and containers. Until then, write the versions down
+A version list helps diagnose failures. [Module 08 adds tools that prevent them]{.alert}: virtual environments, `uv` and containers
 :::
 :::
 :::
@@ -519,13 +516,13 @@ A version list helps the next person diagnose a failure. [Module 08 adds the too
 :::{style="margin-top: 30px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
-- So far, habits. Now a tool that enforces the biggest one: [text, code, and results in one file]{.alert}
+- Now a tool for the biggest habit: [text, code and results in one file]{.alert}
 - [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth) coined [literate programming]{.alert} in 1984: write for humans first, machines second
-- Two operations pull the file apart:
+- Two operations split the file:
   - [Weaving]{.alert}: the readable document (HTML, PDF)
   - [Tangling]{.alert}: the executable code
-- Explaining what you are doing catches bad logic before it reaches your results
-- The numbers come from the code, so [they cannot go stale]{.alert}
+- Explaining your steps catches bad logic early
+- Numbers come from the code, so [they cannot go stale]{.alert}
 :::
 
 :::{.column width="50%"}
@@ -541,14 +538,14 @@ A version list helps the next person diagnose a failure. [Module 08 adds the too
 :::{style="margin-top: 30px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="55%"}
-- [LaTeX](https://www.latex-project.org/) came first. Beautiful output, verbose syntax, steep learning curve (I know, I've been there 😅)
-- [Markdown](https://en.wikipedia.org/wiki/Markdown) kept the ideas and dropped the ceremony: `**bold**`, `- list`, `[link](url)`
-- [R Markdown](https://rmarkdown.rstudio.com/) added executable chunks for R, and [Jupyter](https://jupyter.org/) did the same for Python
-- Each is fine alone. [Mixing languages or output formats]{.alert} is where they struggle
-- [Quarto](https://quarto.org/) (2022, by Posit) rebuilt R Markdown to be [language-agnostic]{.alert}: Python, R, Julia, Observable JS
-- One `.qmd` renders to HTML, PDF, Word, slides, websites, books, and dashboards
-- [Pandoc](https://pandoc.org/) does the final conversion underneath
-- These slides, the course website, and every course PDF are Quarto. [Learn it once, use it everywhere]{.alert}
+- [LaTeX](https://www.latex-project.org/) came first: beautiful output, verbose syntax, steep learning curve (I've been there 😅)
+- [Markdown](https://en.wikipedia.org/wiki/Markdown) kept the ideas with a simpler syntax: `**bold**`, `- list`, `[link](url)`
+- [R Markdown](https://rmarkdown.rstudio.com/) added R chunks, and [Jupyter](https://jupyter.org/) did the same for Python
+- Both struggle with [mixed languages or output formats]{.alert}
+- [Quarto](https://quarto.org/) (2022, Posit) rebuilt R Markdown for [any language]{.alert}: Python, R, Julia, Observable JS
+- One `.qmd` renders to HTML, PDF, Word, slides, websites, books and dashboards
+- [Pandoc](https://pandoc.org/) does the final conversion
+- These slides, the course website and every course PDF use Quarto
 :::
 
 :::{.column width="45%"}
@@ -577,8 +574,8 @@ A version list helps the next person diagnose a failure. [Module 08 adds the too
 
 :::{.column width="40%"}
 - Clockwise from top left: a company report, an [interactive dashboard](https://jjallaire.github.io/gapminder-dashboard/), a website, and a book
-- All four are plain text files, so all four [live happily in Git]{.alert}
-- Same source, same commands, different `format:` line
+- All four are plain text, so they [work well with Git]{.alert}
+- Only the `format:` line changes
 - Click any image to zoom in
 :::
 :::
@@ -618,10 +615,10 @@ flowchart LR
 :::
 
 :::{.column width="50%"}
-- Quarto files use the `.qmd` extension, but you can also feed Jupyter notebooks (`.ipynb`) straight into Quarto with [some YAML configuration](https://quarto.org/docs/tools/jupyter-lab.html)
-- The pipeline: `.qmd` → engine (Jupyter or knitr) → `.md` → [Pandoc](https://pandoc.org/) → final output
-- Pandoc handles the last step: it reads Markdown and writes HTML, PDF, Word, and [dozens of other formats](https://pandoc.org/MANUAL.html)
-- You rarely interact with Pandoc directly. Quarto calls it for you, passing the options from your YAML header
+- Quarto reads `.qmd` files and Jupyter notebooks (`.ipynb`). A [YAML cell](https://quarto.org/docs/tools/jupyter-lab.html) on top is optional
+- Pipeline: `.qmd` → engine (Jupyter or knitr) → `.md` → [Pandoc](https://pandoc.org/) → output
+- Pandoc turns Markdown into HTML, PDF, Word and [dozens of other formats](https://pandoc.org/MANUAL.html)
+- Quarto calls Pandoc for you, with the options from your YAML header
 :::
 :::
 :::
@@ -641,15 +638,15 @@ flowchart LR
 :::
 
 :::{.column width="45%"}
-- Download the installer for your system from the page on the left, or use a package manager
-- On macOS, [Homebrew](https://brew.sh/) does it in one line:
+- Download the installer on the left, or use a package manager
+- On macOS, with [Homebrew](https://brew.sh/):
 
 ```{.bash filename="Terminal"}
 brew install --cask quarto
 ```
 
-- On Windows, install Quarto [inside WSL](https://quarto.org/docs/download/) so it lives next to your shell and Git
-- To render PDFs you also need LaTeX. Install the lightweight [TinyTeX](https://yihui.org/tinytex/) and you are done:
+- On Windows, install Quarto [inside WSL](https://quarto.org/docs/download/), next to your shell and Git
+- PDFs also need LaTeX. Install the lightweight [TinyTeX](https://yihui.org/tinytex/):
 
 ```{.bash filename="Terminal"}
 quarto install tinytex
@@ -682,7 +679,7 @@ Quarto 1.9.38
       Jupyter: 5.9.1
 ```
 
-Run this first whenever something stops working. Your version numbers will differ from mine, and that is fine
+Run this first when something breaks. Your versions will differ from mine
 :::
 
 ## Write in whatever editor you like
@@ -690,10 +687,10 @@ Run this first whenever something stops working. Your version numbers will diffe
 :::{style="margin-top: 30px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
-- A `.qmd` file is [plain text]{.alert}. VS Code, RStudio, Jupyter Lab, Neovim, or Notepad: they all work
-- We will use [VS Code with the Quarto extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto): syntax highlighting, completion, a render button, and a live preview
-- Install it from the [Extensions marketplace]{.alert}, like the extensions you already have
-- It also offers a [visual editor](https://quarto.org/docs/visual-editor/vscode/), which renders the Markdown as you type. Try both and keep the one you like
+- A `.qmd` file is [plain text]{.alert}: VS Code, RStudio, Jupyter Lab, Neovim, even Notepad work
+- We use [VS Code with the Quarto extension](https://marketplace.visualstudio.com/items?itemName=quarto.quarto): highlighting, completion, a render button and live preview
+- Install it from the [Extensions marketplace]{.alert}
+- Its [visual editor](https://quarto.org/docs/visual-editor/vscode/) renders Markdown as you type. Try both modes
 :::
 
 :::{.column width="50%"}
@@ -708,10 +705,10 @@ Run this first whenever something stops working. Your version numbers will diffe
 :::
 :::
 
-## Two commands you will use every day
+## Rendering from the terminal
 
 :::{style="margin-top: 30px; font-size: 24px;"}
-Of course, there is a CLI for that! Quarto has several commands (`quarto --help` lists them), but two do almost all the work:
+`quarto --help` lists every command. These do most of the work:
 
 ```{.bash filename="Terminal"}
 ## Render a file to its default format
@@ -725,9 +722,9 @@ quarto preview report.qmd
 ```
 
 :::{.fragment style="margin-top: 20px;"}
-- [`render`]{.alert} builds the document once. Use it when you are done
-- [`preview`]{.alert} keeps a live version open while you write. Use it the rest of the time
-- The output lands next to the source file: `report.qmd` becomes `report.html`
+- [`render`]{.alert} builds the document once, when you are done
+- [`preview`]{.alert} keeps a live version open while you write
+- Output lands next to the source (`report.qmd` → `report.html`), unless a project sets `output-dir`
 :::
 :::
 
@@ -736,8 +733,8 @@ quarto preview report.qmd
 ## Anatomy of a Quarto document
 
 :::{style="margin-top: 30px; font-size: 24px;"}
-- A Quarto document contains three types of content: a [YAML header]{.alert}, [code chunks]{.alert}, and [Markdown text]{.alert}
-- That is the whole format. Let's look at each part in turn (Markdown in depth comes next lecture)
+- A Quarto document has a [YAML header]{.alert}, [code chunks]{.alert} and [Markdown text]{.alert}
+- We look at each in turn. Markdown in depth comes next lecture
 
 ::: {layout-ncol="3"}
 [![](figures/yaml.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/yaml.png"}
@@ -770,13 +767,13 @@ jupyter: python3
 :::
 
 :::{.column width="50%"}
-- YAML stands for "YAML Ain't Markup Language", a recursive joke. It describes [data]{.alert}, not documents
-- Sits at the very top, between two lines of three dashes (`---`)
-- `key: value` pairs, where [indentation creates nesting]{.alert}. Use spaces: tabs are illegal in YAML
-- `format: html` is the short form. Indent underneath it to pass options, as on the left
-- `execute:` sets defaults for [every chunk]{.alert} in the document
-- Quote any value containing a colon: `title: "Quarto: a first look"`
-- The same syntax runs `_quarto.yml`, GitHub Actions, and Docker Compose. [Learn it once]{.alert}
+- YAML stands for "YAML Ain't Markup Language" (a recursive joke). It describes [data]{.alert}
+- It sits at the top, between two `---` lines
+- `key: value` pairs, where [indentation creates nesting]{.alert}. Use spaces: tabs are illegal for indentation
+- `format: html` is the short form. Indent under it to add options
+- `execute:` sets defaults for [every chunk]{.alert}
+- Quote values that contain a colon: `title: "Quarto: a first look"`
+- `_quarto.yml`, GitHub Actions and Docker Compose use the same syntax
 :::
 :::
 :::
@@ -803,12 +800,9 @@ plt.show()
 
 :::{.column width="50%"}
 - Three backticks and `{python}` open a chunk; three backticks close it
-- When you render, the chunk [runs]{.alert}, and its output lands in the document
-- Lines starting with `#|` are [chunk options]{.alert}, in YAML style:
-  - `echo: false` hides the code, keeps the output
-  - `eval: false` shows the code, skips running it
-  - `warning: false` hides warnings
-  - `label` names the chunk, so you can cross-reference figures
+- On render, the chunk [runs]{.alert} and its output goes into the document
+- `#|` lines are [chunk options]{.alert}, in YAML syntax
+- Here they label the figure and hide the code and warnings
 :::
 :::
 :::
@@ -833,7 +827,7 @@ plt.show()
 
 :::{.column width="45%"}
 - `#|` options apply to [one chunk]{.alert}
-- Defaults for the [whole document]{.alert} go in the YAML header instead:
+- [Document-wide]{.alert} defaults go in the YAML header:
 
 ```yaml
 execute:
@@ -841,10 +835,10 @@ execute:
   warning: false
 ```
 
-- Chunk options override the document defaults, so you can hide all code and still show one chunk
-- Cross-references need a [prefixed label]{.alert}: `fig-` for figures, `tbl-` for tables, and also `eq-`, `sec-`, `lst-`
-- Then `@fig-rain` in your text becomes "Figure 1", numbered for you
-- The full list is in the [Quarto documentation](https://quarto.org/docs/computations/execution-options.html)
+- Chunk options override these, so you can hide all code but show one chunk
+- Cross-references need a [prefixed label]{.alert}: `fig-`, `tbl-`, `eq-`, `sec-`, `lst-`
+- `@fig-rain` then prints "Figure 1", numbered for you
+- Full list in the [Quarto documentation](https://quarto.org/docs/computations/execution-options.html)
 :::
 :::
 :::
@@ -854,7 +848,7 @@ execute:
 :::{style="margin-top: 30px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="46%"}
-`layout-ncol: 2` puts two plots side by side, and `echo: false` keeps the code out of the reader's way:
+`layout-ncol: 2` puts two plots side by side; `echo: false` hides the code:
 
 ```` markdown
 ```{{python}}
@@ -898,7 +892,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-Both figures came straight from the code at render time. [Change the data and they update themselves]{.alert}
+Both figures come from the code at render time. [Change the data and they update]{.alert}
 :::
 :::
 :::
@@ -908,13 +902,13 @@ Both figures came straight from the code at render time. [Change the data and th
 :::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="55%"}
-- Quarto runs no code itself. It hands each chunk to an [engine]{.alert}
-- [Jupyter]{.alert} runs Python, and any language with a Jupyter kernel. [knitr]{.alert} runs R
+- Quarto runs no code itself. It hands chunks to an [engine]{.alert}
+- [Jupyter]{.alert} runs Python and any language with a Jupyter kernel. [knitr]{.alert} runs R
 - [This course uses Jupyter]{.alert}. These slides render with `jupyter: python3`
-- Every render starts [one fresh session]{.alert} and works through the chunks top to bottom
-- Chunks share state, like notebook cells: a variable from chunk one still exists in chunk ten
-- Fresh session, top to bottom. That is a [restart-and-run-all]{.alert} test, every time
-- So a document that renders is one whose analysis just ran from scratch. [Quarto checks your reproducibility for you]{.alert}
+- Each render starts [one fresh session]{.alert} and runs the chunks top to bottom
+- Chunks share state like notebook cells: a variable from chunk one exists in chunk ten
+- So every render is a [restart-and-run-all]{.alert} test
+- A document that renders has just run its analysis from scratch
 :::
 
 :::{.column width="45%"}
@@ -927,9 +921,9 @@ jupyter: python3
 ```
 
 :::{style="margin-top: 20px;"}
-Quarto can usually detect the engine from your chunks. Declaring it anyway tells the next reader what they need installed.
+Quarto can usually detect the engine. Declaring it tells readers what to install.
 
-If you ever switch to R, change this one line and the rest of the document stays as it is
+To use R, write `{r}` chunks and Quarto picks knitr
 :::
 :::
 :::
@@ -957,7 +951,6 @@ more about Quarto see <https://quarto.org>.
 
 ```{{python}}
 #| echo: false
-#| message: false
 
 import seaborn as sns
 from palmerpenguins import load_penguins
@@ -977,12 +970,12 @@ g.set_ylabels('Body Mass')
 :::
 
 :::{.column width="45%"}
-- Thirty lines, and everything from today's lecture is in them
-- The [YAML header]{.alert} names the document and picks the format and engine
-- `code-fold: true` tucks the code behind a toggle, so readers who want it can still find it
-- The prose is plain [Markdown]{.alert}, with a `##` heading
-- One [chunk]{.alert} loads the penguin data and draws a figure
-- The next slide shows what renders
+- Thirty lines, with everything from today's lecture
+- The [YAML header]{.alert} sets the title, format and engine
+- `code-fold: true` hides code behind a toggle, but `echo: false` removes this chunk's code
+- The prose is [Markdown]{.alert}, with a `##` heading
+- One [chunk]{.alert} loads penguin data and draws a figure (needs `pip install palmerpenguins`)
+- The next slide shows the result
 :::
 :::
 :::
@@ -999,10 +992,10 @@ g.set_ylabels('Body Mass')
 
 :::{.column width="45%"}
 :::{style="margin-top: 20px;"}
-- The title comes from the YAML, the heading and prose from the Markdown, and the figure from the chunk
-- The Code toggle at the top is `code-fold: true` at work
-- Change the data and render again: [the figure and the numbers follow]{.alert}
-- This page cannot show a figure its own code did not produce. That is literate programming doing its job
+- Title from the YAML, heading and prose from the Markdown, figure from the chunk
+- `echo: false` wins over `code-fold: true`: only the figure shows
+- Change the data and render again: [the figure and numbers follow]{.alert}
+- The page can only show figures its own code produced
 :::
 :::
 :::
@@ -1046,7 +1039,7 @@ rain = pd.DataFrame({
 ```
 
 :::{style="margin-top: 15px;"}
-Stuck? The option that hides code is on the chunk options slide, and `quarto check` diagnoses a broken installation
+Stuck? See the chunk options slide. `quarto check` diagnoses a broken installation
 :::
 
 [[Answer: Appendix 01]{.button}](#sec-appendix-01)
@@ -1057,12 +1050,12 @@ Stuck? The option that hides code is on the chunk options slide, and `quarto che
 ## Summary
 
 :::{style="margin-top: 30px; font-size: 26px;"}
-- The reproducibility crisis is real, and most computational results fail for a mundane reason: [the code does not run]{.alert}
-- The ladder: re-runnable → reproducible → replicable → reusable. This course gets you to the second step
-- Four ingredients travel together: [code, data, environment, documentation]{.alert}
-- The habits: raw data left untouched, cleaning in code, relative paths only, seeds set, versions written down, a README that says how to rebuild
-- [Literate programming]{.alert} keeps text, code, and results in one file, so they cannot drift apart
-- [Quarto]{.alert} is our tool for it: one plain-text `.qmd` file, one `render` command, many output formats
+- The reproducibility crisis is real. Most computational results fail because [the code does not run]{.alert}
+- The ladder: re-runnable → reproducible → reusable → replicable. This course gets you to step two
+- [Code, data, environment and documentation]{.alert} travel together
+- Habits: untouched raw data, cleaning in code, relative paths, seeds, recorded versions, a README
+- [Literate programming]{.alert} keeps text, code and results in one file
+- [Quarto]{.alert} is our tool: one plain-text `.qmd`, one `render` command, many formats
 :::
 
 ## Next class
@@ -1070,16 +1063,16 @@ Stuck? The option that hides code is on the chunk options slide, and `quarto che
 :::{style="margin-top: 30px; font-size: 25px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Quarto [in practice]{.alert}: Markdown in depth, PDFs, and citations that format themselves
-- `freeze`: rendering documents [without re-running the world]{.alert}
-- Slides (like these) and [websites]{.alert}, published straight from GitHub
-- [Parameterised reports]{.alert}: one file that writes a report for every country in your dataset
-- Bring a working Quarto installation: today's exercise is the check 🤓
+- Quarto [in practice]{.alert}: Markdown, PDFs and automatic citations
+- `freeze`: rendering [without re-running everything]{.alert}
+- Slides (like these) and [websites]{.alert}, published from GitHub
+- [Parameterised reports]{.alert}: one file, one report per country
+- Bring a working Quarto installation. Today's exercise is the test 🤓
 :::
 
 :::{.column width="50%"}
 :::{style="text-align: center; margin-top: 20px;"}
-[![One source file, a report for every country. Next class you build this](figures/website.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/website.png"}
+[![Next class: websites like this one, built with Quarto](figures/website.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/website.png"}
 :::
 :::
 :::
@@ -1088,7 +1081,7 @@ Stuck? The option that hides code is on the chunk options slide, and `quarto che
 ## Additional materials
 
 :::{style="margin-top: 30px; font-size: 24px;"}
-- [Quarto documentation](https://quarto.org/docs/)
+- [Quarto documentation](https://quarto.org/docs/guide/)
 - [Quarto gallery](https://quarto.org/docs/gallery/), full example documents with their source code
 - [Awesome Quarto](https://github.com/mcanouil/awesome-quarto#readme), a curated list of examples and extensions
 - [Introduction to Quarto (video)](https://youtu.be/_f3latmOhew?si=18Gdq9HVK-j_G0eM)
@@ -1154,7 +1147,7 @@ quarto render weather.qmd
 :::
 
 :::{.column width="45%"}
-`#| echo: false` is the option that hides the code but keeps the output, which is what question 5 asked for.
+`#| echo: false` hides the code and keeps the output, as task 5 asked.
 
 The chart your second chunk produces:
 

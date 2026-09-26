@@ -173,7 +173,7 @@ editor:
 :::{.column width="50%"}
 - You never talk to the shell directly. You talk to a [terminal]{.alert}
 - A terminal [reads your keystrokes]{.alert}, passes them to a program, and [shows the results]{.alert}
-- A shell cannot do that on its own. It needs a terminal as its interface
+- To use a shell interactively, you need a terminal
 - [Why "terminal"?]{.alert} Before screens, a [terminal was hardware](https://www.friendlywire.com/articles/vintage-computers/): a keyboard wired to a [mainframe](https://en.wikipedia.org/wiki/Mainframe_computer), often many terminals to one machine
 - Working on a data centre or cloud machine today is much the same, with a nicer screen 😉
 :::
@@ -259,7 +259,7 @@ Why should you use this...
 
 5. [Automation.]{.alert} Shells are programmable, so repetitive work becomes a script
 
-6. [Employability.]{.alert} Servers, containers, and cloud tools all run on Linux, which is why [the shell is having a renaissance](https://effective-shell.com/part-1-transitioning-to-the-shell/the-renaissance-of-the-shell/)
+6. [Employability.]{.alert} Servers, containers, and cloud tools mostly run on Linux, which is why [the shell is having a renaissance](https://effective-shell.com/part-1-transitioning-to-the-shell/the-renaissance-of-the-shell/)
 :::
 :::
 
@@ -270,7 +270,7 @@ Why should you use this...
 :::{style="margin-top: 40px; font-size: 25px;"}
 :::{.columns}
 :::{.column width="55%"}
-- Our tools come from [Unix](https://en.wikipedia.org/wiki/Unix), built at Bell Labs in the 1970s
+- Our tools come from [Unix](https://en.wikipedia.org/wiki/Unix), built at Bell Labs from 1969
 - They still follow the [Unix philosophy](https://en.wikipedia.org/wiki/Unix_philosophy):
 
 > **Do One Thing And Do It Well**
@@ -294,7 +294,7 @@ Why should you use this...
 :::{.incremental}
 - [Find and navigate files]{.alert} faster than any file browser
 - [Rename and move files in bulk]{.alert}, hundreds at a time
-- [Version control with Git]{.alert}, which is where most Git commands live
+- [Version control with Git]{.alert}, which you run from the shell
 - [Install and update software]{.alert} with a single command
 - [Connect to remote machines]{.alert} over SSH, including cloud servers
 - [Run jobs on supercomputers]{.alert}, which often offer nothing but a shell
@@ -340,7 +340,7 @@ Of course, it's always possible to open up the shell directly if you prefer. It'
 
 - [Linux](https://www.wikihow.com/Open-a-Terminal-Window-in-Ubuntu)
 
-- [Mac](https://www.techwalla.com/articles/how-to-open-terminal-on-a-macbook)
+- [Mac](https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac)
 
 - [Windows]{.alert}: install WSL first, using [our tutorial](https://danilofreire.github.io/datasci350/06-wsl-tutorial.html). It gives you the same shell as everyone else
 
@@ -355,7 +355,7 @@ $ echo $SHELL
 $ whoami 
 $ pwd 
 $ mkdir new-folder
-$ rm -rf new-folder
+$ rmdir new-folder
 $ cd ..
 $ ls
 ```
@@ -371,7 +371,7 @@ Share your results with a colleague (or the class)!
 You should see something like:
 
 ```bash
-$  username@hostname:~$
+username@hostname:~$
 ```
 
 This is shell-speak for: "Who am I and where am I?" 
@@ -481,7 +481,7 @@ $ ls -lah /var/log      # so does this
 
 :::{style="font-size: 24px;"}
 ```bash
-$ ls --human-readable /var/log
+$ sort --unique file.txt
 ```
 :::
 
@@ -592,7 +592,7 @@ More information: <https://www.gnu.org/software/coreutils/manual/html_node/ls-in
 - List files with a trailing symbol to indicate file type (directory/, symbolic_link@, executable*, ...):
     ls [-F|--classify]
 
-... (the manual continues; press q to quit)
+...
 ```
 :::
 
@@ -671,7 +671,7 @@ Partner up and choose a command from the list below. Use `man` to complete these
 :::{style="margin-top: 30px; margin-bottom: 30px;"}
 ```bash
 $ # Choose one (or all) of the following commands:
-$ ls, cd, cp, mv, rm, mkdir, rmdir, touch, cat, find, head, wc
+$ ls, cp, mv, rm, mkdir, rmdir, touch, cat, find, head, wc
 ```
 :::
 
@@ -747,19 +747,19 @@ $ pwd
 /Users/dafreir/Documents/github/datasci350/lectures/lecture-03/figures
 ```
 
-Now, let's go back to the previous directory:
+Now, let's go up one level:
 
 ```bash
-$ cd ../ # Go back to the previous directory
+$ cd ../ # Go up one level, to the parent directory
 $ pwd
 
 /Users/dafreir/Documents/github/datasci350/lectures/lecture-03
 ```
 
-Back two directories:
+Up two levels:
 
 ```bash
-$ cd ../../ # Go back two directories
+$ cd ../../ # Go up two levels
 $ pwd
 
 /Users/dafreir/Documents/github/datasci350
@@ -882,7 +882,7 @@ Bonus: use `man` to read about any command you used.
 :::{.incremental}
 - The [shell]{.alert} runs your commands. The [terminal]{.alert} is the window you type them in
 - Every command has the same shape: `command [options] arguments`
-- Options are short (`-l`) or spelled out (`--human-readable`), and they combine: `ls -lah`
+- Options are short (`-l`) or spelled out (`--unique`), and they combine: `ls -lah`
 - `pwd` says where you are, `ls` shows what is there, `cd` moves you
 - `~` is home, `.` is here, `..` is one level up
 - `man`, `tldr`, and `cht.sh` answer your questions. `q` gets you out of the pager

@@ -54,7 +54,7 @@ editor:
 :::{.columns}
 :::{.column width="40%"}
 - Regular expressions search for [patterns]{.alert} rather than exact text
-- They work in most languages and tools, and in the shell through `grep`
+- They work in most languages and tools, and in the shell through `grep -E`
 
 :::{style="text-align: center; margin-top: 40px;"}
 [![](figures/regex.webp){width="100%"}](#){data-modal-type="image" data-modal-url="figures/regex.webp"}
@@ -232,7 +232,7 @@ my-project/
   - `02-preprocess-data.py`
 
 - Write short, modular scripts. Every script serves a purpose in your pipeline
-- Put the setup first (e.g., `library()` and `source()`)
+- Put the setup first (e.g., your `import` lines)
 - [Always comment more than you usually do]{.alert}
 :::
 
@@ -307,7 +307,7 @@ my-project/
 - Imagine Dropbox and Word's "Track changes" had a baby, except [built for code]{.alert}
 - There is a learning curve. It is worth it
 - Other [version control systems exist](https://en.wikipedia.org/wiki/Comparison_of_version-control_software), but Git won
-- Around 94% of developers used it by [2021](https://survey.stackoverflow.co/2021#most-popular-technologies-tools-tech). Recent surveys stopped asking, because the answer is everyone
+- Around 94% of developers used it in [2022](https://survey.stackoverflow.co/2022/). Later surveys stopped asking, because the answer is everyone
 - Data scientists will [assume you know it]{.alert}
 :::
 
@@ -371,65 +371,55 @@ my-project/
 
 ## First step: install Git
 
-:::{style="margin-top: 30px; font-size: 23px;"}
-Again, Git is an independent piece of software. You need to have it installed on your machine to call it from the command line or VS Code
-
-Chances are it is already there. Here is how to check from the command line:
+:::{style="margin-top: 30px; font-size: 24px;"}
+- Git is separate software. You need it installed to use it from the command line or VS Code
+- It is probably there already. Check where it is and which version you have:
 
 ```{verbatim}
 which git
-```
-
-And here's how you can check the version:
-
-```{verbatim}
 git --version
 ```
 
-If you want to install (or update) Git on your Mac, I recommend using [Homebrew](https://brew.sh/), "the missing package manager for macOS (or Linux)":
+- To install or update it on a Mac, use [Homebrew](https://brew.sh/), "the missing package manager for macOS (or Linux)":
 
 ```{verbatim}
 brew install git
 ```
 
-WSL users can install Git using:
+- On WSL:
 
 ```{verbatim}
 sudo apt-get install git
 ```
 
-To install or update Git for Windows (not WSL), check out [happygitwithr.com](https://happygitwithr.com/install-git.html)
+- Git for Windows (not WSL): see [happygitwithr.com](https://happygitwithr.com/install-git.html)
 :::
 
 ## Second step: introduce yourself to Git
 
-:::{style="margin-top: 30px; font-size: 24px;"}
-This is particularly important when you work with Git but without the GitHub overhead. The idea is to define how your commits are labelled, so others can identify your commits as coming from you
-
-Have you already introduced yourself to Git? Find it out:
+:::{style="margin-top: 30px; font-size: 23px;"}
+- Git labels every commit with your name and email, so others know it came from you. This matters most when you use Git without GitHub
+- Check your current settings (opens a pager, `q` quits):
 
 ```{verbatim}
 git config --list
 ```
 
-This opens a pager. Press `q` to get back to the prompt
-
-Still have to introduce yourself? To that end, we set our user name and email address like this:
+- Set your name and email:
 
 ```{verbatim}
 git config --global user.name 'danilofreire'
 git config --global user.email 'danilo.freire@emory.edu'
 ```
 
-The user name can be (but does not have to be) your GitHub user name. The email address should definitely be the one associated with your GitHub account
-
-While you are here, tell Git to call the first branch `main`. Without this, new repositories still start on a branch called `master`, and the commands later in this lecture will not work:
+- The name can be your GitHub user name, but does not have to be. The email [should match your GitHub account]{.alert}
+- Name the first branch `main`. Otherwise Git still uses `master`, and later commands in this lecture fail:
 
 ```{verbatim}
 git config --global init.defaultBranch main
 ```
 
-Check out [these setup instructions](https://swcarpentry.github.io/git-novice/02-setup.html) from [Software Carpentry](https://software-carpentry.org/about/) to learn about more configuration options
+- More options: [Software Carpentry's setup guide](https://swcarpentry.github.io/git-novice/02-setup.html)
 :::
 
 # Git from the shell 🐚 {background-color="#1B3A6B"}
@@ -511,7 +501,7 @@ A [commit]{.alert} is a snapshot: it takes what is staged and adds it to the tim
 - `git diff`: shows what changed, line by line
 - `git log`: shows the commit history
 - `git branch`: shows the branches in the repository
-- `git checkout`: switches branches
+- `git checkout`: switches branches (newer Git also has `git switch`)
 
 [Git documentation](https://git-scm.com/doc)
 :::
@@ -548,7 +538,7 @@ A [commit]{.alert} is a snapshot: it takes what is staged and adds it to the tim
 :::{.column width="50%"}
 1. I will create a new folder/directory in my computer: `my-project` 
 2. Open the `bash/zsh` Terminal and go to the `my-project` directory
-3. I will copy the `my-project` directory path into a text document 
+3. I will check where I am with `pwd` 
 4. I will try to add this folder to the `staging area`
 
 ```{verbatim}

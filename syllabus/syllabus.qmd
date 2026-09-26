@@ -338,7 +338,7 @@ Suggested references:
 
 - Lecture 15: [Retrieval-Augmented Generation and Fine-Tuning](https://danilofreire.github.io/datasci350/lectures/lecture-15/15-rag-finetuning.html).
 
-Note: install or update Ollama before this class, then run `pip install ollama numpy`. The steps are in the lecture README.
+Note: install or update Ollama before this class, then run `pip install ollama`. The steps are in the lecture README.
 - [Kahoot Quiz](https://play.kahoot.it/v2/?quizId=8691380c-2ccb-49fa-aab1-471754aeb24c&hostId=05eb977d-4f8a-440e-9e45-95212b29d103).
 
 Suggested references:

@@ -394,12 +394,12 @@ test2.txt</code></pre>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="fu">rmdir</span> testing</span>
 <span id="cb12-2"><a></a></span>
-<span id="cb12-3"><a></a><span class="ex">rm:</span> testing: is a directory</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-3"><a></a><span class="ex">rmdir:</span> testing: Directory not empty</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>rmdir</code> only removes <span class="alert">empty</span> directories</li>
 <li>For a directory with files in it, use <code>rm -r</code> (<span class="alert">recursive</span>). <code>-r</code> and <code>-R</code> are the same thing for <code>rm</code></li>
-<li>Adding <code>-f</code> (<span class="alert">force</span>) skips the confirmation prompt. Leaving it off is safer, but some shells then ask about every single file</li>
+<li>Adding <code>-f</code> (<span class="alert">force</span>) never asks and ignores missing files. Double-check the path first</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a></a><span class="fu">rm</span> <span class="at">-rf</span> testing <span class="co">## Success</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -415,7 +415,7 @@ test2.txt</code></pre>
 <p>Syntax: <code>cp object path/newname</code></p>
 <ul>
 <li>Leave out <code>newname</code> and the copy keeps the original one</li>
-<li>If something at the destination already has that name, add <code>-f</code> to overwrite it</li>
+<li><span class="alert">Careful</span>: <code>cp</code> overwrites a file with the same name without asking. Add <code>-i</code> to be asked first</li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a></a><span class="co">## Create new "copies" sub-directory</span></span>
@@ -532,7 +532,7 @@ figures/nano.png</code></pre>
 <li><code>-iname</code> matches a name, ignoring capitals (case <code>i</code>nsensitive):</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a></a><span class="co"># Must use "." to indicate pwd</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a></a><span class="co"># "." is the current directory. macOS needs a path, Linux assumes "."</span></span>
 <span id="cb28-2"><a></a><span class="fu">find</span> ./ ../lecture-03/ <span class="at">-iname</span> <span class="st">"*.qmd"</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>./04-more-command-line.qmd
@@ -562,7 +562,7 @@ figures/nano.png</code></pre>
 <li><code>-type</code> filters by kind: <code>d</code> for directories, <code>f</code> for files:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a></a><span class="co"># Find all directories in the parent directory</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a></a><span class="co"># Find all directories in the current directory</span></span>
 <span id="cb32-2"><a></a><span class="fu">find</span> ./ <span class="at">-type</span> d <span class="kw">|</span> <span class="fu">sort</span> <span class="co"># Sort the output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>./
@@ -631,14 +631,17 @@ figures/nano.png</code></pre>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb40-1"><a></a><span class="co"># Search only in current directory, not subdirectories</span></span>
-<span id="cb40-2"><a></a><span class="fu">find</span> . <span class="at">-maxdepth</span> 1 <span class="at">-name</span> <span class="st">"*.txt"</span></span>
-<span id="cb40-3"><a></a></span>
-<span id="cb40-4"><a></a><span class="co"># Skip current directory, search only in subdirectories</span></span>
-<span id="cb40-5"><a></a><span class="fu">find</span> . <span class="at">-mindepth</span> 2 <span class="at">-name</span> <span class="st">"*.txt"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb40-2"><a></a><span class="fu">find</span> . <span class="at">-maxdepth</span> 1 <span class="at">-name</span> <span class="st">"*.txt"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>./sonnets.txt
-./survive.txt
-./testing/test1.txt
+./survive.txt</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a></a><span class="co"># Skip current directory, search only in subdirectories</span></span>
+<span id="cb42-2"><a></a><span class="fu">find</span> . <span class="at">-mindepth</span> 2 <span class="at">-name</span> <span class="st">"*.txt"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>./testing/test1.txt
 ./testing/test2.txt
 ./copies/abc.txt</code></pre>
 </div>
@@ -647,19 +650,19 @@ figures/nano.png</code></pre>
 <li><code>-exec</code> runs a command on every result. <code>{}</code> stands for the filename, and the line must end with <code>\;</code></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb42-1"><a></a><span class="co"># Print the size and name of each .txt file</span></span>
-<span id="cb42-2"><a></a><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.txt"</span> <span class="at">-exec</span> ls <span class="at">-lh</span> {} <span class="dt">\;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a></a><span class="co"># Print the size and name of each .txt file</span></span>
+<span id="cb44-2"><a></a><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.txt"</span> <span class="at">-exec</span> ls <span class="at">-lh</span> {} <span class="dt">\;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>-rw-r--r--@ 1 dafreir  staff   117K May  8 06:00 ./sonnets.txt
 -rw-r--r--@ 1 dafreir  staff     0B May  8 06:00 ./testing/test1.txt
 -rw-r--r--@ 1 dafreir  staff     0B May  8 06:00 ./testing/test2.txt
--rw-r--r--@ 1 dafreir  staff    31K Sep  8 01:54 ./copies/abc.txt
+-rw-r--r--@ 1 dafreir  staff    31K Sep 25 18:13 ./copies/abc.txt
 -rw-r--r--@ 1 dafreir  staff    97B May  8 06:00 ./survive.txt</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a></a><span class="co"># Count lines in each .csv file</span></span>
-<span id="cb44-2"><a></a><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.csv"</span> <span class="at">-exec</span> wc <span class="at">-l</span> {} <span class="dt">\;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a></a><span class="co"># Count lines in each .csv file</span></span>
+<span id="cb46-2"><a></a><span class="fu">find</span> . <span class="at">-name</span> <span class="st">"*.csv"</span> <span class="at">-exec</span> wc <span class="at">-l</span> {} <span class="dt">\;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       8 ./meals/mealplan.csv
        2 ./meals/tuesday.csv
@@ -687,20 +690,20 @@ figures/nano.png</code></pre>
 <ul>
 <li>Imagine that you are a data analyst working in a new project. The project should have the following structure:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb46-1"><a></a>project/</span>
-<span id="cb46-2"><a></a>│</span>
-<span id="cb46-3"><a></a>├── scripts/</span>
-<span id="cb46-4"><a></a>│   ├── preprocessing.py</span>
-<span id="cb46-5"><a></a>│   ├── analysis.py</span>
-<span id="cb46-6"><a></a>│   └── visualization.py</span>
-<span id="cb46-7"><a></a>│</span>
-<span id="cb46-8"><a></a>├── data/</span>
-<span id="cb46-9"><a></a>│   ├── raw_data.csv</span>
-<span id="cb46-10"><a></a>│   └── processed_data.csv</span>
-<span id="cb46-11"><a></a>│</span>
-<span id="cb46-12"><a></a>└── docs/</span>
-<span id="cb46-13"><a></a>    ├── readme.txt</span>
-<span id="cb46-14"><a></a>    └── notes.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource default number-lines code-with-copy"><code class="sourceCode default"><span id="cb48-1"><a></a>project/</span>
+<span id="cb48-2"><a></a>│</span>
+<span id="cb48-3"><a></a>├── scripts/</span>
+<span id="cb48-4"><a></a>│   ├── preprocessing.py</span>
+<span id="cb48-5"><a></a>│   ├── analysis.py</span>
+<span id="cb48-6"><a></a>│   └── visualization.py</span>
+<span id="cb48-7"><a></a>│</span>
+<span id="cb48-8"><a></a>├── data/</span>
+<span id="cb48-9"><a></a>│   ├── raw_data.csv</span>
+<span id="cb48-10"><a></a>│   └── processed_data.csv</span>
+<span id="cb48-11"><a></a>│</span>
+<span id="cb48-12"><a></a>└── docs/</span>
+<span id="cb48-13"><a></a>    ├── readme.txt</span>
+<span id="cb48-14"><a></a>    └── notes.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <p>Your tasks:</p>
 <ol type="1">
@@ -731,11 +734,11 @@ figures/nano.png</code></pre>
 <li>For example:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb47-1"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{scripts</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">docs}</span></span>
-<span id="cb47-2"><a></a><span class="fu">touch</span> project/scripts/<span class="dt">{preprocessing</span><span class="op">,</span><span class="dt">analysis</span><span class="op">,</span><span class="dt">visualization}</span>.py</span>
-<span id="cb47-3"><a></a><span class="fu">touch</span> project/data/data{1..5}.csv</span>
-<span id="cb47-4"><a></a><span class="fu">touch</span> project/docs/<span class="dt">{readme.txt</span><span class="op">,</span><span class="dt">notes.txt}</span></span>
-<span id="cb47-5"><a></a><span class="fu">ls</span> project/data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{scripts</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">docs}</span></span>
+<span id="cb49-2"><a></a><span class="fu">touch</span> project/scripts/<span class="dt">{preprocessing</span><span class="op">,</span><span class="dt">analysis</span><span class="op">,</span><span class="dt">visualization}</span>.py</span>
+<span id="cb49-3"><a></a><span class="fu">touch</span> project/data/data{1..5}.csv</span>
+<span id="cb49-4"><a></a><span class="fu">touch</span> project/docs/<span class="dt">{readme.txt</span><span class="op">,</span><span class="dt">notes.txt}</span></span>
+<span id="cb49-5"><a></a><span class="fu">ls</span> project/data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>data1.csv
 data2.csv
@@ -745,7 +748,7 @@ data5.csv</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb49-1"><a></a><span class="fu">ls</span> project/scripts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a></a><span class="fu">ls</span> project/scripts</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>analysis.py
 preprocessing.py
@@ -753,7 +756,7 @@ visualization.py</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb51-1"><a></a><span class="fu">ls</span> project/docs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a></a><span class="fu">ls</span> project/docs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>notes.txt
 readme.txt</code></pre>
@@ -787,8 +790,8 @@ readme.txt</code></pre>
 </ul></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb53-1"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> book/<span class="dt">{code</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">text}</span>/chapter-{1..3} <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb53-2"><a></a><span class="ex">tree</span> book</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> book/<span class="dt">{code</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">text}</span>/chapter-{1..3} <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb55-2"><a></a><span class="ex">tree</span> book</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>book
 ├── code
@@ -838,18 +841,18 @@ readme.txt</code></pre>
 <h2>Counting text: <code>wc</code></h2>
 <div style="margin-top: 30px; font-size: 25px;">
 <ul>
-<li><code>wc</code> counts lines, words, and characters, in that order</li>
+<li><code>wc</code> counts lines, words, and bytes, in that order. <code>wc -m</code> counts characters instead</li>
 <li>Let’s try it on a file holding all of Shakespeare’s sonnets. <a href="http://www.gutenberg.org/cache/epub/1041/pg1041.txt">Source</a></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb55-1"><a></a><span class="co">## Download the file. -o is to specify the output filename</span></span>
-<span id="cb55-2"><a></a><span class="co"># curl -o sonnets.txt https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-04/sonnets.txt</span></span>
-<span id="cb55-3"><a></a><span class="fu">wc</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a></a><span class="co">## Download the file. -o is to specify the output filename</span></span>
+<span id="cb57-2"><a></a><span class="co"># curl -o sonnets.txt https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-04/sonnets.txt</span></span>
+<span id="cb57-3"><a></a><span class="fu">wc</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    3029   20701  119751 sonnets.txt</code></pre>
 </div>
 </div>
-<p>The character count looks high because <code>wc</code> also counts the invisible newline <code>\n</code> at the end of every line</p>
+<p>The byte count looks high because <code>wc</code> also counts the invisible newline <code>\n</code> at the end of every line</p>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -878,7 +881,7 @@ readme.txt</code></pre>
 </ul>
 </div><div class="column" style="width:50%;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb57-1"><a></a><span class="fu">cat</span> <span class="at">-n</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a></a><span class="fu">cat</span> <span class="at">-n</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     1  ﻿The Project Gutenberg EBook of Shakespeare's Sonnets, by William Shakespeare
      2  
@@ -3924,7 +3927,7 @@ readme.txt</code></pre>
 <li>Both default to 10 lines. <code>-n</code> sets how many</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb59-1"><a></a><span class="fu">head</span> <span class="at">-n</span> 3 sonnets.txt <span class="co">## First 3 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a></a><span class="fu">head</span> <span class="at">-n</span> 3 sonnets.txt <span class="co">## First 3 rows</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>﻿The Project Gutenberg EBook of Shakespeare's Sonnets, by William Shakespeare
 
@@ -3936,7 +3939,7 @@ This eBook is for the use of anyone anywhere at no cost and with</code></pre>
 <li><code>tail</code> works the same way, counting from the bottom:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb61-1"><a></a><span class="fu">tail</span> <span class="at">-n</span> 1 sonnets.txt <span class="co">## Last row</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a></a><span class="fu">tail</span> <span class="at">-n</span> 1 sonnets.txt <span class="co">## Last row</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>subscribe to our email newsletter to hear about new eBooks.</code></pre>
 </div>
@@ -3945,7 +3948,7 @@ This eBook is for the use of anyone anywhere at no cost and with</code></pre>
 <li><code>tail -n +N</code> starts at line N and shows everything after it:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb63"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb63-1"><a></a><span class="fu">tail</span> <span class="at">-n</span> +3024 sonnets.txt <span class="co">## Show everything from line 3024</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a></a><span class="fu">tail</span> <span class="at">-n</span> +3024 sonnets.txt <span class="co">## Show everything from line 3024</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     www.gutenberg.org
 
@@ -3969,7 +3972,7 @@ subscribe to our email newsletter to hear about new eBooks.</code></pre>
 <li>Here is the opening of Shakespeare’s <a href="https://en.wikipedia.org/wiki/Sonnet_18">Sonnet 18</a>:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb65"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb65-1"><a></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">"Shall I compare thee"</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">"Shall I compare thee"</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>336:  Shall I compare thee to a summer's day?</code></pre>
 </div>
@@ -3985,7 +3988,7 @@ subscribe to our email newsletter to hear about new eBooks.</code></pre>
 <li>Below: lines with no comma, full stop, or question mark, limited to the first 30</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb67-1"><a></a><span class="fu">grep</span> <span class="at">-v</span> <span class="st">"[,.?]"</span> sonnets.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 30</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a></a><span class="fu">grep</span> <span class="at">-v</span> <span class="st">"[,.?]"</span> sonnets.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 30</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 This eBook is for the use of anyone anywhere at no cost and with
@@ -4031,8 +4034,8 @@ THE SONNETS</code></pre>
 <li>This is how you find which file defines a function you are looking for</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb69-1"><a></a><span class="co">## To visualise the tree structure</span></span>
-<span id="cb69-2"><a></a><span class="ex">tree</span> meals</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a></a><span class="co">## To visualise the tree structure</span></span>
+<span id="cb71-2"><a></a><span class="ex">tree</span> meals</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>meals
 ├── friday.csv
@@ -4052,7 +4055,7 @@ THE SONNETS</code></pre>
 <li><code>-r</code> (recursive) searches a directory and everything under it. Here, every line mentioning “pasta”:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb71-1"><a></a><span class="fu">grep</span> <span class="at">-r</span> <span class="st">"pasta"</span> ./meals/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb73-1"><a></a><span class="fu">grep</span> <span class="at">-r</span> <span class="st">"pasta"</span> ./meals/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>./meals/mealplan.csv:monday,muesli,sandwich,pasta
 ./meals/monday.csv:monday,muesli,sandwich,pasta</code></pre>
@@ -4062,7 +4065,7 @@ THE SONNETS</code></pre>
 <li><code>-l</code> lists only the file names, not the matching lines:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb73-1"><a></a><span class="fu">grep</span> <span class="at">-rl</span> <span class="st">"pasta"</span> ./meals/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb75-1"><a></a><span class="fu">grep</span> <span class="at">-rl</span> <span class="st">"pasta"</span> ./meals/</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>./meals/mealplan.csv
 ./meals/monday.csv</code></pre>
@@ -4103,7 +4106,7 @@ THE SONNETS</code></pre>
 <li>On its own it prints the result and leaves the file alone:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb75-1"><a></a><span class="fu">sed</span> <span class="st">'s/Project Gutenberg/Project Googleberg/g'</span> sonnets.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb77-1"><a></a><span class="fu">sed</span> <span class="st">'s/Project Gutenberg/Project Googleberg/g'</span> sonnets.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>﻿The Project Googleberg EBook of Shakespeare's Sonnets, by William Shakespeare
 
@@ -4116,6 +4119,7 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li><span class="alert">Warning</span>: <code>-i</code> edits the file in place and <span class="alert">overwrites the original</span>
 <ul>
 <li><code>sed -i 's/Project Gutenberg/Project Googleberg/g' sonnets.txt</code></li>
+<li>On macOS, add empty quotes after <code>-i</code>: <code>sed -i '' 's/.../.../g' sonnets.txt</code></li>
 </ul></li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -4125,13 +4129,13 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li><code>d</code> deletes every line that matches:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb77-1"><a></a><span class="fu">sed</span> <span class="st">'/Project Gutenberg/d'</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb79-1"><a></a><span class="fu">sed</span> <span class="st">'/Project Gutenberg/d'</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>-n</code> with <code>p</code> prints only the lines you ask for. Here, lines 80 to 85:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb78"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb78-1"><a></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">'80,85p'</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb80-1"><a></a><span class="fu">sed</span> <span class="at">-n</span> <span class="st">'80,85p'</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Look in thy glass and tell the face thou viewest
   Now is the time that face should form another;
@@ -4176,8 +4180,8 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li>Useful for a quick edit when opening VS Code would be overkill, and essential on a remote server</li>
 <li>Open a file with <code>nano filename</code></li>
 <li>Arrow keys to move, <code>Ctrl + O</code> to save, <code>Ctrl + X</code> to exit</li>
-<li>macOS needs <code>brew install nano</code>. WSL usually has it, or <code>sudo apt install nano</code></li>
-<li>More in the <a href="https://www.nano-editor.org/dist/v2.9/nano.html">GNU documentation</a></li>
+<li>macOS ships <code>pico</code>, which opens when you type <code>nano</code>. <code>brew install nano</code> gets the real one. WSL usually has it, or <code>sudo apt install nano</code></li>
+<li>More in the <a href="https://www.nano-editor.org/docs.php">GNU documentation</a></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
@@ -4219,12 +4223,12 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li><code>echo</code> just prints a message, so it makes an easy example:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb80-1"><a></a><span class="bu">echo</span> <span class="st">"At first, I was afraid, I was petrified"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb82-1"><a></a><span class="bu">echo</span> <span class="st">"At first, I was afraid, I was petrified"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>To save it instead, redirect it into a filename of your choice:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb81"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb81-1"><a></a><span class="bu">echo</span> <span class="st">"At first, I was afraid, I was petrified"</span> <span class="op">&gt;</span> survive.txt</span>
-<span id="cb81-2"><a></a><span class="fu">find</span> survive.txt <span class="co">## Show that it now exists</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb83-1"><a></a><span class="bu">echo</span> <span class="st">"At first, I was afraid, I was petrified"</span> <span class="op">&gt;</span> survive.txt</span>
+<span id="cb83-2"><a></a><span class="fu">find</span> survive.txt <span class="co">## Show that it now exists</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -4236,8 +4240,8 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li>Mixing the two up is a common way to lose work</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb83"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb83-1"><a></a><span class="bu">echo</span> <span class="st">"'Kept thinking I could never live without you by my side"</span> <span class="op">&gt;&gt;</span> survive.txt</span>
-<span id="cb83-2"><a></a><span class="fu">cat</span> survive.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb85-1"><a></a><span class="bu">echo</span> <span class="st">"'Kept thinking I could never live without you by my side"</span> <span class="op">&gt;&gt;</span> survive.txt</span>
+<span id="cb85-2"><a></a><span class="fu">cat</span> survive.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
@@ -4256,8 +4260,8 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li>An example using commands you already know:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb85"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb85-1"><a></a><span class="co"># Read the sonnets.txt file, find all lines that contain the word "time", and count the number of lines and words</span></span>
-<span id="cb85-2"><a></a><span class="fu">cat</span> sonnets.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"time"</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-lw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb87-1"><a></a><span class="co"># Read the sonnets.txt file, find all lines that contain the word "time", and count the number of lines and words</span></span>
+<span id="cb87-2"><a></a><span class="fu">cat</span> sonnets.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"time"</span> <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-lw</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      57     469</code></pre>
 </div>
@@ -4266,8 +4270,8 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li>Each stage does one job, and the data flows left to right</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb87"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb87-1"><a></a><span class="co"># Another example: find all lines in sonnets.txt that contain the word "love" and print the first 5 lines</span></span>
-<span id="cb87-2"><a></a><span class="fu">cat</span> sonnets.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"love"</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb89-1"><a></a><span class="co"># Another example: find all lines in sonnets.txt that contain the word "love" and print the first 5 lines</span></span>
+<span id="cb89-2"><a></a><span class="fu">cat</span> sonnets.txt <span class="kw">|</span> <span class="fu">grep</span> <span class="st">"love"</span> <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Of his self-love to stop posterity?
   Calls back the lovely April of her prime;
@@ -4288,16 +4292,16 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li><p>Basic syntax:</p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb89"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb89-1"><a></a><span class="cf">for</span> i <span class="kw">in</span> LIST</span>
-<span id="cb89-2"><a></a><span class="cf">do</span> </span>
-<span id="cb89-3"><a></a>  <span class="ex">OPERATION</span> <span class="va">$i</span> <span class="co">## the $ sign indicates a variable in bash</span></span>
-<span id="cb89-4"><a></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb91-1"><a></a><span class="cf">for</span> i <span class="kw">in</span> LIST</span>
+<span id="cb91-2"><a></a><span class="cf">do</span> </span>
+<span id="cb91-3"><a></a>  <span class="ex">OPERATION</span> <span class="va">$i</span> <span class="co">## the $ sign indicates a variable in bash</span></span>
+<span id="cb91-4"><a></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>;</code> ends a statement, so the whole loop fits on one line:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb90-1"><a></a><span class="cf">for</span> i <span class="kw">in</span> LIST<span class="kw">;</span> <span class="cf">do</span> <span class="ex">OPERATION</span> <span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb92-1"><a></a><span class="cf">for</span> i <span class="kw">in</span> LIST<span class="kw">;</span> <span class="cf">do</span> <span class="ex">OPERATION</span> <span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Semicolons are not limited to loops. They end a statement anywhere in Bash</p>
 </div>
@@ -4311,9 +4315,9 @@ re-use it under the terms of the Project Googleberg License included</code></pre
 <li>A loop in action, creating <code>dir1</code> through <code>dir4</code>:</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb91"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb91-1"><a></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">4</span><span class="dt">}</span><span class="kw">;</span> <span class="cf">do</span> <span class="fu">mkdir</span> dir<span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span>
-<span id="cb91-2"><a></a><span class="fu">ls</span> <span class="at">-d</span> dir<span class="pp">*</span></span>
-<span id="cb91-3"><a></a><span class="fu">rm</span> <span class="at">-rf</span> dir<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb93-1"><a></a><span class="cf">for</span> i <span class="kw">in</span> <span class="dt">{</span><span class="dv">1</span><span class="dt">..</span><span class="dv">4</span><span class="dt">}</span><span class="kw">;</span> <span class="cf">do</span> <span class="fu">mkdir</span> dir<span class="va">$i</span><span class="kw">;</span> <span class="cf">done</span></span>
+<span id="cb93-2"><a></a><span class="fu">ls</span> <span class="at">-d</span> dir<span class="pp">*</span></span>
+<span id="cb93-3"><a></a><span class="fu">rm</span> <span class="at">-rf</span> dir<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>dir1
 dir2
@@ -4360,11 +4364,11 @@ dir4</code></pre>
 <ul>
 <li>Let’s script the project structure we built by hand earlier: create it, list it, remove it</li>
 <li>We will call the file <code>create_project.sh</code></li>
-<li>The first line, <code>#!/bin/sh</code>, is the <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">shebang</a></li>
+<li>The first line, <code>#!/bin/bash</code>, is the <a href="https://en.wikipedia.org/wiki/Shebang_(Unix)">shebang</a></li>
 <li>It tells the system which interpreter should run the file</li>
 <li>To write a Python script, the shebang would be <code>#!/usr/bin/env python3</code>
 <ul>
-<li><code>env</code> looks <code>python3</code> up on your <code>PATH</code>, so the same file runs on any machine</li>
+<li><code>env</code> looks <code>python3</code> up on your <code>PATH</code>, so the same file runs wherever Python is installed</li>
 </ul></li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -4375,27 +4379,27 @@ dir4</code></pre>
 <li>The <code>./</code> is not decoration, as the shell does not search the current directory unless you point at it</li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb93-1"><a></a><span class="co">#!/bin/sh</span></span>
-<span id="cb93-2"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{scripts</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">docs}</span></span>
-<span id="cb93-3"><a></a><span class="fu">touch</span> project/scripts/<span class="dt">{preprocessing</span><span class="op">,</span><span class="dt">analysis</span><span class="op">,</span><span class="dt">visualization}</span>.py</span>
-<span id="cb93-4"><a></a><span class="fu">touch</span> project/data/<span class="dt">{raw_data</span><span class="op">,</span><span class="dt">processed_data}</span>.csv</span>
-<span id="cb93-5"><a></a><span class="fu">touch</span> project/docs/<span class="dt">{readme.txt</span><span class="op">,</span><span class="dt">notes.txt}</span></span>
-<span id="cb93-6"><a></a><span class="fu">ls</span> <span class="at">-alh</span> project</span>
-<span id="cb93-7"><a></a><span class="fu">rm</span> <span class="at">-rf</span> project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb95-1"><a></a><span class="co">#!/bin/bash</span></span>
+<span id="cb95-2"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{scripts</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">docs}</span></span>
+<span id="cb95-3"><a></a><span class="fu">touch</span> project/scripts/<span class="dt">{preprocessing</span><span class="op">,</span><span class="dt">analysis</span><span class="op">,</span><span class="dt">visualization}</span>.py</span>
+<span id="cb95-4"><a></a><span class="fu">touch</span> project/data/<span class="dt">{raw_data</span><span class="op">,</span><span class="dt">processed_data}</span>.csv</span>
+<span id="cb95-5"><a></a><span class="fu">touch</span> project/docs/<span class="dt">{readme.txt</span><span class="op">,</span><span class="dt">notes.txt}</span></span>
+<span id="cb95-6"><a></a><span class="fu">ls</span> <span class="at">-alh</span> project</span>
+<span id="cb95-7"><a></a><span class="fu">rm</span> <span class="at">-rf</span> project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb94-1"><a></a><span class="co">## Make the script executable</span></span>
-<span id="cb94-2"><a></a><span class="fu">chmod</span> +x create_project.sh</span>
-<span id="cb94-3"><a></a></span>
-<span id="cb94-4"><a></a><span class="co">## Run the script</span></span>
-<span id="cb94-5"><a></a><span class="ex">./create_project.sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb96-1"><a></a><span class="co">## Make the script executable</span></span>
+<span id="cb96-2"><a></a><span class="fu">chmod</span> +x create_project.sh</span>
+<span id="cb96-3"><a></a></span>
+<span id="cb96-4"><a></a><span class="co">## Run the script</span></span>
+<span id="cb96-5"><a></a><span class="ex">./create_project.sh</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 0
-drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 .
-drwxr-xr-x@ 14 dafreir  staff   448B Sep  8 01:54 ..
-drwxr-xr-x@  4 dafreir  staff   128B Sep  8 01:54 data
-drwxr-xr-x@  4 dafreir  staff   128B Sep  8 01:54 docs
-drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 scripts</code></pre>
+drwxr-xr-x@  5 dafreir  staff   160B Sep 25 18:13 .
+drwxr-xr-x@ 14 dafreir  staff   448B Sep 25 18:13 ..
+drwxr-xr-x@  4 dafreir  staff   128B Sep 25 18:13 data
+drwxr-xr-x@  4 dafreir  staff   128B Sep 25 18:13 docs
+drwxr-xr-x@  5 dafreir  staff   160B Sep 25 18:13 scripts</code></pre>
 </div>
 </div>
 </div></div>
@@ -4430,7 +4434,7 @@ drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 scripts</code></pre>
 <div style="margin-top: 30px; font-size: 26px;">
 <p>If you want to dig deeper, check out</p>
 <ul>
-<li><a href="http://swcarpentry.github.io/shell-novice/">The Unix Shell</a> (Software Carpentery)</li>
+<li><a href="http://swcarpentry.github.io/shell-novice/">The Unix Shell</a> (Software Carpentry)</li>
 <li><a href="https://seankross.com/the-unix-workbench/">The Unix Workbench</a> (Sean Kross)</li>
 <li><a href="https://www.datascienceatthecommandline.com/">Data Science at the Command Line</a> (Jeroen Janssens)</li>
 <li><a href="https://effective-shell.com/">Effective Shell</a> (Dave Kerr)</li>
@@ -4474,7 +4478,7 @@ drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 scripts</code></pre>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/course-repo.png"><img data-src="figures/course-repo.png" style="width:100.0%"></a></p>
-<figcaption>Our course repository. Next week you will learn how it works</figcaption>
+<figcaption>Our course repository. Next class you will learn how it works</figcaption>
 </figure>
 </div>
 </div>
@@ -4495,37 +4499,37 @@ drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 scripts</code></pre>
 <h2>Appendix 01: Solution to the exercise</h2>
 <div style="margin-top: 30px; font-size: 21px;">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb96-1"><a></a><span class="co"># Create the project structure</span></span>
-<span id="cb96-2"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{scripts</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">docs}</span></span>
-<span id="cb96-3"><a></a></span>
-<span id="cb96-4"><a></a><span class="co"># Create the required files</span></span>
-<span id="cb96-5"><a></a><span class="fu">touch</span> project/scripts/<span class="dt">{preprocessing</span><span class="op">,</span><span class="dt">analysis</span><span class="op">,</span><span class="dt">visualization}</span>.py</span>
-<span id="cb96-6"><a></a><span class="fu">touch</span> project/data/<span class="dt">{raw_data</span><span class="op">,</span><span class="dt">processed_data}</span>.csv</span>
-<span id="cb96-7"><a></a><span class="fu">touch</span> project/docs/<span class="dt">{readme.txt</span><span class="op">,</span><span class="dt">notes.txt}</span> <span class="co"># Extension explicit</span></span>
-<span id="cb96-8"><a></a></span>
-<span id="cb96-9"><a></a><span class="co"># Rename raw_data.csv to input_data.csv</span></span>
-<span id="cb96-10"><a></a><span class="fu">mv</span> project/data/raw_data.csv project/data/input_data.csv</span>
-<span id="cb96-11"><a></a></span>
-<span id="cb96-12"><a></a><span class="co"># Copy all Python files in scripts to a new backup directory</span></span>
-<span id="cb96-13"><a></a><span class="fu">mkdir</span> project/backup</span>
-<span id="cb96-14"><a></a><span class="fu">cp</span> project/scripts/<span class="pp">*</span>.py project/backup/</span>
-<span id="cb96-15"><a></a></span>
-<span id="cb96-16"><a></a><span class="co"># Remove the notes.txt file from the docs directory</span></span>
-<span id="cb96-17"><a></a><span class="fu">rm</span> project/docs/notes.txt</span>
-<span id="cb96-18"><a></a></span>
-<span id="cb96-19"><a></a><span class="co"># List all folders in the project directory in long and human-readable format</span></span>
-<span id="cb96-20"><a></a><span class="fu">ls</span> <span class="at">-alh</span> project</span>
-<span id="cb96-21"><a></a></span>
-<span id="cb96-22"><a></a><span class="co">## Remove all folders</span></span>
-<span id="cb96-23"><a></a><span class="fu">rm</span> <span class="at">-rf</span> project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb98-1"><a></a><span class="co"># Create the project structure</span></span>
+<span id="cb98-2"><a></a><span class="fu">mkdir</span> <span class="at">-p</span> project/<span class="dt">{scripts</span><span class="op">,</span><span class="dt">data</span><span class="op">,</span><span class="dt">docs}</span></span>
+<span id="cb98-3"><a></a></span>
+<span id="cb98-4"><a></a><span class="co"># Create the required files</span></span>
+<span id="cb98-5"><a></a><span class="fu">touch</span> project/scripts/<span class="dt">{preprocessing</span><span class="op">,</span><span class="dt">analysis</span><span class="op">,</span><span class="dt">visualization}</span>.py</span>
+<span id="cb98-6"><a></a><span class="fu">touch</span> project/data/<span class="dt">{raw_data</span><span class="op">,</span><span class="dt">processed_data}</span>.csv</span>
+<span id="cb98-7"><a></a><span class="fu">touch</span> project/docs/<span class="dt">{readme.txt</span><span class="op">,</span><span class="dt">notes.txt}</span> <span class="co"># Extension explicit</span></span>
+<span id="cb98-8"><a></a></span>
+<span id="cb98-9"><a></a><span class="co"># Rename raw_data.csv to input_data.csv</span></span>
+<span id="cb98-10"><a></a><span class="fu">mv</span> project/data/raw_data.csv project/data/input_data.csv</span>
+<span id="cb98-11"><a></a></span>
+<span id="cb98-12"><a></a><span class="co"># Copy all Python files in scripts to a new backup directory</span></span>
+<span id="cb98-13"><a></a><span class="fu">mkdir</span> project/backup</span>
+<span id="cb98-14"><a></a><span class="fu">cp</span> project/scripts/<span class="pp">*</span>.py project/backup/</span>
+<span id="cb98-15"><a></a></span>
+<span id="cb98-16"><a></a><span class="co"># Remove the notes.txt file from the docs directory</span></span>
+<span id="cb98-17"><a></a><span class="fu">rm</span> project/docs/notes.txt</span>
+<span id="cb98-18"><a></a></span>
+<span id="cb98-19"><a></a><span class="co"># List all folders in the project directory in long and human-readable format</span></span>
+<span id="cb98-20"><a></a><span class="fu">ls</span> <span class="at">-alh</span> project</span>
+<span id="cb98-21"><a></a></span>
+<span id="cb98-22"><a></a><span class="co">## Remove all folders</span></span>
+<span id="cb98-23"><a></a><span class="fu">rm</span> <span class="at">-rf</span> project</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>total 0
-drwxr-xr-x@  6 dafreir  staff   192B Sep  8 01:54 .
-drwxr-xr-x@ 14 dafreir  staff   448B Sep  8 01:54 ..
-drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 backup
-drwxr-xr-x@  4 dafreir  staff   128B Sep  8 01:54 data
-drwxr-xr-x@  3 dafreir  staff    96B Sep  8 01:54 docs
-drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 scripts</code></pre>
+drwxr-xr-x@  6 dafreir  staff   192B Sep 25 18:13 .
+drwxr-xr-x@ 14 dafreir  staff   448B Sep 25 18:13 ..
+drwxr-xr-x@  5 dafreir  staff   160B Sep 25 18:13 backup
+drwxr-xr-x@  4 dafreir  staff   128B Sep 25 18:13 data
+drwxr-xr-x@  3 dafreir  staff    96B Sep 25 18:13 docs
+drwxr-xr-x@  5 dafreir  staff   160B Sep 25 18:13 scripts</code></pre>
 </div>
 </div>
 <p><a href="#/sec-exercise-01"><span class="button">Back to the main text</span></a></p>
@@ -4534,8 +4538,8 @@ drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 scripts</code></pre>
 <section id="sec-appendix-02" class="slide level2">
 <h2>Appendix 02: Solution to the exercise</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb98"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb98-1"><a></a><span class="co"># Find all lines in sonnets.txt that contain the word "time"</span></span>
-<span id="cb98-2"><a></a><span class="fu">grep</span> <span class="st">"time"</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb100-1"><a></a><span class="co"># Find all lines in sonnets.txt that contain the word "time"</span></span>
+<span id="cb100-2"><a></a><span class="fu">grep</span> <span class="st">"time"</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  But as the riper should by time decease,
   Now is the time that face should form another;
@@ -4600,8 +4604,8 @@ drwxr-xr-x@  5 dafreir  staff   160B Sep  8 01:54 scripts</code></pre>
 <section id="appendix-02-solution-to-the-exercise" class="slide level2">
 <h2>Appendix 02: Solution to the exercise</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb100-1"><a></a><span class="co"># View the last 20 lines in sonnets.txt</span></span>
-<span id="cb100-2"><a></a><span class="fu">tail</span> <span class="at">-n</span> 20 sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb102-1"><a></a><span class="co"># View the last 20 lines in sonnets.txt</span></span>
+<span id="cb102-2"><a></a><span class="fu">tail</span> <span class="at">-n</span> 20 sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>works.
 
@@ -4629,8 +4633,8 @@ subscribe to our email newsletter to hear about new eBooks.</code></pre>
 <section id="appendix-02-solution-to-the-exercise-1" class="slide level2">
 <h2>Appendix 02: Solution to the exercise</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb102-1"><a></a><span class="co"># Count the number of lines and words in sonnets.txt</span></span>
-<span id="cb102-2"><a></a><span class="fu">wc</span> <span class="at">-lw</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb104-1"><a></a><span class="co"># Count the number of lines and words in sonnets.txt</span></span>
+<span id="cb104-2"><a></a><span class="fu">wc</span> <span class="at">-lw</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    3029   20701 sonnets.txt</code></pre>
 </div>
@@ -4639,28 +4643,34 @@ subscribe to our email newsletter to hear about new eBooks.</code></pre>
 <section id="appendix-02-solution-to-the-exercise-2" class="slide level2">
 <h2>Appendix 02: Solution to the exercise</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb104-1"><a></a><span class="co"># Find all lines in sonnets.txt that start with "and"</span></span>
-<span id="cb104-2"><a></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">"^and"</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb106-1"><a></a><span class="co"># Find all lines in sonnets.txt that start with "and"</span></span>
+<span id="cb106-2"><a></a><span class="co"># Poem lines start with two spaces, so allow spaces before "and"</span></span>
+<span id="cb106-3"><a></a><span class="fu">grep</span> <span class="at">-n</span> <span class="st">"^ *and"</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>2724:and accept all the terms of this license and intellectual property
 2740:and help preserve free future access to Project Gutenberg-tm electronic
 2786:and distributed to anyone in the United States without paying any fees
+2849:     and discontinue all use of and all access to other copies of
 2945:and permanent future for Project Gutenberg-tm and future generations.
 2947:and how your efforts and donations can help, see Sections 3 and 4
 2948:and the Foundation information page at www.gutenberg.org</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb106-1"><a></a><span class="co"># Find all lines in sonnets.txt that start with "and" and "And"</span></span>
-<span id="cb106-2"><a></a><span class="co"># You have to include the -i flag to ignore case!</span></span>
-<span id="cb106-3"><a></a><span class="fu">grep</span> <span class="at">-in</span> <span class="st">"^and"</span> sonnets.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb108-1"><a></a><span class="co"># Find all lines in sonnets.txt that start with "and" and "And"</span></span>
+<span id="cb108-2"><a></a><span class="co"># You have to include the -i flag to ignore case! (first 10 of 249 lines)</span></span>
+<span id="cb108-3"><a></a><span class="fu">grep</span> <span class="at">-in</span> <span class="st">"^ *and"</span> sonnets.txt <span class="kw">|</span> <span class="fu">head</span> <span class="at">-n</span> 10</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>2724:and accept all the terms of this license and intellectual property
-2740:and help preserve free future access to Project Gutenberg-tm electronic
-2786:and distributed to anyone in the United States without paying any fees
-2945:and permanent future for Project Gutenberg-tm and future generations.
-2947:and how your efforts and donations can help, see Sections 3 and 4
-2948:and the Foundation information page at www.gutenberg.org</code></pre>
+<pre><code>55:  And only herald to the gaudy spring,
+57:  And tender churl mak'st waste in niggarding:
+64:  And dig deep trenches in thy beauty's field,
+76:    And see thy blood warm when thou feel'st it cold.
+100:  And being frank she lends to those are free:
+117:  And that unfair which fairly doth excel;
+153:  And having climb'd the steep-up heavenly hill,
+194:  And kept unused the user so destroys it.
+219:  And that fresh blood which youngly thou bestow'st,
+224:  And threescore year would make the world away.</code></pre>
 </div>
 </div>
 <p><a href="#/sec-exercise-02"><span class="button">Back to the main text</span></a></p>

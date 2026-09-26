@@ -231,12 +231,12 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>The <span class="alert">reproducibility crisis</span>, and the mundane reason most results fail: the code does not run</li>
-<li>The habits that fix it: project structure, raw data left alone, relative paths, seeds, recorded versions</li>
-<li><span class="alert">Quarto</span> and its three parts: <span class="alert">YAML header</span>, <span class="alert">Markdown</span>, and <span class="alert">code chunks</span></li>
+<li>The <span class="alert">reproducibility crisis</span>: most results fail because the code does not run</li>
+<li>Habits that fix it: project structure, untouched raw data, relative paths, seeds, recorded versions</li>
+<li><span class="alert">Quarto</span>: a <span class="alert">YAML header</span>, <span class="alert">Markdown</span> and <span class="alert">code chunks</span></li>
 <li><code>quarto render</code> builds a document; <code>quarto preview</code> keeps a live one open</li>
-<li>Every render is a <span class="alert">restart-and-run-all</span> test of your analysis</li>
-<li>You wrote and rendered your first document. Today <span class="alert">we put Quarto to work</span></li>
+<li>Every render is a <span class="alert">restart-and-run-all</span> test</li>
+<li>You rendered your first document. Today <span class="alert">we put Quarto to work</span></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a></a><span class="co">---</span></span>
@@ -269,14 +269,14 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Last class you rendered one HTML page. Today that same skill fans out:</p>
+<p>Last class you rendered one HTML page. Today:</p>
 <ul>
 <li><span class="alert">Markdown</span> beyond the basics: tables, footnotes, maths</li>
-<li><span class="alert">PDFs</span> and <span class="alert">citations</span> that format themselves from a <code>.bib</code> file</li>
-<li><code>freeze</code>: rendering documents <span class="alert">without re-running the world</span></li>
+<li><span class="alert">PDFs</span>, and <span class="alert">citations</span> formatted from a <code>.bib</code> file</li>
+<li><code>freeze</code>: rendering <span class="alert">without re-running everything</span></li>
 <li><span class="alert">Slides</span> (like these) and <span class="alert">websites</span>, published free from GitHub</li>
-<li><span class="alert">Parameterised reports</span>: one file that writes a report for every country in your dataset</li>
-<li>Two exercises along the way, so bring your laptop battery</li>
+<li><span class="alert">Parameterised reports</span>: one file, one report per country</li>
+<li>Two exercises, so keep your laptop charged</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; margin-top: 20px;">
@@ -346,7 +346,7 @@ Danilo Freire
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Tables: pipes and dashes, with colons setting the alignment</li>
+<li>Tables use pipes and dashes. Colons set the alignment</li>
 </ul>
 <div style="text-align: center; margin-bottom: 30px; margin-top: 30px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb2-1"><a></a><span class="pp">|</span> Left <span class="pp">|</span> Centre <span class="pp">|</span> Right <span class="pp">|</span></span>
@@ -354,8 +354,8 @@ Danilo Freire
 <span id="cb2-3"><a></a><span class="pp">|</span> a    <span class="pp">|</span> b      <span class="pp">|</span> c     <span class="pp">|</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Maths is LaTeX between dollar signs: <code>$\mu = \frac{1}{n}\sum x_i$</code> inline, <code>$$ ... $$</code> for display equations</li>
-<li>The <a href="https://en.wikibooks.org/wiki/LaTeX/Mathematics">LaTeX Wiki</a> lists the symbols; the <a href="https://www.markdownguide.org/">Markdown Guide</a> covers the rest</li>
+<li>Maths is LaTeX between dollar signs: <code>$\mu = \frac{1}{n}\sum x_i$</code> inline, <code>$$ ... $$</code> for display</li>
+<li>Symbols: <a href="https://en.wikibooks.org/wiki/LaTeX/Mathematics">LaTeX Wiki</a>. Everything else: <a href="https://www.markdownguide.org/">Markdown Guide</a></li>
 <li>That is most of the language. <span class="alert">Markdown is small on purpose</span></li>
 </ul>
 </div></div>
@@ -428,8 +428,8 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:40%;">
 <ul>
-<li>Quarto renders existing <code>.ipynb</code> notebooks directly. <span class="alert">No rewriting needed</span></li>
-<li>Add a YAML header in the first cell (as raw text) and run:</li>
+<li>Quarto renders <code>.ipynb</code> notebooks <span class="alert">as they are</span></li>
+<li>Optionally, add a YAML header in a raw first cell, then run:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -438,9 +438,9 @@ Danilo Freire
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a></a><span class="ex">quarto</span> render notebook.ipynb <span class="at">--to</span> html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>By default Quarto uses the outputs <span class="alert">already stored</span> in the notebook. Add <code>--execute</code> to re-run the code first</li>
-<li>If Quarto cannot find your Python, <code>quarto check jupyter</code> diagnoses it, and the <a href="https://quarto.org/docs/computations/python.html"><code>QUARTO_PYTHON</code> variable</a> fixes it</li>
-<li>Writing <code>.qmd</code> from the start is still nicer for long documents, but old notebooks convert as they are</li>
+<li>By default Quarto uses the outputs <span class="alert">stored</span> in the notebook. <code>--execute</code> re-runs the code first</li>
+<li>Python not found? <code>quarto check jupyter</code> diagnoses it; the <a href="https://quarto.org/docs/computations/python.html"><code>QUARTO_PYTHON</code> variable</a> fixes it</li>
+<li>For long documents, <code>.qmd</code> is nicer to write</li>
 </ul>
 </div><div class="column" style="width:60%;">
 <div style="text-align: center;">
@@ -458,9 +458,9 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Most journals, agencies, and employers still want <span class="alert">PDF</span></li>
-<li>PDF rendering goes through LaTeX, and you installed <a href="https://yihui.org/tinytex/">TinyTeX</a> last class (<code>quarto install tinytex</code>)</li>
-<li>After that, PDF is one flag:</li>
+<li>Most journals, agencies and employers still want <span class="alert">PDF</span></li>
+<li>PDFs go through LaTeX: <a href="https://yihui.org/tinytex/">TinyTeX</a>, installed last class (<code>quarto install tinytex</code>)</li>
+<li>Then PDF is one flag:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -469,7 +469,7 @@ Danilo Freire
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a></a><span class="ex">quarto</span> render report.qmd <span class="at">--to</span> pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>The same works on a notebook, and <code>--execute</code> re-runs it first:</li>
+<li>Notebooks too, with <code>--execute</code> to re-run them:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -478,7 +478,7 @@ Danilo Freire
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a></a><span class="ex">quarto</span> render notebook.ipynb <span class="at">--to</span> pdf <span class="at">--execute</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Fonts, margins, and page geometry are all YAML options: see the <a href="https://quarto.org/docs/output-formats/pdf-basics.html">PDF basics guide</a></li>
+<li>Fonts, margins and page size are YAML options (<a href="https://quarto.org/docs/output-formats/pdf-basics.html">PDF basics guide</a>)</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center;">
@@ -498,24 +498,25 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Formatting references by hand is slow, and updating them by hand is how errors creep in. <span class="alert">BibTeX</span> automates both</li>
+<li>References by hand are slow and error-prone. <span class="alert">BibTeX</span> automates them</li>
 <li>A <code>.bib</code> file is plain text: one entry per source, each with a <span class="alert">citation key</span> (here, <code>nash1950equilibrium</code>)</li>
 <li>Point your YAML at the file:</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a></a><span class="fu">bibliography</span><span class="kw">:</span><span class="at"> references.bib</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Then cite by key in your prose:
+<li>Cite by key in your text:
 <ul>
 <li><code>@nash1950equilibrium</code> → Nash (1950)</li>
 <li><code>[@nash1950equilibrium]</code> → (Nash 1950)</li>
-<li><code>[@nash1950equilibrium, p. 48]</code> → (Nash 1950, p.&nbsp;48)</li>
+<li><code>[@nash1950equilibrium, p. 48]</code> → (Nash 1950, 48)</li>
 </ul></li>
-<li>Quarto formats the citations <span class="alert">and</span> appends the reference list. Change the style with one line: <code>csl: apa.csl</code> (thousands of styles <a href="https://github.com/citation-style-language/styles">here</a>)</li>
+<li>Quarto formats the citations <span class="alert">and</span> adds the reference list</li>
+<li>Change the style with <code>csl: apa.csl</code> (<a href="https://github.com/citation-style-language/styles">thousands of styles</a>)</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource bibtex number-lines code-with-copy"><code class="sourceCode bibtex"><span id="cb8-1"><a></a><span class="va">@article</span>{<span class="ot">nash1950equilibrium</span>,</span>
 <span id="cb8-2"><a></a>  <span class="dt">title</span>={Equilibrium points in n-person games},</span>
-<span id="cb8-3"><a></a>  <span class="dt">author</span>={Nash Jr, John F},</span>
+<span id="cb8-3"><a></a>  <span class="dt">author</span>={Nash, Jr., John F.},</span>
 <span id="cb8-4"><a></a>  <span class="dt">journal</span>={Proceedings of the national</span>
 <span id="cb8-5"><a></a>           academy of sciences},</span>
 <span id="cb8-6"><a></a>  <span class="dt">volume</span>={36},</span>
@@ -527,8 +528,8 @@ Danilo Freire
 <div style="margin-top: 15px;">
 <ul>
 <li>Cite it once or fifty times: the entry lives in <span class="alert">one place</span></li>
-<li>Delete the citation and the reference list updates itself on the next render</li>
-<li>More at the <a href="https://quarto.org/docs/authoring/footnotes-and-citations.html">Quarto citations guide</a></li>
+<li>Delete a citation and the reference list updates on the next render</li>
+<li>More in the <a href="https://quarto.org/docs/authoring/footnotes-and-citations.html">Quarto citations guide</a></li>
 </ul>
 </div>
 </div></div>
@@ -540,10 +541,10 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>You almost never type an entry by hand</li>
-<li>On <a href="https://scholar.google.com/">Google Scholar</a>, click <span class="alert">Cite</span>, then <span class="alert">BibTeX</span>, and copy the result into your <code>.bib</code> file</li>
-<li>For anything bigger than a homework, use a reference manager: <a href="https://www.zotero.org/">Zotero</a> is free, open source, and exports <code>.bib</code> files that stay in sync with your library</li>
-<li>Check the entries you import: Scholar sometimes gets capitalisation and journal names wrong, and the error lands in your reference list</li>
+<li>You rarely type an entry by hand</li>
+<li>On <a href="https://scholar.google.com/">Google Scholar</a>, click <span class="alert">Cite</span>, then <span class="alert">BibTeX</span>, and paste into your <code>.bib</code> file</li>
+<li>For bigger projects, use a reference manager. <a href="https://www.zotero.org/">Zotero</a> is free, open source, and exports <code>.bib</code> files that stay in sync</li>
+<li>Check imported entries: Scholar sometimes gets capitalisation and journal names wrong</li>
 </ul>
 <div style="margin-top: 10px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/bibtex.png"><img data-src="figures/bibtex.png" style="width:90.0%"></a></p>
@@ -561,7 +562,7 @@ Danilo Freire
 <div style="margin-top: 25px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>A citation points outside your document. A <span class="alert">cross-reference</span> points inside it. Label the chunk, then use the label:</p>
+<p>A citation points outside your document; a <span class="alert">cross-reference</span> points inside it. Label the chunk, then use the label:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource markdown {verbatim} number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a></a><span class="in">```{python}</span></span>
 <span id="cb9-2"><a></a><span class="co">#| label: fig-rain</span></span>
 <span id="cb9-3"><a></a><span class="co">#| fig-cap: "Monthly rainfall in Atlanta"</span></span>
@@ -569,8 +570,8 @@ Danilo Freire
 <span id="cb9-5"><a></a><span class="in">```</span></span>
 <span id="cb9-6"><a></a></span>
 <span id="cb9-7"><a></a>Rainfall peaks in March (@fig-rain).</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>That last line renders as <span class="alert">Rainfall peaks in March (Figure 1)</span></p>
-<p>Markdown tables take the label underneath, after a colon:</p>
+<p>The last line renders as <span class="alert">Rainfall peaks in March (Figure 1)</span></p>
+<p>Tables take the label underneath, after a colon:</p>
 <div style="text-align: center; margin-top: 30px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a></a><span class="pp">|</span> City     <span class="pp">|</span> Population <span class="pp">|</span></span>
 <span id="cb10-2"><a></a><span class="pp">|:---------|-----------:|</span></span>
@@ -582,15 +583,16 @@ Danilo Freire
 </div><div class="column" style="width:50%;">
 <div style="margin-top: 20px;">
 <ul>
-<li>The prefix tells Quarto <span class="alert">what it is numbering</span>: <code>fig-</code>, <code>tbl-</code>, <code>eq-</code>, <code>sec-</code>, <code>lst-</code></li>
-<li>Write <code>label: rainfall</code> with no prefix and the caption still appears, <span class="alert">with no number</span>, while <code>@rainfall</code> sits in your text as raw text</li>
+<li>The prefix tells Quarto <span class="alert">what it numbers</span>: <code>fig-</code>, <code>tbl-</code>, <code>eq-</code>, <code>sec-</code>, <code>lst-</code></li>
+<li>With no prefix (<code>label: rainfall</code>), the caption has <span class="alert">no number</span></li>
+<li>And <code>@rainfall</code> prints “(rainfall?)” with a citation warning</li>
 <li><code>@sec-</code> also needs <code>number-sections: true</code> in the YAML</li>
-<li><code>[-@fig-rain]</code> prints the bare number, for when you are already inside brackets</li>
-<li>Add a figure halfway through the document and <span class="alert">every number renumbers itself</span>, in the captions and in your prose</li>
-<li>The same labels work in HTML and PDF, so you write the sentence once</li>
+<li><code>[-@fig-rain]</code> prints the bare number, for use inside brackets</li>
+<li>Add a figure mid-document and <span class="alert">every number updates</span>, in captions and text</li>
+<li>The same labels work in HTML and PDF</li>
 </ul>
 <div style="margin-top: 12px;">
-<p>This is why we number nothing by hand. <span class="alert">Hand-typed “Figure 3” is wrong the moment you add Figure 2</span></p>
+<p>So never number by hand. <span class="alert">A typed “Figure 3” is wrong once you add a Figure 2</span></p>
 </div>
 </div>
 </div></div>
@@ -602,15 +604,15 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Quarto’s default PDF looks fine. Journals, universities, and employers often want <span class="alert">a specific look</span></li>
-<li>That is what LaTeX templates are for, and you do not have to write one: you point your YAML at one</li>
+<li>Quarto’s default PDF looks fine, but journals and universities often want <span class="alert">a specific look</span></li>
+<li>LaTeX templates do that. Point your YAML at one:</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a></a><span class="an">format:</span></span>
 <span id="cb11-2"><a></a>  pdf:</span>
 <span id="cb11-3"><a></a>    template: your-template.latex</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>I keep my own templates (articles, syllabi, letters, CVs) at <a href="https://github.com/danilofreire/quarto-templates" class="uri">https://github.com/danilofreire/quarto-templates</a></li>
-<li>You can save some time by using them, or finding others you like 😅</li>
+<li>My templates (articles, syllabi, letters, CVs): <a href="https://github.com/danilofreire/quarto-templates" class="uri">https://github.com/danilofreire/quarto-templates</a></li>
+<li>Use them, or find others you like 😅</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center;">
@@ -655,7 +657,7 @@ Danilo Freire
 <span id="cb12-2"><a></a><span class="ex">quarto</span> render practice.qmd <span class="at">--to</span> pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div style="margin-top: 10px; font-size: 20px;">
-<p>The chunk options are on last week’s table: <code>fig-</code> labels are what <code>@fig-</code> references point at</p>
+<p>Chunk options are on last class’s table. <code>@fig-</code> references point at <code>fig-</code> labels</p>
 </div>
 <div style="margin-top: 10px;">
 <p><a href="#/sec-appendix-01"><span class="button">Example</span></a></p>
@@ -674,26 +676,26 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li>You finish a report in October. In November you fix a typo and render it again</li>
-<li>Between the two dates, <code>pandas</code> shipped a new version and one default changed</li>
-<li>Your edit was one character. <span class="alert">Three numbers in the results table are now different</span></li>
-<li>You find out when a colleague asks why their printed copy disagrees with the website</li>
+<li>You finish a report in October. In November you fix a typo and render again</li>
+<li>Meanwhile, a new <code>pandas</code> release changed one default</li>
+<li>You edited one character. <span class="alert">Three numbers in the results table changed</span></li>
+<li>A colleague asks why their printed copy disagrees with the website</li>
 </ul>
 <div style="margin-top: 15px;">
-<p><span class="alert">Rendering and re-computing are the same action</span>. Every render re-runs every chunk, whether the analysis changed or not</p>
+<p><span class="alert">Rendering re-computes</span>: every render re-runs every chunk, changed or not</p>
 </div>
 </div><div class="column" style="width:45%;">
 <div style="font-size: 23px;">
 <ul>
-<li><p><span class="alert">Nothing in your document changed! The ground under it did:</span></p></li>
+<li><p><span class="alert">Your document did not change. Its surroundings did:</span></p></li>
 <li><p>A package upgrade changes a default</p></li>
-<li><p>An API hands you today’s data, not October’s</p></li>
+<li><p>An API returns today’s data instead of October’s</p></li>
 <li><p>A random draw with no seed</p></li>
-<li><p>Anything that reads the clock or today’s date</p></li>
+<li><p>Code that reads the clock or today’s date</p></li>
 <li><p>A different machine with different versions</p></li>
 </ul>
 <div style="margin-top: 12px;">
-<p>What we want is <span class="alert">controlled re-execution</span>: code runs again when the source changes, and stays put otherwise</p>
+<p>We want <span class="alert">controlled re-execution</span>: code re-runs only when the source changes</p>
 </div>
 </div>
 </div></div>
@@ -710,25 +712,22 @@ Danilo Freire
 <span id="cb13-3"><a></a></span>
 <span id="cb13-4"><a></a><span class="fu">execute</span><span class="kw">:</span></span>
 <span id="cb13-5"><a></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> auto</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Or in the YAML header of a single document:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a></a><span class="pp">---</span></span>
-<span id="cb14-2"><a></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Rainfall report"</span></span>
-<span id="cb14-3"><a></a><span class="fu">format</span><span class="kw">:</span><span class="at"> html</span></span>
-<span id="cb14-4"><a></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb14-5"><a></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> auto</span></span>
-<span id="cb14-6"><a></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><code>freeze</code> only works inside a project, when you run <code>quarto render</code> with no file name</li>
+<li><code>quarto render report.qmd</code> always re-runs the code, frozen or not</li>
+</ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Quarto runs the code once and stores the results in a folder called <code>_freeze/</code></li>
-<li>After that, a document re-runs <span class="alert">only when its own source changes</span></li>
-<li><code>freeze: auto</code>: change the code, get new results. Change nothing, get the same results</li>
-<li><code>freeze: true</code>: never re-run. For <span class="alert">archival</span> work, a submitted paper or a signed-off report</li>
+<li>Quarto runs the code once and stores the results in <code>_freeze/</code></li>
+<li>After that, a project render re-runs a document <span class="alert">only when its source changes</span></li>
+<li><code>freeze: auto</code>: new code, new results. No change, same results</li>
+<li><code>freeze: true</code>: never re-run. For <span class="alert">archival</span> work, like a submitted paper</li>
 <li><code>freeze: false</code>: the default, always re-run</li>
 </ul>
 <div style="margin-top: 12px;">
 <ul>
-<li><span class="alert">Commit <code>_freeze/</code></span>. It travels with the project, so whoever clones your repository gets your numbers</li>
-<li>Your site also rebuilds in seconds, because only the pages you edited run again</li>
+<li><span class="alert">Commit <code>_freeze/</code></span>, so whoever clones your repository gets your numbers</li>
+<li>Your site rebuilds in seconds, because only edited pages run again</li>
 </ul>
 </div>
 </div></div>
@@ -756,7 +755,7 @@ Danilo Freire
 </ul>
 </div></div>
 <div style="margin-top: 18px;">
-<p>So <code>freeze</code> postpones the problem. The rest of the answer is to pin the environment, which is <span class="alert">module 08</span>: <code>uv</code> and containers. Until then, use <code>freeze: auto</code>, commit <code>_freeze/</code>, and write your versions in the README</p>
+<p>So <code>freeze</code> postpones the problem. <span class="alert">Module 08</span> pins the environment with <code>uv</code> and containers. Until then, use <code>freeze: auto</code>, commit <code>_freeze/</code>, and list your versions in the README</p>
 </div>
 </div>
 </section></section>
@@ -771,30 +770,30 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Quarto renders slides with <a href="https://revealjs.com/">reveal.js</a>, an HTML presentation framework</li>
-<li>These very slides are Quarto + reveal.js!</li>
-<li>Why bother, when PowerPoint exists?
+<li>Quarto makes slides with <a href="https://revealjs.com/">reveal.js</a>, an HTML presentation framework</li>
+<li>These slides are Quarto + reveal.js!</li>
+<li>Why not PowerPoint?
 <ul>
-<li><span class="alert">Plain text</span>: diffs, version control, merge conflicts that make sense</li>
-<li><span class="alert">Code runs inside the slides</span>: charts update when the data changes</li>
-<li><span class="alert">One source, many formats</span>: the same <code>.qmd</code> can also become a PDF handout</li>
+<li><span class="alert">Plain text</span>: diffs, version control, readable merge conflicts</li>
+<li><span class="alert">Code runs in the slides</span>: charts update with the data</li>
+<li><span class="alert">Many formats</span>: the same <code>.qmd</code> can become a PDF handout</li>
 <li><span class="alert">Free hosting</span>: push to GitHub, share a link</li>
 </ul></li>
-<li>Fair warning: the first deck takes longer than dragging boxes. The payoff is that your 50th deck is no harder than your 2nd</li>
+<li>Your first deck takes longer than dragging boxes. Your 50th is no harder than your 2nd</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="margin-top: -20px;">
-<p>The YAML picks the format, and the headings do the rest:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My Presentation"</span></span>
-<span id="cb15-2"><a></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Your Name"</span></span>
-<span id="cb15-3"><a></a><span class="fu">format</span><span class="kw">:</span></span>
-<span id="cb15-4"><a></a><span class="at">  </span><span class="fu">revealjs</span><span class="kw">:</span></span>
-<span id="cb15-5"><a></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The YAML sets the format; headings do the rest:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"My Presentation"</span></span>
+<span id="cb14-2"><a></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Your Name"</span></span>
+<span id="cb14-3"><a></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb14-4"><a></a><span class="at">  </span><span class="fu">revealjs</span><span class="kw">:</span></span>
+<span id="cb14-5"><a></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li><code>#</code> starts a <span class="alert">section</span>, <code>##</code> starts a <span class="alert">new slide</span></li>
-<li><code>embed-resources: true</code> bakes images and fonts into one self-contained file</li>
+<li><code>embed-resources: true</code> puts images and fonts into one self-contained file</li>
 <li><code>:::</code> fenced divs handle layout: columns, centred text, font sizes</li>
-<li>Chunks, images, tables, and citations work exactly as in a report</li>
+<li>Chunks, images, tables and citations work as in a report</li>
 <li>Full reference: <a href="https://quarto.org/docs/presentations/revealjs/">Quarto reveal.js docs</a></li>
 </ul>
 </div>
@@ -807,21 +806,21 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:55%;">
 <ol type="1">
-<li><span class="alert">A minimal deck</span> with text and images: <a href="https://danilofreire.github.io/datasci350/lectures/lecture-11/simple-slides.html">simple-slides.html</a>, with its source in <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-11/simple-slides.qmd">simple-slides.qmd</a>, in this lecture’s folder (click on the links above)</li>
-<li><span class="alert">The template behind this course</span>, with custom theme, columns, and modal images: <a href="https://github.com/danilofreire/quarto-presentation">quarto-presentation</a></li>
+<li><span class="alert">A minimal deck</span> with text and images: <a href="https://danilofreire.github.io/datasci350/lectures/lecture-11/simple-slides.html">simple-slides.html</a> (source: <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-11/simple-slides.qmd">simple-slides.qmd</a>)</li>
+<li><span class="alert">This course’s template</span>, with a custom theme, columns and modal images: <a href="https://github.com/danilofreire/quarto-presentation">quarto-presentation</a></li>
 </ol>
 <p>Install the course template with:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a></a><span class="ex">quarto</span> install danilofreire/quarto-presentation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb15-1"><a></a><span class="ex">quarto</span> add danilofreire/quarto-presentation</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:45%;">
 <div style="margin-top: -20px;">
-<p>Things to try on your own:</p>
+<p>Try on your own:</p>
 <ul>
-<li>Download the simple slides <code>.qmd</code> and render it locally</li>
+<li>Download <code>simple-slides.qmd</code> and render it</li>
 <li>Change the theme (e.g., <code>theme: moon</code>, <code>theme: serif</code>)</li>
 <li>Add a two-column layout with <code>:::{.columns}</code></li>
 <li>Add a code chunk that produces a plot</li>
@@ -836,7 +835,7 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Two options, both free:</p>
+<p>Both are free:</p>
 <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
 <table class="caption-top">
 <thead>
@@ -860,11 +859,11 @@ Danilo Freire
 </tbody>
 </table>
 </div>
-<p>You met GitHub Pages in module 02. Githack is the fastest path: push your HTML, paste the file URL at <a href="https://raw.githack.com/">raw.githack.com</a>, share the link it returns</p>
+<p>You met GitHub Pages in module 02. With Githack, push your HTML, paste its URL at <a href="https://raw.githack.com/">raw.githack.com</a> and share the link</p>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; font-size: 18px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/githack.png"><img data-src="figures/githack.png" style="width:100.0%"></a></p>
-<p>Paste the raw GitHub link, get a serveable URL back. The “production” link caches permanently; the “development” link always fetches the latest commit</p>
+<p>Paste a GitHub link, get a shareable URL. “Production” links cache permanently; “development” links pick up new commits within minutes</p>
 </div>
 </div></div>
 </div>
@@ -875,11 +874,11 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Quarto websites are <span class="alert">static</span>: pre-rendered HTML, CSS, and images, no server-side code</li>
-<li>Fast to load, free to host, and trivial to version-control</li>
-<li>Common uses: course sites, project documentation, portfolios, research blogs</li>
-<li>Free hosting on <a href="https://pages.github.com/">GitHub Pages</a>, <a href="https://www.netlify.com/">Netlify</a>, or <a href="https://vercel.com/">Vercel</a></li>
-<li>Limitation: no databases, no login pages, no server-side logic. For those you need a web framework (Flask, Django, etc.)</li>
+<li>Quarto websites are <span class="alert">static</span>: pre-rendered HTML, CSS and images, with no server-side code</li>
+<li>Fast to load, free to host, easy to version-control</li>
+<li>Used for course sites, documentation, portfolios, research blogs</li>
+<li>Free hosting on <a href="https://pages.github.com/">GitHub Pages</a>, <a href="https://www.netlify.com/">Netlify</a> or <a href="https://vercel.com/">Vercel</a></li>
+<li>No databases, logins or server logic. Those need a web framework (e.g.&nbsp;Flask, Django)</li>
 <li>More at <a href="https://quarto.org/docs/websites/">quarto.org/docs/websites</a></li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -895,7 +894,7 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Every Quarto website is a folder with the same skeleton:</p>
+<p>Every Quarto website has the same files:</p>
 <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
 <table class="caption-top">
 <thead>
@@ -925,28 +924,28 @@ Danilo Freire
 </table>
 </div>
 <ul>
-<li>Each <code>.qmd</code> becomes one page, with the navigation, footer, and theme inherited from <code>_quarto.yml</code></li>
-<li>A page’s own YAML usually holds just its title</li>
+<li>Each <code>.qmd</code> becomes a page, with navigation, footer and theme from <code>_quarto.yml</code></li>
+<li>A page’s own YAML usually holds only its title</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p>The generated <code>_quarto.yml</code> for a new site:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a></a><span class="fu">project</span><span class="kw">:</span></span>
-<span id="cb17-2"><a></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
-<span id="cb17-3"><a></a></span>
-<span id="cb17-4"><a></a><span class="fu">website</span><span class="kw">:</span></span>
-<span id="cb17-5"><a></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"today"</span></span>
-<span id="cb17-6"><a></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
-<span id="cb17-7"><a></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
-<span id="cb17-8"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
-<span id="cb17-9"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
-<span id="cb17-10"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> about.qmd</span></span>
-<span id="cb17-11"><a></a></span>
-<span id="cb17-12"><a></a><span class="fu">format</span><span class="kw">:</span></span>
-<span id="cb17-13"><a></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb17-14"><a></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
-<span id="cb17-15"><a></a><span class="at">    </span><span class="fu">css</span><span class="kw">:</span><span class="at"> styles.css</span></span>
-<span id="cb17-16"><a></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The <a href="https://quarto.org/docs/websites/website-blog.html#themes">theme list</a> has two dozen options, light and dark</p>
+<p>A new site’s <code>_quarto.yml</code> (abridged):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb16-1"><a></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb16-2"><a></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb16-5"><a></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"today"</span></span>
+<span id="cb16-6"><a></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb16-7"><a></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb16-8"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> index.qmd</span></span>
+<span id="cb16-9"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Home</span></span>
+<span id="cb16-10"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> about.qmd</span></span>
+<span id="cb16-11"><a></a></span>
+<span id="cb16-12"><a></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb16-13"><a></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb16-14"><a></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb16-15"><a></a><span class="at">    </span><span class="fu">css</span><span class="kw">:</span><span class="at"> styles.css</span></span>
+<span id="cb16-16"><a></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The <a href="https://quarto.org/docs/websites/website-blog.html#themes">theme list</a> has about 25 light and dark options</p>
 </div></div>
 </div>
 </section>
@@ -974,12 +973,12 @@ Danilo Freire
 </div>
 </div>
 </div><div class="column" style="width:40%;">
-<p>Four steps, clockwise from top left:</p>
+<p>Four steps, left to right, then top to bottom:</p>
 <ol type="1">
 <li><code>Ctrl+Shift+P</code> (or <code>Cmd+Shift+P</code>), then run <span class="alert">Quarto: Create Project</span></li>
 <li>Pick <span class="alert">Website Project</span> from the list</li>
 <li>Choose a new, empty folder for it</li>
-<li>The project opens with <code>_quarto.yml</code>, <code>index.qmd</code>, <code>about.qmd</code>, and <code>styles.css</code>. Click <span class="alert">Preview</span> to see the site</li>
+<li>The project opens with <code>_quarto.yml</code>, <code>index.qmd</code>, <code>about.qmd</code> and <code>styles.css</code>. Click <span class="alert">Preview</span></li>
 </ol>
 <p>Click any screenshot to zoom in</p>
 </div></div>
@@ -991,59 +990,61 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:35%;">
 <ul>
-<li>The course site is a Quarto website like the one you just created, plus a longer <code>_quarto.yml</code></li>
-<li>The abridged config is on the right: navigation bar, GitHub links, a footer, and paired light and dark themes</li>
-<li>The full file is <a href="https://github.com/danilofreire/datasci350/blob/gh-pages/_quarto.yml">on GitHub</a>, and its <code>index.qmd</code> is <a href="https://github.com/danilofreire/datasci350/blob/gh-pages/index.qmd">here</a></li>
-<li><span class="alert">Steal from it freely!</span> That is why it is public</li>
+<li>The course site is the same kind of website, with a longer <code>_quarto.yml</code></li>
+<li>Abridged on the right: navigation bar, GitHub link, footer, light and dark themes</li>
+<li>Full files on GitHub: <a href="https://github.com/danilofreire/datasci350/blob/main/_quarto.yml"><code>_quarto.yml</code></a> and <a href="https://github.com/danilofreire/datasci350/blob/main/index.qmd"><code>index.qmd</code></a></li>
+<li><span class="alert">Copy from it freely!</span> That is why it is public</li>
 </ul>
 </div><div class="column" style="width:65%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb18-1"><a></a><span class="fu">project</span><span class="kw">:</span></span>
-<span id="cb18-2"><a></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
-<span id="cb18-3"><a></a><span class="at">  </span><span class="fu">output-dir</span><span class="kw">:</span><span class="at"> docs</span></span>
-<span id="cb18-4"><a></a></span>
-<span id="cb18-5"><a></a><span class="fu">website</span><span class="kw">:</span></span>
-<span id="cb18-6"><a></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"DATASCI 350"</span></span>
-<span id="cb18-7"><a></a><span class="at">  </span><span class="fu">repo-url</span><span class="kw">:</span><span class="at"> https://github.com/danilofreire/datasci350</span></span>
-<span id="cb18-8"><a></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
-<span id="cb18-9"><a></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
-<span id="cb18-10"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> syllabus.qmd</span></span>
-<span id="cb18-11"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Syllabus</span></span>
-<span id="cb18-12"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> lectures/lectures.qmd</span></span>
-<span id="cb18-13"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Lectures</span></span>
-<span id="cb18-14"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> assignments/assignments.qmd</span></span>
-<span id="cb18-15"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Assignments</span></span>
-<span id="cb18-16"><a></a><span class="at">  </span><span class="fu">page-footer</span><span class="kw">:</span></span>
-<span id="cb18-17"><a></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span><span class="at"> </span><span class="st">"Copyright 2026, Danilo Freire."</span></span>
-<span id="cb18-18"><a></a></span>
-<span id="cb18-19"><a></a><span class="fu">format</span><span class="kw">:</span></span>
-<span id="cb18-20"><a></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb18-21"><a></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span></span>
-<span id="cb18-22"><a></a><span class="at">      </span><span class="fu">light</span><span class="kw">:</span><span class="at"> lumen</span></span>
-<span id="cb18-23"><a></a><span class="at">      </span><span class="fu">dark</span><span class="kw">:</span><span class="at"> solar</span></span>
-<span id="cb18-24"><a></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb17-1"><a></a><span class="fu">project</span><span class="kw">:</span></span>
+<span id="cb17-2"><a></a><span class="at">  </span><span class="fu">type</span><span class="kw">:</span><span class="at"> website</span></span>
+<span id="cb17-3"><a></a><span class="at">  </span><span class="fu">output-dir</span><span class="kw">:</span><span class="at"> docs</span></span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a><span class="fu">website</span><span class="kw">:</span></span>
+<span id="cb17-6"><a></a><span class="at">  </span><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"DATASCI 350"</span></span>
+<span id="cb17-7"><a></a><span class="at">  </span><span class="fu">repo-url</span><span class="kw">:</span><span class="at"> https://github.com/danilofreire/datasci350</span></span>
+<span id="cb17-8"><a></a><span class="at">  </span><span class="fu">navbar</span><span class="kw">:</span></span>
+<span id="cb17-9"><a></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span></span>
+<span id="cb17-10"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> syllabus-web.qmd</span></span>
+<span id="cb17-11"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Syllabus</span></span>
+<span id="cb17-12"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> lectures.qmd</span></span>
+<span id="cb17-13"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Lectures</span></span>
+<span id="cb17-14"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">href</span><span class="kw">:</span><span class="at"> assignments.qmd</span></span>
+<span id="cb17-15"><a></a><span class="at">        </span><span class="fu">text</span><span class="kw">:</span><span class="at"> Assignments</span></span>
+<span id="cb17-16"><a></a><span class="at">  </span><span class="fu">page-footer</span><span class="kw">:</span></span>
+<span id="cb17-17"><a></a><span class="at">    </span><span class="fu">left</span><span class="kw">:</span><span class="at"> </span><span class="st">"Copyright 2026, Danilo Freire."</span></span>
+<span id="cb17-18"><a></a></span>
+<span id="cb17-19"><a></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb17-20"><a></a><span class="at">  </span><span class="fu">freeze</span><span class="kw">:</span><span class="at"> auto</span></span>
+<span id="cb17-21"><a></a></span>
+<span id="cb17-22"><a></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb17-23"><a></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb17-24"><a></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span></span>
+<span id="cb17-25"><a></a><span class="at">      </span><span class="fu">light</span><span class="kw">:</span><span class="at"> cosmo</span></span>
+<span id="cb17-26"><a></a><span class="at">      </span><span class="fu">dark</span><span class="kw">:</span><span class="at"> darkly</span></span>
+<span id="cb17-27"><a></a><span class="at">    </span><span class="fu">toc</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </div>
 </section>
 <section id="publishing-with-one-command" class="slide level2">
 <h2>Publishing with one command</h2>
-<div style="margin-top: 30px; font-size: 24px;">
+<div style="margin-top: 30px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Quarto has a built-in publish command for GitHub Pages:</p>
+<p>Quarto publishes to GitHub Pages with one command:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb19-1"><a></a><span class="ex">quarto</span> publish gh-pages</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a></a><span class="ex">quarto</span> publish gh-pages</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>It renders the site, creates or updates a <code>gh-pages</code> branch, pushes it, and GitHub serves the result at <code>https://username.github.io/repo-name/</code></li>
-<li>The manual alternative: <code>quarto render</code>, commit the output folder, push, and point Pages at it in the repository settings</li>
-<li>After the first publish, updating the site is: edit the <code>.qmd</code>, run the command again</li>
+<li>It renders the site and pushes it to a separate <span class="alert"><code>gh-pages</code> branch</span></li>
+<li>Your source stays on <code>main</code>, free of rendered HTML</li>
+<li>GitHub serves it at <code>https://username.github.io/repo-name/</code></li>
+<li>By hand: set <code>output-dir: docs</code>, render, push, and choose <code>main</code> → <code>/docs</code> in the Pages settings. The course site works this way</li>
+<li>To update, edit the <code>.qmd</code> and run the command again</li>
 </ul>
-<div style="margin-top: 10px;">
-<p><span class="alert">Plain text in, public website out!</span></p>
-</div>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; margin-top: 20px;">
 <div class="quarto-figure quarto-figure-center">
@@ -1063,48 +1064,48 @@ Danilo Freire
 </section>
 <section id="parameterised-reports" class="slide level2">
 <h2>Parameterised reports</h2>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 30px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li>You need the same report for ten countries. Or every month. Or for each of thirty students</li>
-<li>The tempting move is to copy the file ten times and edit each copy. <span class="alert">Do not</span>. One mistake now means ten files to fix</li>
-<li>Write <span class="alert">one</span> report with a <span class="alert">parameter</span> instead: a value you set from outside the document</li>
-<li>In Python, a parameter is an ordinary variable in a cell tagged <code>parameters</code></li>
+<li>You need the same report for ten countries, every month, or for thirty students</li>
+<li>Copying the file ten times means one mistake to fix in ten places</li>
+<li>Write <span class="alert">one</span> report with a <span class="alert">parameter</span>: a value you set from outside the document</li>
+<li>In Python, a parameter is a variable in a cell tagged <code>parameters</code></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a></a><span class="co">#| tags: [parameters]</span></span>
-<span id="cb20-2"><a></a>country <span class="op">=</span> <span class="st">"Brazil"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="co">#| tags: [parameters]</span></span>
+<span id="cb19-2"><a></a>country <span class="op">=</span> <span class="st">"Brazil"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>That value is the <span class="alert">default</span>. Render the file normally and you get Brazil</li>
+<li>That value is the <span class="alert">default</span>. A normal render gives Brazil</li>
 </ul>
 </div><div class="column" style="width:48%;">
 <ul>
-<li>To override it, pass <code>-P</code> in the terminal:</li>
+<li>Override it with <code>-P</code>:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a></a><span class="ex">quarto</span> render report.qmd <span class="at">-P</span> country:Uruguay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a></a><span class="ex">quarto</span> render report.qmd <span class="at">-P</span> country:Uruguay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>The tag is how Quarto finds the cell to replace. Forget it and <code>-P</code> does nothing</li>
-<li>Put the tagged cell <span class="alert">first</span>, above any code that uses the parameter</li>
-<li>One extra package makes this work, installed once:</li>
+<li>Quarto finds the cell by its tag. Without it, <code>-P</code> does nothing</li>
+<li>Put the tagged cell <span class="alert">first</span>, above any code that uses it</li>
+<li>It needs one extra package:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a></a><span class="ex">pip</span> install papermill</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a></a><span class="ex">pip</span> install papermill</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment" style="margin-top: 12px;">
-<p>If a country name contains a space, quote it:</p>
+<p>Quote names with a space:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb23-1"><a></a><span class="ex">quarto</span> render report.qmd <span class="at">-P</span> country:<span class="st">"United States"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a></a><span class="ex">quarto</span> render report.qmd <span class="at">-P</span> country:<span class="st">"United States"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div></div>
@@ -1115,50 +1116,49 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 18px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource markdown {verbatim} number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a></a><span class="co">---</span></span>
-<span id="cb24-2"><a></a><span class="an">title:</span><span class="co"> "Country profile"</span></span>
-<span id="cb24-3"><a></a><span class="an">format:</span><span class="co"> html</span></span>
-<span id="cb24-4"><a></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
-<span id="cb24-5"><a></a><span class="co">---</span></span>
-<span id="cb24-6"><a></a></span>
-<span id="cb24-7"><a></a><span class="in">```{python}</span></span>
-<span id="cb24-8"><a></a><span class="co">#| tags: [parameters]</span></span>
-<span id="cb24-9"><a></a>country <span class="op">=</span> <span class="st">"Brazil"</span></span>
-<span id="cb24-10"><a></a><span class="in">```</span></span>
-<span id="cb24-11"><a></a></span>
-<span id="cb24-12"><a></a><span class="in">```{python}</span></span>
-<span id="cb24-13"><a></a><span class="co">#| echo: false</span></span>
-<span id="cb24-14"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb24-15"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb24-16"><a></a></span>
-<span id="cb24-17"><a></a>profiles <span class="op">=</span> pd.read_csv(<span class="st">"data/country_profiles.csv"</span>)</span>
-<span id="cb24-18"><a></a>one <span class="op">=</span> profiles[profiles[<span class="st">"country"</span>] <span class="op">==</span> country]</span>
-<span id="cb24-19"><a></a>one <span class="op">=</span> one.sort_values(<span class="st">"year"</span>)</span>
-<span id="cb24-20"><a></a><span class="in">```</span></span>
-<span id="cb24-21"><a></a></span>
-<span id="cb24-22"><a></a><span class="fu"># `{python} country`</span></span>
-<span id="cb24-23"><a></a></span>
-<span id="cb24-24"><a></a>This report uses indicators for <span class="in">`{python} country`</span>.</span>
-<span id="cb24-25"><a></a></span>
-<span id="cb24-26"><a></a><span class="fu">## Life expectancy over time</span></span>
-<span id="cb24-27"><a></a></span>
-<span id="cb24-28"><a></a><span class="in">```{python}</span></span>
-<span id="cb24-29"><a></a><span class="co">#| echo: false</span></span>
-<span id="cb24-30"><a></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">3.5</span>))</span>
-<span id="cb24-31"><a></a>ax.plot(one[<span class="st">"year"</span>], one[<span class="st">"life_expectancy"</span>])</span>
-<span id="cb24-32"><a></a>plt.show()</span>
-<span id="cb24-33"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource markdown {verbatim} number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb23-1"><a></a><span class="co">---</span></span>
+<span id="cb23-2"><a></a><span class="an">title:</span><span class="co"> "Country profile"</span></span>
+<span id="cb23-3"><a></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb23-4"><a></a><span class="an">jupyter:</span><span class="co"> python3</span></span>
+<span id="cb23-5"><a></a><span class="co">---</span></span>
+<span id="cb23-6"><a></a></span>
+<span id="cb23-7"><a></a><span class="in">```{python}</span></span>
+<span id="cb23-8"><a></a><span class="co">#| tags: [parameters]</span></span>
+<span id="cb23-9"><a></a>country <span class="op">=</span> <span class="st">"Brazil"</span></span>
+<span id="cb23-10"><a></a><span class="in">```</span></span>
+<span id="cb23-11"><a></a></span>
+<span id="cb23-12"><a></a><span class="in">```{python}</span></span>
+<span id="cb23-13"><a></a><span class="co">#| echo: false</span></span>
+<span id="cb23-14"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb23-15"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb23-16"><a></a></span>
+<span id="cb23-17"><a></a>profiles <span class="op">=</span> pd.read_csv(<span class="st">"data/country_profiles.csv"</span>)</span>
+<span id="cb23-18"><a></a>one <span class="op">=</span> profiles[profiles[<span class="st">"country"</span>] <span class="op">==</span> country]</span>
+<span id="cb23-19"><a></a>one <span class="op">=</span> one.sort_values(<span class="st">"year"</span>)</span>
+<span id="cb23-20"><a></a><span class="in">```</span></span>
+<span id="cb23-21"><a></a></span>
+<span id="cb23-22"><a></a><span class="fu"># `{python} country`</span></span>
+<span id="cb23-23"><a></a></span>
+<span id="cb23-24"><a></a>This report uses indicators for <span class="in">`{python} country`</span>.</span>
+<span id="cb23-25"><a></a></span>
+<span id="cb23-26"><a></a><span class="fu">## Life expectancy over time</span></span>
+<span id="cb23-27"><a></a></span>
+<span id="cb23-28"><a></a><span class="in">```{python}</span></span>
+<span id="cb23-29"><a></a><span class="co">#| echo: false</span></span>
+<span id="cb23-30"><a></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="fl">3.5</span>))</span>
+<span id="cb23-31"><a></a>ax.plot(one[<span class="st">"year"</span>], one[<span class="st">"life_expectancy"</span>])</span>
+<span id="cb23-32"><a></a>plt.show()</span>
+<span id="cb23-33"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
+<div style="font-size: 22px;">
 <ul>
-<li>The data is real: World Bank indicators for ten countries, 2000 to 2023, in <code>data/country_profiles.csv</code></li>
-<li>The parameter does its work in <span class="alert">three places</span>: it filters the data, titles the report, and appears in the sentence</li>
-<li><code>`{python} country`</code> is <span class="alert">inline code</span>. It drops the value of a Python expression straight into your prose</li>
-<li>So the words change with the data. No heading spells out “Brazil” by hand</li>
-<li>Only the default names a country. Change it, or pass <code>-P</code>, and the whole document follows</li>
-<li>The full file is in the lecture folder, a little longer than this extract because it also builds a table</li>
+<li>Real data: World Bank indicators for ten countries, 2000 to 2023, in <code>data/country_profiles.csv</code></li>
+<li>The parameter filters the data, titles the report and appears in the text</li>
+<li><code>`{python} country`</code> is <span class="alert">inline code</span>: it puts a Python value into your text</li>
+<li>No heading types “Brazil” by hand</li>
+<li>Only the default names a country. Change it, or pass <code>-P</code>, and the document follows</li>
+<li>The full file in the lecture folder also builds a table</li>
 </ul>
-<div class="fragment" style="margin-top: 15px;">
-<p><span class="alert">This is the whole trick</span>. One file, one source of truth, many outputs</p>
 </div>
 </div></div>
 </div>
@@ -1169,51 +1169,51 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:45%;">
 <p>Rendered with the default, <code>country = "Brazil"</code>:</p>
-<div id="9204d7d2" class="cell" data-execution_count="1">
+<div id="254c2aee" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <style type="text/css">
 </style>
 
-<table id="T_4abff" class="caption-top">
+<table id="T_88537" class="caption-top">
 <thead>
 <tr class="header">
-<th id="T_4abff_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Year</th>
-<th id="T_4abff_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">GDP per capita (US$)</th>
-<th id="T_4abff_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Life expectancy</th>
+<th id="T_88537_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Year</th>
+<th id="T_88537_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">GDP per capita (US$)</th>
+<th id="T_88537_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Life expectancy</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_4abff_row0_col0" class="data row0 col0">2019</td>
-<td id="T_4abff_row0_col1" class="data row0 col1">9,030</td>
-<td id="T_4abff_row0_col2" class="data row0 col2">75.8</td>
+<td id="T_88537_row0_col0" class="data row0 col0">2019</td>
+<td id="T_88537_row0_col1" class="data row0 col1">9,030</td>
+<td id="T_88537_row0_col2" class="data row0 col2">75.8</td>
 </tr>
 <tr class="even">
-<td id="T_4abff_row1_col0" class="data row1 col0">2020</td>
-<td id="T_4abff_row1_col1" class="data row1 col1">7,074</td>
-<td id="T_4abff_row1_col2" class="data row1 col2">74.5</td>
+<td id="T_88537_row1_col0" class="data row1 col0">2020</td>
+<td id="T_88537_row1_col1" class="data row1 col1">7,074</td>
+<td id="T_88537_row1_col2" class="data row1 col2">74.5</td>
 </tr>
 <tr class="odd">
-<td id="T_4abff_row2_col0" class="data row2 col0">2021</td>
-<td id="T_4abff_row2_col1" class="data row2 col1">7,972</td>
-<td id="T_4abff_row2_col2" class="data row2 col2">73.0</td>
+<td id="T_88537_row2_col0" class="data row2 col0">2021</td>
+<td id="T_88537_row2_col1" class="data row2 col1">7,972</td>
+<td id="T_88537_row2_col2" class="data row2 col2">73.0</td>
 </tr>
 <tr class="even">
-<td id="T_4abff_row3_col0" class="data row3 col0">2022</td>
-<td id="T_4abff_row3_col1" class="data row3 col1">9,281</td>
-<td id="T_4abff_row3_col2" class="data row3 col2">74.9</td>
+<td id="T_88537_row3_col0" class="data row3 col0">2022</td>
+<td id="T_88537_row3_col1" class="data row3 col1">9,281</td>
+<td id="T_88537_row3_col2" class="data row3 col2">74.9</td>
 </tr>
 <tr class="odd">
-<td id="T_4abff_row4_col0" class="data row4 col0">2023</td>
-<td id="T_4abff_row4_col1" class="data row4 col1">10,378</td>
-<td id="T_4abff_row4_col2" class="data row4 col2">75.8</td>
+<td id="T_88537_row4_col0" class="data row4 col0">2023</td>
+<td id="T_88537_row4_col1" class="data row4 col1">10,378</td>
+<td id="T_88537_row4_col2" class="data row4 col2">75.8</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div><div class="column" style="width:55%;">
-<div id="5651b0e0" class="cell" data-execution_count="2">
+<div id="720f4b79" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1223,7 +1223,7 @@ Danilo Freire
 </div>
 </div>
 <div style="font-size: 18px; text-align: center;">
-<p>Two of the ten countries in the file. The report draws one at a time, and the parameter decides which</p>
+<p>Two of the ten countries. The report draws one, chosen by the parameter</p>
 </div>
 </div></div>
 </div>
@@ -1233,40 +1233,40 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<p>One country at a time, each with its own file name:</p>
+<p>One country, with its own file name:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a></a><span class="ex">quarto</span> render report.qmd <span class="at">-P</span> country:Uruguay <span class="dt">\</span></span>
-<span id="cb25-2"><a></a>  <span class="at">--output</span> profile-Uruguay.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb24-1"><a></a><span class="ex">quarto</span> render report.qmd <span class="at">-P</span> country:Uruguay <span class="dt">\</span></span>
+<span id="cb24-2"><a></a>  <span class="at">--output</span> profile-Uruguay.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Or let the shell do all of them, with the loop you met in module 02:</p>
+<p>Or all of them, with the shell loop from module 02:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb26-1"><a></a><span class="cf">for</span> c <span class="kw">in</span> Brazil Mexico Uruguay<span class="kw">;</span> <span class="cf">do</span></span>
-<span id="cb26-2"><a></a>  <span class="ex">quarto</span> render report.qmd <span class="dt">\</span></span>
-<span id="cb26-3"><a></a>    <span class="at">-P</span> country:<span class="va">$c</span> <span class="dt">\</span></span>
-<span id="cb26-4"><a></a>    <span class="at">--output</span> profile-<span class="va">$c</span>.html</span>
-<span id="cb26-5"><a></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb25-1"><a></a><span class="cf">for</span> c <span class="kw">in</span> Brazil Mexico Uruguay<span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb25-2"><a></a>  <span class="ex">quarto</span> render report.qmd <span class="dt">\</span></span>
+<span id="cb25-3"><a></a>    <span class="at">-P</span> country:<span class="st">"</span><span class="va">$c</span><span class="st">"</span> <span class="dt">\</span></span>
+<span id="cb25-4"><a></a>    <span class="at">--output</span> <span class="st">"profile-</span><span class="va">$c</span><span class="st">.html"</span></span>
+<span id="cb25-5"><a></a><span class="cf">done</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Three commands you did not have to type, and three files:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a></a>profile-Brazil.html</span>
-<span id="cb27-2"><a></a>profile-Mexico.html</span>
-<span id="cb27-3"><a></a>profile-Uruguay.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Three renders, three files:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a></a>profile-Brazil.html</span>
+<span id="cb26-2"><a></a>profile-Mexico.html</span>
+<span id="cb26-3"><a></a>profile-Uruguay.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:48%;">
 <div style="margin-top: 20px;">
 <ul>
-<li>Ten countries is the same loop with a longer list. So is a hundred</li>
-<li><code>--output</code> matters. Without it, every render writes over <code>report.html</code></li>
+<li>Ten or a hundred countries: same loop, longer list</li>
+<li>Quote <code>"$c"</code>: two of the ten names contain a space</li>
+<li>Without <code>--output</code>, every render overwrites <code>report.html</code></li>
 <li>Find a mistake, fix <span class="alert">one</span> file, run the loop again</li>
-<li>Industry does exactly this. The only difference is that the loop runs on a schedule instead of on your laptop</li>
+<li>Companies do the same, with the loop on a schedule</li>
 </ul>
 <div style="margin-top: 20px;">
-<p><span class="alert">This is how one analysis becomes a pipeline!</span></p>
-<p>And it is the shape of your final project: one repository, one analysis, many countries</p>
+<p>Your <span class="alert">final project</span> has this shape: one repository, one analysis, many countries</p>
 </div>
 </div>
 </div></div>
@@ -1277,13 +1277,13 @@ Danilo Freire
 <div style="margin-top: 25px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:55%;">
-<p>You do not have to write the report. Download it and drive it from the terminal.</p>
+<p>Download the report and run it from the terminal.</p>
 <ol type="1">
-<li>Download <a href="https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-11/report.qmd"><code>report.qmd</code></a> and <a href="https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-11/data/country_profiles.csv"><code>country_profiles.csv</code></a> (click on the links to get the files)</li>
+<li>Download <a href="https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-11/report.qmd"><code>report.qmd</code></a> and <a href="https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-11/data/country_profiles.csv"><code>country_profiles.csv</code></a></li>
 <li>Put <code>report.qmd</code> in a new folder. Put the CSV in a <code>data</code> folder beside it</li>
 <li>Render the file with no options. You get Brazil</li>
 <li>Render it again for Japan. Give the output its own file name</li>
-<li>Open both HTML files. The heading, the table, and the chart all changed</li>
+<li>Open both HTML files. The heading, table and chart changed</li>
 <li>Render one more country whose name contains a space</li>
 </ol>
 </div><div class="column" style="width:45%;">
@@ -1293,12 +1293,12 @@ Danilo Freire
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a></a><span class="va">BASE</span><span class="op">=</span>https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-11</span>
-<span id="cb28-2"><a></a></span>
-<span id="cb28-3"><a></a><span class="ex">curl</span> <span class="at">-O</span> <span class="va">$BASE</span>/report.qmd</span>
-<span id="cb28-4"><a></a><span class="fu">mkdir</span> data</span>
-<span id="cb28-5"><a></a><span class="ex">curl</span> <span class="at">-o</span> data/country_profiles.csv <span class="dt">\</span></span>
-<span id="cb28-6"><a></a>  <span class="va">$BASE</span>/data/country_profiles.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb27-1"><a></a><span class="va">BASE</span><span class="op">=</span>https://raw.githubusercontent.com/danilofreire/datasci350/main/lectures/lecture-11</span>
+<span id="cb27-2"><a></a></span>
+<span id="cb27-3"><a></a><span class="ex">curl</span> <span class="at">-O</span> <span class="va">$BASE</span>/report.qmd</span>
+<span id="cb27-4"><a></a><span class="fu">mkdir</span> data</span>
+<span id="cb27-5"><a></a><span class="ex">curl</span> <span class="at">-o</span> data/country_profiles.csv <span class="dt">\</span></span>
+<span id="cb27-6"><a></a>  <span class="va">$BASE</span>/data/country_profiles.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Hints:</p>
 <ul>
@@ -1316,41 +1316,41 @@ Danilo Freire
 <div style="margin-top: 25px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:48%;">
-<p>Three failures you will meet this term, as they appear on screen:</p>
+<p>Three errors you will see this term:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a></a>  <span class="ex">Cell</span> 1/1: <span class="st">''</span>...ERROR</span>
-<span id="cb29-2"><a></a><span class="ex">ModuleNotFoundError:</span> No module named <span class="st">'geopandas'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div class="code-with-filename">
-<div class="code-with-filename-file">
-<pre><strong>Terminal</strong></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a></a><span class="ex">ERROR:</span> YAMLException: bad indentation of</span>
-<span id="cb30-2"><a></a><span class="ex">a</span> mapping entry <span class="er">(</span><span class="ex">2:14</span><span class="kw">)</span></span>
-<span id="cb30-3"><a></a> <span class="ex">2</span> <span class="kw">|</span> <span class="ex">title:</span> Quarto: a first look</span>
-<span id="cb30-4"><a></a><span class="ex">------------------^</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb28-1"><a></a>  <span class="ex">Cell</span> 1/1: <span class="st">''</span>...ERROR</span>
+<span id="cb28-2"><a></a><span class="ex">ModuleNotFoundError:</span> No module named <span class="st">'geopandas'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a></a><span class="ex">compilation</span> failed- error</span>
-<span id="cb31-2"><a></a><span class="ex">Undefined</span> control sequence.</span>
-<span id="cb31-3"><a></a><span class="ex">l.172</span> ...bad command: <span class="dt">\(\n</span>otarealcommand</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb29-1"><a></a><span class="ex">ERROR:</span> YAMLException: bad indentation of</span>
+<span id="cb29-2"><a></a><span class="ex">a</span> mapping entry <span class="er">(</span><span class="ex">2:14</span><span class="kw">)</span></span>
+<span id="cb29-3"><a></a> <span class="ex">2</span> <span class="kw">|</span> <span class="ex">title:</span> Quarto: a first look</span>
+<span id="cb29-4"><a></a><span class="ex">------------------^</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>Terminal</strong></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a></a><span class="ex">compilation</span> failed- error</span>
+<span id="cb30-2"><a></a><span class="ex">Undefined</span> control sequence.</span>
+<span id="cb30-3"><a></a><span class="ex">l.172</span> ...bad command: <span class="dt">\(\n</span>otarealcommand</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:52%;">
 <ul>
-<li><span class="alert">Python errors read from the bottom</span>. The last line names the problem. The traceback above it only shows how the code got there</li>
-<li>Quarto tells you which cell broke, so you know where to look first</li>
-<li>A missing module usually means the package is fine, and Quarto is running <span class="alert">a different Python</span></li>
-<li><span class="alert">YAML errors read from the top</span>. Trust the caret: line 2, column 14 is the unquoted colon</li>
-<li>The stack trace printed underneath is noise. Ignore it</li>
-<li><span class="alert">In LaTeX errors, <code>l.172</code> is a line in the generated <code>.tex</code></span>, not in your <code>.qmd</code></li>
-<li>The text beside it is yours, though, so search your file for that</li>
-<li>And <span class="alert">render often</span>, so the only new thing is also the broken thing</li>
+<li><span class="alert">Read Python errors from the bottom</span>. The last line names the problem</li>
+<li>Quarto names the cell that broke</li>
+<li>A missing module usually means Quarto runs <span class="alert">a different Python</span></li>
+<li><span class="alert">Read YAML errors from the top</span>. The caret points at line 2, column 14: the unquoted colon</li>
+<li>Ignore the stack trace below it</li>
+<li><span class="alert">In LaTeX errors, <code>l.172</code> is a line in the generated <code>.tex</code></span>, not your <code>.qmd</code></li>
+<li>The text beside it is yours, so search your file for it</li>
+<li><span class="alert">Render often</span>, so the newest change is the likely culprit</li>
 </ul>
 </div></div>
 </div>
@@ -1360,78 +1360,79 @@ Danilo Freire
 <div style="margin-top: 25px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:48%;">
-<p><span class="alert">Which Python is Quarto actually running?</span> Ask it:</p>
+<p><span class="alert">Which Python does Quarto run?</span> Ask it:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a></a><span class="ex">quarto</span> check jupyter</span>
-<span id="cb32-2"><a></a></span>
-<span id="cb32-3"><a></a><span class="ex">[✓]</span> Checking Python 3 installation....OK</span>
-<span id="cb32-4"><a></a>      <span class="ex">Version:</span> 3.13.13 <span class="er">(</span><span class="ex">Conda</span><span class="kw">)</span></span>
-<span id="cb32-5"><a></a>      <span class="ex">Path:</span> /Users/danilo/miniconda3/bin/python3</span>
-<span id="cb32-6"><a></a>      <span class="ex">Kernels:</span> ds350, python3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb31-1"><a></a><span class="ex">quarto</span> check jupyter</span>
+<span id="cb31-2"><a></a></span>
+<span id="cb31-3"><a></a><span class="ex">[✓]</span> Checking Python 3 installation....OK</span>
+<span id="cb31-4"><a></a>      <span class="ex">Version:</span> 3.13.13 <span class="er">(</span><span class="ex">Conda</span><span class="kw">)</span></span>
+<span id="cb31-5"><a></a>      <span class="ex">Path:</span> /Users/danilo/miniconda3/bin/python3</span>
+<span id="cb31-6"><a></a>      <span class="ex">Kernels:</span> ds350, python3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Compare that path with <code>which python3</code>. If they differ, you have found your error. Three fixes:</p>
+<p>Compare that path with <code>which python3</code>. If they differ, that is your error. Fixes:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb33-1"><a></a><span class="co"># 1. activate first, render in the same terminal</span></span>
-<span id="cb33-2"><a></a><span class="bu">source</span> .venv/bin/activate</span>
-<span id="cb33-3"><a></a><span class="ex">quarto</span> render report.qmd</span>
-<span id="cb33-4"><a></a></span>
-<span id="cb33-5"><a></a><span class="co"># 2. point Quarto at one interpreter</span></span>
-<span id="cb33-6"><a></a><span class="va">QUARTO_PYTHON</span><span class="op">=</span>~/.venv/bin/python <span class="dt">\</span></span>
-<span id="cb33-7"><a></a>  <span class="ex">quarto</span> render report.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb32-1"><a></a><span class="co"># 1. activate first, render in the same terminal</span></span>
+<span id="cb32-2"><a></a><span class="bu">source</span> .venv/bin/activate   <span class="co"># Windows: .venv\Scripts\activate</span></span>
+<span id="cb32-3"><a></a><span class="ex">quarto</span> render report.qmd</span>
+<span id="cb32-4"><a></a></span>
+<span id="cb32-5"><a></a><span class="co"># 2. point Quarto at one interpreter</span></span>
+<span id="cb32-6"><a></a><span class="va">QUARTO_PYTHON</span><span class="op">=</span>.venv/bin/python <span class="dt">\</span></span>
+<span id="cb32-7"><a></a>  <span class="ex">quarto</span> render report.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb34-1"><a></a><span class="co"># 3. name a kernel in the document itself</span></span>
-<span id="cb34-2"><a></a><span class="fu">jupyter</span><span class="kw">:</span><span class="at"> ds350</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb33-1"><a></a><span class="co"># 3. name a kernel in the document itself</span></span>
+<span id="cb33-2"><a></a><span class="fu">jupyter</span><span class="kw">:</span><span class="at"> ds350</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:52%;">
 <div style="margin-top: 20px;">
 <ul>
-<li>The symptom never changes: <code>ModuleNotFoundError</code> for a package you know you installed</li>
-<li>Quarto does not inherit your Python. It picks one, in a <span class="alert">fixed order</span></li>
-<li><code>QUARTO_PYTHON</code> first, if it is set. Otherwise whatever <code>python3</code> means on your <code>PATH</code></li>
-<li>Fix 3 is the most reproducible. The choice lives <span class="alert">in the document</span>, so it travels with the file</li>
+<li>The symptom: <code>ModuleNotFoundError</code> for a package you installed</li>
+<li>Quarto finds Jupyter through <code>QUARTO_PYTHON</code>, or else <code>python3</code> on your <code>PATH</code></li>
+<li>The chunks run in the <span class="alert">kernel</span>: the one named in <code>jupyter:</code>, or one Quarto picks</li>
+<li>Fix 3 is the most reproducible: the choice lives <span class="alert">in the document</span></li>
+<li>But every machine needs a kernel with that name</li>
 <li><code>jupyter kernelspec list</code> shows your kernels. Add the current environment with:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> ds350</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb34-1"><a></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span> ds350</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div style="margin-top: 12px;">
-<p>In VS Code, the Render button runs in <span class="alert">its</span> terminal, not yours. The kernel you picked in a notebook does not follow it there</p>
+<p>In VS Code, the Render button uses the interpreter chosen with <span class="alert">Python: Select Interpreter</span>, not the one active in your terminal</p>
 </div>
 </div>
 </div></div>
 </div>
 </section>
-<section id="summary-where-this-leaves-you" class="slide level2">
-<h2>Summary: where this leaves you</h2>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
 <div style="margin-top: 30px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Take stock for a moment. As of today, you can build:</p>
+<p>You can now build:</p>
 <ul>
-<li>An article with formatted citations and numbered figures, in HTML and PDF, from <span class="alert">one plain-text file</span></li>
-<li>A <code>_freeze/</code> folder that pins your results until <span class="alert">you</span> decide to change them</li>
-<li>Slides and a <span class="alert">public website</span>, online with <code>quarto publish gh-pages</code></li>
+<li>An article with citations and numbered figures, in HTML and PDF, from <span class="alert">one plain-text file</span></li>
+<li>A <code>_freeze/</code> folder that keeps your results until <span class="alert">you</span> change them</li>
+<li>Slides and a <span class="alert">public website</span>, with <code>quarto publish gh-pages</code></li>
 <li>One parameterised report that a shell loop turns into <span class="alert">ten reports</span></li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p>And you know why each one earns its place:</p>
+<p>And why each matters:</p>
 <ul>
 <li><code>freeze: auto</code> separates “I changed the code” from “the world changed”</li>
-<li>Labels and <code>@</code> references mean nothing is numbered by hand</li>
-<li>A website is just a folder with a <code>_quarto.yml</code> in it</li>
-<li>Everything today was plain text, so <span class="alert">everything today lives in Git</span></li>
+<li>Labels and <code>@</code> references number everything for you</li>
+<li>A website is a folder with a <code>_quarto.yml</code></li>
+<li>Everything today was plain text, so <span class="alert">it all lives in Git</span></li>
 </ul>
 </div></div>
 <div style="margin-top: 20px;">
-<p>That is the toolkit your <span class="alert">final project</span> is built with. Module 06 adds scripted data collection, and module 08 pins the environment underneath. <span class="alert">You’re ready to go!</span></p>
+<p>Your <span class="alert">final project</span> uses this toolkit. Module 06 adds scripted data collection, and module 08 pins the environment</p>
 </div>
 </div>
 </section>
@@ -1441,12 +1442,12 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>We change gears: <span class="alert">local language models</span></li>
-<li>How large language models actually work, in enough depth to predict their failures</li>
-<li>A trained model turns out to be <span class="alert">a file you can download</span>, so we take one apart and read every setting inside it</li>
-<li>Then you build a chatbot with a personality of your own choosing</li>
-<li><span class="alert">Install Ollama before class</span> and run <code>ollama pull llama3.2:1b</code>. The download is 1.3 GB, and the classroom wifi cannot do that twenty-five times at once</li>
-<li>Bring the scepticism you built this week: it transfers</li>
+<li>New topic: <span class="alert">local language models</span></li>
+<li>How large language models work, well enough to predict their failures</li>
+<li>A trained model is <span class="alert">a file you can download</span>. We open one and read its settings</li>
+<li>You build a chatbot with a personality you choose</li>
+<li><span class="alert">Install Ollama before class</span> and run <code>ollama pull llama3.2:1b</code> (1.3 GB). The classroom wifi cannot handle 25 downloads at once</li>
+<li>Keep this week’s scepticism: you will need it</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; margin-top: 10px;">
@@ -1492,50 +1493,58 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>The complete <code>practice.qmd</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource markdown {verbatim} number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb36-1"><a></a><span class="co">---</span></span>
-<span id="cb36-2"><a></a><span class="an">title:</span><span class="co"> "My Quarto Document"</span></span>
-<span id="cb36-3"><a></a><span class="an">subtitle:</span><span class="co"> "A simple example"</span></span>
-<span id="cb36-4"><a></a><span class="an">author:</span><span class="co"> "Danilo Freire"</span></span>
-<span id="cb36-5"><a></a><span class="an">date:</span><span class="co"> "2026-09-30"</span></span>
-<span id="cb36-6"><a></a><span class="an">format:</span><span class="co"> html</span></span>
-<span id="cb36-7"><a></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
-<span id="cb36-8"><a></a><span class="co">---</span></span>
-<span id="cb36-9"><a></a></span>
-<span id="cb36-10"><a></a><span class="fu"># Introduction</span></span>
-<span id="cb36-11"><a></a></span>
-<span id="cb36-12"><a></a>This is a simple Quarto document.</span>
-<span id="cb36-13"><a></a>This is @fig-sine.</span>
-<span id="cb36-14"><a></a></span>
-<span id="cb36-15"><a></a><span class="in">```{python}</span></span>
-<span id="cb36-16"><a></a><span class="co">#| echo: true</span></span>
-<span id="cb36-17"><a></a><span class="co">#| eval: true</span></span>
-<span id="cb36-18"><a></a><span class="co">#| fig-cap: "Sine function"</span></span>
-<span id="cb36-19"><a></a><span class="co">#| label: fig-sine</span></span>
-<span id="cb36-20"><a></a></span>
-<span id="cb36-21"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb36-22"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb36-23"><a></a></span>
-<span id="cb36-24"><a></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
-<span id="cb36-25"><a></a>y <span class="op">=</span> np.sin(x)</span>
-<span id="cb36-26"><a></a></span>
-<span id="cb36-27"><a></a>plt.plot(x, y)</span>
-<span id="cb36-28"><a></a>plt.xlabel(<span class="st">"x"</span>)</span>
-<span id="cb36-29"><a></a>plt.ylabel(<span class="st">"sin(x)"</span>)</span>
-<span id="cb36-30"><a></a>plt.title(<span class="st">"Figure 01"</span>)</span>
-<span id="cb36-31"><a></a>plt.show()</span>
-<span id="cb36-32"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource markdown {verbatim} number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb35-1"><a></a><span class="co">---</span></span>
+<span id="cb35-2"><a></a><span class="an">title:</span><span class="co"> "My Quarto Document"</span></span>
+<span id="cb35-3"><a></a><span class="an">subtitle:</span><span class="co"> "A simple example"</span></span>
+<span id="cb35-4"><a></a><span class="an">author:</span><span class="co"> "Danilo Freire"</span></span>
+<span id="cb35-5"><a></a><span class="an">date:</span><span class="co"> "2026-09-30"</span></span>
+<span id="cb35-6"><a></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb35-7"><a></a><span class="an">bibliography:</span><span class="co"> references.bib</span></span>
+<span id="cb35-8"><a></a><span class="co">---</span></span>
+<span id="cb35-9"><a></a></span>
+<span id="cb35-10"><a></a><span class="fu">## Introduction</span></span>
+<span id="cb35-11"><a></a></span>
+<span id="cb35-12"><a></a>This is a simple Quarto document.</span>
+<span id="cb35-13"><a></a>As @nash1950equilibrium showed, games have equilibria.</span>
+<span id="cb35-14"><a></a>This is @fig-sine.</span>
+<span id="cb35-15"><a></a></span>
+<span id="cb35-16"><a></a><span class="ss">- </span>One bullet</span>
+<span id="cb35-17"><a></a><span class="ss">- </span>Another bullet</span>
+<span id="cb35-18"><a></a></span>
+<span id="cb35-19"><a></a><span class="pp">|</span> Tool   <span class="pp">|</span> Use             <span class="pp">|</span></span>
+<span id="cb35-20"><a></a><span class="pp">|--------|-----------------|</span></span>
+<span id="cb35-21"><a></a><span class="pp">|</span> Quarto <span class="pp">|</span> Documents       <span class="pp">|</span></span>
+<span id="cb35-22"><a></a><span class="pp">|</span> Git    <span class="pp">|</span> Version control <span class="pp">|</span></span>
+<span id="cb35-23"><a></a></span>
+<span id="cb35-24"><a></a><span class="in">```{python}</span></span>
+<span id="cb35-25"><a></a><span class="co">#| echo: true</span></span>
+<span id="cb35-26"><a></a><span class="co">#| eval: true</span></span>
+<span id="cb35-27"><a></a><span class="co">#| fig-cap: "Sine function"</span></span>
+<span id="cb35-28"><a></a><span class="co">#| label: fig-sine</span></span>
+<span id="cb35-29"><a></a></span>
+<span id="cb35-30"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb35-31"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb35-32"><a></a></span>
+<span id="cb35-33"><a></a>x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">100</span>)</span>
+<span id="cb35-34"><a></a>y <span class="op">=</span> np.sin(x)</span>
+<span id="cb35-35"><a></a></span>
+<span id="cb35-36"><a></a>plt.plot(x, y)</span>
+<span id="cb35-37"><a></a>plt.xlabel(<span class="st">"x"</span>)</span>
+<span id="cb35-38"><a></a>plt.ylabel(<span class="st">"sin(x)"</span>)</span>
+<span id="cb35-39"><a></a>plt.show()</span>
+<span id="cb35-40"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Render with:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb37-1"><a></a><span class="ex">quarto</span> render practice.qmd</span>
-<span id="cb37-2"><a></a><span class="ex">quarto</span> render practice.qmd <span class="at">--to</span> pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb36-1"><a></a><span class="ex">quarto</span> render practice.qmd</span>
+<span id="cb36-2"><a></a><span class="ex">quarto</span> render practice.qmd <span class="at">--to</span> pdf</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:50%;">
 <p>The rendered output:</p>
 <div style="text-align: right;">
-<p><a href="#/" data-modal-type="image" data-modal-url="figures/fig-sine.png"><img data-src="figures/fig-sine.png" style="width:75.0%"></a></p>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/fig-sine.png"><img data-src="figures/fig-sine.png" style="width:62.0%"></a></p>
 </div>
 <div style="margin-top: 20px;">
 <p>Key points:</p>
@@ -1556,35 +1565,35 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Your folder should look like this before you render anything:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb38-1"><a></a>country-report/</span>
-<span id="cb38-2"><a></a>├── report.qmd</span>
-<span id="cb38-3"><a></a>└── data/</span>
-<span id="cb38-4"><a></a>    └── country_profiles.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb37-1"><a></a>country-report/</span>
+<span id="cb37-2"><a></a>├── report.qmd</span>
+<span id="cb37-3"><a></a>└── data/</span>
+<span id="cb37-4"><a></a>    └── country_profiles.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Steps 3 to 6, in order:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb39-1"><a></a><span class="ex">quarto</span> render report.qmd</span>
-<span id="cb39-2"><a></a></span>
-<span id="cb39-3"><a></a><span class="ex">quarto</span> render report.qmd <span class="dt">\</span></span>
-<span id="cb39-4"><a></a>  <span class="at">-P</span> country:Japan <span class="dt">\</span></span>
-<span id="cb39-5"><a></a>  <span class="at">--output</span> profile-Japan.html</span>
-<span id="cb39-6"><a></a></span>
-<span id="cb39-7"><a></a><span class="ex">quarto</span> render report.qmd <span class="dt">\</span></span>
-<span id="cb39-8"><a></a>  <span class="at">-P</span> country:<span class="st">"South Africa"</span> <span class="dt">\</span></span>
-<span id="cb39-9"><a></a>  <span class="at">--output</span> profile-South-Africa.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb38-1"><a></a><span class="ex">quarto</span> render report.qmd</span>
+<span id="cb38-2"><a></a></span>
+<span id="cb38-3"><a></a><span class="ex">quarto</span> render report.qmd <span class="dt">\</span></span>
+<span id="cb38-4"><a></a>  <span class="at">-P</span> country:Japan <span class="dt">\</span></span>
+<span id="cb38-5"><a></a>  <span class="at">--output</span> profile-Japan.html</span>
+<span id="cb38-6"><a></a></span>
+<span id="cb38-7"><a></a><span class="ex">quarto</span> render report.qmd <span class="dt">\</span></span>
+<span id="cb38-8"><a></a>  <span class="at">-P</span> country:<span class="st">"South Africa"</span> <span class="dt">\</span></span>
+<span id="cb38-9"><a></a>  <span class="at">--output</span> profile-South-Africa.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:50%;">
-<p>Three things worth noticing:</p>
+<p>Notice:</p>
 <ul>
-<li>The first render writes <code>report.html</code>, and it says Brazil, because that is the default in the tagged cell</li>
-<li>Without <code>--output</code>, every render writes over <code>report.html</code>. The Japan version would have replaced the Brazil one</li>
-<li><code>South Africa</code> needs quotes. Without them the shell splits the name in two, the filter matches nothing, and the render stops with a <code>ValueError</code></li>
+<li>The first render writes <code>report.html</code> for Brazil, the default in the tagged cell</li>
+<li>Without <code>--output</code>, the Japan render would have overwritten the Brazil one</li>
+<li><code>South Africa</code> needs quotes. Unquoted, the shell splits the name, the filter matches nothing, and the render stops with a <code>ValueError</code></li>
 </ul>
 <div style="margin-top: 20px;">
-<p>Nothing above edits the report. You changed the output by changing the <span class="alert">input</span>, which is the point of a parameter</p>
-<p>If you want to go further, change the default from <code>Brazil</code> to <code>India</code>, render with no options, and watch the same file rebuild for a different country</p>
+<p>You never edited the report. You changed the <span class="alert">input</span>, which is the point of a parameter</p>
+<p>To go further, change the default from <code>Brazil</code> to <code>India</code> and render with no options</p>
 </div>
 <p><a href="#/sec-exercise-02"><span class="button">Back to main text</span></a></p>
 </div></div>

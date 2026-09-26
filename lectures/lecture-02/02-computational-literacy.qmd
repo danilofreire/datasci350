@@ -102,9 +102,9 @@ editor:
 :::{style="margin-top:40px;"}
 :::
 
-1. Learn how computers work from the ground up, starting with binary code
+1. Explain how computers work from the ground up, starting with binary code
 2. Get familiar with other key computer encodings like hexadecimal, ASCII, and Unicode
-3. Learn about the pioneers of computing and the development of Assembly language
+3. Describe the pioneers of computing and the development of Assembly language
 4. Understand the difference between low-level and high-level programming languages and when to use each
 
 # Let's get started! 🚀 💻 {background-color="#1B3A6B"}
@@ -129,7 +129,7 @@ editor:
 :::: {.column width="50%"}
 :::{style="font-size: 20px; text-align: center"}
 [![](figures/abacus.jpg){width="100%"}](#){data-modal-type="image" data-modal-url="figures/abacus.jpg"}
-Video: [How to use an abacus](https://youtu.be/SkUdjlQy3rk&t=176)
+Video: [How to use an abacus](https://youtu.be/SkUdjlQy3rk?t=176)
 :::
 ::::
 :::::
@@ -145,7 +145,7 @@ Video: [How to use an abacus](https://youtu.be/SkUdjlQy3rk&t=176)
 :::
 
 ::: {.column width="50%"}
-- The [first mechanical calculator](https://www.arithmeum.uni-bonn.de/en/collection/exhibit-of-the-month/archive/01-the-first-mechanical-calculating-machine-for-all-four-arithmetic-operations-by-gottfried-wilhelm-leibniz.html) capable of performing all four basic arithmetic operations (addition, subtraction, multiplication, and division)
+- The [first mechanical calculator](https://en.wikipedia.org/wiki/Stepped_reckoner) capable of performing all four basic arithmetic operations (addition, subtraction, multiplication, and division)
 
 - Invented by [Gottfried Wilhelm Leibniz](https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz) in 1694
 
@@ -165,7 +165,7 @@ Video: [How to use an abacus](https://youtu.be/SkUdjlQy3rk&t=176)
 
 ::: {.column width="50%"}
 :::{style="font-size: 26px;"}
-The 1970s marked the transition from mechanical to electronic:
+The 1970s put a whole CPU on one silicon chip:
 
 :::{.incremental}
 - [Transistors](https://en.wikipedia.org/wiki/Transistor) act as switches for electronic signals
@@ -235,7 +235,7 @@ The 1970s marked the transition from mechanical to electronic:
 :::{style="font-size: 24px;"}
 - Computers store everything as [0s and 1s]{.alert}
 - A transistor is a [switch]{.alert}: high voltage is 1, low voltage is 0
-- They are [tiny and cheap]{.alert}. A modern chip holds ~200 billion transistors and performs billions of operations per second!
+- They are [tiny and cheap]{.alert}. A laptop chip holds tens of billions of transistors (up to ~200 billion in the largest GPUs) and performs billions of operations per second!
 - Two states are the simplest thing a switch can do
 
 :::{.incremental}
@@ -509,7 +509,7 @@ represented by a 1
 :::{style="margin-top:40px; font-size: 25px;"}
 
 - Convert binary to hex by grouping into blocks of four bits
-- Example: Binary `1001 1110 0000 1010` converts to Hex `9E0A` (9 + 14 + 0 + 10)
+- Example: Binary `1001 1110 0000 1010` converts to Hex `9E0A` (9, 14, 0, 10)
 
 <br>
 
@@ -533,10 +533,10 @@ represented by a 1
   - FFFFFF = White
   - 000000 = Black
 
- - Each pair of digits represents a colour component (RGB)
+- Each pair of digits represents a colour component (RGB)
   - 16 * 16 = 256, so two hex digits can represent values from 0 to 255
 
- - This gives a total of 256 intensity levels for each primary colour
+- This gives a total of 256 intensity levels for each primary colour
 
 - When you combine the three channels, you get a possible colour palette of $256^3$ or about 16.7 million colours... but [described in a compact way using hex]{.alert}
 :::
@@ -709,10 +709,9 @@ represented by a 1
 :::{style="font-size: 24px; margin-top: 40px;"}
 - [Konrad Zuse](https://en.wikipedia.org/wiki/Konrad_Zuse) was a German
   engineer and computer pioneer
-- He created the first programmable computer, the
-  [Z3](https://en.wikipedia.org/wiki/Z3_(computer)), in 1941
-- The Z3 was the first computer to use [binary arithmetic]{.alert} and read binary instructions from punch tape
-- Example: Z4 had 512 bytes of memory
+- He built the [Z3](https://en.wikipedia.org/wiki/Z3_(computer)) in 1941, the first working programmable, fully automatic digital computer
+- Like his earlier [Z1](https://en.wikipedia.org/wiki/Z1_(computer)) (1938), the Z3 used [binary arithmetic]{.alert} and read its instructions from punched film
+- His Z4 (1945) started with 64 words of memory, just 256 bytes
 - Zuse also created the first high-level programming language,
   [Plankalkül](https://en.wikipedia.org/wiki/Plankalk%C3%BCl) ("calculus for planning")
 :::
@@ -734,8 +733,8 @@ represented by a 1
 - [Assembly language](https://en.wikipedia.org/wiki/Assembly_language) is a
   low-level programming language that allows writing machine code in human-readable text
 - Each instruction corresponds to a single machine code instruction
-- The first assemblers were human!
-- Programmers wrote assembly code, which secretaries transcribed to binary for machine processing
+- The first assemblers were human! Programmers translated their code to binary by hand
+- [Kathleen Booth](https://en.wikipedia.org/wiki/Kathleen_Booth) wrote the first assembly language in 1947
 :::
 :::
 ::::
@@ -802,7 +801,7 @@ represented by a 1
 :::: {.columns}
 ::: {.column width="50%"}
 :::{style="font-size: 24px;"}
-- "Hello, World!" in machine code (hex):
+- "Hello, World!" as raw bytes (hex), straight from the ASCII table:
 
 :::{style="font-size: 38px;"}
 ```
@@ -879,7 +878,7 @@ print("Hello, World!")
 ::::{.incremental}
 :::{style="font-size: 28px;"}
 - We will learn about the [command line](https://en.wikipedia.org/wiki/Command-line_interface) and [shell scripting](https://en.wikipedia.org/wiki/Shell_script) in the terminal 
-- Please have your [WSL](https://learn.microsoft.com/en-us/windows/wsl/install) or [iTerm2](https://iterm2.com/) installed, and we will start coding!
+- Please have your terminal ready ([WSL](https://learn.microsoft.com/en-us/windows/wsl/install) on Windows), and we will start coding!
 - If you have VS Code, that's even better! 😉
 - Please check the [installation tutorials](https://danilofreire.github.io/datasci350/tutorials.html) for more information, and let me know if you have any questions 😃
 

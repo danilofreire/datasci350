@@ -163,23 +163,33 @@ Tell us your name, your major, one thing you really like, and something we don't
 
 ## An old classic {transition="none"}
 
-[![](figures/venn-orig-1.png){height="550px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-1.png"}
+[![](figures/venn-orig-1.png){height="520px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-1.png"}
+
+[Source: [Drew Conway (2010)](http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram)]{style="font-size: 18px; display: block; text-align: center;"}
 
 ## An old classic {transition="none"}
 
-[![](figures/venn-orig-2.png){height="550px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-2.png"}
+[![](figures/venn-orig-2.png){height="520px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-2.png"}
+
+[Source: [Drew Conway (2010)](http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram)]{style="font-size: 18px; display: block; text-align: center;"}
 
 ## An old classic {transition="none"}
 
-[![](figures/venn-orig-3.png){height="550px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-3.png"}
+[![](figures/venn-orig-3.png){height="520px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-3.png"}
+
+[Source: [Drew Conway (2010)](http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram)]{style="font-size: 18px; display: block; text-align: center;"}
 
 ## An old classic {transition="none"}
 
-[![](figures/venn-orig-4.png){height="550px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-4.png"}
+[![](figures/venn-orig-4.png){height="520px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-4.png"}
+
+[Source: [Drew Conway (2010)](http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram)]{style="font-size: 18px; display: block; text-align: center;"}
 
 ## An old classic {transition="none"}
 
-[![](figures/venn-orig-5.png){height="550px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-5.png"}
+[![](figures/venn-orig-5.png){height="520px" style="display: block; margin: auto;"}](#){data-modal-type="image" data-modal-url="figures/venn-orig-5.png"}
+
+[Source: [Drew Conway (2010)](http://drewconway.com/zia/2013/3/26/the-data-science-venn-diagram)]{style="font-size: 18px; display: block; text-align: center;"}
 
 ## Our focus! {transition="none"}
 
@@ -495,7 +505,7 @@ And much more...
 
 :::{style="margin-top: 60px; font-size: 30px;"}
 - [Schedule]{.alert}: Tuesdays and Thursdays, 5:30 to 6:45 pm, Math & Science Center W301
-- [Syllabus]{.alert}: On the [website](https://danilofreire.github.io/datasci350/syllabus.html) and the [repository](https://github.com/danilofreire/datasci350/blob/main/syllabus.pdf)
+- [Syllabus]{.alert}: On the [website](https://danilofreire.github.io/datasci350/syllabus.html) and the [repository](https://github.com/danilofreire/datasci350/blob/main/syllabus/syllabus.pdf)
 - [Teaching assistants]{.alert}: To be announced
 - [Office hours]{.alert}: By appointment. Email me and we will find a time 😉
 :::
@@ -546,7 +556,7 @@ And much more...
 - [Ollama]{.alert}: Runs language models on your own laptop. Download it [here](https://ollama.com/download)
 - [uv]{.alert}: A faster package manager, used later for reproducible environments. Instructions [here](https://docs.astral.sh/uv/getting-started/installation/)
 - [Docker]{.alert}: Containerisation tool. Download it [here](https://www.docker.com/products/docker-desktop/)
-- [Free accounts]{.alert}: [OpenRouter](https://openrouter.ai/) for Lecture 14, [AWS](https://aws.amazon.com/) for Lectures 16 and 17. Both are free
+- [Free accounts]{.alert}: [OpenRouter](https://openrouter.ai/) for Lecture 14, [AWS](https://aws.amazon.com/) for Lectures 16 and 17. Both are free, but AWS asks for a payment card
 
 ::: {style="margin-top: 15px;"}
 :::
@@ -563,7 +573,7 @@ And much more...
 - Computational literacy: binary and hexadecimal numbers, ASCII and Unicode
 - The early days of computing, from Konrad Zuse to the machines we use today
 - How programming languages evolved, and what compiled and interpreted mean
-- Time for questions about installing the terminal. You will need it in two weeks
+- Time for questions about installing the terminal. You will need it next week
 - Please create a [GitHub education account](https://education.github.com/discount_requests/new) if you do not have one 😉
 
 

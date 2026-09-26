@@ -254,13 +254,13 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 25px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Today we start a new module, and a new question: <span class="alert">can anyone check your work?</span></p>
+<p>A new module starts today: <span class="alert">can anyone check your work?</span></p>
 <ul>
-<li>The <span class="alert">reproducibility crisis</span>: why so much published research fails when someone re-runs it</li>
-<li>The habits that prevent it: project structure, raw data, paths, seeds, environments</li>
-<li><span class="alert">Literate programming</span>: text, code, and results in one file, so they cannot drift apart</li>
-<li><a href="https://quarto.org/">Quarto</a>, the tool we will use for it: installing it and writing your first document</li>
-<li>Next class: PDFs, citations, websites, and reports that write themselves</li>
+<li>The <span class="alert">reproducibility crisis</span>: why published research often fails when re-run</li>
+<li>Habits that prevent it: project structure, raw data, paths, seeds, environments</li>
+<li><span class="alert">Literate programming</span>: text, code and results in one file</li>
+<li><a href="https://quarto.org/">Quarto</a>: installing it and writing your first document</li>
+<li>Next class: PDFs, citations, websites and parameterised reports</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center;">
@@ -289,20 +289,20 @@ Danilo Freire
 </section>
 <section id="the-reproducibility-crisis" class="slide level2">
 <h2>The reproducibility crisis</h2>
-<div style="margin-top: 30px; font-size: 24px;">
+<div style="margin-top: 30px; font-size: 26px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Reproducibility">Reproducibility</a>: someone else, using your data and code, can get the same results you got</li>
-<li>Sounds like a low bar. Across many fields, <span class="alert">a large share of published findings fail it</span></li>
-<li>This is the <a href="https://en.wikipedia.org/wiki/Replication_crisis">reproducibility crisis</a>. Psychology, medicine, and economics were hit hardest, but no empirical field escaped</li>
-<li>The usual suspects: small samples, p-hacking, selective reporting, and code that is never shared</li>
-<li>Our focus in this course: <span class="alert">code and data</span>. Most computational results fail for a mundane reason, as you will see in a minute</li>
+<li><a href="https://en.wikipedia.org/wiki/Reproducibility">Reproducibility</a>: someone using your data and code gets your results</li>
+<li>A low bar, yet <span class="alert">many published findings fail it</span></li>
+<li>The <a href="https://en.wikipedia.org/wiki/Replication_crisis">reproducibility crisis</a> hit psychology, medicine and economics hardest. No empirical field escaped</li>
+<li>Causes: small samples, p-hacking, selective reporting, unshared code</li>
+<li>This course focuses on <span class="alert">code and data</span>. Most computational results fail for a mundane reason</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; font-size: 18px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/power-posing.jpg"><img data-src="figures/power-posing.jpg" style="width:50.0%"></a></p>
-<p>Amy Cuddy’s “power posing” theory. 78 million TED Talk views, <a href="https://www.ted.com/talks/amy_cuddy_your_body_language_may_shape_who_you_are?language=en">but it could never be replicated</a></p>
+<p>Amy Cuddy’s “power posing”: 78 million TED views, <a href="https://doi.org/10.1177/0956797614553946">but its hormone effects failed to replicate</a></p>
 </div>
 </div></div>
 </div>
@@ -318,8 +318,8 @@ Danilo Freire
 </div>
 <ul>
 <li><a href="https://doi.org/10.1371/journal.pmed.0020124">Ioannidis (2005)</a>, one of the most cited papers in medicine</li>
-<li>Argument: for most study designs, a positive finding is <span class="alert">more likely to be false than true</span></li>
-<li>Why: small samples, flexible analyses, financial interests, many teams racing on the same question</li>
+<li>For most study designs, a positive finding is <span class="alert">more likely false than true</span></li>
+<li>Causes: small samples, flexible analyses, financial interests, many teams chasing one question</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><strong>Psychology</strong></p>
@@ -327,9 +327,9 @@ Danilo Freire
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/science.png"><img data-src="figures/science.png" style="width:80.0%"></a></p>
 </div>
 <ul>
-<li><a href="https://www.science.org/doi/10.1126/science.aac4716">Open Science Collaboration (2015)</a>: 270 researchers re-ran 100 published psychology experiments</li>
-<li>Originals: 97% significant. Replications: <span class="alert">36% significant</span>, with effect sizes cut in half</li>
-<li>The fallout changed journal policy: pre-registration, open data, registered reports</li>
+<li><a href="https://www.science.org/doi/10.1126/science.aac4716">Open Science Collaboration (2015)</a>: 270 researchers re-ran 100 psychology experiments</li>
+<li>Originals: 97% significant. Replications: <span class="alert">36%</span>, with effects halved</li>
+<li>Journals responded with pre-registration, open data and registered reports</li>
 </ul>
 </div></div>
 </div>
@@ -346,11 +346,11 @@ Danilo Freire
 </div><div class="column" style="width:55%;">
 <div style="margin-top: 30px;">
 <ul>
-<li><a href="https://www.nature.com/articles/s41597-022-01143-6">Trisovic et al.&nbsp;(2022)</a> downloaded 2,109 <code>R</code> files from Harvard Dataverse and tried to run them</li>
-<li><span class="alert">74% produced errors</span> on the first attempt. After automated fixes, 56% still failed</li>
-<li>The reasons are not exotic: missing packages, hardcoded paths, functions that changed, data left out of the repository</li>
-<li>These are files that <span class="alert">authors chose to deposit</span> alongside their publications</li>
-<li>If the code people publish on purpose does not run, imagine the code they do not publish 😅</li>
+<li><a href="https://www.nature.com/articles/s41597-022-01143-6">Trisovic et al.&nbsp;(2022)</a> re-ran 9,078 <code>R</code> files from 2,109 replication packages on Harvard Dataverse</li>
+<li><span class="alert">74% failed</span> on the first run. 56% still failed after automated fixes</li>
+<li>Common causes: missing packages, hardcoded paths, changed functions, missing data</li>
+<li>Authors <span class="alert">chose to deposit</span> these files with their papers</li>
+<li>Imagine the code they did not publish 😅</li>
 </ul>
 </div>
 </div></div>
@@ -358,17 +358,17 @@ Danilo Freire
 </section>
 <section id="five-selfish-reasons-to-work-reproducibly" class="slide level2 scrollable">
 <h2>Five selfish reasons to work reproducibly</h2>
-<div style="margin-top: 30px; font-size: 24px;">
-<p>So far this sounds like a duty to science. <a href="https://doi.org/10.1186/s13059-015-0850-7">Markowetz (2015)</a> argues you should do it for yourself:</p>
+<div style="margin-top: 30px; font-size: 26px;">
+<p><a href="https://doi.org/10.1186/s13059-015-0850-7">Markowetz (2015)</a> argues reproducibility helps you, too:</p>
 <ol type="1">
-<li>It helps you <span class="alert">avoid disaster</span>: you catch your own errors before a reviewer, a retraction, or a job interview does</li>
-<li>It makes <span class="alert">writing easier</span>: when the data changes, every number and figure in the paper regenerates itself</li>
-<li>It helps <span class="alert">reviewers see it your way</span>: they can run your analysis instead of guessing what you did</li>
-<li>It gives your work <span class="alert">continuity</span>: a new collaborator, or future-you, can pick the project up tomorrow</li>
-<li>It <span class="alert">builds your reputation</span>: working, shared code is public proof that you know what you are doing</li>
+<li><span class="alert">Avoid disaster</span>: catch your errors before a reviewer, a retraction or a job interview does</li>
+<li><span class="alert">Easier writing</span>: when the data change, every number and figure updates</li>
+<li><span class="alert">Reviewers see it your way</span>: they run your analysis instead of guessing</li>
+<li><span class="alert">Continuity</span>: a new collaborator, or future-you, can pick it up tomorrow</li>
+<li><span class="alert">Reputation</span>: working, shared code shows you know what you are doing</li>
 </ol>
 <div class="fragment" style="margin-top: 15px;">
-<p>Reason 2 alone will save you hours in this course. And keep reason 1 in mind: in a few slides you will meet two famous economists who needed it</p>
+<p>Reason 2 will save you hours in this course. Reason 1 returns in a few slides, with two famous economists</p>
 </div>
 </div>
 </section></section>
@@ -379,20 +379,22 @@ Danilo Freire
 </section>
 <section id="the-reproducibility-ladder" class="slide level2">
 <h2>The reproducibility ladder</h2>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 30px; font-size: 25px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li>People use four words for this, and they mean different things</li>
-<li><span class="alert">Re-runnable</span>: the code runs again on your machine, today</li>
-<li><span class="alert">Reproducible</span>: same code, same data, same results, on anyone’s machine</li>
-<li><span class="alert">Replicable</span>: new data, collected independently, gives the same finding</li>
-<li><span class="alert">Reusable</span>: others can apply your work to their own questions</li>
-<li>Each step is harder than the one below it</li>
-<li>Replicability depends on data you may never get, so it sits mostly outside your control</li>
+<li>These words mean different things:</li>
+</ul>
+<ul>
+<li class="fragment"><span class="alert">Re-runnable</span>: the code runs again on your machine, today</li>
+<li class="fragment"><span class="alert">Reproducible</span>: same code and data give the same results, on any machine</li>
+<li class="fragment"><span class="alert">Reusable</span>: others can apply your work to new questions</li>
+<li class="fragment"><span class="alert">Replicable</span>: new, independent data give the same finding</li>
+<li class="fragment">Each step is harder than the one below it</li>
+<li class="fragment">Replicability needs data you may never get, so it is mostly outside your control</li>
 </ul>
 <div class="fragment" style="margin-top: 15px;">
-<p><span class="alert">Reproducibility is entirely within your control</span>, and that is why this course grades you on it</p>
+<p><span class="alert">Reproducibility is fully in your control</span>, so this course grades you on it</p>
 </div>
 </div><div class="column" style="width:48%;">
 <div style="display: flex; align-items: stretch; gap: 14px; margin-top: 10px;">
@@ -404,53 +406,52 @@ Danilo Freire
 <p>easier</p>
 </div>
 <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; text-align: center; font-size: 19px;">
-<p><span style="background:#1B3A6B; color:#fff; padding:9px; border-radius:6px; display:block;">reusable</span></p>
-<p><span style="background:#3A5B8C; color:#fff; padding:9px; border-radius:6px; display:block;">replicable</span></p>
+<p><span style="background:#1B3A6B; color:#fff; padding:9px; border-radius:6px; display:block;">replicable</span></p>
+<p><span style="background:#3A5B8C; color:#fff; padding:9px; border-radius:6px; display:block;">reusable</span></p>
 <p><span style="background:#6E8AB0; color:#fff; padding:9px; border-radius:6px; display:block;">reproducible</span></p>
 <p><span style="background:#C3CFDE; color:#1B3A6B; padding:9px; border-radius:6px; display:block;">re-runnable</span></p>
 </div>
 </div>
 <div style="font-size: 18px; margin-top: 15px; text-align: center;">
-<p>Most published work does not clear the first step</p>
+<p>In one large study, most deposited R files did not clear the first step</p>
 </div>
 </div></div>
 </div>
 </section>
-<section id="the-four-ingredients" class="slide level2 scrollable">
-<h2>The four ingredients</h2>
-<div style="margin-top: 30px; font-size: 25px;">
+<section id="what-a-reproducible-project-needs" class="slide level2 scrollable">
+<h2>What a reproducible project needs</h2>
+<div style="margin-top: 30px; font-size: 26px;">
 <p>A result is reproducible only if <span class="alert">all four of these travel together</span>:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ol type="1">
-<li><span class="alert">Code</span>: every step from raw data to final number, written down and runnable</li>
+<li><span class="alert">Code</span>: every step from raw data to final number, runnable</li>
 <li><span class="alert">Data</span>: the raw inputs, or a script that fetches them</li>
 </ol>
 </div><div class="column" style="width:50%;">
 <ol start="3" type="1">
-<li><span class="alert">Environment</span>: the language and package versions the code needs</li>
-<li><span class="alert">Documentation</span>: what the project does, and the order to run things in</li>
+<li><span class="alert">Environment</span>: the language and package versions</li>
+<li><span class="alert">Documentation</span>: what the project does and the run order</li>
 </ol>
 </div></div>
 <div style="margin-top: 25px;">
-<p>Each one fails on its own:</p>
+<p><span class="alert">Leave one out and it fails</span>:</p>
 <ul>
-<li>Code without data: readers can admire your work, but they cannot check it</li>
-<li>Code and data without the environment: it runs today and breaks next year</li>
-<li>All three without documentation: nobody knows which script to run first</li>
-<li><span class="alert">Miss one ingredient and the result is not reproducible</span></li>
+<li>No data: readers cannot check your code</li>
+<li>No environment: it runs today and breaks next year</li>
+<li>No documentation: nobody knows which script runs first</li>
 </ul>
 </div>
 </div>
 </section>
 <section id="project-structure" class="slide level2">
 <h2>Project structure</h2>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 30px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:48%;">
 <ul>
-<li><span class="alert">One folder per project</span>, and the same layout in every project, so you never wonder where a file goes</li>
-<li>We will use this one for the rest of the course, and <span class="alert">the final project requires it</span></li>
+<li><span class="alert">One folder per project</span>, with the same layout every time</li>
+<li>We use it for the rest of the course, and <span class="alert">the final project requires it</span></li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a></a>my-project/</span>
 <span id="cb1-2"><a></a>├── data/</span>
@@ -461,15 +462,15 @@ Danilo Freire
 <span id="cb1-7"><a></a>└── README.md         # what and how</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:52%;">
 <ul>
-<li>The layout separates <span class="alert">inputs from outputs</span>: <code>data/raw/</code> holds what you collected, and everything else can be rebuilt from it</li>
-<li><code>data/raw/</code> is <span class="alert">read-only</span>: download the files once and never touch them again</li>
-<li>Numbered scripts (<code>01-clean.py</code>, <code>02-analyse.py</code>) make the run order part of the name</li>
-<li><code>data/clean/</code> and <code>output/</code> are disposable: delete them and the scripts bring them back</li>
-<li>Generated files often stay out of Git: put <code>data/clean/</code> and <code>output/</code> in <code>.gitignore</code> and commit only sources</li>
-<li><code>README.md</code> explains the project to the next person, who is usually you in six months</li>
+<li><code>data/raw/</code> holds your <span class="alert">inputs</span>. Everything else can be rebuilt from it</li>
+<li><code>data/raw/</code> is <span class="alert">read-only</span>: download once, never edit</li>
+<li>Numbered scripts (<code>01-clean.py</code>, <code>02-analyse.py</code>) show the run order</li>
+<li><code>data/clean/</code> and <code>output/</code> are disposable: the scripts rebuild them</li>
+<li>Put them in <code>.gitignore</code> and commit only sources</li>
+<li><code>README.md</code> explains the project to the next person, usually you in six months</li>
 </ul>
 <div style="margin-top: 15px;">
-<p><span class="alert">If you deleted everything except <code>data/raw/</code> and <code>scripts/</code>, could you rebuild the project?</span></p>
+<p><span class="alert">Delete everything except <code>data/raw/</code> and <code>scripts/</code>. Can you rebuild the project?</span></p>
 </div>
 </div></div>
 </div>
@@ -480,12 +481,12 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>
-<li>You have been reading READMEs all term: GitHub shows one on <span class="alert">every repository page</span></li>
-<li>A good one answers three questions: <span class="alert">what is this</span>, <span class="alert">how do I rebuild it</span>, and <span class="alert">in what order</span></li>
-<li>List each data source and the date you downloaded it, so stale data is easy to spot</li>
-<li>List the commands that rebuild the project, in run order, ready to copy and paste</li>
-<li>Note the language and package versions (more on those in a minute)</li>
-<li>Ten lines are enough. Write it while the project is small, and keep it current as the project grows</li>
+<li>GitHub shows a README on <span class="alert">every repository page</span></li>
+<li>It answers <span class="alert">what is this</span>, <span class="alert">how do I rebuild it</span> and <span class="alert">in what order</span></li>
+<li>List each data source and its download date, so stale data is easy to spot</li>
+<li>List the rebuild commands in run order, ready to paste</li>
+<li>Note the language and package versions (more in a minute)</li>
+<li>Ten lines are enough. Start early and keep it current</li>
 </ul>
 </div><div class="column" style="width:55%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a># Rainfall and crop yields in Brazil</span>
@@ -516,11 +517,11 @@ Danilo Freire
 <ul>
 <li><a href="https://www.aeaweb.org/articles?id=10.1257/aer.100.2.573">Reinhart and Rogoff (2010)</a>, “Growth in a Time of Debt”: above <span class="alert">90% debt-to-GDP</span>, growth turns negative</li>
 <li>After 2008, it became the standard citation for <span class="alert">austerity</span></li>
-<li>In 2013, a graduate student, Thomas Herndon, could not reproduce it, and asked for the spreadsheet</li>
+<li>In 2013, graduate student Thomas Herndon could not reproduce it and asked for the spreadsheet</li>
 <li>One formula <span class="alert">averaged rows 30 to 44, not 30 to 49</span>, dropping five countries</li>
-<li>Corrected, growth above the threshold was <a href="https://doi.org/10.1093/cje/bet075">+2.2%, not -0.1%</a></li>
-<li>Three years of policy debate passed before anyone noticed, because the analysis sat in a <span class="alert">private spreadsheet</span></li>
-<li>A public script and dataset would have caught it in an afternoon!</li>
+<li>With two other fixes (excluded data, odd weighting), growth above 90% was <a href="https://doi.org/10.1093/cje/bet075">+2.2%, not -0.1%</a></li>
+<li>The analysis sat in a <span class="alert">private spreadsheet</span>, so three years of policy debate passed before anyone noticed</li>
+<li>A public script and dataset would have caught it in an afternoon</li>
 </ul>
 </div><div class="column" style="width:45%;">
 <div style="text-align: center; margin-top: 20px;">
@@ -534,7 +535,7 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<p>The single most common reason code fails on another machine:</p>
+<p>A top reason code fails on another machine:</p>
 <div style="font-size: 18px;">
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -553,15 +554,12 @@ Danilo Freire
 </div>
 </div><div class="column" style="width:48%;">
 <ul>
-<li>An <span class="alert">absolute path</span> starts at the root (<code>/</code>) and names one exact spot on one exact machine</li>
-<li>Only Ana has a <code>/Users/ana</code>. The script fails everywhere else, however good the rest of the code is</li>
-<li>A <span class="alert">relative path</span> starts from the <span class="alert">working directory</span> instead, the same idea as <code>pwd</code> in the shell</li>
-<li>Every running program has one, inherited from wherever you launched it</li>
-<li>Which is why “it works when I run it” proves very little</li>
+<li>An <span class="alert">absolute path</span> starts at <code>/</code> and names one spot on one machine</li>
+<li>Only Ana has <code>/Users/ana</code>, so the script fails everywhere else</li>
+<li>A <span class="alert">relative path</span> starts from the <span class="alert">working directory</span>, like <code>pwd</code> in the shell</li>
+<li>A program inherits it from where you launch it, so “it works for me” proves little</li>
+<li>Hardcoded paths were a top cause of failure in the Trisovic study</li>
 </ul>
-<div class="fragment" style="margin-top: 15px;">
-<p>Hardcoded paths were among the top causes of failure in the Trisovic study. <span class="alert">The fix costs nothing</span></p>
-</div>
 </div></div>
 </div>
 </section>
@@ -570,7 +568,7 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<p>Write paths <span class="alert">relative to the project folder</span>, and the project works anywhere:</p>
+<p>Write paths <span class="alert">relative to the project folder</span>:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>analysis.py</strong></pre>
@@ -579,7 +577,7 @@ Danilo Freire
 <span id="cb5-2"><a></a></span>
 <span id="cb5-3"><a></a>df <span class="op">=</span> pd.read_csv(<span class="st">"data/raw/rainfall.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>Use <code>pathlib</code> when you need to build paths safely across operating systems:</p>
+<p>Or build them with <code>pathlib</code>:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>analysis.py</strong></pre>
@@ -591,9 +589,9 @@ Danilo Freire
 </div>
 </div><div class="column" style="width:48%;">
 <ul>
-<li><code>pathlib</code> handles the separator for you, so the same line works on macOS, Linux, and Windows</li>
-<li>Quarto renders each document relative to <span class="alert">the folder holding the <code>.qmd</code> file</span>, which is usually what you want</li>
-<li>Avoid <code>os.chdir()</code>. It changes state halfway through a script and makes the rest of the file hard to follow</li>
+<li><code>pathlib</code> picks the right separator on macOS, Linux and Windows</li>
+<li>Quarto runs each document from <span class="alert">the folder holding the <code>.qmd</code> file</span></li>
+<li>Avoid <code>os.chdir()</code>: it changes state mid-script and makes the code hard to follow</li>
 </ul>
 <div class="fragment" style="margin-top: 20px;">
 <p><span class="alert">If your code contains your username, it is not reproducible</span></p>
@@ -606,19 +604,19 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Run this twice, get two answers, and the numbers in your report change on every render:</p>
-<div id="4db47f7d" class="cell" data-execution_count="1">
+<p>Without a seed, every run gives new numbers:</p>
+<div id="90ae231b" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a></a></span>
 <span id="cb7-3"><a></a><span class="bu">print</span>(np.random.normal(size<span class="op">=</span><span class="dv">3</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span>
 <span id="cb7-4"><a></a><span class="bu">print</span>(np.random.normal(size<span class="op">=</span><span class="dv">3</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[-1.42   1.065 -1.32 ]
-[-1.305  1.728  0.045]</code></pre>
+<pre><code>[ 0.567 -0.359  0.094]
+[ 2.073 -0.402  1.267]</code></pre>
 </div>
 </div>
-<p>Set a seed first and the sequence is fixed, so anyone running your code gets exactly what you got:</p>
-<div id="070f7980" class="cell" data-execution_count="2">
+<p>With a seed, everyone gets the same sequence:</p>
+<div id="d6d51f0b" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>np.random.seed(<span class="dv">350</span>)</span>
 <span id="cb9-2"><a></a><span class="bu">print</span>(np.random.normal(size<span class="op">=</span><span class="dv">3</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span>
 <span id="cb9-3"><a></a></span>
@@ -631,17 +629,16 @@ Danilo Freire
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Computers cannot produce true randomness</li>
-<li><code>np.random</code> is a <span class="alert">pseudorandom generator</span>: a formula that walks through a fixed sequence of numbers</li>
-<li>The <span class="alert">seed</span> picks where that walk starts, which fixes the whole sequence in advance</li>
-<li>Newer code makes the generator an explicit object:</li>
+<li><code>np.random</code> is not truly random. It is a <span class="alert">pseudorandom generator</span>: a formula that walks a fixed sequence</li>
+<li>The <span class="alert">seed</span> sets the starting point, which fixes the whole sequence</li>
+<li>Newer code uses a generator object:</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>rng <span class="op">=</span> np.random.default_rng(<span class="dv">350</span>)</span>
 <span id="cb11-2"><a></a>rng.normal(size<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Every library keeps its own generator. Python’s <code>random</code> and scikit-learn’s <code>random_state=</code> need seeding separately</li>
-<li>Randomness hides in sampling, train-test splits, and the starting weights of most models</li>
-<li><span class="alert">If a number came from a random draw, seed it</span></li>
+<li>Python’s <code>random</code> has its own generator. scikit-learn needs <code>random_state=</code></li>
+<li>Randomness hides in sampling, train-test splits and model starting weights</li>
+<li><span class="alert">Seed every random draw</span></li>
 </ul>
 </div></div>
 </div>
@@ -652,12 +649,12 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Packages change. A function gains an argument, a default flips, a method is removed</li>
-<li>Code that worked in 2024 can give different numbers in 2026, or refuse to run at all. This is called <span class="alert">version drift</span></li>
-<li>The fix is to record what you used, so the next person can match it</li>
+<li>Packages change: new arguments, flipped defaults, removed methods</li>
+<li>Code from 2024 may give different numbers in 2026, or not run. This is <span class="alert">version drift</span></li>
+<li>Record your versions so others can match them</li>
 </ul>
-<p>At minimum, note the versions in your README:</p>
-<div id="8911bd6e" class="cell" data-execution_count="3">
+<p>At minimum, note them in your README:</p>
+<div id="c3269e59" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a><span class="im">import</span> sys, numpy, pandas</span>
 <span id="cb12-2"><a></a></span>
 <span id="cb12-3"><a></a><span class="bu">print</span>(<span class="st">"python:"</span>, sys.version.split()[<span class="dv">0</span>])</span>
@@ -670,12 +667,12 @@ pandas: 3.0.2</code></pre>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
-<p>You can also ask <code>pip</code> for the full list:</p>
+<p><code>pip</code> lists every package. <code>python -m</code> uses the Python you actually run:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a></a><span class="ex">pip</span> list</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a></a><span class="ex">python</span> <span class="at">-m</span> pip list</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a></a>Package         Version</span>
 <span id="cb15-2"><a></a>--------------- -------</span>
@@ -684,7 +681,7 @@ pandas: 3.0.2</code></pre>
 <span id="cb15-5"><a></a>numpy           2.4.3</span>
 <span id="cb15-6"><a></a>pandas          3.0.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="fragment" style="margin-top: 20px;">
-<p>A version list helps the next person diagnose a failure. <span class="alert">Module 08 adds the tools that prevent one</span>: virtual environments, <code>uv</code>, and containers. Until then, write the versions down</p>
+<p>A version list helps diagnose failures. <span class="alert">Module 08 adds tools that prevent them</span>: virtual environments, <code>uv</code> and containers</p>
 </div>
 </div></div>
 </div>
@@ -700,15 +697,15 @@ pandas: 3.0.2</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>So far, habits. Now a tool that enforces the biggest one: <span class="alert">text, code, and results in one file</span></li>
+<li>Now a tool for the biggest habit: <span class="alert">text, code and results in one file</span></li>
 <li><a href="https://en.wikipedia.org/wiki/Donald_Knuth">Donald Knuth</a> coined <span class="alert">literate programming</span> in 1984: write for humans first, machines second</li>
-<li>Two operations pull the file apart:
+<li>Two operations split the file:
 <ul>
 <li><span class="alert">Weaving</span>: the readable document (HTML, PDF)</li>
 <li><span class="alert">Tangling</span>: the executable code</li>
 </ul></li>
-<li>Explaining what you are doing catches bad logic before it reaches your results</li>
-<li>The numbers come from the code, so <span class="alert">they cannot go stale</span></li>
+<li>Explaining your steps catches bad logic early</li>
+<li>Numbers come from the code, so <span class="alert">they cannot go stale</span></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center;">
@@ -723,14 +720,14 @@ pandas: 3.0.2</code></pre>
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li><a href="https://www.latex-project.org/">LaTeX</a> came first. Beautiful output, verbose syntax, steep learning curve (I know, I’ve been there 😅)</li>
-<li><a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> kept the ideas and dropped the ceremony: <code>**bold**</code>, <code>- list</code>, <code>[link](url)</code></li>
-<li><a href="https://rmarkdown.rstudio.com/">R Markdown</a> added executable chunks for R, and <a href="https://jupyter.org/">Jupyter</a> did the same for Python</li>
-<li>Each is fine alone. <span class="alert">Mixing languages or output formats</span> is where they struggle</li>
-<li><a href="https://quarto.org/">Quarto</a> (2022, by Posit) rebuilt R Markdown to be <span class="alert">language-agnostic</span>: Python, R, Julia, Observable JS</li>
-<li>One <code>.qmd</code> renders to HTML, PDF, Word, slides, websites, books, and dashboards</li>
-<li><a href="https://pandoc.org/">Pandoc</a> does the final conversion underneath</li>
-<li>These slides, the course website, and every course PDF are Quarto. <span class="alert">Learn it once, use it everywhere</span></li>
+<li><a href="https://www.latex-project.org/">LaTeX</a> came first: beautiful output, verbose syntax, steep learning curve (I’ve been there 😅)</li>
+<li><a href="https://en.wikipedia.org/wiki/Markdown">Markdown</a> kept the ideas with a simpler syntax: <code>**bold**</code>, <code>- list</code>, <code>[link](url)</code></li>
+<li><a href="https://rmarkdown.rstudio.com/">R Markdown</a> added R chunks, and <a href="https://jupyter.org/">Jupyter</a> did the same for Python</li>
+<li>Both struggle with <span class="alert">mixed languages or output formats</span></li>
+<li><a href="https://quarto.org/">Quarto</a> (2022, Posit) rebuilt R Markdown for <span class="alert">any language</span>: Python, R, Julia, Observable JS</li>
+<li>One <code>.qmd</code> renders to HTML, PDF, Word, slides, websites, books and dashboards</li>
+<li><a href="https://pandoc.org/">Pandoc</a> does the final conversion</li>
+<li>These slides, the course website and every course PDF use Quarto</li>
 </ul>
 </div><div class="column" style="width:45%;">
 <div style="text-align: center;">
@@ -770,8 +767,8 @@ pandas: 3.0.2</code></pre>
 </div><div class="column" style="width:40%;">
 <ul>
 <li>Clockwise from top left: a company report, an <a href="https://jjallaire.github.io/gapminder-dashboard/">interactive dashboard</a>, a website, and a book</li>
-<li>All four are plain text files, so all four <span class="alert">live happily in Git</span></li>
-<li>Same source, same commands, different <code>format:</code> line</li>
+<li>All four are plain text, so they <span class="alert">work well with Git</span></li>
+<li>Only the <code>format:</code> line changes</li>
 <li>Click any image to zoom in</li>
 </ul>
 </div></div>
@@ -817,10 +814,10 @@ flowchart LR
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Quarto files use the <code>.qmd</code> extension, but you can also feed Jupyter notebooks (<code>.ipynb</code>) straight into Quarto with <a href="https://quarto.org/docs/tools/jupyter-lab.html">some YAML configuration</a></li>
-<li>The pipeline: <code>.qmd</code> → engine (Jupyter or knitr) → <code>.md</code> → <a href="https://pandoc.org/">Pandoc</a> → final output</li>
-<li>Pandoc handles the last step: it reads Markdown and writes HTML, PDF, Word, and <a href="https://pandoc.org/MANUAL.html">dozens of other formats</a></li>
-<li>You rarely interact with Pandoc directly. Quarto calls it for you, passing the options from your YAML header</li>
+<li>Quarto reads <code>.qmd</code> files and Jupyter notebooks (<code>.ipynb</code>). A <a href="https://quarto.org/docs/tools/jupyter-lab.html">YAML cell</a> on top is optional</li>
+<li>Pipeline: <code>.qmd</code> → engine (Jupyter or knitr) → <code>.md</code> → <a href="https://pandoc.org/">Pandoc</a> → output</li>
+<li>Pandoc turns Markdown into HTML, PDF, Word and <a href="https://pandoc.org/MANUAL.html">dozens of other formats</a></li>
+<li>Quarto calls Pandoc for you, with the options from your YAML header</li>
 </ul>
 </div></div>
 </div>
@@ -841,8 +838,8 @@ flowchart LR
 </div>
 </div><div class="column" style="width:45%;">
 <ul>
-<li>Download the installer for your system from the page on the left, or use a package manager</li>
-<li>On macOS, <a href="https://brew.sh/">Homebrew</a> does it in one line:</li>
+<li>Download the installer on the left, or use a package manager</li>
+<li>On macOS, with <a href="https://brew.sh/">Homebrew</a>:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -851,8 +848,8 @@ flowchart LR
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb16-1"><a></a><span class="ex">brew</span> install <span class="at">--cask</span> quarto</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>On Windows, install Quarto <a href="https://quarto.org/docs/download/">inside WSL</a> so it lives next to your shell and Git</li>
-<li>To render PDFs you also need LaTeX. Install the lightweight <a href="https://yihui.org/tinytex/">TinyTeX</a> and you are done:</li>
+<li>On Windows, install Quarto <a href="https://quarto.org/docs/download/">inside WSL</a>, next to your shell and Git</li>
+<li>PDFs also need LaTeX. Install the lightweight <a href="https://yihui.org/tinytex/">TinyTeX</a>:</li>
 </ul>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
@@ -886,7 +883,7 @@ flowchart LR
 <span id="cb19-12"><a></a>[✓] Checking Python 3 installation....OK</span>
 <span id="cb19-13"><a></a>      Version: 3.13.13</span>
 <span id="cb19-14"><a></a>      Jupyter: 5.9.1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Run this first whenever something stops working. Your version numbers will differ from mine, and that is fine</p>
+<p>Run this first when something breaks. Your versions will differ from mine</p>
 </div>
 </section>
 <section id="write-in-whatever-editor-you-like" class="slide level2">
@@ -895,10 +892,10 @@ flowchart LR
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>A <code>.qmd</code> file is <span class="alert">plain text</span>. VS Code, RStudio, Jupyter Lab, Neovim, or Notepad: they all work</li>
-<li>We will use <a href="https://marketplace.visualstudio.com/items?itemName=quarto.quarto">VS Code with the Quarto extension</a>: syntax highlighting, completion, a render button, and a live preview</li>
-<li>Install it from the <span class="alert">Extensions marketplace</span>, like the extensions you already have</li>
-<li>It also offers a <a href="https://quarto.org/docs/visual-editor/vscode/">visual editor</a>, which renders the Markdown as you type. Try both and keep the one you like</li>
+<li>A <code>.qmd</code> file is <span class="alert">plain text</span>: VS Code, RStudio, Jupyter Lab, Neovim, even Notepad work</li>
+<li>We use <a href="https://marketplace.visualstudio.com/items?itemName=quarto.quarto">VS Code with the Quarto extension</a>: highlighting, completion, a render button and live preview</li>
+<li>Install it from the <span class="alert">Extensions marketplace</span></li>
+<li>Its <a href="https://quarto.org/docs/visual-editor/vscode/">visual editor</a> renders Markdown as you type. Try both modes</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; margin-top: -20px;">
@@ -910,10 +907,10 @@ flowchart LR
 </div></div>
 </div>
 </section>
-<section id="two-commands-you-will-use-every-day" class="slide level2">
-<h2>Two commands you will use every day</h2>
+<section id="rendering-from-the-terminal" class="slide level2">
+<h2>Rendering from the terminal</h2>
 <div style="margin-top: 30px; font-size: 24px;">
-<p>Of course, there is a CLI for that! Quarto has several commands (<code>quarto --help</code> lists them), but two do almost all the work:</p>
+<p><code>quarto --help</code> lists every command. These do most of the work:</p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>Terminal</strong></pre>
@@ -929,9 +926,9 @@ flowchart LR
 </div>
 <div class="fragment" style="margin-top: 20px;">
 <ul>
-<li><span class="alert"><code>render</code></span> builds the document once. Use it when you are done</li>
-<li><span class="alert"><code>preview</code></span> keeps a live version open while you write. Use it the rest of the time</li>
-<li>The output lands next to the source file: <code>report.qmd</code> becomes <code>report.html</code></li>
+<li><span class="alert"><code>render</code></span> builds the document once, when you are done</li>
+<li><span class="alert"><code>preview</code></span> keeps a live version open while you write</li>
+<li>Output lands next to the source (<code>report.qmd</code> → <code>report.html</code>), unless a project sets <code>output-dir</code></li>
 </ul>
 </div>
 </div>
@@ -945,8 +942,8 @@ flowchart LR
 <h2>Anatomy of a Quarto document</h2>
 <div style="margin-top: 30px; font-size: 24px;">
 <ul>
-<li>A Quarto document contains three types of content: a <span class="alert">YAML header</span>, <span class="alert">code chunks</span>, and <span class="alert">Markdown text</span></li>
-<li>That is the whole format. Let’s look at each part in turn (Markdown in depth comes next lecture)</li>
+<li>A Quarto document has a <span class="alert">YAML header</span>, <span class="alert">code chunks</span> and <span class="alert">Markdown text</span></li>
+<li>We look at each in turn. Markdown in depth comes next lecture</li>
 </ul>
 <div class="quarto-layout-panel" data-layout-ncol="3">
 <div class="quarto-layout-row">
@@ -982,13 +979,13 @@ flowchart LR
 <span id="cb21-12"><a></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>YAML stands for “YAML Ain’t Markup Language”, a recursive joke. It describes <span class="alert">data</span>, not documents</li>
-<li>Sits at the very top, between two lines of three dashes (<code>---</code>)</li>
-<li><code>key: value</code> pairs, where <span class="alert">indentation creates nesting</span>. Use spaces: tabs are illegal in YAML</li>
-<li><code>format: html</code> is the short form. Indent underneath it to pass options, as on the left</li>
-<li><code>execute:</code> sets defaults for <span class="alert">every chunk</span> in the document</li>
-<li>Quote any value containing a colon: <code>title: "Quarto: a first look"</code></li>
-<li>The same syntax runs <code>_quarto.yml</code>, GitHub Actions, and Docker Compose. <span class="alert">Learn it once</span></li>
+<li>YAML stands for “YAML Ain’t Markup Language” (a recursive joke). It describes <span class="alert">data</span></li>
+<li>It sits at the top, between two <code>---</code> lines</li>
+<li><code>key: value</code> pairs, where <span class="alert">indentation creates nesting</span>. Use spaces: tabs are illegal for indentation</li>
+<li><code>format: html</code> is the short form. Indent under it to add options</li>
+<li><code>execute:</code> sets defaults for <span class="alert">every chunk</span></li>
+<li>Quote values that contain a colon: <code>title: "Quarto: a first look"</code></li>
+<li><code>_quarto.yml</code>, GitHub Actions and Docker Compose use the same syntax</li>
 </ul>
 </div></div>
 </div>
@@ -1012,14 +1009,9 @@ flowchart LR
 </div><div class="column" style="width:50%;">
 <ul>
 <li>Three backticks and <code>{python}</code> open a chunk; three backticks close it</li>
-<li>When you render, the chunk <span class="alert">runs</span>, and its output lands in the document</li>
-<li>Lines starting with <code>#|</code> are <span class="alert">chunk options</span>, in YAML style:
-<ul>
-<li><code>echo: false</code> hides the code, keeps the output</li>
-<li><code>eval: false</code> shows the code, skips running it</li>
-<li><code>warning: false</code> hides warnings</li>
-<li><code>label</code> names the chunk, so you can cross-reference figures</li>
-</ul></li>
+<li>On render, the chunk <span class="alert">runs</span> and its output goes into the document</li>
+<li><code>#|</code> lines are <span class="alert">chunk options</span>, in YAML syntax</li>
+<li>Here they label the figure and hide the code and warnings</li>
 </ul>
 </div></div>
 </div>
@@ -1072,16 +1064,16 @@ flowchart LR
 </div><div class="column" style="width:45%;">
 <ul>
 <li><code>#|</code> options apply to <span class="alert">one chunk</span></li>
-<li>Defaults for the <span class="alert">whole document</span> go in the YAML header instead:</li>
+<li><span class="alert">Document-wide</span> defaults go in the YAML header:</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb23-1"><a></a><span class="fu">execute</span><span class="kw">:</span></span>
 <span id="cb23-2"><a></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
 <span id="cb23-3"><a></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Chunk options override the document defaults, so you can hide all code and still show one chunk</li>
-<li>Cross-references need a <span class="alert">prefixed label</span>: <code>fig-</code> for figures, <code>tbl-</code> for tables, and also <code>eq-</code>, <code>sec-</code>, <code>lst-</code></li>
-<li>Then <code>@fig-rain</code> in your text becomes “Figure 1”, numbered for you</li>
-<li>The full list is in the <a href="https://quarto.org/docs/computations/execution-options.html">Quarto documentation</a></li>
+<li>Chunk options override these, so you can hide all code but show one chunk</li>
+<li>Cross-references need a <span class="alert">prefixed label</span>: <code>fig-</code>, <code>tbl-</code>, <code>eq-</code>, <code>sec-</code>, <code>lst-</code></li>
+<li><code>@fig-rain</code> then prints “Figure 1”, numbered for you</li>
+<li>Full list in the <a href="https://quarto.org/docs/computations/execution-options.html">Quarto documentation</a></li>
 </ul>
 </div></div>
 </div>
@@ -1091,7 +1083,7 @@ flowchart LR
 <div style="margin-top: 30px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:46%;">
-<p><code>layout-ncol: 2</code> puts two plots side by side, and <code>echo: false</code> keeps the code out of the reader’s way:</p>
+<p><code>layout-ncol: 2</code> puts two plots side by side; <code>echo: false</code> hides the code:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb24-1"><a></a><span class="in">```{python}</span></span>
 <span id="cb24-2"><a></a><span class="co">#| echo: false</span></span>
 <span id="cb24-3"><a></a><span class="co">#| layout-ncol: 2</span></span>
@@ -1104,7 +1096,7 @@ flowchart LR
 <span id="cb24-10"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:54%;">
 <p>What the reader sees:</p>
-<div id="4d89e712" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="4">
+<div id="77153d9c" class="cell quarto-layout-panel" data-execution_count="4" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img data-src="10-quarto_files/figure-revealjs/cell-5-output-1.png" width="373"></p>
@@ -1114,7 +1106,7 @@ flowchart LR
 </div>
 </div>
 </div>
-<p>Both figures came straight from the code at render time. <span class="alert">Change the data and they update themselves</span></p>
+<p>Both figures come from the code at render time. <span class="alert">Change the data and they update</span></p>
 </div></div>
 </div>
 </section>
@@ -1124,13 +1116,13 @@ flowchart LR
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li>Quarto runs no code itself. It hands each chunk to an <span class="alert">engine</span></li>
-<li><span class="alert">Jupyter</span> runs Python, and any language with a Jupyter kernel. <span class="alert">knitr</span> runs R</li>
+<li>Quarto runs no code itself. It hands chunks to an <span class="alert">engine</span></li>
+<li><span class="alert">Jupyter</span> runs Python and any language with a Jupyter kernel. <span class="alert">knitr</span> runs R</li>
 <li><span class="alert">This course uses Jupyter</span>. These slides render with <code>jupyter: python3</code></li>
-<li>Every render starts <span class="alert">one fresh session</span> and works through the chunks top to bottom</li>
-<li>Chunks share state, like notebook cells: a variable from chunk one still exists in chunk ten</li>
-<li>Fresh session, top to bottom. That is a <span class="alert">restart-and-run-all</span> test, every time</li>
-<li>So a document that renders is one whose analysis just ran from scratch. <span class="alert">Quarto checks your reproducibility for you</span></li>
+<li>Each render starts <span class="alert">one fresh session</span> and runs the chunks top to bottom</li>
+<li>Chunks share state like notebook cells: a variable from chunk one exists in chunk ten</li>
+<li>So every render is a <span class="alert">restart-and-run-all</span> test</li>
+<li>A document that renders has just run its analysis from scratch</li>
 </ul>
 </div><div class="column" style="width:45%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb25-1"><a></a><span class="pp">---</span></span>
@@ -1139,8 +1131,8 @@ flowchart LR
 <span id="cb25-4"><a></a><span class="fu">jupyter</span><span class="kw">:</span><span class="at"> python3</span></span>
 <span id="cb25-5"><a></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div style="margin-top: 20px;">
-<p>Quarto can usually detect the engine from your chunks. Declaring it anyway tells the next reader what they need installed.</p>
-<p>If you ever switch to R, change this one line and the rest of the document stays as it is</p>
+<p>Quarto can usually detect the engine. Declaring it tells readers what to install.</p>
+<p>To use R, write <code>{r}</code> chunks and Quarto picks knitr</p>
 </div>
 </div></div>
 </div>
@@ -1166,30 +1158,29 @@ flowchart LR
 <span id="cb26-14"><a></a></span>
 <span id="cb26-15"><a></a><span class="in">```{python}</span></span>
 <span id="cb26-16"><a></a><span class="co">#| echo: false</span></span>
-<span id="cb26-17"><a></a><span class="co">#| message: false</span></span>
-<span id="cb26-18"><a></a></span>
-<span id="cb26-19"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb26-20"><a></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb26-21"><a></a>sns.set_style(<span class="st">'whitegrid'</span>)</span>
-<span id="cb26-22"><a></a></span>
-<span id="cb26-23"><a></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb26-24"><a></a></span>
-<span id="cb26-25"><a></a>g <span class="op">=</span> sns.lmplot(x<span class="op">=</span><span class="st">"flipper_length_mm"</span>,</span>
-<span id="cb26-26"><a></a>               y<span class="op">=</span><span class="st">"body_mass_g"</span>,</span>
-<span id="cb26-27"><a></a>               hue<span class="op">=</span><span class="st">"species"</span>,</span>
-<span id="cb26-28"><a></a>               height<span class="op">=</span><span class="dv">7</span>,</span>
-<span id="cb26-29"><a></a>               data<span class="op">=</span>penguins,</span>
-<span id="cb26-30"><a></a>               palette<span class="op">=</span>[<span class="st">'#FF8C00'</span>,<span class="st">'#159090'</span>,<span class="st">'#A034F0'</span>])</span>
-<span id="cb26-31"><a></a>g.set_xlabels(<span class="st">'Flipper Length'</span>)</span>
-<span id="cb26-32"><a></a>g.set_ylabels(<span class="st">'Body Mass'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb26-17"><a></a></span>
+<span id="cb26-18"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb26-19"><a></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb26-20"><a></a>sns.set_style(<span class="st">'whitegrid'</span>)</span>
+<span id="cb26-21"><a></a></span>
+<span id="cb26-22"><a></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb26-23"><a></a></span>
+<span id="cb26-24"><a></a>g <span class="op">=</span> sns.lmplot(x<span class="op">=</span><span class="st">"flipper_length_mm"</span>,</span>
+<span id="cb26-25"><a></a>               y<span class="op">=</span><span class="st">"body_mass_g"</span>,</span>
+<span id="cb26-26"><a></a>               hue<span class="op">=</span><span class="st">"species"</span>,</span>
+<span id="cb26-27"><a></a>               height<span class="op">=</span><span class="dv">7</span>,</span>
+<span id="cb26-28"><a></a>               data<span class="op">=</span>penguins,</span>
+<span id="cb26-29"><a></a>               palette<span class="op">=</span>[<span class="st">'#FF8C00'</span>,<span class="st">'#159090'</span>,<span class="st">'#A034F0'</span>])</span>
+<span id="cb26-30"><a></a>g.set_xlabels(<span class="st">'Flipper Length'</span>)</span>
+<span id="cb26-31"><a></a>g.set_ylabels(<span class="st">'Body Mass'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:45%;">
 <ul>
-<li>Thirty lines, and everything from today’s lecture is in them</li>
-<li>The <span class="alert">YAML header</span> names the document and picks the format and engine</li>
-<li><code>code-fold: true</code> tucks the code behind a toggle, so readers who want it can still find it</li>
-<li>The prose is plain <span class="alert">Markdown</span>, with a <code>##</code> heading</li>
-<li>One <span class="alert">chunk</span> loads the penguin data and draws a figure</li>
-<li>The next slide shows what renders</li>
+<li>Thirty lines, with everything from today’s lecture</li>
+<li>The <span class="alert">YAML header</span> sets the title, format and engine</li>
+<li><code>code-fold: true</code> hides code behind a toggle, but <code>echo: false</code> removes this chunk’s code</li>
+<li>The prose is <span class="alert">Markdown</span>, with a <code>##</code> heading</li>
+<li>One <span class="alert">chunk</span> loads penguin data and draws a figure (needs <code>pip install palmerpenguins</code>)</li>
+<li>The next slide shows the result</li>
 </ul>
 </div></div>
 </div>
@@ -1205,10 +1196,10 @@ flowchart LR
 </div><div class="column" style="width:45%;">
 <div style="margin-top: 20px;">
 <ul>
-<li>The title comes from the YAML, the heading and prose from the Markdown, and the figure from the chunk</li>
-<li>The Code toggle at the top is <code>code-fold: true</code> at work</li>
-<li>Change the data and render again: <span class="alert">the figure and the numbers follow</span></li>
-<li>This page cannot show a figure its own code did not produce. That is literate programming doing its job</li>
+<li>Title from the YAML, heading and prose from the Markdown, figure from the chunk</li>
+<li><code>echo: false</code> wins over <code>code-fold: true</code>: only the figure shows</li>
+<li>Change the data and render again: <span class="alert">the figure and numbers follow</span></li>
+<li>The page can only show figures its own code produced</li>
 </ul>
 </div>
 </div></div>
@@ -1245,7 +1236,7 @@ flowchart LR
 <span id="cb28-5"><a></a>    <span class="st">"mm"</span>: [<span class="dv">241</span>, <span class="dv">215</span>, <span class="dv">180</span>, <span class="dv">96</span>]</span>
 <span id="cb28-6"><a></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div style="margin-top: 15px;">
-<p>Stuck? The option that hides code is on the chunk options slide, and <code>quarto check</code> diagnoses a broken installation</p>
+<p>Stuck? See the chunk options slide. <code>quarto check</code> diagnoses a broken installation</p>
 </div>
 <p><a href="#/sec-appendix-01"><span class="button">Answer: Appendix 01</span></a></p>
 </div></div>
@@ -1255,12 +1246,12 @@ flowchart LR
 <h2>Summary</h2>
 <div style="margin-top: 30px; font-size: 26px;">
 <ul>
-<li>The reproducibility crisis is real, and most computational results fail for a mundane reason: <span class="alert">the code does not run</span></li>
-<li>The ladder: re-runnable → reproducible → replicable → reusable. This course gets you to the second step</li>
-<li>Four ingredients travel together: <span class="alert">code, data, environment, documentation</span></li>
-<li>The habits: raw data left untouched, cleaning in code, relative paths only, seeds set, versions written down, a README that says how to rebuild</li>
-<li><span class="alert">Literate programming</span> keeps text, code, and results in one file, so they cannot drift apart</li>
-<li><span class="alert">Quarto</span> is our tool for it: one plain-text <code>.qmd</code> file, one <code>render</code> command, many output formats</li>
+<li>The reproducibility crisis is real. Most computational results fail because <span class="alert">the code does not run</span></li>
+<li>The ladder: re-runnable → reproducible → reusable → replicable. This course gets you to step two</li>
+<li><span class="alert">Code, data, environment and documentation</span> travel together</li>
+<li>Habits: untouched raw data, cleaning in code, relative paths, seeds, recorded versions, a README</li>
+<li><span class="alert">Literate programming</span> keeps text, code and results in one file</li>
+<li><span class="alert">Quarto</span> is our tool: one plain-text <code>.qmd</code>, one <code>render</code> command, many formats</li>
 </ul>
 </div>
 </section>
@@ -1270,18 +1261,18 @@ flowchart LR
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Quarto <span class="alert">in practice</span>: Markdown in depth, PDFs, and citations that format themselves</li>
-<li><code>freeze</code>: rendering documents <span class="alert">without re-running the world</span></li>
-<li>Slides (like these) and <span class="alert">websites</span>, published straight from GitHub</li>
-<li><span class="alert">Parameterised reports</span>: one file that writes a report for every country in your dataset</li>
-<li>Bring a working Quarto installation: today’s exercise is the check 🤓</li>
+<li>Quarto <span class="alert">in practice</span>: Markdown, PDFs and automatic citations</li>
+<li><code>freeze</code>: rendering <span class="alert">without re-running everything</span></li>
+<li>Slides (like these) and <span class="alert">websites</span>, published from GitHub</li>
+<li><span class="alert">Parameterised reports</span>: one file, one report per country</li>
+<li>Bring a working Quarto installation. Today’s exercise is the test 🤓</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; margin-top: 20px;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/website.png"><img data-src="figures/website.png" style="width:100.0%"></a></p>
-<figcaption>One source file, a report for every country. Next class you build this</figcaption>
+<figcaption>Next class: websites like this one, built with Quarto</figcaption>
 </figure>
 </div>
 </div>
@@ -1292,7 +1283,7 @@ flowchart LR
 <h2>Additional materials</h2>
 <div style="margin-top: 30px; font-size: 24px;">
 <ul>
-<li><a href="https://quarto.org/docs/">Quarto documentation</a></li>
+<li><a href="https://quarto.org/docs/guide/">Quarto documentation</a></li>
 <li><a href="https://quarto.org/docs/gallery/">Quarto gallery</a>, full example documents with their source code</li>
 <li><a href="https://github.com/mcanouil/awesome-quarto#readme">Awesome Quarto</a>, a curated list of examples and extensions</li>
 <li><a href="https://youtu.be/_f3latmOhew?si=18Gdq9HVK-j_G0eM">Introduction to Quarto (video)</a></li>
@@ -1361,9 +1352,9 @@ flowchart LR
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30" data-filename="Terminal"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a></a><span class="ex">quarto</span> render weather.qmd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:45%;">
-<p><code>#| echo: false</code> is the option that hides the code but keeps the output, which is what question 5 asked for.</p>
+<p><code>#| echo: false</code> hides the code and keeps the output, as task 5 asked.</p>
 <p>The chart your second chunk produces:</p>
-<div id="6c84ae9e" class="cell" data-execution_count="5">
+<div id="9099b76b" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>

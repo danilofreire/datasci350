@@ -6,7 +6,7 @@ Requires a running Ollama and two models:
 And one Python package:
     pip install ollama
 
-Change QUESTION below, then run: python rag.py
+Change QUESTION below, then run from inside this folder: python rag.py
 """
 
 import math
@@ -18,19 +18,7 @@ EMBED_MODEL = "embeddinggemma"
 CHAT_MODEL = "llama3.2:1b"
 TOP_K = 3
 QUESTION = "What does Quiz 02 cover?"
-
-
-def load_chunks(folder):
-    """Split every markdown file into paragraph chunks."""
-    chunks = []
-    for path in sorted(Path(folder).glob("*.md")):
-        text = path.read_text(encoding="utf-8")
-        paragraphs = text.split("\n\n")
-        for paragraph in paragraphs:
-            clean = paragraph.strip()
-            if len(clean) > 80:
-                chunks.append((path.name, clean))
-    return chunks
+CORPUS = "corpus"   # the folder of notes, next to this script
 
 
 def embed(texts):
@@ -51,7 +39,14 @@ def cosine(a, b):
     return dot / (math.sqrt(length_a) * math.sqrt(length_b))
 
 
-chunks = load_chunks(Path(__file__).parent / "corpus")
+# Split every markdown file into paragraph chunks
+chunks = []
+for path in sorted(Path(CORPUS).glob("*.md")):
+    text = path.read_text(encoding="utf-8")
+    for paragraph in text.split("\n\n"):
+        clean = paragraph.strip()
+        if len(clean) > 80:
+            chunks.append((path.name, clean))
 
 files = set()
 for name, text in chunks:

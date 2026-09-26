@@ -376,7 +376,7 @@ Danilo Freire
 <ul>
 <li>You never talk to the shell directly. You talk to a <span class="alert">terminal</span></li>
 <li>A terminal <span class="alert">reads your keystrokes</span>, passes them to a program, and <span class="alert">shows the results</span></li>
-<li>A shell cannot do that on its own. It needs a terminal as its interface</li>
+<li>To use a shell interactively, you need a terminal</li>
 <li><span class="alert">Why “terminal”?</span> Before screens, a <a href="https://www.friendlywire.com/articles/vintage-computers/">terminal was hardware</a>: a keyboard wired to a <a href="https://en.wikipedia.org/wiki/Mainframe_computer">mainframe</a>, often many terminals to one machine</li>
 <li>Working on a data centre or cloud machine today is much the same, with a nicer screen 😉</li>
 </ul>
@@ -457,7 +457,7 @@ Danilo Freire
 <li class="fragment"><p><span class="alert">Reproducibility.</span> A script can be run again. Clicking cannot</p></li>
 <li class="fragment"><p><span class="alert">Portability.</span> The same commands work on your laptop, a <a href="https://www.raspberrypi.com/">Raspberry Pi</a>, or a supercomputer</p></li>
 <li class="fragment"><p><span class="alert">Automation.</span> Shells are programmable, so repetitive work becomes a script</p></li>
-<li class="fragment"><p><span class="alert">Employability.</span> Servers, containers, and cloud tools all run on Linux, which is why <a href="https://effective-shell.com/part-1-transitioning-to-the-shell/the-renaissance-of-the-shell/">the shell is having a renaissance</a></p></li>
+<li class="fragment"><p><span class="alert">Employability.</span> Servers, containers, and cloud tools mostly run on Linux, which is why <a href="https://effective-shell.com/part-1-transitioning-to-the-shell/the-renaissance-of-the-shell/">the shell is having a renaissance</a></p></li>
 </ol>
 </div>
 </section></section>
@@ -472,7 +472,7 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li>Our tools come from <a href="https://en.wikipedia.org/wiki/Unix">Unix</a>, built at Bell Labs in the 1970s</li>
+<li>Our tools come from <a href="https://en.wikipedia.org/wiki/Unix">Unix</a>, built at Bell Labs from 1969</li>
 <li>They still follow the <a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix philosophy</a>:</li>
 </ul>
 <blockquote>
@@ -501,7 +501,7 @@ Danilo Freire
 <ul>
 <li class="fragment"><span class="alert">Find and navigate files</span> faster than any file browser</li>
 <li class="fragment"><span class="alert">Rename and move files in bulk</span>, hundreds at a time</li>
-<li class="fragment"><span class="alert">Version control with Git</span>, which is where most Git commands live</li>
+<li class="fragment"><span class="alert">Version control with Git</span>, which you run from the shell</li>
 <li class="fragment"><span class="alert">Install and update software</span> with a single command</li>
 <li class="fragment"><span class="alert">Connect to remote machines</span> over SSH, including cloud servers</li>
 <li class="fragment"><span class="alert">Run jobs on supercomputers</span>, which often offer nothing but a shell</li>
@@ -538,7 +538,7 @@ Danilo Freire
 <p>Of course, it’s always possible to open up the shell directly if you prefer. It’s your turn!</p>
 <ul>
 <li><p><a href="https://www.wikihow.com/Open-a-Terminal-Window-in-Ubuntu">Linux</a></p></li>
-<li><p><a href="https://www.techwalla.com/articles/how-to-open-terminal-on-a-macbook">Mac</a></p></li>
+<li><p><a href="https://support.apple.com/guide/terminal/open-or-quit-terminal-apd5265185d-f365-44cb-8b09-71a064a42125/mac">Mac</a></p></li>
 <li><p><span class="alert">Windows</span>: install WSL first, using <a href="https://danilofreire.github.io/datasci350/06-wsl-tutorial.html">our tutorial</a>. It gives you the same shell as everyone else</p></li>
 </ul>
 <p>Feel free to check our class tutorial on <a href="https://danilofreire.github.io/datasci350/01-vscode-anaconda-tutorial.html">how to set up your shell in VS Code</a></p>
@@ -548,7 +548,7 @@ Danilo Freire
 <span id="cb2-2"><a></a><span class="ex">$</span> whoami </span>
 <span id="cb2-3"><a></a><span class="ex">$</span> pwd </span>
 <span id="cb2-4"><a></a><span class="ex">$</span> mkdir new-folder</span>
-<span id="cb2-5"><a></a><span class="ex">$</span> rm <span class="at">-rf</span> new-folder</span>
+<span id="cb2-5"><a></a><span class="ex">$</span> rmdir new-folder</span>
 <span id="cb2-6"><a></a><span class="ex">$</span> cd ..</span>
 <span id="cb2-7"><a></a><span class="ex">$</span> ls</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Share your results with a colleague (or the class)!</p>
@@ -559,7 +559,7 @@ Danilo Freire
 <h2>Shell: First look</h2>
 <div style="margin-top: 30px; font-size: 27px;">
 <p>You should see something like:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="ex">$</span>  username@hostname:~$</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="ex">username@hostname:~$</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>This is shell-speak for: “Who am I and where am I?”</p>
 <ul>
 <li><p><code>username</code> denotes a specific user (one of potentially many on this computer).</p></li>
@@ -641,7 +641,7 @@ Danilo Freire
 <li>Longer, spelled-out names take two dashes</li>
 </ul>
 <div style="font-size: 24px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">$</span> ls <span class="at">--human-readable</span> /var/log</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="ex">$</span> sort <span class="at">--unique</span> file.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>-l</code> long listing, <code>-a</code> all files including hidden ones, <code>-h</code> readable sizes</li>
@@ -731,7 +731,7 @@ Danilo Freire
 <span id="cb15-16"><a></a><span class="ex">-</span> List files with a trailing symbol to indicate file type <span class="er">(</span><span class="ex">directory/,</span> symbolic_link@, executable<span class="pp">*</span>, ...<span class="kw">)</span><span class="bu">:</span></span>
 <span id="cb15-17"><a></a>    <span class="fu">ls</span> [-F<span class="kw">|</span><span class="ex">--classify]</span></span>
 <span id="cb15-18"><a></a></span>
-<span id="cb15-19"><a></a><span class="ex">...</span> <span class="er">(</span><span class="ex">the</span> manual continues<span class="kw">;</span> <span class="ex">press</span> q to quit<span class="kw">)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-19"><a></a><span class="ex">...</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/beatles-help.jpeg"><img data-src="figures/beatles-help.jpeg" style="width:100.0%"></a></p>
 <ul>
@@ -796,7 +796,7 @@ Danilo Freire
 <p>Partner up and choose a command from the list below. Use <code>man</code> to complete these tasks:</p>
 <div style="margin-top: 30px; margin-bottom: 30px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a></a><span class="ex">$</span> <span class="co"># Choose one (or all) of the following commands:</span></span>
-<span id="cb17-2"><a></a><span class="ex">$</span> ls, cd, cp, mv, rm, mkdir, rmdir, touch, cat, find, head, wc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-2"><a></a><span class="ex">$</span> ls, cp, mv, rm, mkdir, rmdir, touch, cat, find, head, wc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ol type="1">
 <li>Summarise the command’s purpose in one sentence</li>
@@ -862,13 +862,13 @@ Danilo Freire
 <span id="cb19-3"><a></a><span class="ex">$</span> pwd</span>
 <span id="cb19-4"><a></a></span>
 <span id="cb19-5"><a></a><span class="ex">/Users/dafreir/Documents/github/datasci350/lectures/lecture-03/figures</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Now, let’s go back to the previous directory:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a></a><span class="ex">$</span> cd ../ <span class="co"># Go back to the previous directory</span></span>
+<p>Now, let’s go up one level:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a></a><span class="ex">$</span> cd ../ <span class="co"># Go up one level, to the parent directory</span></span>
 <span id="cb20-2"><a></a><span class="ex">$</span> pwd</span>
 <span id="cb20-3"><a></a></span>
 <span id="cb20-4"><a></a><span class="ex">/Users/dafreir/Documents/github/datasci350/lectures/lecture-03</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Back two directories:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a></a><span class="ex">$</span> cd ../../ <span class="co"># Go back two directories</span></span>
+<p>Up two levels:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a></a><span class="ex">$</span> cd ../../ <span class="co"># Go up two levels</span></span>
 <span id="cb21-2"><a></a><span class="ex">$</span> pwd</span>
 <span id="cb21-3"><a></a></span>
 <span id="cb21-4"><a></a><span class="ex">/Users/dafreir/Documents/github/datasci350</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1052,7 +1052,7 @@ Danilo Freire
 <ul>
 <li class="fragment">The <span class="alert">shell</span> runs your commands. The <span class="alert">terminal</span> is the window you type them in</li>
 <li class="fragment">Every command has the same shape: <code>command [options] arguments</code></li>
-<li class="fragment">Options are short (<code>-l</code>) or spelled out (<code>--human-readable</code>), and they combine: <code>ls -lah</code></li>
+<li class="fragment">Options are short (<code>-l</code>) or spelled out (<code>--unique</code>), and they combine: <code>ls -lah</code></li>
 <li class="fragment"><code>pwd</code> says where you are, <code>ls</code> shows what is there, <code>cd</code> moves you</li>
 <li class="fragment"><code>~</code> is home, <code>.</code> is here, <code>..</code> is one level up</li>
 <li class="fragment"><code>man</code>, <code>tldr</code>, and <code>cht.sh</code> answer your questions. <code>q</code> gets you out of the pager</li>

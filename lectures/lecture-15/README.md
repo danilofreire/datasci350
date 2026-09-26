@@ -10,7 +10,7 @@ The last lecture of the AI module. Lecture 12 put a model on your laptop, lectur
 - Getting embeddings from Ollama with `embeddinggemma`
 - The five stages: chunk, embed, store, retrieve, generate, and where each one fails
 - Why retrieval beats pasting everything in: the cost arithmetic, and "lost in the middle"
-- A working pipeline in about 90 lines of plain Python (`demo/rag.py`), read line by line
+- A working pipeline in about 70 lines of plain Python (`demo/rag.py`), read line by line
 - Measuring retrieval with gold questions and a hit rate
 - Hybrid search, BM25, and rerankers, for the questions embeddings get wrong
 - Prompt injection through a poisoned corpus, and three partial defences
@@ -41,9 +41,9 @@ It prints the corpus size, the three retrieved chunks with their scores, and the
 
 ## What the evaluation found
 
-Seven gold questions, five retrieved the right file. Both misses were questions the corpus cannot answer, since no file gives a quiz date or the final project's weight.
+Seven gold questions, six retrieved the right file in the top three. The one miss asks for the final project's weight, which no file gives.
 
-The instructive one is "When is Quiz 02?". It scored 0.58, higher than any question that succeeded, and returned a paragraph with no date in it. A confidence threshold would have passed it straight to the model. A high score means the topic matched, never that the answer is present.
+The instructive one is "When is Quiz 02?". It counts as a hit, because the quiz's own file ranks third, yet no retrieved chunk gives a date. Its top chunk scored 0.58, almost as high as the best successful question (0.59). A confidence threshold would have passed it straight to the model. A high score means the topic matched, never that the answer is present.
 
 Retrieval also repeats and generation does not. Run the script four times and the scores are identical, while the written answer can still change.
 

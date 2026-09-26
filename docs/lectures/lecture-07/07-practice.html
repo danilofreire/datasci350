@@ -381,7 +381,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <ul>
 <li>Only amend <span class="alert">local commits</span></li>
 <li>Don’t amend commits that have been pushed to a shared repository, as it rewrites history</li>
-<li>If you need to modify pushed commits, use <code>git revert</code> instead</li>
+<li>To undo a pushed commit, use <code>git revert</code>, which adds a new commit that reverses it</li>
 <li>Always communicate with your team before amending shared history</li>
 </ul>
 </div></div>
@@ -455,8 +455,8 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <span id="cb8-4"><a></a><span class="co"># Cherry-pick multiple commits</span></span>
 <span id="cb8-5"><a></a><span class="fu">git</span> cherry-pick abc1234 def5678</span>
 <span id="cb8-6"><a></a></span>
-<span id="cb8-7"><a></a><span class="co"># Cherry-pick a range of commits</span></span>
-<span id="cb8-8"><a></a><span class="fu">git</span> cherry-pick abc1234..def5678</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-7"><a></a><span class="co"># Cherry-pick a range of commits (^ includes abc1234 itself)</span></span>
+<span id="cb8-8"><a></a><span class="fu">git</span> cherry-pick abc1234^..def5678</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>After cherry-picking:</strong></p>
 <ul>
 <li>The commit is applied to your current branch</li>
@@ -512,7 +512,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a></a><span class="co"># Interactive rebase of last 3 commits</span></span>
 <span id="cb10-2"><a></a><span class="fu">git</span> rebase <span class="at">-i</span> HEAD~3</span>
 <span id="cb10-3"><a></a></span>
-<span id="cb10-4"><a></a><span class="co"># Interactive rebase to specific commit</span></span>
+<span id="cb10-4"><a></a><span class="co"># Interactive rebase of the commits after abc1234</span></span>
 <span id="cb10-5"><a></a><span class="fu">git</span> rebase <span class="at">-i</span> abc1234</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Rebase onto another branch:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a></a><span class="co"># Rebase current branch onto main</span></span>
@@ -570,7 +570,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <span id="cb12-9"><a></a><span class="co"># 3. Fix the bug on main</span></span>
 <span id="cb12-10"><a></a><span class="fu">git</span> checkout main</span>
 <span id="cb12-11"><a></a><span class="bu">echo</span> <span class="st">"# Fixed typo"</span> <span class="op">&gt;&gt;</span> README.md</span>
-<span id="cb12-12"><a></a><span class="fu">git</span> commit <span class="at">-m</span> <span class="st">"Fix typo in README"</span></span>
+<span id="cb12-12"><a></a><span class="fu">git</span> commit <span class="at">-am</span> <span class="st">"Fix typo in README"</span></span>
 <span id="cb12-13"><a></a></span>
 <span id="cb12-14"><a></a><span class="co"># 4. Go back and pick up where you left off</span></span>
 <span id="cb12-15"><a></a><span class="fu">git</span> checkout feature-branch</span>
@@ -696,9 +696,9 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <ul>
 <li>Select GitHub.com</li>
 <li>Choose HTTPS Git operations</li>
-<li>Choose <code>Y</code> to authenticate with a web browser</li>
+<li>Choose <code>Y</code> to authenticate Git with your GitHub credentials</li>
 <li>Choose <code>Login with a web browser</code></li>
-<li>Press <code>Enter</code> to open the link in your browser and copy the one-time code</li>
+<li>Copy the one-time code, then press <code>Enter</code> to open the link in your browser</li>
 </ul>
 <div style="text-align: center; margin-top: -20px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/auth.png"><img data-src="figures/auth.png" style="width:90.0%"></a></p>
@@ -720,11 +720,12 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <span id="cb19-4"><a></a><span class="co"># View repository details</span></span>
 <span id="cb19-5"><a></a><span class="ex">gh</span> repo view <span class="at">--web</span></span>
 <span id="cb19-6"><a></a></span>
-<span id="cb19-7"><a></a><span class="co"># Star/unstar a repository</span></span>
-<span id="cb19-8"><a></a><span class="ex">gh</span> repo star</span>
+<span id="cb19-7"><a></a><span class="co"># Clone a repository</span></span>
+<span id="cb19-8"><a></a><span class="ex">gh</span> repo clone owner/repo</span>
 <span id="cb19-9"><a></a></span>
 <span id="cb19-10"><a></a><span class="co"># Archive/unarchive a repository</span></span>
-<span id="cb19-11"><a></a><span class="ex">gh</span> repo archive</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb19-11"><a></a><span class="ex">gh</span> repo archive</span>
+<span id="cb19-12"><a></a><span class="ex">gh</span> repo unarchive</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:60%;">
 <p><strong>Pull requests and issues:</strong></p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><a></a><span class="co"># Create a new pull request</span></span>

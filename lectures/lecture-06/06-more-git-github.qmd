@@ -100,6 +100,9 @@ git branch -m master main
 # Push the renamed branch to GitHub
 git push -u origin main
 
+# Make main the default branch on GitHub
+gh repo edit --default-branch main
+
 # Delete the old master branch on GitHub
 git push origin --delete master
 ```
@@ -322,7 +325,7 @@ git push
 :::{.columns}
 :::{.column width="50%"}
 - What if my coauthor and I change the same line?
-- Different files, or different lines in the same file: Git merges them for you 👍
+- Different files, or lines far apart in the same file: Git merges them for you 👍
 - The [same line]{.alert}: Git cannot guess which one you want, so it asks you
 - This is a [merge conflict]{.alert}. It is normal, and it is not a disaster
 - You resolve it by opening the file and choosing, or with a tool like `git mergetool`
@@ -433,7 +436,7 @@ Delete the markers along with the text you do not want
 :::{.columns}
 :::{.column width="50%"}
 - Branches are a way to work on different features or versions of your project
-- The default branch is called `main` on GitHub, and `master` in older repositories
+- The default branch is called `main` on GitHub, and `master` in older repositories and in Git's own default
 - However, you can create new branches to work on new features or versions [without affecting the `main` branch]{.alert}
 - You can create a new branch with the command `git branch branch-name`
 - And you can switch to the new branch with the command `git checkout branch-name`
@@ -512,7 +515,7 @@ Three ways back, from safest to most destructive:
 
 - [Look around]{.alert}: `git checkout <hash>`. You are now in [detached HEAD]{.alert}, so anything you commit belongs to no branch
 - [Keep your work]{.alert}: `git switch -c new-branch <hash>` starts a branch at that commit. [Usually what you want](https://git-scm.com/docs/git-switch)
-- [Move the branch itself]{.alert}: `git reset --hard <hash>` rewinds your branch and [throws away every commit after it]{.alert}
+- [Move the branch itself]{.alert}: `git reset --hard <hash>` rewinds your branch, drops every later commit, and [deletes uncommitted changes for good]{.alert}
 
 - `git switch main` brings you back to the present
 :::
@@ -541,7 +544,7 @@ Three ways back, from safest to most destructive:
 - `-D` forces the deletion, even when the work was never merged
 
 :::{style="margin-top: 20px;"}
-- [Rarely needed]{.alert}: replacing `main` altogether. Delete it, rename your current branch to `main`, then push
+- [Rarely needed]{.alert}: replacing `main` altogether. Delete it, rename your current branch to `main`, then `git push --force`
 - [Never on a shared repository]{.alert}. Everyone else's work still points at the branch you deleted
 :::
 :::
@@ -567,7 +570,7 @@ Three ways back, from safest to most destructive:
 - It creates a folder named after the repository
 - Your copy stays [connected to the original]{.alert}
 - So if the repository is not yours, [you cannot push to it]{.alert}
-- Use it when you already have push rights and want to work locally
+- Use it for your own repositories, or to download someone else's code
 :::
 
 :::{.column width="45%"}
@@ -672,7 +675,7 @@ git push
 - With `gh`: `gh issue create --title "Plot is empty" --body "Details"`
 
 :::{style="margin-top: 30px;"}
-- [Pull requests]{.alert} are a way to suggest changes after you have forked and changed a repository
+- [Pull requests]{.alert} are a way to suggest changes from a fork or a branch
 - You can create a pull request by clicking on the `Pull requests` tab on GitHub and then on the `New pull request` button
 - Or in the terminal, from your branch: `gh pr create --fill` (title and body come from your commits)
 - The repository owner can then review your changes and merge them
@@ -708,7 +711,6 @@ Pull requests
 - You can create a Gist by clicking on the `+` sign on the top right corner of GitHub and then on `New gist`
 - Paste any text or code and save it
 - Or in the terminal: `gh gist create notes.py` (secret by default; add `--public` to list it)
-- You can also create secret Gists that are not indexed by search engines
 - Gists also benefit from version control, so you can see the history of changes and revert to previous versions
 - Check it out: <https://gist.github.com>
 :::

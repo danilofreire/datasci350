@@ -209,12 +209,12 @@ touch test.txt
 ```{bash, eval=FALSE, echo=TRUE}
 rmdir testing
 
-rm: testing: is a directory
+rmdir: testing: Directory not empty
 ```
 
 - `rmdir` only removes [empty]{.alert} directories
 - For a directory with files in it, use `rm -r` ([recursive]{.alert}). `-r` and `-R` are the same thing for `rm`
-- Adding `-f` ([force]{.alert}) skips the confirmation prompt. Leaving it off is safer, but some shells then ask about every single file
+- Adding `-f` ([force]{.alert}) never asks and ignores missing files. Double-check the path first
 
 ```{bash, eval=FALSE, echo=TRUE}
 rm -rf testing ## Success
@@ -231,7 +231,7 @@ rm -rf testing ## Success
 Syntax: `cp object path/newname`
 
 - Leave out `newname` and the copy keeps the original one
-- If something at the destination already has that name, add `-f` to overwrite it
+- [Careful]{.alert}: `cp` overwrites a file with the same name without asking. Add `-i` to be asked first
 
 ```{bash, eval=TRUE, echo=FALSE}
 rm -rf ./copies
@@ -319,7 +319,7 @@ ls figures/tim??.jpg
 - `-iname` matches a name, ignoring capitals (case `i`nsensitive):
 
 ```{bash, echo=TRUE}
-# Must use "." to indicate pwd
+# "." is the current directory. macOS needs a path, Linux assumes "."
 find ./ ../lecture-03/ -iname "*.qmd" 
 ```
 - `-size` filters by size, with `k`, `M`, or `G` for kilo, mega, and gigabytes:
@@ -332,7 +332,7 @@ find . -size +500k | sort # Sort the output
 - `-type` filters by kind: `d` for directories, `f` for files:
 
 ```{bash, echo=TRUE}
-# Find all directories in the parent directory
+# Find all directories in the current directory
 find ./ -type d | sort # Sort the output
 ```
 :::
@@ -368,7 +368,9 @@ find ./figures -not -name "*.csv" -and -not -name "*.gif"
 ```{bash, echo=TRUE}
 # Search only in current directory, not subdirectories
 find . -maxdepth 1 -name "*.txt"
+```
 
+```{bash, echo=TRUE}
 # Skip current directory, search only in subdirectories
 find . -mindepth 2 -name "*.txt"
 ```
@@ -516,7 +518,7 @@ rm -rf project && rm -rf book
 ## Counting text: `wc`
 
 :::{style="margin-top: 30px; font-size: 25px;"}
-- `wc` counts lines, words, and characters, in that order
+- `wc` counts lines, words, and bytes, in that order. `wc -m` counts characters instead
 - Let's try it on a file holding all of Shakespeare's sonnets. [Source](http://www.gutenberg.org/cache/epub/1041/pg1041.txt)
 
 ```{bash, echo=TRUE}
@@ -525,7 +527,7 @@ rm -rf project && rm -rf book
 wc sonnets.txt
 ```
 
-The character count looks high because `wc` also counts the invisible newline `\n` at the end of every line
+The byte count looks high because `wc` also counts the invisible newline `\n` at the end of every line
 :::
 
 :::{.callout-note}
@@ -668,6 +670,7 @@ sed 's/Project Gutenberg/Project Googleberg/g' sonnets.txt | head -n 5
 
 - [Warning]{.alert}: `-i` edits the file in place and [overwrites the original]{.alert}
   - `sed -i 's/Project Gutenberg/Project Googleberg/g' sonnets.txt`
+  - On macOS, add empty quotes after `-i`: `sed -i '' 's/.../.../g' sonnets.txt`
 :::
 
 :::{.column width="50%"}
@@ -723,8 +726,8 @@ sed -n '80,85p' sonnets.txt
 - Useful for a quick edit when opening VS Code would be overkill, and essential on a remote server
 - Open a file with `nano filename`
 - Arrow keys to move, `Ctrl + O` to save, `Ctrl + X` to exit
-- macOS needs `brew install nano`. WSL usually has it, or `sudo apt install nano`
-- More in the [GNU documentation](https://www.nano-editor.org/dist/v2.9/nano.html)
+- macOS ships `pico`, which opens when you type `nano`. `brew install nano` gets the real one. WSL usually has it, or `sudo apt install nano`
+- More in the [GNU documentation](https://www.nano-editor.org/docs.php)
 :::
 
 :::{.column width="50%"}
@@ -881,10 +884,10 @@ rm -rf dir*
 :::{.column width="50%"}
 - Let's script the project structure we built by hand earlier: create it, list it, remove it
 - We will call the file `create_project.sh`
-- The first line, `#!/bin/sh`, is the [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix))
+- The first line, `#!/bin/bash`, is the [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix))
 - It tells the system which interpreter should run the file
 - To write a Python script, the shebang would be `#!/usr/bin/env python3` 
-  - `env` looks `python3` up on your `PATH`, so the same file runs on any machine
+  - `env` looks `python3` up on your `PATH`, so the same file runs wherever Python is installed
 :::
 
 :::{.column width="50%"}
@@ -894,7 +897,7 @@ rm -rf dir*
 - The `./` is not decoration, as the shell does not search the current directory unless you point at it
 
 ```{bash, echo=TRUE, eval=FALSE}
-#!/bin/sh
+#!/bin/bash
 mkdir -p project/{scripts,data,docs}
 touch project/scripts/{preprocessing,analysis,visualization}.py
 touch project/data/{raw_data,processed_data}.csv
@@ -943,7 +946,7 @@ Things we left out:
 :::{style="margin-top: 30px; font-size: 26px;"}
 If you want to dig deeper, check out
 
-- [The Unix Shell](http://swcarpentry.github.io/shell-novice/) (Software Carpentery)
+- [The Unix Shell](http://swcarpentry.github.io/shell-novice/) (Software Carpentry)
 - [The Unix Workbench](https://seankross.com/the-unix-workbench/) (Sean Kross)
 - [Data Science at the Command Line](https://www.datascienceatthecommandline.com/) (Jeroen Janssens)
 - [Effective Shell](https://effective-shell.com/) (Dave Kerr)
@@ -981,7 +984,7 @@ If you want to dig deeper, check out
 
 :::{.column width="50%"}
 :::{style="text-align: center; margin-top: 20px;"}
-[![Our course repository. Next week you will learn how it works](figures/course-repo.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/course-repo.png"}
+[![Our course repository. Next class you will learn how it works](figures/course-repo.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/course-repo.png"}
 :::
 :::
 :::
@@ -1049,13 +1052,14 @@ wc -lw sonnets.txt
 
 ```{bash, echo=TRUE}
 # Find all lines in sonnets.txt that start with "and"
-grep -n "^and" sonnets.txt
+# Poem lines start with two spaces, so allow spaces before "and"
+grep -n "^ *and" sonnets.txt
 ```
 
 ```{bash, echo=TRUE}
 # Find all lines in sonnets.txt that start with "and" and "And"
-# You have to include the -i flag to ignore case!
-grep -in "^and" sonnets.txt
+# You have to include the -i flag to ignore case! (first 10 of 249 lines)
+grep -in "^ *and" sonnets.txt | head -n 10
 ```
 
 [[Back to the main text]{.button}](#sec-exercise-02)

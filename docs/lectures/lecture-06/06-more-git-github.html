@@ -300,8 +300,11 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <span id="cb1-4"><a></a><span class="co"># Push the renamed branch to GitHub</span></span>
 <span id="cb1-5"><a></a><span class="fu">git</span> push <span class="at">-u</span> origin main</span>
 <span id="cb1-6"><a></a></span>
-<span id="cb1-7"><a></a><span class="co"># Delete the old master branch on GitHub</span></span>
-<span id="cb1-8"><a></a><span class="fu">git</span> push origin <span class="at">--delete</span> master</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a></a><span class="co"># Make main the default branch on GitHub</span></span>
+<span id="cb1-8"><a></a><span class="ex">gh</span> repo edit <span class="at">--default-branch</span> main</span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a><span class="co"># Delete the old master branch on GitHub</span></span>
+<span id="cb1-11"><a></a><span class="fu">git</span> push origin <span class="at">--delete</span> master</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>The <code>-m</code> flag stands for “move” (rename)</li>
 <li>After this, your default branch will be called <code>main</code></li>
@@ -536,7 +539,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <div class="column" style="width:50%;">
 <ul>
 <li>What if my coauthor and I change the same line?</li>
-<li>Different files, or different lines in the same file: Git merges them for you 👍</li>
+<li>Different files, or lines far apart in the same file: Git merges them for you 👍</li>
 <li>The <span class="alert">same line</span>: Git cannot guess which one you want, so it asks you</li>
 <li>This is a <span class="alert">merge conflict</span>. It is normal, and it is not a disaster</li>
 <li>You resolve it by opening the file and choosing, or with a tool like <code>git mergetool</code></li>
@@ -646,7 +649,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <div class="column" style="width:50%;">
 <ul>
 <li>Branches are a way to work on different features or versions of your project</li>
-<li>The default branch is called <code>main</code> on GitHub, and <code>master</code> in older repositories</li>
+<li>The default branch is called <code>main</code> on GitHub, and <code>master</code> in older repositories and in Git’s own default</li>
 <li>However, you can create new branches to work on new features or versions <span class="alert">without affecting the <code>main</code> branch</span></li>
 <li>You can create a new branch with the command <code>git branch branch-name</code></li>
 <li>And you can switch to the new branch with the command <code>git checkout branch-name</code>
@@ -730,7 +733,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <ul>
 <li><p><span class="alert">Look around</span>: <code>git checkout &lt;hash&gt;</code>. You are now in <span class="alert">detached HEAD</span>, so anything you commit belongs to no branch</p></li>
 <li><p><span class="alert">Keep your work</span>: <code>git switch -c new-branch &lt;hash&gt;</code> starts a branch at that commit. <a href="https://git-scm.com/docs/git-switch">Usually what you want</a></p></li>
-<li><p><span class="alert">Move the branch itself</span>: <code>git reset --hard &lt;hash&gt;</code> rewinds your branch and <span class="alert">throws away every commit after it</span></p></li>
+<li><p><span class="alert">Move the branch itself</span>: <code>git reset --hard &lt;hash&gt;</code> rewinds your branch, drops every later commit, and <span class="alert">deletes uncommitted changes for good</span></p></li>
 <li><p><code>git switch main</code> brings you back to the present</p></li>
 </ul>
 </div><div class="column" style="width:55%;">
@@ -759,7 +762,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 </ul>
 <div style="margin-top: 20px;">
 <ul>
-<li><span class="alert">Rarely needed</span>: replacing <code>main</code> altogether. Delete it, rename your current branch to <code>main</code>, then push</li>
+<li><span class="alert">Rarely needed</span>: replacing <code>main</code> altogether. Delete it, rename your current branch to <code>main</code>, then <code>git push --force</code></li>
 <li><span class="alert">Never on a shared repository</span>. Everyone else’s work still points at the branch you deleted</li>
 </ul>
 </div>
@@ -789,7 +792,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <li>It creates a folder named after the repository</li>
 <li>Your copy stays <span class="alert">connected to the original</span></li>
 <li>So if the repository is not yours, <span class="alert">you cannot push to it</span></li>
-<li>Use it when you already have push rights and want to work locally</li>
+<li>Use it for your own repositories, or to download someone else’s code</li>
 </ul>
 </div><div class="column" style="width:45%;">
 <ul>
@@ -898,7 +901,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 </ul>
 <div style="margin-top: 30px;">
 <ul>
-<li><span class="alert">Pull requests</span> are a way to suggest changes after you have forked and changed a repository</li>
+<li><span class="alert">Pull requests</span> are a way to suggest changes from a fork or a branch</li>
 <li>You can create a pull request by clicking on the <code>Pull requests</code> tab on GitHub and then on the <code>New pull request</code> button</li>
 <li>Or in the terminal, from your branch: <code>gh pr create --fill</code> (title and body come from your commits)</li>
 <li>The repository owner can then review your changes and merge them</li>
@@ -934,7 +937,6 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <li>You can create a Gist by clicking on the <code>+</code> sign on the top right corner of GitHub and then on <code>New gist</code></li>
 <li>Paste any text or code and save it</li>
 <li>Or in the terminal: <code>gh gist create notes.py</code> (secret by default; add <code>--public</code> to list it)</li>
-<li>You can also create secret Gists that are not indexed by search engines</li>
 <li>Gists also benefit from version control, so you can see the history of changes and revert to previous versions</li>
 <li>Check it out: <a href="https://gist.github.com" class="uri">https://gist.github.com</a></li>
 </ul>

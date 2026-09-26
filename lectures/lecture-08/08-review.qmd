@@ -192,7 +192,7 @@ ls -lah ~/Documents
 
 :::{.column width="50%"}
 - Short options take one dash and combine, so `ls -l -a -h` and `ls -lah` are the same thing
-- Spelled-out options take two dashes: `ls --human-readable`
+- Spelled-out options take two dashes: `sort --unique`
 - The three you will use often: `-l` long format, `-a` all files including hidden ones, `-h` readable sizes
 - `man ls` opens the full manual, `tldr ls` gives the five things people actually use
 - Inside a manual page, `/word` searches and [`q` quits]{.alert}. That is the one to remember under time pressure 😅
@@ -554,7 +554,7 @@ git reset --soft HEAD~1
 ## Try it yourself! {#sec-exercise-05}
 
 :::{style="margin-top: 40px; font-size: 26px;"}
-1. Turn this directory into a repository
+1. Move into `project/` and turn it into a repository
 
 2. Create a `.gitignore` containing one line, `backup/`
 
@@ -593,7 +593,7 @@ git branch -d feature-x
 :::
 
 :::{.column width="45%"}
-- Two people change [different lines]{.alert}, and Git merges them for you. The [same line]{.alert}, and it asks you to choose
+- Two people change [lines far apart]{.alert}, and Git merges them for you. The [same line]{.alert}, and it asks you to choose
 - A [merge conflict]{.alert} is marked with three lines: `<<<<<<<` opens your version, `=======` separates, `>>>>>>>` closes theirs
 - Delete the markers along with the text you do not want, then `git add` and `git commit`
 
@@ -665,16 +665,16 @@ The quiz asks for a `commands.txt` holding every command you ran. Reconstructing
 :::
 
 ```bash
-history | tail -n 60 > commands.txt
+fc -ln -60 > commands.txt
 cat commands.txt
 ```
 :::
 
 :::{.column width="50%"}
-- `history` prints the commands you have run, most recent last
-- `tail -n 60` keeps the last sixty of them
+- `fc -l` lists the commands you have run, most recent last
+- `-60` keeps the last sixty, and `-n` drops the line numbers. Plain `history` on zsh only shows the last 16
 - Always `cat` the file before you push. An empty `commands.txt` is the single most common way to lose marks on this quiz
-- [Important]{.alert}: `history` only remembers the terminal session you are in. [Close the window mid-quiz and you lose it]{.alert}
+- [Important]{.alert}: keep [one terminal window]{.alert} open for the whole quiz. A new window may not show what you typed in the old one
 :::
 :::
 :::
@@ -840,7 +840,7 @@ grep "in" project/docs/countries.txt | wc -l  # 3. one
 
 :::{style="margin-top: 30px; font-size: 22px;"}
 ```bash
-git init                                      # 1. Git calls your files "untracked"
+cd project && git init                        # 1. Git calls your files "untracked"
 
 echo "backup/" > .gitignore                   # 2. backup/ leaves the untracked list
 

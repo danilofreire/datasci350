@@ -22,7 +22,7 @@ Then experiment:
 - Set `QUESTION` to something the corpus can answer, and check the answer against the named file.
 - Set `QUESTION` to something the corpus cannot answer ("What is the capital of Nepal?") and watch how retrieval and generation each behave.
 - Change `TOP_K` in `rag.py` from 3 to 1 and see which questions degrade.
-- Point `load_chunks` at a folder of your own notes.
+- Point `CORPUS` at a folder of your own notes.
 
 If `ollama pull embeddinggemma` fails, update Ollama, or switch `EMBED_MODEL` to `nomic-embed-text` and pull that instead.
 

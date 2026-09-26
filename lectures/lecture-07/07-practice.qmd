@@ -194,7 +194,7 @@ git commit --amend -m "Updated commit message"
 
 - Only amend [local commits]{.alert}
 - Don't amend commits that have been pushed to a shared repository, as it rewrites history
-- If you need to modify pushed commits, use `git revert` instead
+- To undo a pushed commit, use `git revert`, which adds a new commit that reverses it
 - Always communicate with your team before amending shared history
 :::
 :::
@@ -277,8 +277,8 @@ git cherry-pick abc1234
 # Cherry-pick multiple commits
 git cherry-pick abc1234 def5678
 
-# Cherry-pick a range of commits
-git cherry-pick abc1234..def5678
+# Cherry-pick a range of commits (^ includes abc1234 itself)
+git cherry-pick abc1234^..def5678
 ```
 
 **After cherry-picking:**
@@ -339,7 +339,7 @@ git cherry-pick --skip      # Skip the current commit
 # Interactive rebase of last 3 commits
 git rebase -i HEAD~3
 
-# Interactive rebase to specific commit
+# Interactive rebase of the commits after abc1234
 git rebase -i abc1234
 ```
 
@@ -401,7 +401,7 @@ git status   # nothing to commit, working tree clean
 # 3. Fix the bug on main
 git checkout main
 echo "# Fixed typo" >> README.md
-git commit -m "Fix typo in README"
+git commit -am "Fix typo in README"
 
 # 4. Go back and pick up where you left off
 git checkout feature-branch
@@ -551,9 +551,9 @@ gh auth login
 ```
 - Select GitHub.com
 - Choose HTTPS Git operations
-- Choose `Y` to authenticate with a web browser
+- Choose `Y` to authenticate Git with your GitHub credentials
 - Choose `Login with a web browser` 
-- Press `Enter` to open the link in your browser and copy the one-time code
+- Copy the one-time code, then press `Enter` to open the link in your browser
 
 :::{style="text-align: center; margin-top: -20px;"}
 [![](figures/auth.png){width="90%"}](#){data-modal-type="image" data-modal-url="figures/auth.png"}
@@ -575,11 +575,12 @@ gh repo list
 # View repository details
 gh repo view --web
 
-# Star/unstar a repository
-gh repo star
+# Clone a repository
+gh repo clone owner/repo
 
 # Archive/unarchive a repository
 gh repo archive
+gh repo unarchive
 ```
 :::
 

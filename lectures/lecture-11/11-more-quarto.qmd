@@ -30,7 +30,7 @@ editor:
 - The [reproducibility crisis]{.alert}: most results fail because the code does not run
 - Habits that fix it: project structure, untouched raw data, relative paths, seeds, recorded versions
 - [Quarto]{.alert}: a [YAML header]{.alert}, [Markdown]{.alert} and [code chunks]{.alert}
-- `quarto render` builds a document; `quarto preview` keeps a live one open
+- `quarto render` builds a document, while `quarto preview` keeps a live one open
 - Every render is a [restart-and-run-all]{.alert} test
 - You rendered your first document. Today [we put Quarto to work]{.alert}
 :::
@@ -199,7 +199,7 @@ quarto render notebook.ipynb --to html
 ```
 
 - By default Quarto uses the outputs [stored]{.alert} in the notebook. `--execute` re-runs the code first
-- Python not found? `quarto check jupyter` diagnoses it; the [`QUARTO_PYTHON` variable](https://quarto.org/docs/computations/python.html) fixes it
+- Python not found? `quarto check jupyter` diagnoses it, and the [`QUARTO_PYTHON` variable](https://quarto.org/docs/computations/python.html) fixes it
 - For long documents, `.qmd` is nicer to write
 :::
 
@@ -320,7 +320,7 @@ bibliography: references.bib
 :::{style="margin-top: 25px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="50%"}
-A citation points outside your document; a [cross-reference]{.alert} points inside it. Label the chunk, then use the label:
+A citation points outside your document, while a [cross-reference]{.alert} points inside it. Label the chunk, then use the label:
 
 ````{verbatim}
 ```{{python}}
@@ -614,7 +614,7 @@ You met GitHub Pages in module 02. With Githack, push your HTML, paste its URL a
 :::{style="text-align: center; font-size: 18px;"}
 [![](figures/githack.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/githack.png"}
 
-Paste a GitHub link, get a shareable URL. "Production" links cache permanently; "development" links pick up new commits within minutes
+Paste a GitHub link, get a shareable URL. "Production" links cache permanently, while "development" links pick up new commits within minutes
 :::
 :::
 :::
@@ -1274,7 +1274,7 @@ Key points:
 - `#| label: fig-sine` gives the figure a cross-reference label
 - `@fig-sine` in the text creates a clickable link to it
 - `bibliography: references.bib` tells Quarto where to find BibTeX entries
-- `@key` cites from the `.bib` file; the reference list is added automatically at the end
+- `@key` cites from the `.bib` file, and the reference list is added automatically at the end
 :::
 :::
 :::

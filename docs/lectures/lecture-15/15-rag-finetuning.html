@@ -849,7 +849,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 </div>
 <div style="font-size: 19px;">
 <ul>
-<li><span class="alert">No file gives the project’s weight</span>; the best match (0.38) is a quiz “worth 6%”</li>
+<li><span class="alert">No file gives the project’s weight</span>. The best match (0.38) is a quiz “worth 6%”</li>
 <li>“When is Quiz 02?” misses its file, and no chunk gives a date</li>
 <li>Three top hits are bare “View the slides” links</li>
 </ul>
@@ -959,7 +959,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <div style="margin-top: 50px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>RAG changes <span class="alert">what the model reads</span>; fine-tuning changes <span class="alert">its weights</span></p>
+<p>RAG changes <span class="alert">what the model reads</span>, while fine-tuning changes <span class="alert">its weights</span></p>
 <div style="margin-top: 25px; margin-bottom: 25px; font-size: 25px;">
 <table class="caption-top">
 <thead>
@@ -994,7 +994,8 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 </table>
 </div>
 <ul>
-<li>RAG is an <span class="alert">open-book exam</span>; fine-tuning is <span class="alert">memorising the book</span></li>
+<li>RAG is an <span class="alert">open-book exam</span></li>
+<li>Fine-tuning is <span class="alert">memorising the book</span></li>
 <li>Fine-tuning trains on <span class="alert">your examples</span>, often thousands of input-output pairs</li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -1034,7 +1035,8 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <ul>
 <li>Chat models are base models, which predict the <span class="alert">next token</span>, fine-tuned on question-answer pairs</li>
 <li><a href="https://arxiv.org/abs/2203.02155">RLHF</a> then teaches them the answers people prefer</li>
-<li>Training <span class="alert">can be cheap</span>; <span class="alert">writing good examples</span> costs more, but a bigger model can <a href="https://arxiv.org/abs/2305.02301">write them</a></li>
+<li>Training <span class="alert">can be cheap</span>, but <span class="alert">writing good examples</span> costs more</li>
+<li>A bigger model can <a href="https://arxiv.org/abs/2305.02301">write them</a></li>
 </ul>
 </div></div>
 </div>
@@ -1132,7 +1134,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 </div>
 <ul>
 <li>LoRA trains only <span class="alert">6.9M</span> of 3.2B weights (0.2%)</li>
-<li>It took 15 minutes; the adapter is <span class="alert">27 MB</span></li>
+<li>It took 15 minutes, and the adapter is <span class="alert">27 MB</span></li>
 <li><a href="https://danilofreire.github.io/datasci350/tutorials/08-finetuning-tutorial.html">Tutorial 08</a> shows every step</li>
 </ul>
 </div></div>
@@ -1239,7 +1241,8 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <li>Check the sources and similarities before trusting an answer</li>
 <li>Retrieval found the right file for <span class="alert">5 of 7</span> test questions</li>
 <li>Fine-tuning changes <span class="alert">the weights</span>: use it for behaviour, and RAG for facts</li>
-<li>LoRA makes fine-tuning cheaper; distillation trains a small model on a big one’s answers</li>
+<li>LoRA makes fine-tuning cheaper</li>
+<li>Distillation trains a small model on a big one’s answers</li>
 <li>Climb the ladder: <span class="alert">prompt → RAG → fine-tune</span></li>
 </ul>
 </div></div>
@@ -1287,7 +1290,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <li>Three chunks come back, none about Nepal, with a similarity of about <span class="alert">0.20</span> (good matches score about 0.5 to 0.6)</li>
 <li>The top one is about getting help, which is simply the <span class="alert">least unrelated</span> chunk</li>
 <li>In ten runs, <code>llama3.2:1b</code> said every time that the data does not mention Nepal</li>
-<li>Retrieval cannot say “nothing here”, so the model has to; write down what yours did</li>
+<li>Retrieval cannot say “nothing here”, so the model has to. Write down what yours did</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><span class="alert">Steps 6 and 7</span>, <code>n_results=1</code>:</p>
@@ -1407,7 +1410,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <ul>
 <li>The client is called <code>openrouter</code>, because <code>rag.py</code> already uses <code>client</code> for Chroma</li>
 <li>Both models are <code>:free</code>, so a $0.00 key limit works. Each run makes three requests, so watch the rate limits</li>
-<li>Free models change often; check <a href="https://openrouter.ai/models">openrouter.ai/models</a>. Install the packages with <code>pip install openai python-dotenv chromadb</code></li>
+<li>Free models change often, so check <a href="https://openrouter.ai/models">openrouter.ai/models</a>. Install the packages with <code>pip install openai python-dotenv chromadb</code></li>
 </ul>
 <p><a href="#/sec-exercise-01"><span class="button">Back to the exercise</span></a></p>
 </div>

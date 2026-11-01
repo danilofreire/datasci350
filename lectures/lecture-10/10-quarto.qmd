@@ -457,7 +457,7 @@ print(raw.parent)    # data/raw
 - Quarto runs each document from [the folder holding the `.qmd` file]{.alert}
 - [`os.chdir()`]{.alert} moves the working directory for the whole session, so every later relative path silently points elsewhere
 - Run `os.chdir("data")` twice in a notebook and the second run fails
-- Prefer paths built from the project root; never move around
+- Prefer paths built from the project root, and never move around
 :::
 :::
 :::
@@ -847,7 +847,7 @@ plt.show()
 :::
 
 :::{.column width="50%"}
-- [Three backticks]{.alert} and `{python}` open a chunk; [three backticks]{.alert} close it
+- [Three backticks]{.alert} and `{python}` open a chunk, and [three backticks]{.alert} close it
 - On render, the chunk [runs]{.alert} and its output goes into the document
 - `#|` lines are [chunk options]{.alert}, in YAML syntax
 - Here they label the figure and hide the code and warnings
@@ -897,7 +897,7 @@ execute:
 :::{style="margin-top: 30px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="46%"}
-`layout-ncol: 2` puts two plots side by side; `echo: false` hides the code:
+`layout-ncol: 2` puts two plots side by side, and `echo: false` hides the code:
 
 ```` markdown
 ```{{python}}

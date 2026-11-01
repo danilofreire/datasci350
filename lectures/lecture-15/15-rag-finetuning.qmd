@@ -581,7 +581,7 @@ Ask questions with a [known source file]{.alert}, and check `Sources`:
 :::
 
 :::{style="font-size: 19px;"}
-- [No file gives the project's weight]{.alert}; the best match (0.38) is a quiz "worth 6%"
+- [No file gives the project's weight]{.alert}. The best match (0.38) is a quiz "worth 6%"
 - "When is Quiz 02?" misses its file, and no chunk gives a date
 - Three top hits are bare "View the slides" links
 :::
@@ -695,7 +695,7 @@ Try it: add that line to a `corpus/` file and ask a question that retrieves it
 :::{style="margin-top: 50px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="50%"}
-RAG changes [what the model reads]{.alert}; fine-tuning changes [its weights]{.alert}
+RAG changes [what the model reads]{.alert}, while fine-tuning changes [its weights]{.alert}
 
 :::{style="margin-top: 25px; margin-bottom: 25px; font-size: 25px;"}
 | | RAG / prompting | Fine-tuning |
@@ -706,7 +706,8 @@ RAG changes [what the model reads]{.alert}; fine-tuning changes [its weights]{.a
 | Undo | Delete a file | Keep the old weights |
 :::
 
-- RAG is an [open-book exam]{.alert}; fine-tuning is [memorising the book]{.alert}
+- RAG is an [open-book exam]{.alert}
+- Fine-tuning is [memorising the book]{.alert}
 - Fine-tuning trains on [your examples]{.alert}, often thousands of input-output pairs
 :::
 
@@ -750,7 +751,8 @@ Training data is a [JSONL](https://scrapfly.io/blog/posts/jsonl-vs-json) file wi
 :::{.column width="50%"}
 - Chat models are base models, which predict the [next token]{.alert}, fine-tuned on question-answer pairs
 - [RLHF](https://arxiv.org/abs/2203.02155) then teaches them the answers people prefer
-- Training [can be cheap]{.alert}; [writing good examples]{.alert} costs more, but a bigger model can [write them](https://arxiv.org/abs/2305.02301)
+- Training [can be cheap]{.alert}, but [writing good examples]{.alert} costs more
+- A bigger model can [write them](https://arxiv.org/abs/2305.02301)
 :::
 :::
 :::
@@ -856,7 +858,7 @@ uv run mlx_lm.lora \
 :::
 
 - LoRA trains only [6.9M]{.alert} of 3.2B weights (0.2%)
-- It took 15 minutes; the adapter is [27 MB]{.alert}
+- It took 15 minutes, and the adapter is [27 MB]{.alert}
 - [Tutorial 08](https://danilofreire.github.io/datasci350/tutorials/08-finetuning-tutorial.html) shows every step
 :::
 :::
@@ -961,7 +963,8 @@ After (run 1): It is Sydney.                       ❌
 - Check the sources and similarities before trusting an answer
 - Retrieval found the right file for [5 of 7]{.alert} test questions
 - Fine-tuning changes [the weights]{.alert}: use it for behaviour, and RAG for facts
-- LoRA makes fine-tuning cheaper; distillation trains a small model on a big one's answers
+- LoRA makes fine-tuning cheaper
+- Distillation trains a small model on a big one's answers
 - Climb the ladder: [prompt → RAG → fine-tune]{.alert}
 :::
 :::
@@ -1011,7 +1014,7 @@ Try `rag.py` on your own notes this week
 - Three chunks come back, none about Nepal, with a similarity of about [0.20]{.alert} (good matches score about 0.5 to 0.6)
 - The top one is about getting help, which is simply the [least unrelated]{.alert} chunk
 - In ten runs, `llama3.2:1b` said every time that the data does not mention Nepal
-- Retrieval cannot say "nothing here", so the model has to; write down what yours did
+- Retrieval cannot say "nothing here", so the model has to. Write down what yours did
 :::
 
 :::{.column width="50%"}
@@ -1145,7 +1148,7 @@ print(output.choices[0].message.content)
 
 - The client is called `openrouter`, because `rag.py` already uses `client` for Chroma
 - Both models are `:free`, so a $0.00 key limit works. Each run makes three requests, so watch the rate limits
-- Free models change often; check [openrouter.ai/models](https://openrouter.ai/models). Install the packages with `pip install openai python-dotenv chromadb`
+- Free models change often, so check [openrouter.ai/models](https://openrouter.ai/models). Install the packages with `pip install openai python-dotenv chromadb`
 
 [[Back to the exercise]{.button}](#sec-exercise-01)
 :::

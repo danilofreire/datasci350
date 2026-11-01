@@ -224,11 +224,12 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <div class="columns">
 <div class="column" style="width:54%;">
 <ul>
-<li>A model is <span class="alert">a file</span> of weights; <span class="alert">quantisation</span> fits 1B parameters in 1.3 GB</li>
+<li>A model is <span class="alert">a file</span> of weights</li>
+<li><span class="alert">Quantisation</span> fits 1B parameters in 1.3 GB</li>
 <li>Text becomes <span class="alert">tokens</span>, then <span class="alert">embeddings</span> (similar meanings sit close)</li>
 <li><code>ollama run</code>, <code>ls</code> and <code>show</code> run, list and inspect models</li>
 <li>A <code>Modelfile</code> stores base model, temperature and system prompt <span class="alert">in a committable file</span></li>
-<li><span class="alert">Temperature 0</span> is repeatable; higher is more varied</li>
+<li><span class="alert">Temperature 0</span> is repeatable, while higher values vary more</li>
 <li>A system prompt sets <span class="alert">tone</span> reliably, a <span class="alert">rule</span> only approximately</li>
 <li><code>--format json</code> fixed an answer’s <span class="alert">shape</span>, never its truth</li>
 <li>Models <span class="alert">hallucinate</span> and carry training-data biases</li>
@@ -476,7 +477,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <div style="font-size: 21px; margin-top: 10px;">
 <ul>
 <li>The <a href="https://github.com/openai/openai-python"><code>openai</code> package</a> never contacts OpenAI here. It is <span class="alert">a client for a protocol</span> many servers speak</li>
-<li><code>base_url</code> is the address; <code>/v1</code> is the OpenAI-format endpoint</li>
+<li><code>base_url</code> is the address, and <code>/v1</code> is the OpenAI-format endpoint</li>
 <li>The library requires <code>api_key</code>, and <span class="alert">Ollama ignores it</span>. Write <code>"ollama"</code></li>
 <li>The file is <code>demo/ask_local.py</code> <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-14/demo/ask_local.py">in the repository</a></li>
 </ul>
@@ -540,7 +541,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <span id="cb11-3"><a></a>                total_tokens=302)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li><code>prompt_tokens</code> is what you sent; <code>completion_tokens</code> is what came back</li>
+<li><code>prompt_tokens</code> is what you sent, and <code>completion_tokens</code> is what came back</li>
 <li>These are the <span class="alert">tokens</span> from lecture 12, now counted</li>
 <li><span class="alert">Output costs more</span> on paid providers, usually several times the input price</li>
 <li>Locally, you pay in electricity and time. Hosted, you can calculate the cost:</li>
@@ -976,7 +977,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 <div style="font-size: 20px; margin-top: 30px;">
 <ul>
 <li>The loop sends one headline per call, so 15 rows make 15 calls</li>
-<li><code>json.loads</code> turns each reply into a dictionary; <code>["sentiment"]</code> gets the label</li>
+<li><code>json.loads</code> turns each reply into a dictionary, and <code>["sentiment"]</code> gets the label</li>
 <li>To swap servers, edit only <code>BASE_URL</code>, <code>API_KEY</code> and <code>MODEL</code></li>
 <li>The labels land in <span class="alert">a new column</span>, ready for pandas</li>
 <li>Fifteen headlines took <span class="alert">5.8 seconds</span> on my laptop, offline</li>

@@ -630,7 +630,7 @@ Danilo Freire
 <li>Quarto runs each document from <span class="alert">the folder holding the <code>.qmd</code> file</span></li>
 <li><span class="alert"><code>os.chdir()</code></span> moves the working directory for the whole session, so every later relative path silently points elsewhere</li>
 <li>Run <code>os.chdir("data")</code> twice in a notebook and the second run fails</li>
-<li>Prefer paths built from the project root; never move around</li>
+<li>Prefer paths built from the project root, and never move around</li>
 </ul>
 </div></div>
 </div>
@@ -641,18 +641,18 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <p>Without a seed, every run gives new numbers:</p>
-<div id="8c58f97f" class="cell" data-execution_count="1">
+<div id="e1104e2a" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb8-2"><a></a></span>
 <span id="cb8-3"><a></a><span class="bu">print</span>(np.random.normal(size<span class="op">=</span><span class="dv">3</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span>
 <span id="cb8-4"><a></a><span class="bu">print</span>(np.random.normal(size<span class="op">=</span><span class="dv">3</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[ 1.221 -0.07   1.372]
-[-1.314 -1.824 -2.203]</code></pre>
+<pre><code>[ 1.58  -0.215  0.891]
+[-1.156 -0.567 -0.523]</code></pre>
 </div>
 </div>
 <p>With a seed, everyone gets the same sequence:</p>
-<div id="269f5a4f" class="cell" data-execution_count="2">
+<div id="8a717d63" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>np.random.seed(<span class="dv">350</span>)</span>
 <span id="cb10-2"><a></a><span class="bu">print</span>(np.random.normal(size<span class="op">=</span><span class="dv">3</span>).<span class="bu">round</span>(<span class="dv">3</span>))</span>
 <span id="cb10-3"><a></a></span>
@@ -690,7 +690,7 @@ Danilo Freire
 <li>Record your versions so others can match them</li>
 </ul>
 <p>At minimum, note them in your README:</p>
-<div id="13227cd3" class="cell" data-execution_count="3">
+<div id="50a28458" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="im">import</span> sys, numpy, pandas</span>
 <span id="cb13-2"><a></a></span>
 <span id="cb13-3"><a></a><span class="bu">print</span>(<span class="st">"python:"</span>, sys.version.split()[<span class="dv">0</span>])</span>
@@ -1052,7 +1052,7 @@ flowchart LR
 <span id="cb24-11"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><span class="alert">Three backticks</span> and <code>{python}</code> open a chunk; <span class="alert">three backticks</span> close it</li>
+<li><span class="alert">Three backticks</span> and <code>{python}</code> open a chunk, and <span class="alert">three backticks</span> close it</li>
 <li>On render, the chunk <span class="alert">runs</span> and its output goes into the document</li>
 <li><code>#|</code> lines are <span class="alert">chunk options</span>, in YAML syntax</li>
 <li>Here they label the figure and hide the code and warnings</li>
@@ -1128,7 +1128,7 @@ flowchart LR
 <div style="margin-top: 30px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:46%;">
-<p><code>layout-ncol: 2</code> puts two plots side by side; <code>echo: false</code> hides the code:</p>
+<p><code>layout-ncol: 2</code> puts two plots side by side, and <code>echo: false</code> hides the code:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb26-1"><a></a><span class="in">```{python}</span></span>
 <span id="cb26-2"><a></a><span class="co">#| echo: false</span></span>
 <span id="cb26-3"><a></a><span class="co">#| layout-ncol: 2</span></span>
@@ -1141,7 +1141,7 @@ flowchart LR
 <span id="cb26-10"><a></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:54%;">
 <p>What the reader sees:</p>
-<div id="f091cbae" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="4">
+<div id="aa6c31f9" class="cell quarto-layout-panel" data-layout-ncol="2" data-execution_count="4">
 <div class="quarto-layout-row">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <p><img data-src="10-quarto_files/figure-revealjs/cell-5-output-1.png" width="373"></p>
@@ -1411,7 +1411,7 @@ flowchart LR
 </div><div class="column" style="width:45%;">
 <p><code>#| echo: false</code> hides the code and keeps the output, as task 5 asked.</p>
 <p>The chart your second chunk produces:</p>
-<div id="a314dd3c" class="cell" data-execution_count="5">
+<div id="3e938c78" class="cell" data-execution_count="5">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>

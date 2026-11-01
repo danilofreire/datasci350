@@ -234,7 +234,7 @@ Danilo Freire
 <li>The <span class="alert">reproducibility crisis</span>: most results fail because the code does not run</li>
 <li>Habits that fix it: project structure, untouched raw data, relative paths, seeds, recorded versions</li>
 <li><span class="alert">Quarto</span>: a <span class="alert">YAML header</span>, <span class="alert">Markdown</span> and <span class="alert">code chunks</span></li>
-<li><code>quarto render</code> builds a document; <code>quarto preview</code> keeps a live one open</li>
+<li><code>quarto render</code> builds a document, while <code>quarto preview</code> keeps a live one open</li>
 <li>Every render is a <span class="alert">restart-and-run-all</span> test</li>
 <li>You rendered your first document. Today <span class="alert">we put Quarto to work</span></li>
 </ul>
@@ -439,7 +439,7 @@ Danilo Freire
 </div>
 <ul>
 <li>By default Quarto uses the outputs <span class="alert">stored</span> in the notebook. <code>--execute</code> re-runs the code first</li>
-<li>Python not found? <code>quarto check jupyter</code> diagnoses it; the <a href="https://quarto.org/docs/computations/python.html"><code>QUARTO_PYTHON</code> variable</a> fixes it</li>
+<li>Python not found? <code>quarto check jupyter</code> diagnoses it, and the <a href="https://quarto.org/docs/computations/python.html"><code>QUARTO_PYTHON</code> variable</a> fixes it</li>
 <li>For long documents, <code>.qmd</code> is nicer to write</li>
 </ul>
 </div><div class="column" style="width:60%;">
@@ -562,7 +562,7 @@ Danilo Freire
 <div style="margin-top: 25px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>A citation points outside your document; a <span class="alert">cross-reference</span> points inside it. Label the chunk, then use the label:</p>
+<p>A citation points outside your document, while a <span class="alert">cross-reference</span> points inside it. Label the chunk, then use the label:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource markdown {verbatim} number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a></a><span class="in">```{python}</span></span>
 <span id="cb9-2"><a></a><span class="co">#| label: fig-rain</span></span>
 <span id="cb9-3"><a></a><span class="co">#| fig-cap: "Monthly rainfall in Atlanta"</span></span>
@@ -862,7 +862,7 @@ Danilo Freire
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; font-size: 18px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/githack.png"><img data-src="figures/githack.png" style="width:100.0%"></a></p>
-<p>Paste a GitHub link, get a shareable URL. “Production” links cache permanently; “development” links pick up new commits within minutes</p>
+<p>Paste a GitHub link, get a shareable URL. “Production” links cache permanently, while “development” links pick up new commits within minutes</p>
 </div>
 </div></div>
 </div>
@@ -1168,51 +1168,51 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:45%;">
 <p>Rendered with the default, <code>country = "Brazil"</code>:</p>
-<div id="2fa2a7bc" class="cell" data-execution_count="1">
+<div id="73e7e506" class="cell" data-execution_count="1">
 <div class="cell-output cell-output-display" data-execution_count="1">
 <style type="text/css">
 </style>
 
-<table id="T_b3c4a" class="caption-top">
+<table id="T_4ac35" class="caption-top">
 <thead>
 <tr class="header">
-<th id="T_b3c4a_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Year</th>
-<th id="T_b3c4a_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">GDP per capita (US$)</th>
-<th id="T_b3c4a_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Life expectancy</th>
+<th id="T_4ac35_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Year</th>
+<th id="T_4ac35_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">GDP per capita (US$)</th>
+<th id="T_4ac35_level0_col2" class="col_heading level0 col2" data-quarto-table-cell-role="th">Life expectancy</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_b3c4a_row0_col0" class="data row0 col0">2019</td>
-<td id="T_b3c4a_row0_col1" class="data row0 col1">9,030</td>
-<td id="T_b3c4a_row0_col2" class="data row0 col2">75.8</td>
+<td id="T_4ac35_row0_col0" class="data row0 col0">2019</td>
+<td id="T_4ac35_row0_col1" class="data row0 col1">9,030</td>
+<td id="T_4ac35_row0_col2" class="data row0 col2">75.8</td>
 </tr>
 <tr class="even">
-<td id="T_b3c4a_row1_col0" class="data row1 col0">2020</td>
-<td id="T_b3c4a_row1_col1" class="data row1 col1">7,074</td>
-<td id="T_b3c4a_row1_col2" class="data row1 col2">74.5</td>
+<td id="T_4ac35_row1_col0" class="data row1 col0">2020</td>
+<td id="T_4ac35_row1_col1" class="data row1 col1">7,074</td>
+<td id="T_4ac35_row1_col2" class="data row1 col2">74.5</td>
 </tr>
 <tr class="odd">
-<td id="T_b3c4a_row2_col0" class="data row2 col0">2021</td>
-<td id="T_b3c4a_row2_col1" class="data row2 col1">7,972</td>
-<td id="T_b3c4a_row2_col2" class="data row2 col2">73.0</td>
+<td id="T_4ac35_row2_col0" class="data row2 col0">2021</td>
+<td id="T_4ac35_row2_col1" class="data row2 col1">7,972</td>
+<td id="T_4ac35_row2_col2" class="data row2 col2">73.0</td>
 </tr>
 <tr class="even">
-<td id="T_b3c4a_row3_col0" class="data row3 col0">2022</td>
-<td id="T_b3c4a_row3_col1" class="data row3 col1">9,281</td>
-<td id="T_b3c4a_row3_col2" class="data row3 col2">74.9</td>
+<td id="T_4ac35_row3_col0" class="data row3 col0">2022</td>
+<td id="T_4ac35_row3_col1" class="data row3 col1">9,281</td>
+<td id="T_4ac35_row3_col2" class="data row3 col2">74.9</td>
 </tr>
 <tr class="odd">
-<td id="T_b3c4a_row4_col0" class="data row4 col0">2023</td>
-<td id="T_b3c4a_row4_col1" class="data row4 col1">10,378</td>
-<td id="T_b3c4a_row4_col2" class="data row4 col2">75.8</td>
+<td id="T_4ac35_row4_col0" class="data row4 col0">2023</td>
+<td id="T_4ac35_row4_col1" class="data row4 col1">10,378</td>
+<td id="T_4ac35_row4_col2" class="data row4 col2">75.8</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </div><div class="column" style="width:55%;">
-<div id="7baa1691" class="cell" data-execution_count="2">
+<div id="66c2b805" class="cell" data-execution_count="2">
 <div class="cell-output cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure>
@@ -1568,7 +1568,7 @@ Danilo Freire
 <li><code>#| label: fig-sine</code> gives the figure a cross-reference label</li>
 <li><code>@fig-sine</code> in the text creates a clickable link to it</li>
 <li><code>bibliography: references.bib</code> tells Quarto where to find BibTeX entries</li>
-<li><code>@key</code> cites from the <code>.bib</code> file; the reference list is added automatically at the end</li>
+<li><code>@key</code> cites from the <code>.bib</code> file, and the reference list is added automatically at the end</li>
 </ul>
 </div>
 </div></div>

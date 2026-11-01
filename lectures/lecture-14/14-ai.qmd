@@ -27,11 +27,12 @@ editor:
 :::{style="margin-top: 30px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="54%"}
-- A model is [a file]{.alert} of weights; [quantisation]{.alert} fits 1B parameters in 1.3 GB
+- A model is [a file]{.alert} of weights
+- [Quantisation]{.alert} fits 1B parameters in 1.3 GB
 - Text becomes [tokens]{.alert}, then [embeddings]{.alert} (similar meanings sit close)
 - `ollama run`, `ls` and `show` run, list and inspect models
 - A `Modelfile` stores base model, temperature and system prompt [in a committable file]{.alert}
-- [Temperature 0]{.alert} is repeatable; higher is more varied
+- [Temperature 0]{.alert} is repeatable, while higher values vary more
 - A system prompt sets [tone]{.alert} reliably, a [rule]{.alert} only approximately
 - `--format json` fixed an answer's [shape]{.alert}, never its truth
 - Models [hallucinate]{.alert} and carry training-data biases
@@ -284,7 +285,7 @@ CompletionUsage(completion_tokens=271,
 
 :::{style="font-size: 21px; margin-top: 10px;"}
 - The [`openai` package](https://github.com/openai/openai-python) never contacts OpenAI here. It is [a client for a protocol]{.alert} many servers speak
-- `base_url` is the address; `/v1` is the OpenAI-format endpoint
+- `base_url` is the address, and `/v1` is the OpenAI-format endpoint
 - The library requires `api_key`, and [Ollama ignores it]{.alert}. Write `"ollama"`
 - The file is `demo/ask_local.py` [in the repository](https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-14/demo/ask_local.py)
 :::
@@ -363,7 +364,7 @@ CompletionUsage(completion_tokens=271,
 ```
 :::
 
-- `prompt_tokens` is what you sent; `completion_tokens` is what came back
+- `prompt_tokens` is what you sent, and `completion_tokens` is what came back
 - These are the [tokens]{.alert} from lecture 12, now counted
 - [Output costs more]{.alert} on paid providers, usually several times the input price
 - Locally, you pay in electricity and time. Hosted, you can calculate the cost:
@@ -846,7 +847,7 @@ headlines.to_csv("results.csv", index=False)
 :::{.column width="45%"}
 :::{style="font-size: 20px; margin-top: 30px;"}
 - The loop sends one headline per call, so 15 rows make 15 calls
-- `json.loads` turns each reply into a dictionary; `["sentiment"]` gets the label
+- `json.loads` turns each reply into a dictionary, and `["sentiment"]` gets the label
 - To swap servers, edit only `BASE_URL`, `API_KEY` and `MODEL`
 - The labels land in [a new column]{.alert}, ready for pandas
 - Fifteen headlines took [5.8 seconds]{.alert} on my laptop, offline

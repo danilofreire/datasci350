@@ -679,7 +679,7 @@ output/
 :::
 
 - [1.42MB down to 59.36kB]{.alert}. Both folders held `.git`, the data, and a rendered report
-- `.gitignore` keeps files out of your repository; `.dockerignore` keeps them out of your image
+- `.gitignore` keeps files out of your repository, and `.dockerignore` keeps them out of your image
   - `data/raw/` belongs in neither
 - Leave `report.html` out of the list and every render changes the context
   - That breaks the cache on `COPY . /project` even when your source did not move
@@ -1583,7 +1583,7 @@ docker compose down
 
 :::{.column width="50%"}
 - `down` removes the container and the network it created
-- `docker compose` with a space is the current command; `docker-compose` with a hyphen is the legacy one
+- `docker compose` with a space is the current command, while `docker-compose` with a hyphen is the legacy one
   - This laptop runs [Compose v5.1.2]{.alert}
 - The starter ships no compose file, so write your own
 - What it printed on this laptop:

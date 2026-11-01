@@ -701,7 +701,7 @@ Danilo Freire <a href="https://orcid.org/0000-0002-4712-6810" class="quarto-titl
 </div>
 <ul>
 <li>Then delete it by line number, or by the text it contains</li>
-<li><code>sed -i ''</code> needs the empty <code>''</code> on macOS; Linux is just <code>sed -i</code></li>
+<li><code>sed -i ''</code> needs the empty <code>''</code> on macOS, while Linux is just <code>sed -i</code></li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb12-1"><a></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">''</span> <span class="st">'2d'</span> countries.txt         <span class="co"># delete line 2</span></span>
 <span id="cb12-2"><a></a><span class="fu">sed</span> <span class="at">-i</span> <span class="st">''</span> <span class="st">'/brazil/d'</span> countries.txt  <span class="co"># every "brazil" line</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

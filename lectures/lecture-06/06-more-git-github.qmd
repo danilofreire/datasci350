@@ -147,7 +147,8 @@ git push origin --delete master
 :::{.columns}
 :::{.column width="50%"}
 - Personal and Emory accounts? You can use both
-- `--global` sets defaults for all repositories; omit it to set values [for one repository only]{.alert}
+- `--global` sets defaults for all repositories
+- Omit it to set values [for one repository only]{.alert}
 - `gh` stores several accounts and switches between them
 - `gh auth login`: log in to an account
 - `gh auth status`: check which account is active
@@ -710,7 +711,7 @@ Pull requests
 - [Gists](https://gist.github.com) are a great way to share code snippets, notes, or other text
 - You can create a Gist by clicking on the `+` sign on the top right corner of GitHub and then on `New gist`
 - Paste any text or code and save it
-- Or in the terminal: `gh gist create notes.py` (secret by default; add `--public` to list it)
+- Or in the terminal: `gh gist create notes.py` (secret by default, but `--public` lists it)
 - Gists also benefit from version control, so you can see the history of changes and revert to previous versions
 - Check it out: <https://gist.github.com>
 :::

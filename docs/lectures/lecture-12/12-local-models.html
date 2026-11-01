@@ -265,7 +265,7 @@ Danilo Freire
 <p><span class="alert">3. Build your own chatbot</span></p>
 <ul>
 <li>System prompts, temperature, and the <code>Modelfile</code></li>
-<li>I build a butler on screen; you build another</li>
+<li>I build a butler on screen and you build one</li>
 </ul>
 <p><span class="alert">4. Where it breaks</span></p>
 <ul>
@@ -564,7 +564,7 @@ Danilo Freire
 <div class="column" style="width:55%;">
 <p>Download <a href="https://ollama.com/library/llama3.2">Llama 3.2</a> (about 1.3 GB):</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a></a><span class="ex">ollama</span> pull llama3.2:1b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p><code>llama3.2</code> is the family; <code>1b</code> is the size (one billion parameters). Start a chat:</p>
+<p><code>llama3.2</code> is the family and <code>1b</code> is the size (one billion parameters). Start a chat:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a></a><span class="ex">ollama</span> run llama3.2:1b</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>At the <code>&gt;&gt;&gt;</code> prompt, type a question. <code>/bye</code> leaves:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a></a>&gt;&gt;&gt; Why is the sky blue?</span>
@@ -714,7 +714,7 @@ Danilo Freire
 <li><span class="alert">embedding length 2048</span>: each token becomes <span class="alert">2,048 numbers</span>, the king-queen space</li>
 <li><span class="alert">quantization Q8_0</span>: bits per number (next slide)</li>
 <li><span class="alert">architecture llama</span>: the Transformer design</li>
-<li><span class="alert">capabilities</span>: <code>completion</code> means it chats; <code>tools</code> means it can call functions (lecture 14)</li>
+<li><span class="alert">capabilities</span>: <code>completion</code> means it chats, <code>tools</code> means it can call functions (lecture 14)</li>
 </ul>
 </div>
 <div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
@@ -1476,7 +1476,8 @@ Danilo Freire
 <div class="column" style="width:52%;">
 <ul>
 <li>Models produce <span class="alert">confident but incorrect content</span>, in the same tone as correct answers</li>
-<li>Jeeves invented Atlanta’s weather; the JSON slide gave Paris 21 million people</li>
+<li>Jeeves invented Atlanta’s weather</li>
+<li>The JSON slide gave Paris 21 million people</li>
 <li>The model picks likely tokens, and <span class="alert">a wrong answer can be very likely</span></li>
 <li>Microsoft Copilot solved a simple quadratic as <span class="math inline">\(\frac{1}{2}\)</span> and <span class="math inline">\(\frac{-5}{4}\)</span>. The roots are 0.804 and −1.55</li>
 <li>Bigger models hallucinate less, but <span class="alert">none hallucinate zero</span></li>
@@ -1561,7 +1562,7 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><span class="alert">Next class is Quiz 02</span>, on lectures 10 and 11: Quarto, Markdown, citations, <code>freeze</code> and publishing a site. Open notes, slides and web. AI allowed; say which one you used.</p>
+<p><span class="alert">Next class is Quiz 02</span>, on lectures 10 and 11: Quarto, Markdown, citations, <code>freeze</code> and publishing a site. Open notes, slides and web. AI allowed, but say which one you used.</p>
 <p>Bring a charged laptop, and check that <code>quarto render</code> works.</p>
 </div><div class="column" style="width:50%;">
 <p><span class="alert">Lecture 14</span>: Python talks to Ollama’s server on <code>localhost:11434</code>. You classify a file of headlines with your model, then switch to a hosted one by changing an address.</p>

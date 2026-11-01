@@ -824,7 +824,7 @@ open output/report.html
 ```
 
 * The machine has Docker installed and nothing else: no Python, no Quarto, no packages
-* The build has internet; the run is promised none
+* The build has internet, but the run is promised none
 :::
 
 :::{.column width="46%"}

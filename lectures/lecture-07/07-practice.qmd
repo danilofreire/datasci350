@@ -111,9 +111,11 @@ git diff
 Reading the output:
 
 - `a/` is the old version, `b/` is the new one
-- `index e69de29..42b9fb1`: short IDs of the file before and after the change; `100644` means a regular file ([other file modes](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects#_tree_objects))
+- `index e69de29..42b9fb1`: short IDs of the file before and after the change
+- `100644` means a regular file ([other file modes](https://git-scm.com/book/en/v2/Git-Internals-Git-Objects#_tree_objects))
 - `@@ -0,0 +1 @@`: old file had 0 lines, new file has 1 line starting at line 1
-- `+` before a line: added; `-` before a line: removed
+- `+` before a line: added
+- `-` before a line: removed
 :::
 :::
 :::

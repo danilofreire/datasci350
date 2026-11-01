@@ -69,7 +69,7 @@ No account, API key or monthly fee. No internet once the file is on disk
 [3. Build your own chatbot]{.alert}
 
 - System prompts, temperature, and the `Modelfile`
-- I build a butler on screen; you build another
+- I build a butler on screen and you build one
 
 [4. Where it breaks]{.alert}
 
@@ -362,7 +362,7 @@ Download [Llama 3.2](https://ollama.com/library/llama3.2) (about 1.3 GB):
 ollama pull llama3.2:1b
 ```
 
-`llama3.2` is the family; `1b` is the size (one billion parameters). Start a chat:
+`llama3.2` is the family and `1b` is the size (one billion parameters). Start a chat:
 
 ```bash
 ollama run llama3.2:1b
@@ -483,7 +483,7 @@ ollama show llama3.2:1b
 - [embedding length 2048]{.alert}: each token becomes [2,048 numbers]{.alert}, the king-queen space
 - [quantization Q8_0]{.alert}: bits per number (next slide)
 - [architecture llama]{.alert}: the Transformer design
-- [capabilities]{.alert}: `completion` means it chats; `tools` means it can call functions (lecture 14)
+- [capabilities]{.alert}: `completion` means it chats, `tools` means it can call functions (lecture 14)
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
@@ -1201,7 +1201,8 @@ The second is more interesting, and you will have one
 :::{.columns}
 :::{.column width="52%"}
 - Models produce [confident but incorrect content]{.alert}, in the same tone as correct answers
-- Jeeves invented Atlanta's weather; the JSON slide gave Paris 21 million people
+- Jeeves invented Atlanta's weather
+- The JSON slide gave Paris 21 million people
 - The model picks likely tokens, and [a wrong answer can be very likely]{.alert}
 - Microsoft Copilot solved a simple quadratic as $\frac{1}{2}$ and $\frac{-5}{4}$. The roots are 0.804 and −1.55
 - Bigger models hallucinate less, but [none hallucinate zero]{.alert}
@@ -1285,7 +1286,7 @@ News coverage: [Scientific American](https://www.scientificamerican.com/article/
 :::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
-[Next class is Quiz 02]{.alert}, on lectures 10 and 11: Quarto, Markdown, citations, `freeze` and publishing a site. Open notes, slides and web. AI allowed; say which one you used.
+[Next class is Quiz 02]{.alert}, on lectures 10 and 11: Quarto, Markdown, citations, `freeze` and publishing a site. Open notes, slides and web. AI allowed, but say which one you used.
 
 Bring a charged laptop, and check that `quarto render` works.
 :::

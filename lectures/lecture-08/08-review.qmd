@@ -411,7 +411,7 @@ grep -n brazil countries.txt   # lines with "brazil", numbered
 :::
 
 - Then delete it by line number, or by the text it contains
-- `sed -i ''` needs the empty `''` on macOS; Linux is just `sed -i`
+- `sed -i ''` needs the empty `''` on macOS, while Linux is just `sed -i`
 
 ```bash
 sed -i '' '2d' countries.txt         # delete line 2

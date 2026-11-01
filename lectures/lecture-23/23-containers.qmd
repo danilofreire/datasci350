@@ -1117,7 +1117,7 @@ Solution: [[Appendix 01]{.button}](#sec-appendix-01)
 - [uv]{.alert}: `pyproject.toml` + `uv.lock`, then `uv sync`
 - [Containers]{.alert}: image = recipe, container = running instance, registry = storage
 - [Layer caching]{.alert}: two-minute build, 0.754-second rebuild
-- Docker Desktop is free; [Podman, Colima, OrbStack]{.alert} run the same commands
+- Docker Desktop is free, and [Podman, Colima, OrbStack]{.alert} run the same commands
 :::
 :::
 

@@ -180,7 +180,7 @@ Suggested references:
 - [Ollama Documentation: Embedding models](https://docs.ollama.com/capabilities/embeddings).
 - [EmbeddingGemma on the Ollama model library](https://ollama.com/library/embeddinggemma). Note: this is the model we run in class.
 - [Sentence Transformers Documentation](https://sbert.net/). Note: the clearest explanation of what a sentence embedding is and how similarity search uses it.
-- [Unsloth Documentation](https://docs.unsloth.ai/). Note: the tool behind the fine-tuning demonstration; you are not expected to run it yourself.
+- [Unsloth Documentation](https://docs.unsloth.ai/). Note: the tool behind the fine-tuning demonstration. You are not expected to run it yourself.
 
 ## Module 05: Cloud Computing
 

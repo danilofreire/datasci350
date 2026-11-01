@@ -10,7 +10,7 @@ Assignment submissions are due on Thursdays at 11:59pm in the week following the
 
 We encourage you to complete assignments in Jupyter Notebooks and submit them in PDF format. You can also submit them as a Word document, provided that code and results are included in the same document.
 
-You will find the assignments in `.ipynb` format in the `assignments` folder on [the course repository](https://github.com/danilofreire/datasci350/tree/main/assignments). For your convenience, rendered versions are available on the course website; links are provided below.
+You will find the assignments in `.ipynb` format in the `assignments` folder on [the course repository](https://github.com/danilofreire/datasci350/tree/main/assignments). For your convenience, rendered versions are available on the course website, with links below.
 
 When submitting, please name your files as follows: `assignment-01-your-name.pdf`. For instance: `assignment-01-john-doe.pdf`.
 
@@ -49,6 +49,6 @@ There is a review session for Quiz 01 on September 22, and a course revision ses
 
 The final project is a group effort, with four to five students per group. You will collect data from a web API, process it with Polars or DuckDB, write the report in Quarto, and package the whole thing in a Docker container. The default is the World Bank API, and you may use another public API if you clear it with me first. The instructions are released on October 27 and the project is due on December 8.
 
-Two things are worth knowing before you start. First, a script pulls the data once and saves a snapshot to `data/raw/`, which you commit; your report reads only that saved copy, so the container renders identically in December even if the API changes or goes down. Second, the sophistication of your statistics is not graded. Careful descriptive work, correctly interpreted, scores better than an advanced method used badly.
+Two things are worth knowing before you start. First, a script pulls the data once and saves a snapshot to `data/raw/`, which you commit. Your report reads only that saved copy, so the container renders identically in December even if the API changes or goes down. Second, the sophistication of your statistics is not graded. Careful descriptive work, correctly interpreted, scores better than an advanced method used badly.
 
 Read the full [project instructions](https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf), and clone the [starter repository](https://github.com/danilofreire/datasci350-project-starter), which comes with a working Dockerfile, a pinned `requirements.txt`, and a World Bank pull script.

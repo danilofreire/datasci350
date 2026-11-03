@@ -949,6 +949,8 @@ COUNTRIES = "BRA;IND;NGA;USA"
 YEARS = "2000:2023"
 
 # A short, readable name for the output files.
+# If you change it, change the file name in
+# report.qmd as well.
 OUTPUT_NAME = "life_expectancy"
 ```
 :::

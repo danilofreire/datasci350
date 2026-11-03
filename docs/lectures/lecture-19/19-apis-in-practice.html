@@ -217,41 +217,39 @@ Danilo Freire
 
 </section>
 <section id="hello-great-to-see-you-again" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>Hello! Great to see you again! 😊</h1>
+<h1><span style="font-size: 0.8em;">Hello! Great to see you again! 😊</span></h1>
 
 </section>
 
 <section>
 <section id="brief-recap" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>Brief recap 📚</h1>
+<h1>Brief recap</h1>
 
 </section>
-<section id="where-we-got-to-last-class" class="slide level2">
-<h2>Where we got to last class</h2>
-<h3 id="web-apis-without-writing-code">Web APIs without writing code</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<section id="last-class" class="slide level2">
+<h2>Last class</h2>
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li>An <span class="alert">API</span> is a contract: ask this way, get that back</li>
-<li>A URL has a host, a <span class="alert">path</span> (what you want), and a <span class="alert">query string</span> (how you want it)</li>
-<li>A <span class="alert">status code</span> says how it went: <code>2xx</code> worked, <code>4xx</code> is your mistake, <code>5xx</code> is theirs</li>
-<li>The World Bank answers some errors with <code>200</code>, so look at the data too</li>
+<li>An <span class="alert">API</span> lets a program ask a server for data</li>
+<li>A URL has a <span class="alert">host</span>, a <span class="alert">path</span> (the data you want) and a <span class="alert">query string</span> (your options)</li>
+<li>A <code>2xx</code> <span class="alert">status code</span> means it worked, <code>4xx</code> a bad request, and <code>5xx</code> a server failure</li>
 <li><span class="alert">JSON</span> is made of objects <code>{ }</code> and arrays <code>[ ]</code></li>
-<li>A value is reached by a <span class="alert">path</span>, such as <code>current</code> → <code>temperature_2m</code></li>
-<li><code>curl -o</code> saved a reply to a file</li>
-<li>Four lines of Python did the same as <code>curl</code></li>
+<li>We get a value by following its keys, as in <code>current</code> → <code>temperature_2m</code></li>
+<li><code>python3 -m json.tool</code> makes the replies easier to read</li>
+<li>We save replies to files with <code>curl -o</code></li>
 </ul>
 </div><div class="column" style="width:45%;">
 <div style="margin-top: 10px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 23px;">
-<p><span class="alert">Today we do it all in Python</span></p>
+<p><span class="alert">Today we do this in Python</span></p>
 <ul>
 <li>Read JSON from a file</li>
-<li>Follow a path with square brackets</li>
+<li>Get values with square brackets</li>
 <li>Send requests and check for errors</li>
 <li>Turn the reply into a <span class="alert">DataFrame</span></li>
 <li>Save it for your report</li>
-<li>Read your project’s pull script, line by line</li>
+<li>Read your project’s pull script</li>
 </ul>
 </div>
 </div></div>
@@ -259,78 +257,82 @@ Danilo Freire
 </section>
 <section id="lecture-overview" class="slide level2">
 <h2>Lecture overview</h2>
-<h3 id="what-we-will-cover-today">What we will cover today</h3>
-<div style="margin-top: 30px; font-size: 24px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="alert">1. Reading JSON in Python</span></p>
 <ul>
 <li>Dictionaries and lists</li>
 <li>Opening a file</li>
-<li>From a path to square brackets</li>
+<li>Getting values from nested JSON</li>
 </ul>
-<p><span class="alert">2. <code>requests</code>, step by step</span></p>
+<p><span class="alert">2. The <code>requests</code> library</span></p>
 <ul>
-<li>What comes back from <code>requests.get</code></li>
-<li>Letting <code>requests</code> build the URL</li>
+<li>The response from <code>requests.get</code></li>
+<li>Building the URL with <code>params</code></li>
 <li>Checking for errors</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><span class="alert">3. From JSON to a DataFrame</span></p>
 <ul>
-<li>A loop that picks the fields you want</li>
+<li>Selecting fields with a loop</li>
 <li>Many countries in one request</li>
-<li>Missing values, and saving to CSV</li>
+<li>Missing values and CSV files</li>
 </ul>
 <p><span class="alert">4. Your project’s pull script</span></p>
 <ul>
-<li><code>pull_data.py</code>, part by part</li>
-<li>What to do if your API needs a key or sends pages</li>
+<li>Reading <code>pull_data.py</code></li>
+<li>API keys and pages</li>
 </ul>
 </div></div>
 </div>
 </section></section>
 <section>
 <section id="reading-json-in-python" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>Reading JSON in Python 🐍</h1>
+<h1>Reading JSON in Python</h1>
 
 </section>
 <section id="dictionaries-and-lists" class="slide level2">
 <h2>Dictionaries and lists</h2>
-<h3 id="the-two-python-types-that-hold-json">The two Python types that hold JSON</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>course <span class="op">=</span> {<span class="st">"code"</span>: <span class="st">"DATASCI 350"</span>, <span class="st">"enrolled"</span>: <span class="dv">40</span>,</span>
-<span id="cb1-2"><a></a>          <span class="st">"instructor"</span>: {<span class="st">"name"</span>: <span class="st">"Danilo Freire"</span>}}</span>
-<span id="cb1-3"><a></a>years <span class="op">=</span> [<span class="dv">2023</span>, <span class="dv">2024</span>, <span class="dv">2025</span>]</span>
-<span id="cb1-4"><a></a></span>
-<span id="cb1-5"><a></a><span class="bu">print</span>(course[<span class="st">"code"</span>])</span>
-<span id="cb1-6"><a></a><span class="bu">print</span>(course[<span class="st">"instructor"</span>][<span class="st">"name"</span>])</span>
-<span id="cb1-7"><a></a><span class="bu">print</span>(years[<span class="dv">0</span>], years[<span class="dv">2</span>])</span>
-<span id="cb1-8"><a></a><span class="bu">print</span>(<span class="bu">type</span>(course), <span class="bu">type</span>(years))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a></a>course <span class="op">=</span> {</span>
+<span id="cb1-2"><a></a>    <span class="st">"code"</span>: <span class="st">"DATASCI 350"</span>,</span>
+<span id="cb1-3"><a></a>    <span class="st">"enrolled"</span>: <span class="dv">40</span>,</span>
+<span id="cb1-4"><a></a>    <span class="st">"instructor"</span>: {<span class="st">"name"</span>: <span class="st">"Danilo Freire"</span>},</span>
+<span id="cb1-5"><a></a>}</span>
+<span id="cb1-6"><a></a>years <span class="op">=</span> [<span class="dv">2023</span>, <span class="dv">2024</span>, <span class="dv">2025</span>]</span>
+<span id="cb1-7"><a></a></span>
+<span id="cb1-8"><a></a><span class="bu">print</span>(course[<span class="st">"code"</span>])</span>
+<span id="cb1-9"><a></a><span class="bu">print</span>(course[<span class="st">"instructor"</span>][<span class="st">"name"</span>])</span>
+<span id="cb1-10"><a></a><span class="bu">print</span>(years[<span class="dv">0</span>], years[<span class="dv">2</span>])</span>
+<span id="cb1-11"><a></a><span class="bu">print</span>(<span class="bu">type</span>(course), <span class="bu">type</span>(years))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>DATASCI 350</span>
 <span id="cb2-2"><a></a>Danilo Freire</span>
 <span id="cb2-3"><a></a>2023 2025</span>
 <span id="cb2-4"><a></a>&lt;class 'dict'&gt; &lt;class 'list'&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:48%;">
 <ul>
-<li>A <span class="alert">dictionary</span> (<code>dict</code>) is Python’s JSON object: <code>{"key": value}</code></li>
+<li>A <span class="alert">dictionary</span> (<code>dict</code>) holds a JSON object in Python: <code>{"key": value}</code></li>
 <li>You get a value by its key: <code>course["code"]</code></li>
-<li>A <span class="alert">list</span> is Python’s JSON array: <code>[a, b, c]</code></li>
+<li>A <span class="alert">list</span> holds a JSON array in Python: <code>[a, b]</code></li>
 <li>You get a value by its position, from 0: <code>years[0]</code></li>
-<li>A dictionary can hold another dictionary. Each step of the path adds one pair of brackets</li>
-<li><code>course["instructor"]["name"]</code> is the path <code>instructor</code> → <code>name</code> from last class</li>
+<li>Dictionaries and lists can hold each other, in any mix</li>
+<li>Each step of the path adds one pair of brackets</li>
+<li>JSON works in nearly any language because <span class="alert">most have these structures</span></li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="opening-a-file" class="slide level2">
 <h2>Opening a file</h2>
-<h3 id="what-with-open...-as-f-means">What <code>with open(...) as f:</code> means</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:52%;">
+<div style="font-size: 26px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a></a><span class="im">import</span> json</span>
 <span id="cb3-2"><a></a></span>
 <span id="cb3-3"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_gdp_bra.json"</span>) <span class="im">as</span> f:</span>
@@ -340,308 +342,387 @@ Danilo Freire
 <span id="cb3-7"><a></a><span class="bu">print</span>(<span class="bu">len</span>(wb))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a></a>&lt;class 'list'&gt;</span>
 <span id="cb4-2"><a></a>2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div style="font-size: 18px;">
-<p>The file is last class’s <code>curl -o</code> download: <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_gdp_bra.json"><code>wb_gdp_bra.json</code></a>. Save it in a <code>data/</code> folder next to your notebook</p>
+</div>
+<div style="font-size: 20px;">
+<p>No file from last class? Save <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_gdp_bra.json"><code>wb_gdp_bra.json</code></a> in a <code>data/</code> folder next to your notebook, or run this there:</p>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a></a><span class="va">BASE</span><span class="op">=</span><span class="st">"https://api.worldbank.org/v2"</span></span>
+<span id="cb5-2"><a></a><span class="va">DATA</span><span class="op">=</span><span class="st">"country/BRA/indicator/NY.GDP.PCAP.KD"</span></span>
+<span id="cb5-3"><a></a><span class="va">Q</span><span class="op">=</span><span class="st">"format=json&amp;date=2014:2025"</span></span>
+<span id="cb5-4"><a></a><span class="ex">curl</span> <span class="at">--create-dirs</span> <span class="at">-o</span> data/wb_gdp_bra.json <span class="dt">\</span></span>
+<span id="cb5-5"><a></a>  <span class="st">"</span><span class="va">$BASE</span><span class="st">/</span><span class="va">$DATA</span><span class="st">?</span><span class="va">$Q</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div>
 </div><div class="column" style="width:48%;">
 <ul>
-<li><code>open("data/wb_gdp_bra.json")</code> finds the file and prepares it for reading</li>
-<li><code>as f</code> gives the <span class="alert">open file</span> a short name, <code>f</code></li>
+<li><code>open(...)</code> finds the file and prepares it for reading</li>
+<li><code>as f</code> names the <span class="alert">open file</span> <code>f</code></li>
 <li>The indented lines run while the file is open</li>
-<li>When they finish, Python <span class="alert">closes the file</span> for you</li>
-<li><code>json.load(f)</code> reads the JSON text and turns it into Python objects</li>
-<li>The World Bank reply is a list of two items, as we saw last class</li>
+<li>Python then <span class="alert">closes the file</span>, even if there is an error</li>
+<li>We use <code>with</code> because an open file <span class="alert">may not save everything you write</span></li>
+<li><code>json.load(f)</code> turns the JSON text into Python objects</li>
+<li>The reply is a list of two items, as we saw last class</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="json.load-and-json.loads" class="slide level2">
 <h2><code>json.load</code> and <code>json.loads</code></h2>
-<h3 id="one-reads-a-file-the-other-reads-a-string">One reads a file, the other reads a string</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<h3 id="reading-json-from-a-file-or-from-a-string">Reading JSON from a file or from a string</h3>
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a></a><span class="im">import</span> json</span>
-<span id="cb5-2"><a></a></span>
-<span id="cb5-3"><a></a>text <span class="op">=</span> <span class="st">'{"city": "Atlanta", "temperature": 29.6, "raining": false}'</span></span>
-<span id="cb5-4"><a></a>data <span class="op">=</span> json.loads(text)</span>
-<span id="cb5-5"><a></a></span>
-<span id="cb5-6"><a></a><span class="bu">print</span>(<span class="bu">type</span>(text))</span>
-<span id="cb5-7"><a></a><span class="bu">print</span>(<span class="bu">type</span>(data))</span>
-<span id="cb5-8"><a></a><span class="bu">print</span>(data[<span class="st">"city"</span>], data[<span class="st">"raining"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a></a>&lt;class 'str'&gt;</span>
-<span id="cb6-2"><a></a>&lt;class 'dict'&gt;</span>
-<span id="cb6-3"><a></a>Atlanta False</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a></a><span class="im">import</span> json</span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a><span class="co"># The JSON is in a file</span></span>
+<span id="cb6-4"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_gdp_bra.json"</span>) <span class="im">as</span> f:</span>
+<span id="cb6-5"><a></a>    wb <span class="op">=</span> json.load(f)</span>
+<span id="cb6-6"><a></a></span>
+<span id="cb6-7"><a></a><span class="co"># The JSON is already in a string</span></span>
+<span id="cb6-8"><a></a>text <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb6-9"><a></a><span class="st">{</span></span>
+<span id="cb6-10"><a></a><span class="st">  "city": "Atlanta",</span></span>
+<span id="cb6-11"><a></a><span class="st">  "temperature": 29.6,</span></span>
+<span id="cb6-12"><a></a><span class="st">  "raining": false</span></span>
+<span id="cb6-13"><a></a><span class="st">}</span></span>
+<span id="cb6-14"><a></a><span class="st">"""</span></span>
+<span id="cb6-15"><a></a>data <span class="op">=</span> json.loads(text)</span>
+<span id="cb6-16"><a></a></span>
+<span id="cb6-17"><a></a><span class="bu">print</span>(<span class="bu">type</span>(text))</span>
+<span id="cb6-18"><a></a><span class="bu">print</span>(<span class="bu">type</span>(data))</span>
+<span id="cb6-19"><a></a><span class="bu">print</span>(data[<span class="st">"city"</span>], data[<span class="st">"raining"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a></a>&lt;class 'str'&gt;</span>
+<span id="cb7-2"><a></a>&lt;class 'dict'&gt;</span>
+<span id="cb7-3"><a></a>Atlanta False</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:45%;">
 <ul>
-<li><span class="alert"><code>json.load(f)</code></span> reads JSON from an open file</li>
-<li><span class="alert"><code>json.loads(text)</code></span> reads JSON from a string. The <code>s</code> stands for “string”</li>
-<li>Before: one long piece of text. After: a dictionary you can index</li>
-<li>JSON <code>false</code> became Python <code>False</code></li>
-<li>Later today, <code>r.json()</code> does the same for an API reply</li>
+<li>Both functions turn JSON into Python objects</li>
+<li>Use <a href="https://docs.python.org/3/library/json.html#json.load"><code>json.load(f)</code></a> when the JSON is in a file on the disk</li>
+<li>Use <a href="https://docs.python.org/3/library/json.html#json.loads"><code>json.loads(text)</code></a> when it is already in your program as a string. The <code>s</code> stands for “string”</li>
+<li><code>json.loads('{"city": "Atlanta"}')</code> also works, with no variable</li>
+<li>Three quotes let a string run over several lines</li>
+<li><code>r.json()</code> does the same for an API reply</li>
 </ul>
 </div></div>
 </div>
 </section>
-<section id="from-a-path-to-square-brackets" class="slide level2">
-<h2>From a path to square brackets</h2>
-<h3 id="the-world-bank-reply-one-step-per-line">The World Bank reply, one step per line</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<section id="getting-values-from-nested-json" class="slide level2">
+<h2>Getting values from nested JSON</h2>
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a></a><span class="im">import</span> json</span>
-<span id="cb7-2"><a></a></span>
-<span id="cb7-3"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_gdp_bra.json"</span>) <span class="im">as</span> f:</span>
-<span id="cb7-4"><a></a>    wb <span class="op">=</span> json.load(f)</span>
-<span id="cb7-5"><a></a></span>
-<span id="cb7-6"><a></a>meta <span class="op">=</span> wb[<span class="dv">0</span>]</span>
-<span id="cb7-7"><a></a>records <span class="op">=</span> wb[<span class="dv">1</span>]</span>
-<span id="cb7-8"><a></a>first <span class="op">=</span> records[<span class="dv">0</span>]</span>
-<span id="cb7-9"><a></a></span>
-<span id="cb7-10"><a></a><span class="bu">print</span>(meta[<span class="st">"total"</span>])</span>
-<span id="cb7-11"><a></a><span class="bu">print</span>(first[<span class="st">"date"</span>], first[<span class="st">"value"</span>])</span>
-<span id="cb7-12"><a></a><span class="bu">print</span>(first[<span class="st">"country"</span>][<span class="st">"value"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a></a>12</span>
-<span id="cb8-2"><a></a>2025 9747.99557762692</span>
-<span id="cb8-3"><a></a>Brazil</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="im">import</span> json</span>
+<span id="cb8-2"><a></a></span>
+<span id="cb8-3"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_gdp_bra.json"</span>) <span class="im">as</span> f:</span>
+<span id="cb8-4"><a></a>    wb <span class="op">=</span> json.load(f)</span>
+<span id="cb8-5"><a></a></span>
+<span id="cb8-6"><a></a>meta <span class="op">=</span> wb[<span class="dv">0</span>]</span>
+<span id="cb8-7"><a></a>records <span class="op">=</span> wb[<span class="dv">1</span>]</span>
+<span id="cb8-8"><a></a>first <span class="op">=</span> records[<span class="dv">0</span>]</span>
+<span id="cb8-9"><a></a></span>
+<span id="cb8-10"><a></a><span class="bu">print</span>(meta[<span class="st">"total"</span>])</span>
+<span id="cb8-11"><a></a><span class="bu">print</span>(first[<span class="st">"date"</span>], first[<span class="st">"value"</span>])</span>
+<span id="cb8-12"><a></a><span class="bu">print</span>(first[<span class="st">"country"</span>][<span class="st">"value"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a></a>12</span>
+<span id="cb9-2"><a></a>2025 9747.99557762692</span>
+<span id="cb9-3"><a></a>Brazil</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:48%;">
 <ul>
 <li><code>wb[0]</code> is the metadata, and <code>wb[1]</code> is the list of records</li>
-<li>Giving each step a name, like <code>meta</code> and <code>records</code>, makes the code easy to read</li>
+<li>Naming each step, like <code>meta</code> and <code>records</code>, makes the code easier to read</li>
 <li><code>records[0]</code> is the newest year, 2025</li>
-<li><code>first["country"]["value"]</code> is the path <code>country</code> → <code>value</code></li>
-<li>You could write <code>wb[1][0]["country"]["value"]</code> in one go. It is the same path</li>
+<li><code>first["country"]["value"]</code> follows the path <code>country</code> → <code>value</code></li>
+<li><code>wb[1][0]["country"]["value"]</code> is the same path in one go</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="when-a-path-is-wrong" class="slide level2">
 <h2>When a path is wrong</h2>
-<h3 id="two-errors-you-will-see-and-what-to-do-about-them">Two errors you will see, and what to do about them</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<h3 id="finding-the-right-position-or-key">Finding the right position or key</h3>
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a></a>first[<span class="st">"year"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a></a>KeyError: 'year'</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a>first[<span class="st">"year"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a></a>KeyError: 'year'</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>A <span class="alert"><code>KeyError</code></span> means the dictionary has no such key</li>
-<li>Here the key is called <code>date</code>, not <code>year</code></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a></a>wb[<span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a></a>IndexError: list index out of range</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a></a>wb[<span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a></a>IndexError: list index out of range</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
-<li>An <span class="alert"><code>IndexError</code></span> means the list is shorter than you think</li>
-<li><code>wb</code> has two items, at positions 0 and 1</li>
+<li>An <span class="alert"><code>IndexError</code></span> means the list has no such position</li>
+</ul>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a></a>wb[<span class="st">"total"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a></a>TypeError: list indices must be</span>
+<span id="cb15-2"><a></a>integers or slices, not str</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>A <span class="alert"><code>TypeError</code></span> here means you used a name on a list, which only takes positions</li>
 </ul>
 </div><div class="column" style="width:50%;">
+<p>JSON has no <code>.head()</code>, so look at one level at a time</p>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a></a><span class="bu">print</span>(<span class="bu">type</span>(wb), <span class="bu">len</span>(wb))</span>
+<span id="cb16-2"><a></a><span class="bu">print</span>(<span class="bu">type</span>(wb[<span class="dv">1</span>]), <span class="bu">len</span>(wb[<span class="dv">1</span>]))</span>
+<span id="cb16-3"><a></a><span class="bu">print</span>(wb[<span class="dv">1</span>][<span class="dv">0</span>].keys())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb17-1"><a></a>&lt;class 'list'&gt; 2</span>
+<span id="cb17-2"><a></a>&lt;class 'list'&gt; 12</span>
+<span id="cb17-3"><a></a>dict_keys(['indicator', 'country',</span>
+<span id="cb17-4"><a></a>'countryiso3code', 'date', 'value',</span>
+<span id="cb17-5"><a></a>'unit', 'obs_status', 'decimal'])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
-<li>When a path fails, <span class="alert">print the step before it</span></li>
-<li><code>.keys()</code> lists the keys of a dictionary</li>
-<li><code>len()</code> gives the length of a list</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a></a><span class="bu">print</span>(first.keys())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a></a>dict_keys(['indicator', 'country',</span>
-<span id="cb14-2"><a></a>'countryiso3code', 'date', 'value',</span>
-<span id="cb14-3"><a></a>'unit', 'obs_status', 'decimal'])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Now you can see the right name, and fix the path</li>
+<li><code>type()</code> tells you if you have a list or a dictionary</li>
+<li><code>len()</code> tells you how many positions a list has</li>
+<li><code>.keys()</code> lists the names in a dictionary</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="sec:exercise01" class="slide level2 scrollable">
 <h2>Try it yourself! 🤓</h2>
-<h3 id="five-minutes-with-the-uruguay-file">Five minutes, with the Uruguay file</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ol type="1">
-<li>Use the Uruguay file you saved with <code>curl</code> last class, or download <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_pop_ury.json"><code>wb_pop_ury.json</code></a></li>
-<li>Open it with <code>with open(...) as f:</code> and <code>json.load(f)</code></li>
-<li>Print the <span class="alert">total</span> number of records from the metadata</li>
-<li>Print the <span class="alert">year and population</span> for 2020. You wrote this path last class</li>
-<li>Print the <span class="alert">country name</span></li>
+<li>Use your Uruguay file from last class, or download <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_pop_ury.json"><code>wb_pop_ury.json</code></a> into a <code>data/</code> folder</li>
 </ol>
+<p>Or replace <code>???</code> with Uruguay’s country code (what is it? 😉) and <code>SP.POP.TOTL</code>, then run this:</p>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a></a><span class="va">BASE</span><span class="op">=</span><span class="st">"https://api.worldbank.org/v2"</span></span>
+<span id="cb18-2"><a></a><span class="va">DATA</span><span class="op">=</span><span class="st">"country/???/indicator/???"</span></span>
+<span id="cb18-3"><a></a><span class="va">Q</span><span class="op">=</span><span class="st">"format=json&amp;date=2014:2025"</span></span>
+<span id="cb18-4"><a></a><span class="ex">curl</span> <span class="at">--create-dirs</span> <span class="at">-o</span> data/wb_pop_ury.json <span class="dt">\</span></span>
+<span id="cb18-5"><a></a>  <span class="st">"</span><span class="va">$BASE</span><span class="st">/</span><span class="va">$DATA</span><span class="st">?</span><span class="va">$Q</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="margin-top: 25px;">
+<ol start="2" type="1">
+<li>Open it with <code>with open(...) as f:</code> and <code>json.load(f)</code></li>
+</ol>
+</div>
 </div><div class="column" style="width:45%;">
-<p><span class="alert">What to look for</span></p>
-<ul>
-<li>12 records</li>
-<li>A population of 3,398,968 in 2020</li>
-<li>The name “Uruguay”</li>
-</ul>
+<ol start="3" type="1">
+<li>Print the <span class="alert">total</span> number of records, using the key <code>total</code> in the metadata (position <code>0</code>)</li>
+<li>Print the <span class="alert">year and population</span> for 2020, using the keys <code>date</code> and <code>value</code>. Records run newest first</li>
+<li>Print the <span class="alert">country name</span>, under <code>country</code> and then <code>value</code></li>
+</ol>
 <div style="margin-top: 25px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px;">
-<p>Stuck, or want to compare your code with mine?</p>
+<p>You should get 12 records, a population of 3,398,968 in 2020, and the name Uruguay</p>
 <p><a href="#/sec:appendix01"><span class="button">Appendix 01</span></a></p>
 </div>
 </div></div>
 </div>
 </section></section>
 <section>
-<section id="requests-step-by-step" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1><code>requests</code>, step by step 🌐</h1>
+<section id="the-requests-library" class="title-slide slide level1 center" data-background-color="#1B3A6B">
+<h1>The <code style="color: white; background: transparent;">requests</code> library</h1>
 
 </section>
 <section id="what-comes-back-from-requests.get" class="slide level2">
 <h2>What comes back from <code>requests.get</code></h2>
 <h3 id="a-response-object-with-the-reply-inside">A response object, with the reply inside</h3>
-<div style="margin-top: 30px; font-size: 21px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a></a><span class="im">import</span> requests</span>
-<span id="cb15-2"><a></a></span>
-<span id="cb15-3"><a></a>url <span class="op">=</span> <span class="st">"https://api.open-meteo.com/v1/forecast?latitude=33.75&amp;longitude=-84.39&amp;current=temperature_2m"</span></span>
-<span id="cb15-4"><a></a>r <span class="op">=</span> requests.get(url, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb15-5"><a></a></span>
-<span id="cb15-6"><a></a><span class="bu">print</span>(<span class="bu">type</span>(r))</span>
-<span id="cb15-7"><a></a><span class="bu">print</span>(r.status_code)</span>
-<span id="cb15-8"><a></a><span class="bu">print</span>(r.text[:<span class="dv">60</span>])</span>
-<span id="cb15-9"><a></a></span>
-<span id="cb15-10"><a></a>data <span class="op">=</span> r.json()</span>
-<span id="cb15-11"><a></a><span class="bu">print</span>(<span class="bu">type</span>(data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a></a>&lt;class 'requests.models.Response'&gt;</span>
-<span id="cb16-2"><a></a>200</span>
-<span id="cb16-3"><a></a>{"latitude":33.759865,"longitude":-84.39586,"generationtime_</span>
-<span id="cb16-4"><a></a>&lt;class 'dict'&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 40px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a><span class="im">import</span> requests</span>
+<span id="cb19-2"><a></a></span>
+<span id="cb19-3"><a></a>url <span class="op">=</span> (<span class="st">"https://api.open-meteo.com/v1/forecast"</span></span>
+<span id="cb19-4"><a></a>       <span class="st">"?latitude=33.75&amp;longitude=-84.39"</span></span>
+<span id="cb19-5"><a></a>       <span class="st">"&amp;current=temperature_2m"</span>)</span>
+<span id="cb19-6"><a></a>r <span class="op">=</span> requests.get(url, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb19-7"><a></a></span>
+<span id="cb19-8"><a></a><span class="bu">print</span>(<span class="bu">type</span>(r))</span>
+<span id="cb19-9"><a></a><span class="bu">print</span>(r.status_code)</span>
+<span id="cb19-10"><a></a><span class="bu">print</span>(r.text[:<span class="dv">40</span>])</span>
+<span id="cb19-11"><a></a></span>
+<span id="cb19-12"><a></a>data <span class="op">=</span> r.json()</span>
+<span id="cb19-13"><a></a><span class="bu">print</span>(<span class="bu">type</span>(data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a></a>&lt;class 'requests.models.Response'&gt;</span>
+<span id="cb20-2"><a></a>200</span>
+<span id="cb20-3"><a></a>{"latitude":33.759865,"longitude":-84.39</span>
+<span id="cb20-4"><a></a>&lt;class 'dict'&gt;</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:45%;">
 <ul>
 <li><code>requests.get</code> returns a <span class="alert">response</span>, which we call <code>r</code></li>
 <li><code>r.status_code</code> is the status code</li>
-<li><code>r.text</code> is the reply as plain text. <code>[:60]</code> shows the first 60 characters</li>
+<li><code>r.text</code> is the reply as plain text. <code>[:40]</code> shows the first 40 characters</li>
 <li><code>r.json()</code> turns that text into a dictionary, like <code>json.loads</code></li>
 <li><span class="alert"><code>timeout=30</code></span> gives up after 30 seconds. Without it, a silent server can make your script wait forever</li>
 <li>Install <code>requests</code> once with <code>pip install requests</code></li>
+<li>Read more in the <a href="https://requests.readthedocs.io/en/latest/"><code>requests</code> documentation</a></li>
 </ul>
+</div></div>
 </div>
 </section>
 <section id="let-requests-build-the-url" class="slide level2">
 <h2>Let <code>requests</code> build the URL</h2>
 <h3 id="put-the-options-in-a-dictionary-called-params">Put the options in a dictionary called <code>params</code></h3>
-<div style="margin-top: 30px; font-size: 22px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a></a><span class="im">import</span> requests</span>
-<span id="cb17-2"><a></a></span>
-<span id="cb17-3"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.PCAP.KD"</span></span>
-<span id="cb17-4"><a></a>params <span class="op">=</span> {</span>
-<span id="cb17-5"><a></a>    <span class="st">"format"</span>: <span class="st">"json"</span>,</span>
-<span id="cb17-6"><a></a>    <span class="st">"date"</span>: <span class="st">"2014:2025"</span>,</span>
-<span id="cb17-7"><a></a>}</span>
-<span id="cb17-8"><a></a></span>
-<span id="cb17-9"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb17-10"><a></a><span class="bu">print</span>(r.url)</span>
-<span id="cb17-11"><a></a><span class="bu">print</span>(r.status_code)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a></a>https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.PCAP.KD?format=json&amp;date=2014%3A2025</span>
-<span id="cb18-2"><a></a>200</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 40px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a><span class="im">import</span> requests</span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/"</span></span>
+<span id="cb21-4"><a></a>       <span class="st">"country/BRA/indicator/NY.GDP.PCAP.KD"</span>)</span>
+<span id="cb21-5"><a></a>params <span class="op">=</span> {</span>
+<span id="cb21-6"><a></a>    <span class="st">"format"</span>: <span class="st">"json"</span>,</span>
+<span id="cb21-7"><a></a>    <span class="st">"date"</span>: <span class="st">"2014:2025"</span>,</span>
+<span id="cb21-8"><a></a>}</span>
+<span id="cb21-9"><a></a></span>
+<span id="cb21-10"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb21-11"><a></a><span class="bu">print</span>(r.url)</span>
+<span id="cb21-12"><a></a><span class="bu">print</span>(r.status_code)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb22-1"><a></a>https://api.worldbank.org/v2/country/BRA/</span>
+<span id="cb22-2"><a></a>indicator/NY.GDP.PCAP.KD?format=json&amp;</span>
+<span id="cb22-3"><a></a>date=2014%3A2025</span>
+<span id="cb22-4"><a></a>200</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:45%;">
 <ul>
 <li>The <code>url</code> holds only the path. No <code>?</code> and no <code>&amp;</code></li>
 <li>Each key in <code>params</code> becomes one option in the query string</li>
 <li><code>requests</code> adds the <code>?</code> and the <code>&amp;</code> for you</li>
-<li>It also percent-encodes the values: <code>:</code> became <code>%3A</code></li>
+<li>It also encodes special characters, so <code>:</code> became <code>%3A</code></li>
 <li><code>r.url</code> shows the full URL that was sent. Paste it into your browser to check it</li>
-<li>To change the years, you change one value, not a long string</li>
+<li>To change the years, you edit one value in <code>params</code></li>
 </ul>
+</div></div>
 </div>
 </section>
 <section id="checking-for-errors" class="slide level2">
 <h2>Checking for errors</h2>
 <h3 id="raise_for_status-stops-the-script-on-a-bad-status"><code>raise_for_status()</code> stops the script on a bad status</h3>
-<div style="margin-top: 30px; font-size: 22px;">
-<p>A typo in the path: <code>countryy</code> instead of <code>country</code></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/countryy/BRA"</span></span>
-<span id="cb19-2"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>{<span class="st">"format"</span>: <span class="st">"json"</span>}, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb19-3"><a></a><span class="bu">print</span>(r.status_code)</span>
-<span id="cb19-4"><a></a>r.raise_for_status()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a></a>404</span>
-<span id="cb20-2"><a></a>requests.exceptions.HTTPError: 404 Client Error:</span>
-<span id="cb20-3"><a></a>Not Found for url: https://api.worldbank.org/v2/</span>
-<span id="cb20-4"><a></a>countryy/BRA?format=json</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 40px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Here the path has a typo, <code>countryy</code> instead of <code>country</code></p>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/countryy/BRA"</span></span>
+<span id="cb23-2"><a></a>r <span class="op">=</span> requests.get(url,</span>
+<span id="cb23-3"><a></a>                 params<span class="op">=</span>{<span class="st">"format"</span>: <span class="st">"json"</span>},</span>
+<span id="cb23-4"><a></a>                 timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb23-5"><a></a><span class="bu">print</span>(r.status_code)</span>
+<span id="cb23-6"><a></a>r.raise_for_status()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb24-1"><a></a>404</span>
+<span id="cb24-2"><a></a>requests.exceptions.HTTPError:</span>
+<span id="cb24-3"><a></a>404 Client Error: Not Found for url:</span>
+<span id="cb24-4"><a></a>https://api.worldbank.org/v2/</span>
+<span id="cb24-5"><a></a>countryy/BRA?format=json</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:45%;">
 <ul>
 <li><code>r.raise_for_status()</code> checks the status code</li>
-<li>If it is <code>4xx</code> or <code>5xx</code>, it <span class="alert">raises an error</span>: Python stops and prints a message</li>
+<li>If it is <code>4xx</code> or <code>5xx</code>, it <span class="alert">raises an error</span>, so Python stops and prints a message</li>
 <li>If the status is <code>2xx</code>, it does nothing and the script carries on</li>
-<li>Stopping early is good. You see the problem where it happens, not ten lines later</li>
+<li>Stopping early shows you the line that caused the problem</li>
 <li>Put it right after every <code>requests.get</code></li>
 </ul>
+</div></div>
 </div>
 </section>
-<section id="the-world-banks-hidden-error" class="slide level2">
-<h2>The World Bank’s hidden error</h2>
-<h3 id="a-200-that-carries-an-error-message">A <code>200</code> that carries an error message</h3>
-<div style="margin-top: 30px; font-size: 22px;">
-<p>A country code that does not exist, <code>XYZ</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/country/XYZ/indicator/NY.GDP.PCAP.KD"</span></span>
-<span id="cb21-2"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>{<span class="st">"format"</span>: <span class="st">"json"</span>}, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb21-3"><a></a>r.raise_for_status()</span>
-<span id="cb21-4"><a></a>payload <span class="op">=</span> r.json()</span>
-<span id="cb21-5"><a></a></span>
-<span id="cb21-6"><a></a><span class="bu">print</span>(r.status_code)</span>
-<span id="cb21-7"><a></a><span class="bu">print</span>(<span class="bu">len</span>(payload))</span>
-<span id="cb21-8"><a></a><span class="cf">if</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span>:</span>
-<span id="cb21-9"><a></a>    <span class="bu">print</span>(<span class="st">"No data:"</span>, payload[<span class="dv">0</span>][<span class="st">"message"</span>][<span class="dv">0</span>][<span class="st">"value"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb22-1"><a></a>200</span>
-<span id="cb22-2"><a></a>1</span>
-<span id="cb22-3"><a></a>No data: The provided parameter value is not valid</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<section id="an-error-with-status-200" class="slide level2">
+<h2>An error with status <code>200</code></h2>
+<div style="margin-top: 40px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Here we ask for <code>XYZ</code>, a country code that does not exist</p>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/"</span></span>
+<span id="cb25-2"><a></a>       <span class="st">"country/XYZ/indicator/NY.GDP.PCAP.KD"</span>)</span>
+<span id="cb25-3"><a></a>r <span class="op">=</span> requests.get(url,</span>
+<span id="cb25-4"><a></a>                 params<span class="op">=</span>{<span class="st">"format"</span>: <span class="st">"json"</span>},</span>
+<span id="cb25-5"><a></a>                 timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb25-6"><a></a>r.raise_for_status()</span>
+<span id="cb25-7"><a></a>payload <span class="op">=</span> r.json()</span>
+<span id="cb25-8"><a></a></span>
+<span id="cb25-9"><a></a><span class="bu">print</span>(r.status_code)</span>
+<span id="cb25-10"><a></a><span class="bu">print</span>(<span class="bu">len</span>(payload))</span>
+<span id="cb25-11"><a></a><span class="cf">if</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span>:</span>
+<span id="cb25-12"><a></a>    <span class="bu">print</span>(<span class="st">"No data:"</span>, payload)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a></a>200</span>
+<span id="cb26-2"><a></a>1</span>
+<span id="cb26-3"><a></a>No data: [{'message': [{'id': '120',</span>
+<span id="cb26-4"><a></a>'key': 'Invalid value', 'value':</span>
+<span id="cb26-5"><a></a>'The provided parameter value is not valid'}]}]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:45%;">
 <ul>
 <li>The status is <code>200</code>, so <code>raise_for_status()</code> lets it pass</li>
-<li>A good World Bank reply has <span class="alert">two</span> items: metadata and data</li>
+<li>A good World Bank reply has <span class="alert">two</span> items, the metadata and the data</li>
 <li>This one has only one, holding an error message</li>
 <li><code>if len(payload) &lt; 2:</code> catches it</li>
-<li>The status tells you the request arrived. <span class="alert">The data tells you whether it worked</span></li>
+<li><span class="alert">Check the data too</span>, even when the status is <code>200</code></li>
 </ul>
+</div></div>
 </div>
 </section>
 <section id="a-complete-request" class="slide level2">
 <h2>A complete request</h2>
-<h3 id="ask-check-and-save">Ask, check, and save</h3>
-<div style="margin-top: 30px; font-size: 21px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a></a><span class="im">import</span> json</span>
-<span id="cb23-2"><a></a><span class="im">import</span> requests</span>
-<span id="cb23-3"><a></a></span>
-<span id="cb23-4"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.PCAP.KD"</span></span>
-<span id="cb23-5"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2014:2025"</span>}</span>
-<span id="cb23-6"><a></a></span>
-<span id="cb23-7"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb23-8"><a></a>r.raise_for_status()</span>
-<span id="cb23-9"><a></a>payload <span class="op">=</span> r.json()</span>
-<span id="cb23-10"><a></a></span>
-<span id="cb23-11"><a></a><span class="cf">if</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span>:</span>
-<span id="cb23-12"><a></a>    <span class="bu">print</span>(<span class="st">"No data:"</span>, payload)</span>
-<span id="cb23-13"><a></a><span class="cf">else</span>:</span>
-<span id="cb23-14"><a></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_gdp_bra.json"</span>, <span class="st">"w"</span>) <span class="im">as</span> f:</span>
-<span id="cb23-15"><a></a>        json.dump(payload, f, indent<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb23-16"><a></a>    <span class="bu">print</span>(<span class="st">"Saved"</span>, payload[<span class="dv">0</span>][<span class="st">"total"</span>], <span class="st">"records"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb24-1"><a></a>Saved 12 records</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 40px; font-size: 23px;">
+<div class="columns">
+<div class="column" style="width:55%;">
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="im">import</span> json, requests</span>
+<span id="cb27-2"><a></a></span>
+<span id="cb27-3"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/"</span></span>
+<span id="cb27-4"><a></a>       <span class="st">"country/BRA/indicator/NY.GDP.PCAP.KD"</span>)</span>
+<span id="cb27-5"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2014:2025"</span>}</span>
+<span id="cb27-6"><a></a></span>
+<span id="cb27-7"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb27-8"><a></a>r.raise_for_status()</span>
+<span id="cb27-9"><a></a>payload <span class="op">=</span> r.json()</span>
+<span id="cb27-10"><a></a></span>
+<span id="cb27-11"><a></a><span class="cf">if</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span> <span class="kw">or</span> payload[<span class="dv">1</span>] <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb27-12"><a></a>    <span class="bu">print</span>(<span class="st">"No data:"</span>, payload)</span>
+<span id="cb27-13"><a></a><span class="cf">else</span>:</span>
+<span id="cb27-14"><a></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_gdp_bra.json"</span>, <span class="st">"w"</span>) <span class="im">as</span> f:</span>
+<span id="cb27-15"><a></a>        json.dump(payload, f, indent<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb27-16"><a></a>    <span class="bu">print</span>(<span class="st">"Saved"</span>, payload[<span class="dv">0</span>][<span class="st">"total"</span>], <span class="st">"records"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a>Saved 12 records</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:45%;">
 <ul>
 <li>This is the Python version of last class’s <code>curl -o</code></li>
 <li><code>open(..., "w")</code> opens the file for <span class="alert">writing</span>. It creates the file, or replaces it</li>
-<li><code>json.dump</code> is the reverse of <code>json.load</code>: it turns Python objects into JSON text in a file</li>
+<li><code>json.dump</code> does the reverse of <code>json.load</code>, writing Python objects as JSON text</li>
 <li><code>indent=2</code> makes the file readable, like <code>json.tool</code></li>
+<li><code>payload[1] is None</code> catches an empty reply, such as <code>[{...}, null]</code> for a year with no data</li>
 <li>The <code>else:</code> block runs only when the check passes, so a bad reply is never saved</li>
 </ul>
+</div></div>
 </div>
 </section>
 <section id="sec:exercise02" class="slide level2 scrollable">
 <h2>Try it yourself! 🤓</h2>
-<h3 id="ten-minutes-in-python">Ten minutes, in Python</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ol type="1">
 <li>Copy the code from the previous slide</li>
 <li>Change it to fetch <span class="alert">Uruguay’s population</span>, 2014 to 2025
 <ul>
-<li>Country <code>URY</code>, indicator <code>SP.POP.TOTL</code></li>
+<li>Country <code>URY</code>, indicator <code>SP.POP.TOTL</code>, file <code>data/wb_pop_ury.json</code></li>
 </ul></li>
-<li>Save the reply to <code>data/wb_pop_ury.json</code></li>
 <li>Print <code>r.url</code>, and paste it into your browser</li>
 <li>Print the number of records</li>
 <li>Bonus: change the country to <code>XYZ</code>. What does your script print?</li>
 </ol>
 </div><div class="column" style="width:45%;">
-<p><span class="alert">What to look for</span></p>
-<ul>
-<li>Only two things change: the country and the indicator</li>
-<li>A URL that ends in <code>?format=json&amp;date=2014%3A2025</code></li>
-<li>12 records saved</li>
-<li>With <code>XYZ</code>, the “No data” message, and no file saved</li>
-</ul>
 <div style="margin-top: 25px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px;">
-<p>Stuck, or want to compare your code with mine?</p>
+<p>You should get a URL ending in <code>?format=json&amp;date=2014%3A2025</code> and 12 records. With <code>XYZ</code>, you should get the “No data” message and no new file</p>
 <p><a href="#/sec:appendix02"><span class="button">Appendix 02</span></a></p>
 </div>
 </div></div>
@@ -649,30 +730,36 @@ Danilo Freire
 </section></section>
 <section>
 <section id="from-json-to-a-dataframe" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>From JSON to a DataFrame 🐼</h1>
+<h1>From JSON to a DataFrame</h1>
 
 </section>
-<section id="a-loop-that-picks-the-fields" class="slide level2">
-<h2>A loop that picks the fields</h2>
-<h3 id="one-small-dictionary-per-record">One small dictionary per record</h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<section id="selecting-fields-with-a-loop" class="slide level2">
+<h2>Selecting fields with a loop</h2>
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:55%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a></a>records <span class="op">=</span> wb[<span class="dv">1</span>]</span>
-<span id="cb25-2"><a></a></span>
-<span id="cb25-3"><a></a>rows <span class="op">=</span> []</span>
-<span id="cb25-4"><a></a><span class="cf">for</span> record <span class="kw">in</span> records:</span>
-<span id="cb25-5"><a></a>    row <span class="op">=</span> {</span>
-<span id="cb25-6"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
-<span id="cb25-7"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
-<span id="cb25-8"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
-<span id="cb25-9"><a></a>    }</span>
-<span id="cb25-10"><a></a>    rows.append(row)</span>
-<span id="cb25-11"><a></a></span>
-<span id="cb25-12"><a></a><span class="bu">print</span>(<span class="bu">len</span>(rows))</span>
-<span id="cb25-13"><a></a><span class="bu">print</span>(rows[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a></a>12</span>
-<span id="cb26-2"><a></a>{'country': 'Brazil', 'year': 2025, 'value': 9747.99557762692}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a><span class="co"># Reload Brazil, because Exercise 01 replaced wb</span></span>
+<span id="cb29-2"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_gdp_bra.json"</span>) <span class="im">as</span> f:</span>
+<span id="cb29-3"><a></a>    wb <span class="op">=</span> json.load(f)</span>
+<span id="cb29-4"><a></a></span>
+<span id="cb29-5"><a></a>records <span class="op">=</span> wb[<span class="dv">1</span>]  <span class="co"># the list of 12 records</span></span>
+<span id="cb29-6"><a></a></span>
+<span id="cb29-7"><a></a>rows <span class="op">=</span> []</span>
+<span id="cb29-8"><a></a><span class="cf">for</span> record <span class="kw">in</span> records:</span>
+<span id="cb29-9"><a></a>    row <span class="op">=</span> {  <span class="co"># build a new, small dictionary</span></span>
+<span id="cb29-10"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
+<span id="cb29-11"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
+<span id="cb29-12"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
+<span id="cb29-13"><a></a>    }</span>
+<span id="cb29-14"><a></a>    rows.append(row)</span>
+<span id="cb29-15"><a></a></span>
+<span id="cb29-16"><a></a><span class="bu">print</span>(<span class="bu">len</span>(rows))</span>
+<span id="cb29-17"><a></a><span class="bu">print</span>(rows[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb30-1"><a></a>12</span>
+<span id="cb30-2"><a></a>{'country': 'Brazil', 'year': 2025,</span>
+<span id="cb30-3"><a></a>'value': 9747.99557762692}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:45%;">
 <ul>
 <li>Each World Bank record has eight fields, some nested. We want three</li>
@@ -685,155 +772,197 @@ Danilo Freire
 </div></div>
 </div>
 </section>
-<section id="from-a-list-of-dictionaries-to-a-dataframe" class="slide level2">
-<h2>From a list of dictionaries to a DataFrame</h2>
-<h3 id="each-dictionary-becomes-a-row">Each dictionary becomes a row</h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<section id="making-the-dataframe" class="slide level2">
+<h2>Making the DataFrame</h2>
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb27-2"><a></a></span>
-<span id="cb27-3"><a></a>df <span class="op">=</span> pd.DataFrame(rows)</span>
-<span id="cb27-4"><a></a>df <span class="op">=</span> df.sort_values(<span class="st">"year"</span>)</span>
-<span id="cb27-5"><a></a>df <span class="op">=</span> df.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb27-6"><a></a></span>
-<span id="cb27-7"><a></a><span class="bu">print</span>(df.head())</span>
-<span id="cb27-8"><a></a><span class="bu">print</span>(df.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a>  country  year        value</span>
-<span id="cb28-2"><a></a>0  Brazil  2014  9338.342783</span>
-<span id="cb28-3"><a></a>1  Brazil  2015  8936.196617</span>
-<span id="cb28-4"><a></a>2  Brazil  2016  8577.843767</span>
-<span id="cb28-5"><a></a>3  Brazil  2017  8628.253089</span>
-<span id="cb28-6"><a></a>4  Brazil  2018  8722.336303</span>
-<span id="cb28-7"><a></a>(12, 3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb31-2"><a></a></span>
+<span id="cb31-3"><a></a>df <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb31-4"><a></a>df <span class="op">=</span> df.sort_values(<span class="st">"year"</span>)</span>
+<span id="cb31-5"><a></a>df <span class="op">=</span> df.reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb31-6"><a></a></span>
+<span id="cb31-7"><a></a><span class="bu">print</span>(df.head())</span>
+<span id="cb31-8"><a></a><span class="bu">print</span>(df.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a></a>  country  year        value</span>
+<span id="cb32-2"><a></a>0  Brazil  2014  9338.342783</span>
+<span id="cb32-3"><a></a>1  Brazil  2015  8936.196617</span>
+<span id="cb32-4"><a></a>2  Brazil  2016  8577.843767</span>
+<span id="cb32-5"><a></a>3  Brazil  2017  8628.253089</span>
+<span id="cb32-6"><a></a>4  Brazil  2018  8722.336303</span>
+<span id="cb32-7"><a></a>(12, 3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:48%;">
 <ul>
 <li><code>pd.DataFrame(rows)</code> makes one row per dictionary</li>
 <li>The keys, <code>country</code>, <code>year</code> and <code>value</code>, become the column names</li>
 <li><code>sort_values("year")</code> puts the oldest year first</li>
 <li><code>reset_index(drop=True)</code> renumbers the rows from 0 after sorting</li>
-<li><code>df.shape</code> is (rows, columns): 12 years, 3 columns</li>
+<li><code>df.shape</code> gives the rows and columns, here 12 and 3</li>
 <li>From here on, it is ordinary pandas</li>
 </ul>
 </div></div>
 </div>
 </section>
-<section id="a-shortcut-pd.json_normalize" class="slide level2">
-<h2>A shortcut: <code>pd.json_normalize</code></h2>
-<h3 id="it-flattens-every-field-for-you">It flattens every field for you</h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<section id="the-pd.json_normalize-shortcut" class="slide level2">
+<h2>The <code>pd.json_normalize</code> shortcut</h2>
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:55%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a></a>flat <span class="op">=</span> pd.json_normalize(records)</span>
-<span id="cb29-2"><a></a><span class="bu">print</span>(flat.columns.tolist())</span>
-<span id="cb29-3"><a></a></span>
-<span id="cb29-4"><a></a>df <span class="op">=</span> flat[[<span class="st">"country.value"</span>, <span class="st">"date"</span>, <span class="st">"value"</span>]]</span>
-<span id="cb29-5"><a></a><span class="bu">print</span>(df.head(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb30-1"><a></a>['countryiso3code', 'date', 'value', 'unit',</span>
-<span id="cb30-2"><a></a> 'obs_status', 'decimal', 'indicator.id',</span>
-<span id="cb30-3"><a></a> 'indicator.value', 'country.id', 'country.value']</span>
-<span id="cb30-4"><a></a></span>
-<span id="cb30-5"><a></a>  country.value  date        value</span>
-<span id="cb30-6"><a></a>0        Brazil  2025  9747.995578</span>
-<span id="cb30-7"><a></a>1        Brazil  2024  9566.745187</span>
-<span id="cb30-8"><a></a>2        Brazil  2023  9288.027015</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a></a>flat <span class="op">=</span> pd.json_normalize(records)</span>
+<span id="cb33-2"><a></a><span class="bu">print</span>(flat.columns.tolist())</span>
+<span id="cb33-3"><a></a></span>
+<span id="cb33-4"><a></a>df <span class="op">=</span> flat[[<span class="st">"country.value"</span>, <span class="st">"date"</span>, <span class="st">"value"</span>]]</span>
+<span id="cb33-5"><a></a><span class="bu">print</span>(df.head(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb34-1"><a></a>['countryiso3code', 'date', 'value', 'unit',</span>
+<span id="cb34-2"><a></a> 'obs_status', 'decimal', 'indicator.id',</span>
+<span id="cb34-3"><a></a> 'indicator.value', 'country.id',</span>
+<span id="cb34-4"><a></a> 'country.value']</span>
+<span id="cb34-5"><a></a></span>
+<span id="cb34-6"><a></a>  country.value  date        value</span>
+<span id="cb34-7"><a></a>0        Brazil  2025  9747.995578</span>
+<span id="cb34-8"><a></a>1        Brazil  2024  9566.745187</span>
+<span id="cb34-9"><a></a>2        Brazil  2023  9288.027015</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:45%;">
 <ul>
 <li><code>json_normalize</code> keeps <span class="alert">all</span> the fields, ten columns here</li>
-<li>A nested field gets a name with a dot: <code>country</code> → <code>value</code> becomes <code>country.value</code></li>
+<li>A nested field gets a dotted name, so <code>country</code> → <code>value</code> becomes <code>country.value</code></li>
 <li>You then choose the columns you want with double brackets</li>
 <li><code>date</code> is still text here. The loop turned it into a number</li>
 <li>Both ways work. The loop is longer, but you see every step</li>
+<li>Read more in the <a href="https://pandas.pydata.org/docs/reference/api/pandas.json_normalize.html"><code>json_normalize</code> documentation</a></li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="many-countries-in-one-request" class="slide level2">
 <h2>Many countries in one request</h2>
-<h3 id="join-the-country-codes-with">Join the country codes with <code>;</code></h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
-<div class="column" style="width:55%;">
-<p>Life expectancy for five countries, 2000 to 2024</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/country/"</span></span>
-<span id="cb31-2"><a></a>       <span class="st">"BRA;IND;JPN;NGA;USA/indicator/SP.DYN.LE00.IN"</span>)</span>
-<span id="cb31-3"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2000:2024"</span>,</span>
-<span id="cb31-4"><a></a>          <span class="st">"per_page"</span>: <span class="dv">1000</span>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Then the same loop and <code>pd.DataFrame(rows)</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a></a><span class="bu">print</span>(df.shape)</span>
-<span id="cb32-2"><a></a><span class="bu">print</span>(df[<span class="st">"country"</span>].value_counts())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a></a>(125, 3)</span>
-<span id="cb33-2"><a></a>country</span>
-<span id="cb33-3"><a></a>Brazil           25</span>
-<span id="cb33-4"><a></a>India            25</span>
-<span id="cb33-5"><a></a>Japan            25</span>
-<span id="cb33-6"><a></a>Nigeria          25</span>
-<span id="cb33-7"><a></a>United States    25</span>
-<span id="cb33-8"><a></a>Name: count, dtype: int64</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:45%;">
+<div class="column" style="width:58%;">
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/country/"</span></span>
+<span id="cb35-2"><a></a>       <span class="st">"BRA;IND;JPN;NGA;USA/indicator/SP.DYN.LE00.IN"</span>)</span>
+<span id="cb35-3"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2000:2024"</span>,</span>
+<span id="cb35-4"><a></a>          <span class="st">"per_page"</span>: <span class="dv">1000</span>}</span>
+<span id="cb35-5"><a></a></span>
+<span id="cb35-6"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb35-7"><a></a>r.raise_for_status()</span>
+<span id="cb35-8"><a></a>payload <span class="op">=</span> r.json()     <span class="co"># [metadata, records]</span></span>
+<span id="cb35-9"><a></a>records <span class="op">=</span> payload[<span class="dv">1</span>]   <span class="co"># just the records</span></span>
+<span id="cb35-10"><a></a></span>
+<span id="cb35-11"><a></a>rows <span class="op">=</span> []</span>
+<span id="cb35-12"><a></a><span class="cf">for</span> record <span class="kw">in</span> records:</span>
+<span id="cb35-13"><a></a>    rows.append({</span>
+<span id="cb35-14"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
+<span id="cb35-15"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
+<span id="cb35-16"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
+<span id="cb35-17"><a></a>    })</span>
+<span id="cb35-18"><a></a></span>
+<span id="cb35-19"><a></a>df <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb35-20"><a></a><span class="bu">print</span>(df.shape)</span>
+<span id="cb35-21"><a></a><span class="bu">print</span>(df[<span class="st">"country"</span>].value_counts())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:42%;">
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb36-1"><a></a>(125, 3)</span>
+<span id="cb36-2"><a></a>country</span>
+<span id="cb36-3"><a></a>Brazil           25</span>
+<span id="cb36-4"><a></a>India            25</span>
+<span id="cb36-5"><a></a>Japan            25</span>
+<span id="cb36-6"><a></a>Nigeria          25</span>
+<span id="cb36-7"><a></a>United States    25</span>
+<span id="cb36-8"><a></a>Name: count, dtype: int64</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li><code>BRA;IND;JPN;NGA;USA</code> asks for five countries at once</li>
 <li><code>SP.DYN.LE00.IN</code> is life expectancy at birth</li>
 <li>5 countries × 25 years = <span class="alert">125 records</span></li>
-<li>The World Bank sends 50 records per page by default</li>
-<li><code>per_page=1000</code> gets them all in one reply, so there is only one page to read</li>
-<li>Saved reply: <a href="https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_life_expectancy_5.json"><code>wb_life_expectancy_5.json</code></a></li>
+<li>The World Bank sends 50 records per page by default, so <code>per_page=1000</code> gets them all in one reply</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="missing-values" class="slide level2">
 <h2>Missing values</h2>
-<h3 id="some-years-have-no-data-yet">Some years have no data yet</h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
-<div class="column" style="width:52%;">
-<p>The same loop, with <code>BRA;NGA</code> and the years <code>2022:2025</code></p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a></a><span class="bu">print</span>(df)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb35-1"><a></a>   country  year   value</span>
-<span id="cb35-2"><a></a>0   Brazil  2025     NaN</span>
-<span id="cb35-3"><a></a>1   Brazil  2024  76.023</span>
-<span id="cb35-4"><a></a>2   Brazil  2023  75.848</span>
-<span id="cb35-5"><a></a>3   Brazil  2022  74.872</span>
-<span id="cb35-6"><a></a>4  Nigeria  2025     NaN</span>
-<span id="cb35-7"><a></a>5  Nigeria  2024  54.635</span>
-<span id="cb35-8"><a></a>6  Nigeria  2023  54.462</span>
-<span id="cb35-9"><a></a>7  Nigeria  2022  54.079</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a></a>df <span class="op">=</span> df.dropna()</span>
-<span id="cb36-2"><a></a><span class="bu">print</span>(<span class="bu">len</span>(df))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb37-1"><a></a>6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div><div class="column" style="width:48%;">
+<div class="column" style="width:55%;">
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/country/"</span></span>
+<span id="cb37-2"><a></a>       <span class="st">"BRA;NGA/indicator/SP.DYN.LE00.IN"</span>)</span>
+<span id="cb37-3"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2022:2025"</span>}</span>
+<span id="cb37-4"><a></a></span>
+<span id="cb37-5"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb37-6"><a></a>r.raise_for_status()</span>
+<span id="cb37-7"><a></a>payload <span class="op">=</span> r.json()</span>
+<span id="cb37-8"><a></a>records <span class="op">=</span> payload[<span class="dv">1</span>]</span>
+<span id="cb37-9"><a></a></span>
+<span id="cb37-10"><a></a>rows <span class="op">=</span> []</span>
+<span id="cb37-11"><a></a><span class="cf">for</span> record <span class="kw">in</span> records:</span>
+<span id="cb37-12"><a></a>    rows.append({</span>
+<span id="cb37-13"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
+<span id="cb37-14"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
+<span id="cb37-15"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
+<span id="cb37-16"><a></a>    })</span>
+<span id="cb37-17"><a></a></span>
+<span id="cb37-18"><a></a>recent <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb37-19"><a></a><span class="bu">print</span>(recent)</span>
+<span id="cb37-20"><a></a></span>
+<span id="cb37-21"><a></a>recent <span class="op">=</span> recent.dropna()</span>
+<span id="cb37-22"><a></a><span class="bu">print</span>(<span class="bu">len</span>(recent))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:45%;">
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb38-1"><a></a>   country  year   value</span>
+<span id="cb38-2"><a></a>0   Brazil  2025     NaN</span>
+<span id="cb38-3"><a></a>1   Brazil  2024  76.023</span>
+<span id="cb38-4"><a></a>2   Brazil  2023  75.848</span>
+<span id="cb38-5"><a></a>3   Brazil  2022  74.872</span>
+<span id="cb38-6"><a></a>4  Nigeria  2025     NaN</span>
+<span id="cb38-7"><a></a>5  Nigeria  2024  54.635</span>
+<span id="cb38-8"><a></a>6  Nigeria  2023  54.462</span>
+<span id="cb38-9"><a></a>7  Nigeria  2022  54.079</span>
+<span id="cb38-10"><a></a>6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>The World Bank has not published 2025 life expectancy yet</li>
 <li>It sends those years with <code>"value": null</code></li>
 <li>JSON <code>null</code> becomes Python <code>None</code>, and pandas shows it as <span class="alert"><code>NaN</code></span> (“not a number”)</li>
 <li><code>dropna()</code> removes the rows with missing values</li>
-<li>A missing value is <span class="alert">not a zero</span>. Say in your report how you handled it</li>
+<li>A missing value is <span class="alert">not a zero</span>, so say in your report how you handled it</li>
 </ul>
 </div></div>
 </div>
 </section>
-<section id="a-first-analysis-and-saving-the-table" class="slide level2">
-<h2>A first analysis, and saving the table</h2>
-<h3 id="back-to-the-five-country-table">Back to the five-country table</h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<section id="analysing-and-saving-the-table" class="slide level2">
+<h2>Analysing and saving the table</h2>
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:55%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a></a>latest <span class="op">=</span> df[df[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2024</span>]</span>
-<span id="cb38-2"><a></a>latest <span class="op">=</span> latest.sort_values(<span class="st">"value"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb38-3"><a></a><span class="bu">print</span>(latest)</span>
-<span id="cb38-4"><a></a></span>
-<span id="cb38-5"><a></a>df.to_csv(<span class="st">"data/life_expectancy.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb39-1"><a></a>           country  year      value</span>
-<span id="cb39-2"><a></a>50           Japan  2024  84.036341</span>
-<span id="cb39-3"><a></a>100  United States  2024  78.890244</span>
-<span id="cb39-4"><a></a>0           Brazil  2024  76.023000</span>
-<span id="cb39-5"><a></a>25           India  2024  72.235000</span>
-<span id="cb39-6"><a></a>75         Nigeria  2024  54.635000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a></a>latest <span class="op">=</span> df[df[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2024</span>]</span>
+<span id="cb39-2"><a></a>latest <span class="op">=</span> latest.sort_values(<span class="st">"value"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb39-3"><a></a><span class="bu">print</span>(latest)</span>
+<span id="cb39-4"><a></a></span>
+<span id="cb39-5"><a></a>df.to_csv(<span class="st">"data/life_expectancy.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb40-1"><a></a>           country  year      value</span>
+<span id="cb40-2"><a></a>50           Japan  2024  84.036341</span>
+<span id="cb40-3"><a></a>100  United States  2024  78.890244</span>
+<span id="cb40-4"><a></a>0           Brazil  2024  76.023000</span>
+<span id="cb40-5"><a></a>25           India  2024  72.235000</span>
+<span id="cb40-6"><a></a>75         Nigeria  2024  54.635000</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <p>The CSV starts like this:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb40-1"><a></a>country,year,value</span>
-<span id="cb40-2"><a></a>Brazil,2024,76.023</span>
-<span id="cb40-3"><a></a>Brazil,2023,75.848</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb41-1"><a></a>country,year,value</span>
+<span id="cb41-2"><a></a>Brazil,2024,76.023</span>
+<span id="cb41-3"><a></a>Brazil,2023,75.848</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:45%;">
 <ul>
 <li><code>df[df["year"] == 2024]</code> keeps only the rows for 2024</li>
@@ -848,27 +977,20 @@ Danilo Freire
 </section>
 <section id="sec:exercise03" class="slide level2 scrollable">
 <h2>Try it yourself! 🤓</h2>
-<h3 id="ten-minutes-from-request-to-table">Ten minutes, from request to table</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ol type="1">
-<li>Fetch <span class="alert">GDP per capita</span> (<code>NY.GDP.PCAP.KD</code>) for Argentina, Brazil, and Uruguay (<code>ARG;BRA;URY</code>), 2014 to 2025</li>
-<li>Check the reply with <code>raise_for_status()</code> and the length check</li>
-<li>Build a DataFrame with the loop from today: <code>country</code>, <code>year</code>, <code>value</code></li>
+<li>Fetch <span class="alert">GDP per capita</span> (<code>NY.GDP.PCAP.KD</code>) for <code>ARG;BRA;URY</code>, 2014 to 2025</li>
+<li>Check the reply as we did in “A complete request”</li>
+<li>Use today’s loop to build a DataFrame with <code>country</code>, <code>year</code> and <code>value</code></li>
 <li>Print its shape, and count the missing values with <code>df["value"].isna().sum()</code></li>
 <li>Which country had the <span class="alert">highest GDP per capita in 2025</span>?</li>
 <li>Save the table to <code>data/gdp_south_america.csv</code></li>
 </ol>
 </div><div class="column" style="width:45%;">
-<p><span class="alert">What to look for</span></p>
-<ul>
-<li>36 rows: 3 countries × 12 years</li>
-<li>No missing values in this series</li>
-<li>Uruguay first, then Argentina, then Brazil</li>
-</ul>
 <div style="margin-top: 25px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px;">
-<p>Stuck, or want to compare your code with mine?</p>
+<p>You should get 36 rows (3 countries × 12 years) and no missing values. Uruguay comes first, then Argentina, then Brazil</p>
 <p><a href="#/sec:appendix03"><span class="button">Appendix 03</span></a></p>
 </div>
 </div></div>
@@ -876,43 +998,43 @@ Danilo Freire
 </section></section>
 <section>
 <section id="your-projects-pull-script" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>Your project’s pull script 🗺️</h1>
+<h1>Your project’s pull script</h1>
 
 </section>
-<section id="todays-lecture-is-your-projects-first-step" class="slide level2">
-<h2>Today’s lecture is your project’s first step</h2>
-<h3 id="four-stages-and-you-now-have-the-first-two">Four stages, and you now have the first two</h3>
-<div style="margin-top: 30px; font-size: 24px;">
+<section id="the-project-pipeline" class="slide level2">
+<h2>The project pipeline</h2>
+<div style="margin-top: 40px; font-size: 24px;">
 <div style="text-align: center; margin-bottom: 20px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/project-pipeline-diagram.png"><img data-src="figures/project-pipeline-diagram.png" style="width:85.0%"></a></p>
 </div>
 <ul>
-<li><span class="alert">Collect</span>: <code>requests</code> pulls data from a web API, as we did today</li>
-<li><span class="alert">Snapshot</span>: the script saves the raw reply and a tidy CSV in <code>data/raw/</code></li>
-<li><span class="alert">Analyse</span>: pandas or DuckDB do the work, and Quarto writes the report</li>
-<li><span class="alert">Ship</span>: a Docker container renders the report on anyone’s machine, later in the course</li>
+<li><span class="alert">Collect</span> data from a web API with <code>requests</code>, as we did today</li>
+<li><span class="alert">Save</span> the raw reply and a tidy CSV in <code>data/raw/</code></li>
+<li><span class="alert">Analyse</span> the data with pandas or DuckDB, and write the report in Quarto</li>
+<li><span class="alert">Ship</span> the report in a Docker container that runs on anyone’s machine, later in the course</li>
 </ul>
 </div>
 </section>
 <section id="pull_data.py-part-1-the-settings" class="slide level2">
 <h2><code>pull_data.py</code>, part 1: the settings</h2>
-<h3 id="the-only-lines-you-have-to-change">The only lines you have to change</h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:55%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a></a><span class="co"># The World Bank indicator code. This one is</span></span>
-<span id="cb41-2"><a></a><span class="co"># life expectancy at birth.</span></span>
-<span id="cb41-3"><a></a>INDICATOR <span class="op">=</span> <span class="st">"SP.DYN.LE00.IN"</span></span>
-<span id="cb41-4"><a></a></span>
-<span id="cb41-5"><a></a><span class="co"># The countries you want, as ISO three-letter</span></span>
-<span id="cb41-6"><a></a><span class="co"># codes, joined by ";".</span></span>
-<span id="cb41-7"><a></a>COUNTRIES <span class="op">=</span> <span class="st">"BRA;IND;NGA;USA"</span></span>
-<span id="cb41-8"><a></a></span>
-<span id="cb41-9"><a></a><span class="co"># The years to cover, written as "first:last".</span></span>
-<span id="cb41-10"><a></a>YEARS <span class="op">=</span> <span class="st">"2000:2023"</span></span>
-<span id="cb41-11"><a></a></span>
-<span id="cb41-12"><a></a><span class="co"># A short, readable name for the output files.</span></span>
-<span id="cb41-13"><a></a>OUTPUT_NAME <span class="op">=</span> <span class="st">"life_expectancy"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 26px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a></a><span class="co"># The World Bank indicator code. This one is</span></span>
+<span id="cb42-2"><a></a><span class="co"># life expectancy at birth.</span></span>
+<span id="cb42-3"><a></a>INDICATOR <span class="op">=</span> <span class="st">"SP.DYN.LE00.IN"</span></span>
+<span id="cb42-4"><a></a></span>
+<span id="cb42-5"><a></a><span class="co"># The countries you want, as ISO three-letter</span></span>
+<span id="cb42-6"><a></a><span class="co"># codes, joined by ";".</span></span>
+<span id="cb42-7"><a></a>COUNTRIES <span class="op">=</span> <span class="st">"BRA;IND;NGA;USA"</span></span>
+<span id="cb42-8"><a></a></span>
+<span id="cb42-9"><a></a><span class="co"># The years to cover, written as "first:last".</span></span>
+<span id="cb42-10"><a></a>YEARS <span class="op">=</span> <span class="st">"2000:2023"</span></span>
+<span id="cb42-11"><a></a></span>
+<span id="cb42-12"><a></a><span class="co"># A short, readable name for the output files.</span></span>
+<span id="cb42-13"><a></a>OUTPUT_NAME <span class="op">=</span> <span class="st">"life_expectancy"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:45%;">
 <ul>
 <li>The script is in the <a href="https://github.com/danilofreire/datasci350-project-starter">starter repository</a>, under <code>scripts/</code></li>
@@ -927,27 +1049,30 @@ Danilo Freire
 </section>
 <section id="pull_data.py-part-2-the-request" class="slide level2">
 <h2><code>pull_data.py</code>, part 2: the request</h2>
-<h3 id="everything-from-the-requests-section-in-one-function">Everything from the <code>requests</code> section, in one function</h3>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:57%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a></a><span class="kw">def</span> fetch_indicator(indicator, countries, years):</span>
-<span id="cb42-2"><a></a>    url <span class="op">=</span> <span class="ss">f"</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/country/</span><span class="sc">{</span>countries<span class="sc">}</span><span class="ss">/indicator/</span><span class="sc">{</span>indicator<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb42-3"><a></a>    params <span class="op">=</span> {</span>
-<span id="cb42-4"><a></a>        <span class="st">"format"</span>: <span class="st">"json"</span>,</span>
-<span id="cb42-5"><a></a>        <span class="st">"date"</span>: years,</span>
-<span id="cb42-6"><a></a>        <span class="st">"per_page"</span>: <span class="dv">20000</span>,</span>
-<span id="cb42-7"><a></a>    }</span>
-<span id="cb42-8"><a></a>    response <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">60</span>)</span>
-<span id="cb42-9"><a></a>    response.raise_for_status()</span>
-<span id="cb42-10"><a></a></span>
-<span id="cb42-11"><a></a>    payload <span class="op">=</span> response.json()</span>
-<span id="cb42-12"><a></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(payload, <span class="bu">list</span>) <span class="kw">or</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span>:</span>
-<span id="cb42-13"><a></a>        <span class="cf">raise</span> <span class="pp">RuntimeError</span>(<span class="ss">f"Unexpected response from the API: </span><span class="sc">{</span>payload<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb42-14"><a></a></span>
-<span id="cb42-15"><a></a>    <span class="cf">return</span> payload</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a></a><span class="kw">def</span> fetch_indicator(indicator, countries, years):</span>
+<span id="cb43-2"><a></a>    url <span class="op">=</span> (<span class="ss">f"</span><span class="sc">{</span>BASE_URL<span class="sc">}</span><span class="ss">/country/</span><span class="sc">{</span>countries<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb43-3"><a></a>           <span class="ss">f"/indicator/</span><span class="sc">{</span>indicator<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb43-4"><a></a>    params <span class="op">=</span> {</span>
+<span id="cb43-5"><a></a>        <span class="st">"format"</span>: <span class="st">"json"</span>,</span>
+<span id="cb43-6"><a></a>        <span class="st">"date"</span>: years,</span>
+<span id="cb43-7"><a></a>        <span class="st">"per_page"</span>: <span class="dv">20000</span>,</span>
+<span id="cb43-8"><a></a>    }</span>
+<span id="cb43-9"><a></a>    response <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">60</span>)</span>
+<span id="cb43-10"><a></a>    response.raise_for_status()</span>
+<span id="cb43-11"><a></a></span>
+<span id="cb43-12"><a></a>    payload <span class="op">=</span> response.json()</span>
+<span id="cb43-13"><a></a>    <span class="cf">if</span> <span class="kw">not</span> <span class="bu">isinstance</span>(payload, <span class="bu">list</span>) <span class="kw">or</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span>:</span>
+<span id="cb43-14"><a></a>        <span class="cf">raise</span> <span class="pp">RuntimeError</span>(</span>
+<span id="cb43-15"><a></a>            <span class="ss">f"Unexpected response from the API: </span><span class="sc">{</span>payload<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb43-16"><a></a></span>
+<span id="cb43-17"><a></a>    <span class="cf">return</span> payload</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <div style="font-size: 17px;">
-<p>Comments and type hints removed to fit the slide. The file itself explains every line</p>
+<p>Comments, type hints and a print line removed, and long lines split, to fit the slide. The file itself explains every line</p>
 </div>
 </div><div class="column" style="width:43%;">
 <ul>
@@ -963,36 +1088,39 @@ Danilo Freire
 </section>
 <section id="pull_data.py-part-3-the-table" class="slide level2">
 <h2><code>pull_data.py</code>, part 3: the table</h2>
-<h3 id="todays-loop-written-in-a-shorter-form">Today’s loop, written in a shorter form</h3>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <p>The starter’s version</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a></a>rows <span class="op">=</span> [</span>
-<span id="cb43-2"><a></a>    {</span>
-<span id="cb43-3"><a></a>        <span class="st">"country_code"</span>: record[<span class="st">"countryiso3code"</span>],</span>
-<span id="cb43-4"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
-<span id="cb43-5"><a></a>        <span class="st">"indicator"</span>: record[<span class="st">"indicator"</span>][<span class="st">"id"</span>],</span>
-<span id="cb43-6"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
-<span id="cb43-7"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
-<span id="cb43-8"><a></a>    }</span>
-<span id="cb43-9"><a></a>    <span class="cf">for</span> record <span class="kw">in</span> records</span>
-<span id="cb43-10"><a></a>]</span>
-<span id="cb43-11"><a></a>frame <span class="op">=</span> pd.DataFrame(rows)</span>
-<span id="cb43-12"><a></a>frame <span class="op">=</span> frame.dropna(subset<span class="op">=</span>[<span class="st">"value"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a>rows <span class="op">=</span> [</span>
+<span id="cb44-2"><a></a>    {</span>
+<span id="cb44-3"><a></a>        <span class="st">"country_code"</span>: record[<span class="st">"countryiso3code"</span>],</span>
+<span id="cb44-4"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
+<span id="cb44-5"><a></a>        <span class="st">"indicator"</span>: record[<span class="st">"indicator"</span>][<span class="st">"id"</span>],</span>
+<span id="cb44-6"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
+<span id="cb44-7"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
+<span id="cb44-8"><a></a>    }</span>
+<span id="cb44-9"><a></a>    <span class="cf">for</span> record <span class="kw">in</span> records</span>
+<span id="cb44-10"><a></a>]</span>
+<span id="cb44-11"><a></a>frame <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb44-12"><a></a>frame <span class="op">=</span> frame.dropna(subset<span class="op">=</span>[<span class="st">"value"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:48%;">
-<p>Today’s version, which does the same</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a></a>rows <span class="op">=</span> []</span>
-<span id="cb44-2"><a></a><span class="cf">for</span> record <span class="kw">in</span> records:</span>
-<span id="cb44-3"><a></a>    rows.append({</span>
-<span id="cb44-4"><a></a>        <span class="st">"country_code"</span>: record[<span class="st">"countryiso3code"</span>],</span>
-<span id="cb44-5"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
-<span id="cb44-6"><a></a>        <span class="st">"indicator"</span>: record[<span class="st">"indicator"</span>][<span class="st">"id"</span>],</span>
-<span id="cb44-7"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
-<span id="cb44-8"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
-<span id="cb44-9"><a></a>    })</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Today’s version</p>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a></a>rows <span class="op">=</span> []</span>
+<span id="cb45-2"><a></a><span class="cf">for</span> record <span class="kw">in</span> records:</span>
+<span id="cb45-3"><a></a>    rows.append({</span>
+<span id="cb45-4"><a></a>        <span class="st">"country_code"</span>: record[<span class="st">"countryiso3code"</span>],</span>
+<span id="cb45-5"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
+<span id="cb45-6"><a></a>        <span class="st">"indicator"</span>: record[<span class="st">"indicator"</span>][<span class="st">"id"</span>],</span>
+<span id="cb45-7"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
+<span id="cb45-8"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
+<span id="cb45-9"><a></a>    })</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
-<li>The starter uses a <span class="alert">list comprehension</span>: the <code>for</code> goes inside the brackets</li>
+<li>The starter uses a <span class="alert">list comprehension</span>, with the <code>for</code> inside the brackets</li>
 <li>Both build the same list. Use whichever you find easier to read</li>
 <li><code>dropna(subset=["value"])</code> removes rows with no value</li>
 </ul>
@@ -1001,40 +1129,46 @@ Danilo Freire
 </section>
 <section id="pull_data.py-part-4-running-it" class="slide level2">
 <h2><code>pull_data.py</code>, part 4: running it</h2>
-<h3 id="save-the-raw-reply-then-the-tidy-table">Save the raw reply, then the tidy table</h3>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 22px;">
+<div class="columns">
+<div class="column" style="width:57%;">
 <p>Run it once, from the top folder of your repository:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb45"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a></a><span class="ex">python</span> scripts/pull_data.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>The output, with the long folder paths shortened:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb46-1"><a></a>Requesting https://api.worldbank.org/v2/country/BRA;IND;NGA;USA/indicator/SP.DYN.LE00.IN</span>
-<span id="cb46-2"><a></a>Saved the raw response to data/raw/life_expectancy_raw.json</span>
-<span id="cb46-3"><a></a>Saved 96 tidy rows to data/raw/life_expectancy.csv</span>
-<span id="cb46-4"><a></a></span>
-<span id="cb46-5"><a></a>First few rows:</span>
-<span id="cb46-6"><a></a>  country_code country       indicator  year   value</span>
-<span id="cb46-7"><a></a>0          BRA  Brazil  SP.DYN.LE00.IN  2000  69.584</span>
-<span id="cb46-8"><a></a>1          BRA  Brazil  SP.DYN.LE00.IN  2001  69.980</span>
-<span id="cb46-9"><a></a>2          BRA  Brazil  SP.DYN.LE00.IN  2002  70.396</span>
-<span id="cb46-10"><a></a></span>
-<span id="cb46-11"><a></a>Now commit both files in data/raw/ to your repository.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb46"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a></a><span class="ex">python</span> scripts/pull_data.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The output, with the folder paths shortened and the table cut to three rows:</p>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb47-1"><a></a>Requesting https://api.worldbank.org/v2/country/</span>
+<span id="cb47-2"><a></a>BRA;IND;NGA;USA/indicator/SP.DYN.LE00.IN</span>
+<span id="cb47-3"><a></a>Saved the raw response to</span>
+<span id="cb47-4"><a></a>data/raw/life_expectancy_raw.json</span>
+<span id="cb47-5"><a></a>Saved 96 tidy rows to</span>
+<span id="cb47-6"><a></a>data/raw/life_expectancy.csv</span>
+<span id="cb47-7"><a></a></span>
+<span id="cb47-8"><a></a>First few rows:</span>
+<span id="cb47-9"><a></a>  country_code country       indicator  year   value</span>
+<span id="cb47-10"><a></a>0          BRA  Brazil  SP.DYN.LE00.IN  2000  69.584</span>
+<span id="cb47-11"><a></a>1          BRA  Brazil  SP.DYN.LE00.IN  2001  69.980</span>
+<span id="cb47-12"><a></a>2          BRA  Brazil  SP.DYN.LE00.IN  2002  70.396</span>
+<span id="cb47-13"><a></a></span>
+<span id="cb47-14"><a></a>Now commit both files in data/raw/</span>
+<span id="cb47-15"><a></a>to your repository.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:43%;">
 <ul>
-<li>The script saves <span class="alert">two files</span>:
-<ul>
-<li>The untouched reply, as JSON</li>
-<li>The tidy table, as CSV</li>
-</ul></li>
+<li>The script saves <span class="alert">two files</span>, the untouched reply as JSON and the tidy table as CSV</li>
 <li>The raw file lets you fix the tidying later without calling the API again</li>
-<li>96 rows: 4 countries × 24 years</li>
 <li><span class="alert">Commit both files</span>. Your report reads the saved CSV, never the live API</li>
 <li>That is why the report gives the same numbers in December</li>
-<li>The last line of the file, <code>if __name__ == "__main__":</code>, runs the script only when you call it directly</li>
+<li>The last two lines of the file, starting with <code>if __name__ == "__main__":</code>, run the script only when you call it directly</li>
 </ul>
+</div></div>
 </div>
 </section>
-<section id="if-your-api-needs-a-key-or-sends-pages" class="slide level2">
+<section id="sec:keys-pages" class="slide level2">
 <h2>If your API needs a key or sends pages</h2>
-<h3 id="only-for-track-b.-the-world-bank-needs-neither">Only for Track B. The World Bank needs neither</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<h3 id="for-track-b-only">For Track B only</h3>
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <h4 id="api-keys">API keys</h4>
@@ -1042,8 +1176,8 @@ Danilo Freire
 <li>Some APIs need a key, a password for programs</li>
 <li>You used one in Lecture 14</li>
 <li>Keep it in a <span class="alert"><code>.env</code> file</span>, and put <code>.env</code> in <code>.gitignore</code></li>
-<li><span class="alert">Never commit a key.</span> Bots find them in public repositories within minutes</li>
-<li>Details and code: <a href="#/sec:appendix04">Appendix 04</a></li>
+<li><span class="alert">Never commit a key.</span> Bots scan public repositories for them</li>
+<li><a href="#/sec:appendix04">Appendix 04</a> has the details and code</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <h4 id="pages">Pages</h4>
@@ -1052,17 +1186,17 @@ Danilo Freire
 <li>The reply says how many pages there are</li>
 <li>You ask for page 1, then page 2, and so on, until the last one</li>
 <li>First try a bigger page, like <code>per_page=20000</code>. One request is simpler than a loop</li>
-<li>Details and code: <a href="#/sec:appendix05">Appendix 05</a></li>
+<li><a href="#/sec:appendix05">Appendix 05</a> has the details and code</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="what-the-project-asks-of-you" class="slide level2">
 <h2>What the project asks of you</h2>
-<h3 id="clone-the-starter-change-four-lines-run-it-once">Clone the starter, change four lines, run it once</h3>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:56%;">
+<div style="font-size: 25px;">
 <table class="caption-top">
 <colgroup>
 <col style="width: 50%">
@@ -1077,7 +1211,7 @@ Danilo Freire
 <tbody>
 <tr class="odd">
 <td><code>scripts/pull_data.py</code></td>
-<td>Runs once: <code>python scripts/pull_data.py</code></td>
+<td>Run it once with <code>python scripts/pull_data.py</code></td>
 </tr>
 <tr class="even">
 <td><code>data/raw/&lt;name&gt;_raw.json</code></td>
@@ -1097,10 +1231,11 @@ Danilo Freire
 </tr>
 <tr class="even">
 <td><code>requirements.txt</code></td>
-<td>Pinned versions, so the build is the same next month</td>
+<td>Pinned versions, so the build stays the same in the future</td>
 </tr>
 </tbody>
 </table>
+</div>
 <ul>
 <li><span class="alert">Commit <code>data/raw/</code></span>. Do not put it in <code>.gitignore</code></li>
 <li>The report never calls the API while it renders</li>
@@ -1116,23 +1251,21 @@ Danilo Freire
 </div>
 </section>
 <section id="sec:panel" class="slide level2">
-<h2>A file we will use again</h2>
-<h3 id="the-course-panel-for-lectures-21-and-22">The course panel, for Lectures 21 and 22</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<h2>The course panel</h2>
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li>I used the same steps to build a bigger file: <a href="https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet"><code>wdi_panel.parquet</code></a></li>
-<li>Eight World Bank indicators, 217 countries, 1990 to 2023</li>
-<li>59,024 rows, one per country, indicator, and year</li>
-<li>It is saved as <span class="alert">parquet</span>, a compact file format. Lecture 21 explains it</li>
-<li>In <span class="alert">Lecture 21</span> we ask why one CPU core is not enough</li>
-<li>In <span class="alert">Lecture 22</span> we query this file with SQL</li>
+<li>I built <a href="https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet"><code>wdi_panel.parquet</code></a> with the same steps</li>
+<li>It has eight World Bank indicators for 217 countries, 1990 to 2023</li>
+<li>It has 59,024 rows, one per country, indicator and year</li>
+<li><span class="alert">Parquet</span> is a compact format, covered in Lecture 21</li>
+<li>We query this file with SQL in <span class="alert">Lecture 22</span></li>
 </ul>
 </div><div class="column" style="width:45%;">
 <div style="margin-top: 20px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 21px;">
-<p>The eight indicators include GDP per capita, population, life expectancy, and CO2 emissions per person</p>
-<p>The script that built it, and the full list, are in the appendix</p>
+<p>The indicators include GDP per capita, population, life expectancy and CO2 emissions per person</p>
+<p>The full list and the script are in the appendix</p>
 <p><a href="#/sec:appendix06"><span class="button">Appendix 06</span></a></p>
 </div>
 </div></div>
@@ -1140,26 +1273,26 @@ Danilo Freire
 </section></section>
 <section>
 <section id="conclusion" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>Conclusion 📚</h1>
+<h1>Conclusion</h1>
 
 </section>
 <section id="what-we-learned-today" class="slide level2">
 <h2>What we learned today</h2>
-<h3 id="from-an-api-reply-to-a-saved-table-in-python">From an API reply to a saved table, in Python</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
 <li>JSON objects become <span class="alert">dictionaries</span>, and arrays become <span class="alert">lists</span></li>
 <li><code>with open(...) as f:</code> opens a file and closes it for you</li>
 <li><code>json.load</code> reads JSON, and <code>json.dump</code> writes it</li>
-<li>A path becomes square brackets: <code>wb[1][0]["value"]</code></li>
+<li>Square brackets follow a path, as in <code>wb[1][0]["value"]</code></li>
+<li><code>type()</code>, <code>len()</code> and <code>.keys()</code> show the shape of a reply</li>
 <li><code>requests.get(url, params=..., timeout=30)</code> sends the request</li>
-<li><code>raise_for_status()</code> and a length check catch the errors</li>
+<li><code>raise_for_status()</code> and a check on the reply catch the errors</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>A <code>for</code> loop picks the fields you want from each record</li>
+<li>A <code>for</code> loop keeps the fields you need from each record</li>
 <li><code>pd.DataFrame(rows)</code> turns the list into a table</li>
 <li><code>;</code> asks for many countries, and <code>per_page</code> gets them in one reply</li>
 <li><code>null</code> becomes <code>NaN</code>, and <code>dropna()</code> removes it</li>
@@ -1171,15 +1304,15 @@ Danilo Freire
 </section>
 <section id="next-class" class="slide level2 scrollable">
 <h2>Next class</h2>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
 <li><span class="alert">Quiz 03</span> is next class, covering Lectures 12, 14, 15, 16 and 17</li>
 <li>Revise the exercises from those lectures and you will be well prepared</li>
 <li><span class="alert">Lecture 21</span> starts parallel computing</li>
-<li>One question left from this module: what if the data is on a web page, with no API?</li>
-<li>The optional <span class="alert">web-scraping tutorial</span> (<a href="https://danilofreire.github.io/datasci350/tutorials/05-web-scraping-tutorial.html">link</a>) covers that, from HTML tables in pandas to BeautifulSoup</li>
+<li>What if the data is on a web page, with no API?</li>
+<li>The optional <a href="https://danilofreire.github.io/datasci350/tutorials/05-web-scraping-tutorial.html">web-scraping tutorial</a> covers that, from HTML tables in pandas to BeautifulSoup</li>
 </ul>
 </div><div class="column" style="width:45%;">
 <div style="margin-top: -15px;">
@@ -1188,7 +1321,7 @@ Danilo Freire
 <li>Email me your group’s names, or I assign you a group at random</li>
 <li>Clone the starter repository and run <code>python scripts/pull_data.py</code> once</li>
 <li>Finish Exercise 03 if you did not have time in class</li>
-<li>Revise Lectures 12 to 17 for the quiz</li>
+<li>Revise Lectures 12 and 14 to 17 for the quiz</li>
 </ol>
 </div>
 </div></div>
@@ -1202,22 +1335,33 @@ Danilo Freire
 <section id="sec:appendix01" class="slide level2">
 <h2>Appendix 01</h2>
 <h3 id="exercise-01-solution">Exercise 01 solution</h3>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:55%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb47"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a></a><span class="im">import</span> json</span>
-<span id="cb47-2"><a></a></span>
-<span id="cb47-3"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_pop_ury.json"</span>) <span class="im">as</span> f:</span>
-<span id="cb47-4"><a></a>    wb <span class="op">=</span> json.load(f)</span>
-<span id="cb47-5"><a></a></span>
-<span id="cb47-6"><a></a><span class="bu">print</span>(wb[<span class="dv">0</span>][<span class="st">"total"</span>])</span>
-<span id="cb47-7"><a></a><span class="bu">print</span>(wb[<span class="dv">1</span>][<span class="dv">5</span>][<span class="st">"date"</span>], wb[<span class="dv">1</span>][<span class="dv">5</span>][<span class="st">"value"</span>])</span>
-<span id="cb47-8"><a></a><span class="bu">print</span>(wb[<span class="dv">1</span>][<span class="dv">0</span>][<span class="st">"country"</span>][<span class="st">"value"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb48-1"><a></a>12</span>
-<span id="cb48-2"><a></a>2020 3398968</span>
-<span id="cb48-3"><a></a>Uruguay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb48"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a></a><span class="im">import</span> json</span>
+<span id="cb48-2"><a></a></span>
+<span id="cb48-3"><a></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_pop_ury.json"</span>) <span class="im">as</span> f:</span>
+<span id="cb48-4"><a></a>    wb <span class="op">=</span> json.load(f)</span>
+<span id="cb48-5"><a></a></span>
+<span id="cb48-6"><a></a><span class="bu">print</span>(wb[<span class="dv">0</span>].keys())</span>
+<span id="cb48-7"><a></a><span class="bu">print</span>(wb[<span class="dv">1</span>][<span class="dv">0</span>].keys())</span>
+<span id="cb48-8"><a></a></span>
+<span id="cb48-9"><a></a><span class="bu">print</span>(wb[<span class="dv">0</span>][<span class="st">"total"</span>])</span>
+<span id="cb48-10"><a></a><span class="bu">print</span>(wb[<span class="dv">1</span>][<span class="dv">5</span>][<span class="st">"date"</span>], wb[<span class="dv">1</span>][<span class="dv">5</span>][<span class="st">"value"</span>])</span>
+<span id="cb48-11"><a></a><span class="bu">print</span>(wb[<span class="dv">1</span>][<span class="dv">0</span>][<span class="st">"country"</span>][<span class="st">"value"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb49-1"><a></a>dict_keys(['page', 'pages', 'per_page', 'total',</span>
+<span id="cb49-2"><a></a>'sourceid', 'lastupdated'])</span>
+<span id="cb49-3"><a></a>dict_keys(['indicator', 'country',</span>
+<span id="cb49-4"><a></a>'countryiso3code', 'date', 'value',</span>
+<span id="cb49-5"><a></a>'unit', 'obs_status', 'decimal'])</span>
+<span id="cb49-6"><a></a>12</span>
+<span id="cb49-7"><a></a>2020 3398968</span>
+<span id="cb49-8"><a></a>Uruguay</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:45%;">
 <ul>
+<li><code>.keys()</code> shows the names you can use at each level</li>
 <li><code>wb[0]</code> is the metadata, and <code>total</code> is one of its keys</li>
 <li>Records run newest first, so 2020 is at position <code>5</code> (2025 is at <code>0</code>)</li>
 <li>Last class’s path <code>1</code> → <code>5</code> → <code>value</code> becomes <code>wb[1][5]["value"]</code></li>
@@ -1232,31 +1376,33 @@ Danilo Freire
 <section id="sec:appendix02" class="slide level2">
 <h2>Appendix 02</h2>
 <h3 id="exercise-02-solution">Exercise 02 solution</h3>
-<div style="margin-top: 30px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:57%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb49"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a></a><span class="im">import</span> json</span>
-<span id="cb49-2"><a></a><span class="im">import</span> requests</span>
-<span id="cb49-3"><a></a></span>
-<span id="cb49-4"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/country/URY/indicator/SP.POP.TOTL"</span></span>
-<span id="cb49-5"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2014:2025"</span>}</span>
-<span id="cb49-6"><a></a></span>
-<span id="cb49-7"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb49-8"><a></a>r.raise_for_status()</span>
-<span id="cb49-9"><a></a>payload <span class="op">=</span> r.json()</span>
-<span id="cb49-10"><a></a></span>
-<span id="cb49-11"><a></a><span class="cf">if</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span>:</span>
-<span id="cb49-12"><a></a>    <span class="bu">print</span>(<span class="st">"No data:"</span>, payload)</span>
-<span id="cb49-13"><a></a><span class="cf">else</span>:</span>
-<span id="cb49-14"><a></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_pop_ury.json"</span>, <span class="st">"w"</span>) <span class="im">as</span> f:</span>
-<span id="cb49-15"><a></a>        json.dump(payload, f, indent<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb49-16"><a></a>    <span class="bu">print</span>(r.url)</span>
-<span id="cb49-17"><a></a>    <span class="bu">print</span>(<span class="st">"Saved"</span>, payload[<span class="dv">0</span>][<span class="st">"total"</span>], <span class="st">"records"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb50-1"><a></a>https://api.worldbank.org/v2/country/URY/indicator/SP.POP.TOTL?format=json&amp;date=2014%3A2025</span>
-<span id="cb50-2"><a></a>Saved 12 records</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb50"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a></a><span class="im">import</span> json, requests</span>
+<span id="cb50-2"><a></a></span>
+<span id="cb50-3"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/"</span></span>
+<span id="cb50-4"><a></a>       <span class="st">"country/URY/indicator/SP.POP.TOTL"</span>)</span>
+<span id="cb50-5"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2014:2025"</span>}</span>
+<span id="cb50-6"><a></a></span>
+<span id="cb50-7"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb50-8"><a></a>r.raise_for_status()</span>
+<span id="cb50-9"><a></a>payload <span class="op">=</span> r.json()</span>
+<span id="cb50-10"><a></a></span>
+<span id="cb50-11"><a></a><span class="cf">if</span> <span class="bu">len</span>(payload) <span class="op">&lt;</span> <span class="dv">2</span> <span class="kw">or</span> payload[<span class="dv">1</span>] <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb50-12"><a></a>    <span class="bu">print</span>(<span class="st">"No data:"</span>, payload)</span>
+<span id="cb50-13"><a></a><span class="cf">else</span>:</span>
+<span id="cb50-14"><a></a>    <span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/wb_pop_ury.json"</span>, <span class="st">"w"</span>) <span class="im">as</span> f:</span>
+<span id="cb50-15"><a></a>        json.dump(payload, f, indent<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb50-16"><a></a>    <span class="bu">print</span>(r.url)</span>
+<span id="cb50-17"><a></a>    <span class="bu">print</span>(<span class="st">"Saved"</span>, payload[<span class="dv">0</span>][<span class="st">"total"</span>], <span class="st">"records"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb51-1"><a></a>https://api.worldbank.org/v2/country/URY/indicator/SP.POP.TOTL?format=json&amp;date=2014%3A2025</span>
+<span id="cb51-2"><a></a>Saved 12 records</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:43%;">
 <ul>
-<li>Only <code>URY</code> and <code>SP.POP.TOTL</code> changed. The <code>params</code> are the same for every indicator</li>
+<li>Only <code>URY</code>, <code>SP.POP.TOTL</code> and the file name changed. The <code>params</code> are the same for every indicator</li>
 <li>With <code>XYZ</code>, the length check prints the “No data” message, and no file is written</li>
 <li>If the <code>data/</code> folder does not exist, <code>open</code> fails. Create the folder first</li>
 </ul>
@@ -1269,43 +1415,48 @@ Danilo Freire
 <section id="sec:appendix03" class="slide level2">
 <h2>Appendix 03</h2>
 <h3 id="exercise-03-solution">Exercise 03 solution</h3>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:57%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb51"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a></a><span class="im">import</span> requests</span>
-<span id="cb51-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb51-3"><a></a></span>
-<span id="cb51-4"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/country/ARG;BRA;URY/indicator/NY.GDP.PCAP.KD"</span></span>
-<span id="cb51-5"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2014:2025"</span>, <span class="st">"per_page"</span>: <span class="dv">1000</span>}</span>
-<span id="cb51-6"><a></a></span>
-<span id="cb51-7"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb51-8"><a></a>r.raise_for_status()</span>
-<span id="cb51-9"><a></a>payload <span class="op">=</span> r.json()</span>
-<span id="cb51-10"><a></a></span>
-<span id="cb51-11"><a></a>rows <span class="op">=</span> []</span>
-<span id="cb51-12"><a></a><span class="cf">for</span> record <span class="kw">in</span> payload[<span class="dv">1</span>]:</span>
-<span id="cb51-13"><a></a>    rows.append({</span>
-<span id="cb51-14"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
-<span id="cb51-15"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
-<span id="cb51-16"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
-<span id="cb51-17"><a></a>    })</span>
-<span id="cb51-18"><a></a></span>
-<span id="cb51-19"><a></a>df <span class="op">=</span> pd.DataFrame(rows)</span>
-<span id="cb51-20"><a></a><span class="bu">print</span>(df.shape)</span>
-<span id="cb51-21"><a></a><span class="bu">print</span>(df[<span class="st">"value"</span>].isna().<span class="bu">sum</span>())</span>
-<span id="cb51-22"><a></a></span>
-<span id="cb51-23"><a></a>latest <span class="op">=</span> df[df[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2025</span>]</span>
-<span id="cb51-24"><a></a>latest <span class="op">=</span> latest.sort_values(<span class="st">"value"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb51-25"><a></a><span class="bu">print</span>(latest)</span>
-<span id="cb51-26"><a></a></span>
-<span id="cb51-27"><a></a>df.to_csv(<span class="st">"data/gdp_south_america.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a></a><span class="im">import</span> requests</span>
+<span id="cb52-2"><a></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb52-3"><a></a></span>
+<span id="cb52-4"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/"</span></span>
+<span id="cb52-5"><a></a>       <span class="st">"country/ARG;BRA;URY/indicator/NY.GDP.PCAP.KD"</span>)</span>
+<span id="cb52-6"><a></a>params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="st">"2014:2025"</span>, <span class="st">"per_page"</span>: <span class="dv">1000</span>}</span>
+<span id="cb52-7"><a></a></span>
+<span id="cb52-8"><a></a>r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb52-9"><a></a>r.raise_for_status()</span>
+<span id="cb52-10"><a></a>payload <span class="op">=</span> r.json()</span>
+<span id="cb52-11"><a></a></span>
+<span id="cb52-12"><a></a>rows <span class="op">=</span> []</span>
+<span id="cb52-13"><a></a><span class="cf">for</span> record <span class="kw">in</span> payload[<span class="dv">1</span>]:</span>
+<span id="cb52-14"><a></a>    rows.append({</span>
+<span id="cb52-15"><a></a>        <span class="st">"country"</span>: record[<span class="st">"country"</span>][<span class="st">"value"</span>],</span>
+<span id="cb52-16"><a></a>        <span class="st">"year"</span>: <span class="bu">int</span>(record[<span class="st">"date"</span>]),</span>
+<span id="cb52-17"><a></a>        <span class="st">"value"</span>: record[<span class="st">"value"</span>],</span>
+<span id="cb52-18"><a></a>    })</span>
+<span id="cb52-19"><a></a></span>
+<span id="cb52-20"><a></a>df <span class="op">=</span> pd.DataFrame(rows)</span>
+<span id="cb52-21"><a></a><span class="bu">print</span>(df.shape)</span>
+<span id="cb52-22"><a></a><span class="bu">print</span>(df[<span class="st">"value"</span>].isna().<span class="bu">sum</span>())</span>
+<span id="cb52-23"><a></a></span>
+<span id="cb52-24"><a></a>latest <span class="op">=</span> df[df[<span class="st">"year"</span>] <span class="op">==</span> <span class="dv">2025</span>]</span>
+<span id="cb52-25"><a></a>latest <span class="op">=</span> latest.sort_values(<span class="st">"value"</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb52-26"><a></a><span class="bu">print</span>(latest)</span>
+<span id="cb52-27"><a></a></span>
+<span id="cb52-28"><a></a>df.to_csv(<span class="st">"data/gdp_south_america.csv"</span>, index<span class="op">=</span><span class="va">False</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:43%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb52"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb52-1"><a></a>(36, 3)</span>
-<span id="cb52-2"><a></a>0</span>
-<span id="cb52-3"><a></a>      country  year         value</span>
-<span id="cb52-4"><a></a>24    Uruguay  2025  19374.515843</span>
-<span id="cb52-5"><a></a>0   Argentina  2025  13287.115953</span>
-<span id="cb52-6"><a></a>12     Brazil  2025   9747.995578</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb53"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb53-1"><a></a>(36, 3)</span>
+<span id="cb53-2"><a></a>0</span>
+<span id="cb53-3"><a></a>      country  year         value</span>
+<span id="cb53-4"><a></a>24    Uruguay  2025  19374.515843</span>
+<span id="cb53-5"><a></a>0   Argentina  2025  13287.115953</span>
+<span id="cb53-6"><a></a>12     Brazil  2025   9747.995578</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>36 records fit in one reply, so there is one page</li>
 <li>The length check is left out here to fit the slide. Keep it in your own code</li>
@@ -1319,92 +1470,108 @@ Danilo Freire
 </section>
 <section id="sec:appendix04" class="slide level2 scrollable">
 <h2>Appendix 04: API keys</h2>
-<h3 id="for-track-b-apis-that-ask-who-you-are">For Track B APIs that ask who you are</h3>
-<div style="margin-top: 30px; font-size: 21px;">
+<h3 id="for-track-b">For Track B</h3>
+<div style="margin-top: 40px; font-size: 19px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ol type="1">
 <li>Sign up on the API’s website. The key usually arrives by email in a minute</li>
 <li>Put it in a file called <span class="alert"><code>.env</code></span>, one <code>NAME=value</code> per line, with no quotes</li>
 </ol>
+<div style="font-size: 24px;">
 <pre><code>NASA_API_KEY=abc123def456</code></pre>
+</div>
 <ol start="3" type="1">
 <li>Add <code>.env</code> to your <span class="alert"><code>.gitignore</code></span> <span class="alert">before</span> your first commit</li>
 <li>Read it in Python with <code>python-dotenv</code>, as in Lecture 14</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a></a><span class="im">import</span> os</span>
-<span id="cb54-2"><a></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
-<span id="cb54-3"><a></a></span>
-<span id="cb54-4"><a></a>load_dotenv()</span>
-<span id="cb54-5"><a></a>key <span class="op">=</span> os.getenv(<span class="st">"NASA_API_KEY"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a></a><span class="im">import</span> os</span>
+<span id="cb55-2"><a></a><span class="im">from</span> dotenv <span class="im">import</span> load_dotenv</span>
+<span id="cb55-3"><a></a></span>
+<span id="cb55-4"><a></a>load_dotenv()</span>
+<span id="cb55-5"><a></a>key <span class="op">=</span> os.getenv(<span class="st">"NASA_API_KEY"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:50%;">
 <ol start="5" type="1">
 <li>Send it the way the documentation says:</li>
 </ol>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a></a><span class="co"># In the query string</span></span>
-<span id="cb55-2"><a></a>params <span class="op">=</span> {<span class="st">"api_key"</span>: key}</span>
-<span id="cb55-3"><a></a></span>
-<span id="cb55-4"><a></a><span class="co"># Or in a header, which is safer</span></span>
-<span id="cb55-5"><a></a>headers <span class="op">=</span> {<span class="st">"Authorization"</span>: <span class="ss">f"Bearer </span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">"</span>}</span>
-<span id="cb55-6"><a></a>r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">30</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a></a><span class="co"># In the query string</span></span>
+<span id="cb56-2"><a></a>params <span class="op">=</span> {<span class="st">"api_key"</span>: key}</span>
+<span id="cb56-3"><a></a></span>
+<span id="cb56-4"><a></a><span class="co"># Or in a header, which is safer</span></span>
+<span id="cb56-5"><a></a><span class="co"># (some APIs, e.g. GitHub; NASA uses api_key)</span></span>
+<span id="cb56-6"><a></a>headers <span class="op">=</span> {<span class="st">"Authorization"</span>: <span class="ss">f"Bearer </span><span class="sc">{</span>key<span class="sc">}</span><span class="ss">"</span>}</span>
+<span id="cb56-7"><a></a>r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">30</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
 <li>Headers are safer because URLs get saved in logs and browser history</li>
 <li>GitHub found <a href="https://github.blog/security/application-security/next-evolution-github-advanced-security/">more than 39 million leaked secrets</a> in 2024</li>
 <li>Committed a key by accident? <span class="alert">Revoke it at once</span> and get a new one. Deleting the file does not help, because Git keeps the history</li>
 </ul>
+<div style="margin-top: 10px; background: rgba(27, 58, 107, 0.08); padding: 10px; border-radius: 10px; font-size: 20px;">
+<p><a href="#/sec:keys-pages"><span class="button">Back to the slide</span></a></p>
+</div>
 </div></div>
 </div>
 </section>
 <section id="sec:appendix05" class="slide level2">
 <h2>Appendix 05: pages</h2>
-<h3 id="a-loop-that-asks-for-one-page-at-a-time">A loop that asks for one page at a time</h3>
-<div style="margin-top: 30px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 19px;">
 <div class="columns">
 <div class="column" style="width:56%;">
-<p>GDP per capita for every country in 2023, 100 records per page</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb56"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a></a><span class="im">import</span> time</span>
-<span id="cb56-2"><a></a><span class="im">import</span> requests</span>
-<span id="cb56-3"><a></a></span>
-<span id="cb56-4"><a></a>url <span class="op">=</span> <span class="st">"https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD"</span></span>
-<span id="cb56-5"><a></a>records <span class="op">=</span> []</span>
-<span id="cb56-6"><a></a>page <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb56-7"><a></a></span>
-<span id="cb56-8"><a></a><span class="cf">while</span> <span class="va">True</span>:</span>
-<span id="cb56-9"><a></a>    params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="dv">2023</span>,</span>
-<span id="cb56-10"><a></a>              <span class="st">"per_page"</span>: <span class="dv">100</span>, <span class="st">"page"</span>: page}</span>
-<span id="cb56-11"><a></a>    r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb56-12"><a></a>    r.raise_for_status()</span>
-<span id="cb56-13"><a></a>    payload <span class="op">=</span> r.json()</span>
-<span id="cb56-14"><a></a></span>
-<span id="cb56-15"><a></a>    records.extend(payload[<span class="dv">1</span>])</span>
-<span id="cb56-16"><a></a>    <span class="bu">print</span>(<span class="st">"page"</span>, page, <span class="st">"of"</span>, payload[<span class="dv">0</span>][<span class="st">"pages"</span>])</span>
-<span id="cb56-17"><a></a></span>
-<span id="cb56-18"><a></a>    <span class="cf">if</span> page <span class="op">&gt;=</span> payload[<span class="dv">0</span>][<span class="st">"pages"</span>]:</span>
-<span id="cb56-19"><a></a>        <span class="cf">break</span></span>
-<span id="cb56-20"><a></a>    page <span class="op">=</span> page <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb56-21"><a></a>    time.sleep(<span class="fl">0.5</span>)</span>
-<span id="cb56-22"><a></a></span>
-<span id="cb56-23"><a></a><span class="bu">print</span>(<span class="bu">len</span>(records), <span class="st">"records"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 20px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a></a><span class="im">import</span> time</span>
+<span id="cb57-2"><a></a><span class="im">import</span> requests</span>
+<span id="cb57-3"><a></a></span>
+<span id="cb57-4"><a></a>url <span class="op">=</span> (<span class="st">"https://api.worldbank.org/v2/"</span></span>
+<span id="cb57-5"><a></a>       <span class="st">"country/all/indicator/NY.GDP.PCAP.KD"</span>)</span>
+<span id="cb57-6"><a></a>records <span class="op">=</span> []</span>
+<span id="cb57-7"><a></a>page <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb57-8"><a></a></span>
+<span id="cb57-9"><a></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb57-10"><a></a>    params <span class="op">=</span> {<span class="st">"format"</span>: <span class="st">"json"</span>, <span class="st">"date"</span>: <span class="dv">2023</span>,</span>
+<span id="cb57-11"><a></a>              <span class="st">"per_page"</span>: <span class="dv">100</span>, <span class="st">"page"</span>: page}</span>
+<span id="cb57-12"><a></a>    r <span class="op">=</span> requests.get(url, params<span class="op">=</span>params, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb57-13"><a></a>    r.raise_for_status()</span>
+<span id="cb57-14"><a></a>    payload <span class="op">=</span> r.json()</span>
+<span id="cb57-15"><a></a></span>
+<span id="cb57-16"><a></a>    records.extend(payload[<span class="dv">1</span>])</span>
+<span id="cb57-17"><a></a>    <span class="bu">print</span>(<span class="st">"page"</span>, page, <span class="st">"of"</span>, payload[<span class="dv">0</span>][<span class="st">"pages"</span>])</span>
+<span id="cb57-18"><a></a></span>
+<span id="cb57-19"><a></a>    <span class="cf">if</span> page <span class="op">&gt;=</span> payload[<span class="dv">0</span>][<span class="st">"pages"</span>]:</span>
+<span id="cb57-20"><a></a>        <span class="cf">break</span></span>
+<span id="cb57-21"><a></a>    page <span class="op">=</span> page <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb57-22"><a></a>    time.sleep(<span class="fl">0.5</span>)</span>
+<span id="cb57-23"><a></a></span>
+<span id="cb57-24"><a></a><span class="bu">print</span>(<span class="bu">len</span>(records), <span class="st">"records"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:44%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb57"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb57-1"><a></a>page 1 of 3</span>
-<span id="cb57-2"><a></a>page 2 of 3</span>
-<span id="cb57-3"><a></a>page 3 of 3</span>
-<span id="cb57-4"><a></a>265 records</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 20px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb58"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb58-1"><a></a>page 1 of 3</span>
+<span id="cb58-2"><a></a>page 2 of 3</span>
+<span id="cb58-3"><a></a>page 3 of 3</span>
+<span id="cb58-4"><a></a>266 records</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
+<li>GDP per capita for every country and regional group in 2023, 100 records per page</li>
 <li><code>while True:</code> repeats until a <code>break</code></li>
-<li>The metadata says how many <code>pages</code> there are, so the loop knows when to stop</li>
-<li><code>records.extend(...)</code> adds a whole page of records to the list</li>
-<li><code>time.sleep(0.5)</code> waits half a second between requests, to be polite to the server</li>
+<li>The metadata’s <code>pages</code> tells the loop when to stop</li>
+<li><code>records.extend(...)</code> adds a whole page to the list</li>
+<li><code>time.sleep(0.5)</code> waits half a second, to be polite to the server</li>
 <li>A <code>429</code> status means you are asking too fast. Wait and try again</li>
 <li>The saved pages are in <a href="https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-19/data"><code>data/</code></a> (<code>wb_gdppc_2023_page1.json</code> to <code>page3</code>)</li>
 </ul>
+<div style="margin-top: 10px; background: rgba(27, 58, 107, 0.08); padding: 10px; border-radius: 10px; font-size: 20px;">
+<p><a href="#/sec:keys-pages"><span class="button">Back to the slide</span></a></p>
+</div>
 </div></div>
 </div>
 </section>
 <section id="sec:appendix06" class="slide level2">
 <h2>Appendix 06: how the course panel was built</h2>
-<h3 id="the-script-the-columns-and-the-eight-indicator-codes">The script, the columns, and the eight indicator codes</h3>
-<div style="margin-top: 30px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><code>data/wdi_panel.parquet</code> holds eight indicators for every country (regional and income groups such as “World” are dropped) from 1990 to 2023, in long format</p>

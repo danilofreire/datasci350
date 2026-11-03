@@ -21,86 +21,86 @@ editor:
   render-on-save: true
 ---
 
-# Hello! Great to see you again! 😊 {background-color="#1B3A6B"}
+# [Hello! Great to see you again! 😊]{style="font-size: 0.8em;"} {background-color="#1B3A6B"}
 
-# Brief recap 📚 {background-color="#1B3A6B"}
+# Brief recap {background-color="#1B3A6B"}
 
-## Where we got to last class
-### Web APIs without writing code
+## Last class
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
-- An [API]{.alert} is a contract: ask this way, get that back
-- A URL has a host, a [path]{.alert} (what you want), and a [query string]{.alert} (how you want it)
-- A [status code]{.alert} says how it went: `2xx` worked, `4xx` is your mistake, `5xx` is theirs
-- The World Bank answers some errors with `200`, so look at the data too
+- An [API]{.alert} lets a program ask a server for data
+- A URL has a [host]{.alert}, a [path]{.alert} (the data you want) and a [query string]{.alert} (your options)
+- A `2xx` [status code]{.alert} means it worked, `4xx` a bad request, and `5xx` a server failure
 - [JSON]{.alert} is made of objects `{ }` and arrays `[ ]`
-- A value is reached by a [path]{.alert}, such as `current` → `temperature_2m`
-- `curl -o` saved a reply to a file
-- Four lines of Python did the same as `curl`
+- We get a value by following its keys, as in `current` → `temperature_2m`
+- `python3 -m json.tool` makes the replies easier to read
+- We save replies to files with `curl -o`
 ::::
 
 ::::{.column width="45%"}
 :::{style="margin-top: 10px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 23px;"}
-[Today we do it all in Python]{.alert}
+[Today we do this in Python]{.alert}
 
 - Read JSON from a file
-- Follow a path with square brackets
+- Get values with square brackets
 - Send requests and check for errors
 - Turn the reply into a [DataFrame]{.alert}
 - Save it for your report
-- Read your project's pull script, line by line
+- Read your project's pull script
 :::
 ::::
 :::
 :::
 
 ## Lecture overview
-### What we will cover today
 
-:::{style="margin-top: 30px; font-size: 24px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 ::::{.column width="50%"}
 [1. Reading JSON in Python]{.alert}
 
 - Dictionaries and lists
 - Opening a file
-- From a path to square brackets
+- Getting values from nested JSON
 
-[2. `requests`, step by step]{.alert}
+[2. The `requests` library]{.alert}
 
-- What comes back from `requests.get`
-- Letting `requests` build the URL
+- The response from `requests.get`
+- Building the URL with `params`
 - Checking for errors
 ::::
 
 ::::{.column width="50%"}
 [3. From JSON to a DataFrame]{.alert}
 
-- A loop that picks the fields you want
+- Selecting fields with a loop
 - Many countries in one request
-- Missing values, and saving to CSV
+- Missing values and CSV files
 
 [4. Your project's pull script]{.alert}
 
-- `pull_data.py`, part by part
-- What to do if your API needs a key or sends pages
+- Reading `pull_data.py`
+- API keys and pages
 ::::
 :::
 :::
 
-# Reading JSON in Python 🐍 {background-color="#1B3A6B"}
+# Reading JSON in Python {background-color="#1B3A6B"}
 
 ## Dictionaries and lists
-### The two Python types that hold JSON
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="52%"}
+:::{style="font-size: 26px;"}
 ```python
-course = {"code": "DATASCI 350", "enrolled": 40,
-          "instructor": {"name": "Danilo Freire"}}
+course = {
+    "code": "DATASCI 350",
+    "enrolled": 40,
+    "instructor": {"name": "Danilo Freire"},
+}
 years = [2023, 2024, 2025]
 
 print(course["code"])
@@ -115,25 +115,27 @@ Danilo Freire
 2023 2025
 <class 'dict'> <class 'list'>
 ```
+:::
 ::::
 
 ::::{.column width="48%"}
-- A [dictionary]{.alert} (`dict`) is Python's JSON object: `{"key": value}`
+- A [dictionary]{.alert} (`dict`) holds a JSON object in Python: `{"key": value}`
 - You get a value by its key: `course["code"]`
-- A [list]{.alert} is Python's JSON array: `[a, b, c]`
+- A [list]{.alert} holds a JSON array in Python: `[a, b]`
 - You get a value by its position, from 0: `years[0]`
-- A dictionary can hold another dictionary. Each step of the path adds one pair of brackets
-- `course["instructor"]["name"]` is the path `instructor` → `name` from last class
+- Dictionaries and lists can hold each other, in any mix
+- Each step of the path adds one pair of brackets
+- JSON works in nearly any language because [most have these structures]{.alert}
 ::::
 :::
 :::
 
 ## Opening a file
-### What `with open(...) as f:` means
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="52%"}
+:::{style="font-size: 26px;"}
 ```python
 import json
 
@@ -148,33 +150,57 @@ print(len(wb))
 <class 'list'>
 2
 ```
+:::
 
-:::{style="font-size: 18px;"}
-The file is last class's `curl -o` download: [`wb_gdp_bra.json`](https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_gdp_bra.json). Save it in a `data/` folder next to your notebook
+:::{style="font-size: 20px;"}
+No file from last class? Save [`wb_gdp_bra.json`](https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_gdp_bra.json) in a `data/` folder next to your notebook, or run this there:
+
+:::{style="font-size: 26px;"}
+```bash
+BASE="https://api.worldbank.org/v2"
+DATA="country/BRA/indicator/NY.GDP.PCAP.KD"
+Q="format=json&date=2014:2025"
+curl --create-dirs -o data/wb_gdp_bra.json \
+  "$BASE/$DATA?$Q"
+```
+:::
 :::
 ::::
 
 ::::{.column width="48%"}
-- `open("data/wb_gdp_bra.json")` finds the file and prepares it for reading
-- `as f` gives the [open file]{.alert} a short name, `f`
+- `open(...)` finds the file and prepares it for reading
+- `as f` names the [open file]{.alert} `f`
 - The indented lines run while the file is open
-- When they finish, Python [closes the file]{.alert} for you
-- `json.load(f)` reads the JSON text and turns it into Python objects
-- The World Bank reply is a list of two items, as we saw last class
+- Python then [closes the file]{.alert}, even if there is an error
+- We use `with` because an open file [may not save everything you write]{.alert}
+- `json.load(f)` turns the JSON text into Python objects
+- The reply is a list of two items, as we saw last class
 ::::
 :::
 :::
 
 ## `json.load` and `json.loads`
-### One reads a file, the other reads a string
+### Reading JSON from a file or from a string
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
+:::{style="font-size: 24px;"}
 ```python
 import json
 
-text = '{"city": "Atlanta", "temperature": 29.6, "raining": false}'
+# The JSON is in a file
+with open("data/wb_gdp_bra.json") as f:
+    wb = json.load(f)
+
+# The JSON is already in a string
+text = """
+{
+  "city": "Atlanta",
+  "temperature": 29.6,
+  "raining": false
+}
+"""
 data = json.loads(text)
 
 print(type(text))
@@ -187,24 +213,26 @@ print(data["city"], data["raining"])
 <class 'dict'>
 Atlanta False
 ```
+:::
 ::::
 
 ::::{.column width="45%"}
-- [`json.load(f)`]{.alert} reads JSON from an open file
-- [`json.loads(text)`]{.alert} reads JSON from a string. The `s` stands for "string"
-- Before: one long piece of text. After: a dictionary you can index
-- JSON `false` became Python `False`
-- Later today, `r.json()` does the same for an API reply
+- Both functions turn JSON into Python objects
+- Use [`json.load(f)`](https://docs.python.org/3/library/json.html#json.load) when the JSON is in a file on the disk
+- Use [`json.loads(text)`](https://docs.python.org/3/library/json.html#json.loads) when it is already in your program as a string. The `s` stands for "string"
+- `json.loads('{"city": "Atlanta"}')` also works, with no variable
+- Three quotes let a string run over several lines
+- `r.json()` does the same for an API reply
 ::::
 :::
 :::
 
-## From a path to square brackets
-### The World Bank reply, one step per line
+## Getting values from nested JSON
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="52%"}
+:::{style="font-size: 26px;"}
 ```python
 import json
 
@@ -225,24 +253,26 @@ print(first["country"]["value"])
 2025 9747.99557762692
 Brazil
 ```
+:::
 ::::
 
 ::::{.column width="48%"}
 - `wb[0]` is the metadata, and `wb[1]` is the list of records
-- Giving each step a name, like `meta` and `records`, makes the code easy to read
+- Naming each step, like `meta` and `records`, makes the code easier to read
 - `records[0]` is the newest year, 2025
-- `first["country"]["value"]` is the path `country` → `value`
-- You could write `wb[1][0]["country"]["value"]` in one go. It is the same path
+- `first["country"]["value"]` follows the path `country` → `value`
+- `wb[1][0]["country"]["value"]` is the same path in one go
 ::::
 :::
 :::
 
 ## When a path is wrong
-### Two errors you will see, and what to do about them
+### Finding the right position or key
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 ::::{.column width="50%"}
+:::{style="font-size: 26px;"}
 ```python
 first["year"]
 ```
@@ -250,10 +280,11 @@ first["year"]
 ```text
 KeyError: 'year'
 ```
+:::
 
 - A [`KeyError`]{.alert} means the dictionary has no such key
-- Here the key is called `date`, not `year`
 
+:::{style="font-size: 26px;"}
 ```python
 wb[2]
 ```
@@ -261,53 +292,81 @@ wb[2]
 ```text
 IndexError: list index out of range
 ```
+:::
 
-- An [`IndexError`]{.alert} means the list is shorter than you think
-- `wb` has two items, at positions 0 and 1
-::::
+- An [`IndexError`]{.alert} means the list has no such position
 
-::::{.column width="50%"}
-- When a path fails, [print the step before it]{.alert}
-- `.keys()` lists the keys of a dictionary
-- `len()` gives the length of a list
-
+:::{style="font-size: 26px;"}
 ```python
-print(first.keys())
+wb["total"]
 ```
 
 ```text
+TypeError: list indices must be
+integers or slices, not str
+```
+:::
+
+- A [`TypeError`]{.alert} here means you used a name on a list, which only takes positions
+::::
+
+::::{.column width="50%"}
+JSON has no `.head()`, so look at one level at a time
+
+:::{style="font-size: 26px;"}
+```python
+print(type(wb), len(wb))
+print(type(wb[1]), len(wb[1]))
+print(wb[1][0].keys())
+```
+
+```text
+<class 'list'> 2
+<class 'list'> 12
 dict_keys(['indicator', 'country',
 'countryiso3code', 'date', 'value',
 'unit', 'obs_status', 'decimal'])
 ```
+:::
 
-- Now you can see the right name, and fix the path
+- `type()` tells you if you have a list or a dictionary
+- `len()` tells you how many positions a list has
+- `.keys()` lists the names in a dictionary
 ::::
 :::
 :::
 
 ## Try it yourself! 🤓 {#sec:exercise01}
-### Five minutes, with the Uruguay file
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
-1. Use the Uruguay file you saved with `curl` last class, or download [`wb_pop_ury.json`](https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_pop_ury.json)
+1. Use your Uruguay file from last class, or download [`wb_pop_ury.json`](https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_pop_ury.json) into a `data/` folder
+
+Or replace `???` with Uruguay's country code (what is it? 😉) and `SP.POP.TOTL`, then run this:
+
+:::{style="font-size: 26px;"}
+```bash
+BASE="https://api.worldbank.org/v2"
+DATA="country/???/indicator/???"
+Q="format=json&date=2014:2025"
+curl --create-dirs -o data/wb_pop_ury.json \
+  "$BASE/$DATA?$Q"
+```
+:::
+
+:::{style="margin-top: 25px;"}
 2. Open it with `with open(...) as f:` and `json.load(f)`
-3. Print the [total]{.alert} number of records from the metadata
-4. Print the [year and population]{.alert} for 2020. You wrote this path last class
-5. Print the [country name]{.alert}
+:::
 ::::
 
 ::::{.column width="45%"}
-[What to look for]{.alert}
-
-- 12 records
-- A population of 3,398,968 in 2020
-- The name "Uruguay"
+3. Print the [total]{.alert} number of records, using the key `total` in the metadata (position `0`)
+4. Print the [year and population]{.alert} for 2020, using the keys `date` and `value`. Records run newest first
+5. Print the [country name]{.alert}, under `country` and then `value`
 
 :::{style="margin-top: 25px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px;"}
-Stuck, or want to compare your code with mine?
+You should get 12 records, a population of 3,398,968 in 2020, and the name Uruguay
 
 [[Appendix 01]{.button}](#sec:appendix01)
 :::
@@ -315,21 +374,26 @@ Stuck, or want to compare your code with mine?
 :::
 :::
 
-# `requests`, step by step 🌐 {background-color="#1B3A6B"}
+# The `requests`{style="color: white; background: transparent;"} library {background-color="#1B3A6B"}
 
 ## What comes back from `requests.get`
 ### A response object, with the reply inside
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
+:::{.columns}
+::::{.column width="55%"}
+:::{style="font-size: 26px;"}
 ```python
 import requests
 
-url = "https://api.open-meteo.com/v1/forecast?latitude=33.75&longitude=-84.39&current=temperature_2m"
+url = ("https://api.open-meteo.com/v1/forecast"
+       "?latitude=33.75&longitude=-84.39"
+       "&current=temperature_2m")
 r = requests.get(url, timeout=30)
 
 print(type(r))
 print(r.status_code)
-print(r.text[:60])
+print(r.text[:40])
 
 data = r.json()
 print(type(data))
@@ -338,26 +402,36 @@ print(type(data))
 ```text
 <class 'requests.models.Response'>
 200
-{"latitude":33.759865,"longitude":-84.39586,"generationtime_
+{"latitude":33.759865,"longitude":-84.39
 <class 'dict'>
 ```
+:::
+::::
 
+::::{.column width="45%"}
 - `requests.get` returns a [response]{.alert}, which we call `r`
 - `r.status_code` is the status code
-- `r.text` is the reply as plain text. `[:60]` shows the first 60 characters
+- `r.text` is the reply as plain text. `[:40]` shows the first 40 characters
 - `r.json()` turns that text into a dictionary, like `json.loads`
 - [`timeout=30`]{.alert} gives up after 30 seconds. Without it, a silent server can make your script wait forever
 - Install `requests` once with `pip install requests`
+- Read more in the [`requests` documentation](https://requests.readthedocs.io/en/latest/)
+::::
+:::
 :::
 
 ## Let `requests` build the URL
 ### Put the options in a dictionary called `params`
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
+:::{.columns}
+::::{.column width="55%"}
+:::{style="font-size: 26px;"}
 ```python
 import requests
 
-url = "https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.PCAP.KD"
+url = ("https://api.worldbank.org/v2/"
+       "country/BRA/indicator/NY.GDP.PCAP.KD")
 params = {
     "format": "json",
     "date": "2014:2025",
@@ -369,92 +443,124 @@ print(r.status_code)
 ```
 
 ```text
-https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.PCAP.KD?format=json&date=2014%3A2025
+https://api.worldbank.org/v2/country/BRA/
+indicator/NY.GDP.PCAP.KD?format=json&
+date=2014%3A2025
 200
 ```
+:::
+::::
 
+::::{.column width="45%"}
 - The `url` holds only the path. No `?` and no `&`
 - Each key in `params` becomes one option in the query string
 - `requests` adds the `?` and the `&` for you
-- It also percent-encodes the values: `:` became `%3A`
+- It also encodes special characters, so `:` became `%3A`
 - `r.url` shows the full URL that was sent. Paste it into your browser to check it
-- To change the years, you change one value, not a long string
+- To change the years, you edit one value in `params`
+::::
+:::
 :::
 
 ## Checking for errors
 ### `raise_for_status()` stops the script on a bad status
 
-:::{style="margin-top: 30px; font-size: 22px;"}
-A typo in the path: `countryy` instead of `country`
+:::{style="margin-top: 40px; font-size: 23px;"}
+:::{.columns}
+::::{.column width="55%"}
+Here the path has a typo, `countryy` instead of `country`
 
+:::{style="font-size: 26px;"}
 ```python
 url = "https://api.worldbank.org/v2/countryy/BRA"
-r = requests.get(url, params={"format": "json"}, timeout=30)
+r = requests.get(url,
+                 params={"format": "json"},
+                 timeout=30)
 print(r.status_code)
 r.raise_for_status()
 ```
 
 ```text
 404
-requests.exceptions.HTTPError: 404 Client Error:
-Not Found for url: https://api.worldbank.org/v2/
+requests.exceptions.HTTPError:
+404 Client Error: Not Found for url:
+https://api.worldbank.org/v2/
 countryy/BRA?format=json
 ```
+:::
+::::
 
+::::{.column width="45%"}
 - `r.raise_for_status()` checks the status code
-- If it is `4xx` or `5xx`, it [raises an error]{.alert}: Python stops and prints a message
+- If it is `4xx` or `5xx`, it [raises an error]{.alert}, so Python stops and prints a message
 - If the status is `2xx`, it does nothing and the script carries on
-- Stopping early is good. You see the problem where it happens, not ten lines later
+- Stopping early shows you the line that caused the problem
 - Put it right after every `requests.get`
+::::
+:::
 :::
 
-## The World Bank's hidden error
-### A `200` that carries an error message
+## An error with status `200`
 
-:::{style="margin-top: 30px; font-size: 22px;"}
-A country code that does not exist, `XYZ`:
+:::{style="margin-top: 40px; font-size: 23px;"}
+:::{.columns}
+::::{.column width="55%"}
+Here we ask for `XYZ`, a country code that does not exist
 
+:::{style="font-size: 26px;"}
 ```python
-url = "https://api.worldbank.org/v2/country/XYZ/indicator/NY.GDP.PCAP.KD"
-r = requests.get(url, params={"format": "json"}, timeout=30)
+url = ("https://api.worldbank.org/v2/"
+       "country/XYZ/indicator/NY.GDP.PCAP.KD")
+r = requests.get(url,
+                 params={"format": "json"},
+                 timeout=30)
 r.raise_for_status()
 payload = r.json()
 
 print(r.status_code)
 print(len(payload))
 if len(payload) < 2:
-    print("No data:", payload[0]["message"][0]["value"])
+    print("No data:", payload)
 ```
 
 ```text
 200
 1
-No data: The provided parameter value is not valid
+No data: [{'message': [{'id': '120',
+'key': 'Invalid value', 'value':
+'The provided parameter value is not valid'}]}]
 ```
+:::
+::::
 
+::::{.column width="45%"}
 - The status is `200`, so `raise_for_status()` lets it pass
-- A good World Bank reply has [two]{.alert} items: metadata and data
+- A good World Bank reply has [two]{.alert} items, the metadata and the data
 - This one has only one, holding an error message
 - `if len(payload) < 2:` catches it
-- The status tells you the request arrived. [The data tells you whether it worked]{.alert}
+- [Check the data too]{.alert}, even when the status is `200`
+::::
+:::
 :::
 
 ## A complete request
-### Ask, check, and save
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
+:::{.columns}
+::::{.column width="55%"}
+:::{style="font-size: 26px;"}
 ```python
-import json
-import requests
+import json, requests
 
-url = "https://api.worldbank.org/v2/country/BRA/indicator/NY.GDP.PCAP.KD"
+url = ("https://api.worldbank.org/v2/"
+       "country/BRA/indicator/NY.GDP.PCAP.KD")
 params = {"format": "json", "date": "2014:2025"}
 
 r = requests.get(url, params=params, timeout=30)
 r.raise_for_status()
 payload = r.json()
 
-if len(payload) < 2:
+if len(payload) < 2 or payload[1] is None:
     print("No data:", payload)
 else:
     with open("data/wb_gdp_bra.json", "w") as f:
@@ -465,39 +571,36 @@ else:
 ```text
 Saved 12 records
 ```
+:::
+::::
 
+::::{.column width="45%"}
 - This is the Python version of last class's `curl -o`
 - `open(..., "w")` opens the file for [writing]{.alert}. It creates the file, or replaces it
-- `json.dump` is the reverse of `json.load`: it turns Python objects into JSON text in a file
+- `json.dump` does the reverse of `json.load`, writing Python objects as JSON text
 - `indent=2` makes the file readable, like `json.tool`
+- `payload[1] is None` catches an empty reply, such as `[{...}, null]` for a year with no data
 - The `else:` block runs only when the check passes, so a bad reply is never saved
+::::
+:::
 :::
 
 ## Try it yourself! 🤓 {#sec:exercise02}
-### Ten minutes, in Python
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
 1. Copy the code from the previous slide
 2. Change it to fetch [Uruguay's population]{.alert}, 2014 to 2025
-   - Country `URY`, indicator `SP.POP.TOTL`
-3. Save the reply to `data/wb_pop_ury.json`
-4. Print `r.url`, and paste it into your browser
-5. Print the number of records
-6. Bonus: change the country to `XYZ`. What does your script print?
+   - Country `URY`, indicator `SP.POP.TOTL`, file `data/wb_pop_ury.json`
+3. Print `r.url`, and paste it into your browser
+4. Print the number of records
+5. Bonus: change the country to `XYZ`. What does your script print?
 ::::
 
 ::::{.column width="45%"}
-[What to look for]{.alert}
-
-- Only two things change: the country and the indicator
-- A URL that ends in `?format=json&date=2014%3A2025`
-- 12 records saved
-- With `XYZ`, the "No data" message, and no file saved
-
 :::{style="margin-top: 25px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px;"}
-Stuck, or want to compare your code with mine?
+You should get a URL ending in `?format=json&date=2014%3A2025` and 12 records. With `XYZ`, you should get the "No data" message and no new file
 
 [[Appendix 02]{.button}](#sec:appendix02)
 :::
@@ -505,20 +608,24 @@ Stuck, or want to compare your code with mine?
 :::
 :::
 
-# From JSON to a DataFrame 🐼 {background-color="#1B3A6B"}
+# From JSON to a DataFrame {background-color="#1B3A6B"}
 
-## A loop that picks the fields
-### One small dictionary per record
+## Selecting fields with a loop
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 ::::{.column width="55%"}
+:::{style="font-size: 26px;"}
 ```python
-records = wb[1]
+# Reload Brazil, because Exercise 01 replaced wb
+with open("data/wb_gdp_bra.json") as f:
+    wb = json.load(f)
+
+records = wb[1]  # the list of 12 records
 
 rows = []
 for record in records:
-    row = {
+    row = {  # build a new, small dictionary
         "country": record["country"]["value"],
         "year": int(record["date"]),
         "value": record["value"],
@@ -531,8 +638,10 @@ print(rows[0])
 
 ```text
 12
-{'country': 'Brazil', 'year': 2025, 'value': 9747.99557762692}
+{'country': 'Brazil', 'year': 2025,
+'value': 9747.99557762692}
 ```
+:::
 ::::
 
 ::::{.column width="45%"}
@@ -546,12 +655,12 @@ print(rows[0])
 :::
 :::
 
-## From a list of dictionaries to a DataFrame
-### Each dictionary becomes a row
+## Making the DataFrame
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 ::::{.column width="52%"}
+:::{style="font-size: 26px;"}
 ```python
 import pandas as pd
 
@@ -572,6 +681,7 @@ print(df.shape)
 4  Brazil  2018  8722.336303
 (12, 3)
 ```
+:::
 ::::
 
 ::::{.column width="48%"}
@@ -579,18 +689,18 @@ print(df.shape)
 - The keys, `country`, `year` and `value`, become the column names
 - `sort_values("year")` puts the oldest year first
 - `reset_index(drop=True)` renumbers the rows from 0 after sorting
-- `df.shape` is (rows, columns): 12 years, 3 columns
+- `df.shape` gives the rows and columns, here 12 and 3
 - From here on, it is ordinary pandas
 ::::
 :::
 :::
 
-## A shortcut: `pd.json_normalize`
-### It flattens every field for you
+## The `pd.json_normalize` shortcut
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 ::::{.column width="55%"}
+:::{style="font-size: 26px;"}
 ```python
 flat = pd.json_normalize(records)
 print(flat.columns.tolist())
@@ -602,47 +712,62 @@ print(df.head(3))
 ```text
 ['countryiso3code', 'date', 'value', 'unit',
  'obs_status', 'decimal', 'indicator.id',
- 'indicator.value', 'country.id', 'country.value']
+ 'indicator.value', 'country.id',
+ 'country.value']
 
   country.value  date        value
 0        Brazil  2025  9747.995578
 1        Brazil  2024  9566.745187
 2        Brazil  2023  9288.027015
 ```
+:::
 ::::
 
 ::::{.column width="45%"}
 - `json_normalize` keeps [all]{.alert} the fields, ten columns here
-- A nested field gets a name with a dot: `country` → `value` becomes `country.value`
+- A nested field gets a dotted name, so `country` → `value` becomes `country.value`
 - You then choose the columns you want with double brackets
 - `date` is still text here. The loop turned it into a number
 - Both ways work. The loop is longer, but you see every step
+- Read more in the [`json_normalize` documentation](https://pandas.pydata.org/docs/reference/api/pandas.json_normalize.html)
 ::::
 :::
 :::
 
 ## Many countries in one request
-### Join the country codes with `;`
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
-::::{.column width="55%"}
-Life expectancy for five countries, 2000 to 2024
-
+::::{.column width="58%"}
+:::{style="font-size: 24px;"}
 ```python
 url = ("https://api.worldbank.org/v2/country/"
        "BRA;IND;JPN;NGA;USA/indicator/SP.DYN.LE00.IN")
 params = {"format": "json", "date": "2000:2024",
           "per_page": 1000}
-```
 
-Then the same loop and `pd.DataFrame(rows)`:
+r = requests.get(url, params=params, timeout=30)
+r.raise_for_status()
+payload = r.json()     # [metadata, records]
+records = payload[1]   # just the records
 
-```python
+rows = []
+for record in records:
+    rows.append({
+        "country": record["country"]["value"],
+        "year": int(record["date"]),
+        "value": record["value"],
+    })
+
+df = pd.DataFrame(rows)
 print(df.shape)
 print(df["country"].value_counts())
 ```
+:::
+::::
 
+::::{.column width="42%"}
+:::{style="font-size: 24px;"}
 ```text
 (125, 3)
 country
@@ -653,31 +778,51 @@ Nigeria          25
 United States    25
 Name: count, dtype: int64
 ```
-::::
+:::
 
-::::{.column width="45%"}
 - `BRA;IND;JPN;NGA;USA` asks for five countries at once
 - `SP.DYN.LE00.IN` is life expectancy at birth
 - 5 countries × 25 years = [125 records]{.alert}
-- The World Bank sends 50 records per page by default
-- `per_page=1000` gets them all in one reply, so there is only one page to read
-- Saved reply: [`wb_life_expectancy_5.json`](https://github.com/danilofreire/datasci350/blob/main/lectures/lecture-19/data/wb_life_expectancy_5.json)
+- The World Bank sends 50 records per page by default, so `per_page=1000` gets them all in one reply
 ::::
 :::
 :::
 
 ## Missing values
-### Some years have no data yet
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
-::::{.column width="52%"}
-The same loop, with `BRA;NGA` and the years `2022:2025`
-
+::::{.column width="55%"}
+:::{style="font-size: 24px;"}
 ```python
-print(df)
-```
+url = ("https://api.worldbank.org/v2/country/"
+       "BRA;NGA/indicator/SP.DYN.LE00.IN")
+params = {"format": "json", "date": "2022:2025"}
 
+r = requests.get(url, params=params, timeout=30)
+r.raise_for_status()
+payload = r.json()
+records = payload[1]
+
+rows = []
+for record in records:
+    rows.append({
+        "country": record["country"]["value"],
+        "year": int(record["date"]),
+        "value": record["value"],
+    })
+
+recent = pd.DataFrame(rows)
+print(recent)
+
+recent = recent.dropna()
+print(len(recent))
+```
+:::
+::::
+
+::::{.column width="45%"}
+:::{style="font-size: 24px;"}
 ```text
    country  year   value
 0   Brazil  2025     NaN
@@ -688,34 +833,25 @@ print(df)
 5  Nigeria  2024  54.635
 6  Nigeria  2023  54.462
 7  Nigeria  2022  54.079
-```
-
-```python
-df = df.dropna()
-print(len(df))
-```
-
-```text
 6
 ```
-::::
+:::
 
-::::{.column width="48%"}
 - The World Bank has not published 2025 life expectancy yet
 - It sends those years with `"value": null`
 - JSON `null` becomes Python `None`, and pandas shows it as [`NaN`]{.alert} ("not a number")
 - `dropna()` removes the rows with missing values
-- A missing value is [not a zero]{.alert}. Say in your report how you handled it
+- A missing value is [not a zero]{.alert}, so say in your report how you handled it
 ::::
 :::
 :::
 
-## A first analysis, and saving the table
-### Back to the five-country table
+## Analysing and saving the table
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 ::::{.column width="55%"}
+:::{style="font-size: 26px;"}
 ```python
 latest = df[df["year"] == 2024]
 latest = latest.sort_values("value", ascending=False)
@@ -732,14 +868,17 @@ df.to_csv("data/life_expectancy.csv", index=False)
 25           India  2024  72.235000
 75         Nigeria  2024  54.635000
 ```
+:::
 
 The CSV starts like this:
 
+:::{style="font-size: 26px;"}
 ```text
 country,year,value
 Brazil,2024,76.023
 Brazil,2023,75.848
 ```
+:::
 ::::
 
 ::::{.column width="45%"}
@@ -754,28 +893,21 @@ Brazil,2023,75.848
 :::
 
 ## Try it yourself! 🤓 {#sec:exercise03}
-### Ten minutes, from request to table
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
-1. Fetch [GDP per capita]{.alert} (`NY.GDP.PCAP.KD`) for Argentina, Brazil, and Uruguay (`ARG;BRA;URY`), 2014 to 2025
-2. Check the reply with `raise_for_status()` and the length check
-3. Build a DataFrame with the loop from today: `country`, `year`, `value`
+1. Fetch [GDP per capita]{.alert} (`NY.GDP.PCAP.KD`) for `ARG;BRA;URY`, 2014 to 2025
+2. Check the reply as we did in "A complete request"
+3. Use today's loop to build a DataFrame with `country`, `year` and `value`
 4. Print its shape, and count the missing values with `df["value"].isna().sum()`
 5. Which country had the [highest GDP per capita in 2025]{.alert}?
 6. Save the table to `data/gdp_south_america.csv`
 ::::
 
 ::::{.column width="45%"}
-[What to look for]{.alert}
-
-- 36 rows: 3 countries × 12 years
-- No missing values in this series
-- Uruguay first, then Argentina, then Brazil
-
 :::{style="margin-top: 25px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px;"}
-Stuck, or want to compare your code with mine?
+You should get 36 rows (3 countries × 12 years) and no missing values. Uruguay comes first, then Argentina, then Brazil
 
 [[Appendix 03]{.button}](#sec:appendix03)
 :::
@@ -783,28 +915,27 @@ Stuck, or want to compare your code with mine?
 :::
 :::
 
-# Your project's pull script 🗺️ {background-color="#1B3A6B"}
+# Your project's pull script {background-color="#1B3A6B"}
 
-## Today's lecture is your project's first step
-### Four stages, and you now have the first two
+## The project pipeline
 
-:::{style="margin-top: 30px; font-size: 24px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{style="text-align: center; margin-bottom: 20px;"}
 [![](figures/project-pipeline-diagram.png){width="85%"}](#){data-modal-type="image" data-modal-url="figures/project-pipeline-diagram.png"}
 :::
 
-- [Collect]{.alert}: `requests` pulls data from a web API, as we did today
-- [Snapshot]{.alert}: the script saves the raw reply and a tidy CSV in `data/raw/`
-- [Analyse]{.alert}: pandas or DuckDB do the work, and Quarto writes the report
-- [Ship]{.alert}: a Docker container renders the report on anyone's machine, later in the course
+- [Collect]{.alert} data from a web API with `requests`, as we did today
+- [Save]{.alert} the raw reply and a tidy CSV in `data/raw/`
+- [Analyse]{.alert} the data with pandas or DuckDB, and write the report in Quarto
+- [Ship]{.alert} the report in a Docker container that runs on anyone's machine, later in the course
 :::
 
 ## `pull_data.py`, part 1: the settings
-### The only lines you have to change
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 ::::{.column width="55%"}
+:::{style="font-size: 26px;"}
 ```python
 # The World Bank indicator code. This one is
 # life expectancy at birth.
@@ -820,6 +951,7 @@ YEARS = "2000:2023"
 # A short, readable name for the output files.
 OUTPUT_NAME = "life_expectancy"
 ```
+:::
 ::::
 
 ::::{.column width="45%"}
@@ -834,14 +966,15 @@ OUTPUT_NAME = "life_expectancy"
 :::
 
 ## `pull_data.py`, part 2: the request
-### Everything from the `requests` section, in one function
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 ::::{.column width="57%"}
+:::{style="font-size: 24px;"}
 ```python
 def fetch_indicator(indicator, countries, years):
-    url = f"{BASE_URL}/country/{countries}/indicator/{indicator}"
+    url = (f"{BASE_URL}/country/{countries}"
+           f"/indicator/{indicator}")
     params = {
         "format": "json",
         "date": years,
@@ -852,13 +985,15 @@ def fetch_indicator(indicator, countries, years):
 
     payload = response.json()
     if not isinstance(payload, list) or len(payload) < 2:
-        raise RuntimeError(f"Unexpected response from the API: {payload}")
+        raise RuntimeError(
+            f"Unexpected response from the API: {payload}")
 
     return payload
 ```
+:::
 
 :::{style="font-size: 17px;"}
-Comments and type hints removed to fit the slide. The file itself explains every line
+Comments, type hints and a print line removed, and long lines split, to fit the slide. The file itself explains every line
 :::
 ::::
 
@@ -874,13 +1009,13 @@ Comments and type hints removed to fit the slide. The file itself explains every
 :::
 
 ## `pull_data.py`, part 3: the table
-### Today's loop, written in a shorter form
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 ::::{.column width="52%"}
 The starter's version
 
+:::{style="font-size: 24px;"}
 ```python
 rows = [
     {
@@ -895,11 +1030,13 @@ rows = [
 frame = pd.DataFrame(rows)
 frame = frame.dropna(subset=["value"])
 ```
+:::
 ::::
 
 ::::{.column width="48%"}
-Today's version, which does the same
+Today's version
 
+:::{style="font-size: 24px;"}
 ```python
 rows = []
 for record in records:
@@ -911,8 +1048,9 @@ for record in records:
         "value": record["value"],
     })
 ```
+:::
 
-- The starter uses a [list comprehension]{.alert}: the `for` goes inside the brackets
+- The starter uses a [list comprehension]{.alert}, with the `for` inside the brackets
 - Both build the same list. Use whichever you find easier to read
 - `dropna(subset=["value"])` removes rows with no value
 ::::
@@ -920,21 +1058,28 @@ for record in records:
 :::
 
 ## `pull_data.py`, part 4: running it
-### Save the raw reply, then the tidy table
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
+:::{.columns}
+::::{.column width="57%"}
 Run it once, from the top folder of your repository:
 
+:::{style="font-size: 24px;"}
 ```bash
 python scripts/pull_data.py
 ```
+:::
 
-The output, with the long folder paths shortened:
+The output, with the folder paths shortened and the table cut to three rows:
 
+:::{style="font-size: 24px;"}
 ```text
-Requesting https://api.worldbank.org/v2/country/BRA;IND;NGA;USA/indicator/SP.DYN.LE00.IN
-Saved the raw response to data/raw/life_expectancy_raw.json
-Saved 96 tidy rows to data/raw/life_expectancy.csv
+Requesting https://api.worldbank.org/v2/country/
+BRA;IND;NGA;USA/indicator/SP.DYN.LE00.IN
+Saved the raw response to
+data/raw/life_expectancy_raw.json
+Saved 96 tidy rows to
+data/raw/life_expectancy.csv
 
 First few rows:
   country_code country       indicator  year   value
@@ -942,23 +1087,26 @@ First few rows:
 1          BRA  Brazil  SP.DYN.LE00.IN  2001  69.980
 2          BRA  Brazil  SP.DYN.LE00.IN  2002  70.396
 
-Now commit both files in data/raw/ to your repository.
+Now commit both files in data/raw/
+to your repository.
 ```
+:::
+::::
 
-- The script saves [two files]{.alert}:
-  - The untouched reply, as JSON
-  - The tidy table, as CSV
+::::{.column width="43%"}
+- The script saves [two files]{.alert}, the untouched reply as JSON and the tidy table as CSV
 - The raw file lets you fix the tidying later without calling the API again
-- 96 rows: 4 countries × 24 years
 - [Commit both files]{.alert}. Your report reads the saved CSV, never the live API
 - That is why the report gives the same numbers in December
-- The last line of the file, `if __name__ == "__main__":`, runs the script only when you call it directly
+- The last two lines of the file, starting with `if __name__ == "__main__":`, run the script only when you call it directly
+::::
+:::
 :::
 
-## If your API needs a key or sends pages
-### Only for Track B. The World Bank needs neither
+## If your API needs a key or sends pages {#sec:keys-pages}
+### For Track B only
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="50%"}
 #### API keys
@@ -966,8 +1114,8 @@ Now commit both files in data/raw/ to your repository.
 - Some APIs need a key, a password for programs
 - You used one in Lecture 14
 - Keep it in a [`.env` file]{.alert}, and put `.env` in `.gitignore`
-- [Never commit a key.]{.alert} Bots find them in public repositories within minutes
-- Details and code: [Appendix 04](#sec:appendix04)
+- [Never commit a key.]{.alert} Bots scan public repositories for them
+- [Appendix 04](#sec:appendix04) has the details and code
 ::::
 
 ::::{.column width="50%"}
@@ -977,25 +1125,26 @@ Now commit both files in data/raw/ to your repository.
 - The reply says how many pages there are
 - You ask for page 1, then page 2, and so on, until the last one
 - First try a bigger page, like `per_page=20000`. One request is simpler than a loop
-- Details and code: [Appendix 05](#sec:appendix05)
+- [Appendix 05](#sec:appendix05) has the details and code
 ::::
 :::
 :::
 
 ## What the project asks of you
-### Clone the starter, change four lines, run it once
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 ::::{.column width="56%"}
+:::{style="font-size: 25px;"}
 | File | What it does |
 |---|---|
-| `scripts/pull_data.py` | Runs once: `python scripts/pull_data.py` |
+| `scripts/pull_data.py` | Run it once with `python scripts/pull_data.py` |
 | `data/raw/<name>_raw.json` | The untouched API reply |
 | `data/raw/<name>.csv` | The tidy table your report reads |
 | `report.qmd` | Reads only the saved copy, 1,500 to 2,500 words |
 | `Dockerfile` | Builds the image your report renders in |
-| `requirements.txt` | Pinned versions, so the build is the same next month |
+| `requirements.txt` | Pinned versions, so the build stays the same in the future |
+:::
 
 - [Commit `data/raw/`]{.alert}. Do not put it in `.gitignore`
 - The report never calls the API while it renders
@@ -1013,25 +1162,23 @@ The starter repository: [github.com/danilofreire/datasci350-project-starter](htt
 :::
 :::
 
-## A file we will use again {#sec:panel}
-### The course panel, for Lectures 21 and 22
+## The course panel {#sec:panel}
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
-- I used the same steps to build a bigger file: [`wdi_panel.parquet`](https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet)
-- Eight World Bank indicators, 217 countries, 1990 to 2023
-- 59,024 rows, one per country, indicator, and year
-- It is saved as [parquet]{.alert}, a compact file format. Lecture 21 explains it
-- In [Lecture 21]{.alert} we ask why one CPU core is not enough
-- In [Lecture 22]{.alert} we query this file with SQL
+- I built [`wdi_panel.parquet`](https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet) with the same steps
+- It has eight World Bank indicators for 217 countries, 1990 to 2023
+- It has 59,024 rows, one per country, indicator and year
+- [Parquet]{.alert} is a compact format, covered in Lecture 21
+- We query this file with SQL in [Lecture 22]{.alert}
 ::::
 
 ::::{.column width="45%"}
 :::{style="margin-top: 20px; background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 21px;"}
-The eight indicators include GDP per capita, population, life expectancy, and CO2 emissions per person
+The indicators include GDP per capita, population, life expectancy and CO2 emissions per person
 
-The script that built it, and the full list, are in the appendix
+The full list and the script are in the appendix
 
 [[Appendix 06]{.button}](#sec:appendix06)
 :::
@@ -1039,24 +1186,24 @@ The script that built it, and the full list, are in the appendix
 :::
 :::
 
-# Conclusion 📚 {background-color="#1B3A6B"}
+# Conclusion {background-color="#1B3A6B"}
 
 ## What we learned today
-### From an API reply to a saved table, in Python
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="50%"}
 - JSON objects become [dictionaries]{.alert}, and arrays become [lists]{.alert}
 - `with open(...) as f:` opens a file and closes it for you
 - `json.load` reads JSON, and `json.dump` writes it
-- A path becomes square brackets: `wb[1][0]["value"]`
+- Square brackets follow a path, as in `wb[1][0]["value"]`
+- `type()`, `len()` and `.keys()` show the shape of a reply
 - `requests.get(url, params=..., timeout=30)` sends the request
-- `raise_for_status()` and a length check catch the errors
+- `raise_for_status()` and a check on the reply catch the errors
 ::::
 
 ::::{.column width="50%"}
-- A `for` loop picks the fields you want from each record
+- A `for` loop keeps the fields you need from each record
 - `pd.DataFrame(rows)` turns the list into a table
 - `;` asks for many countries, and `per_page` gets them in one reply
 - `null` becomes `NaN`, and `dropna()` removes it
@@ -1068,14 +1215,14 @@ The script that built it, and the full list, are in the appendix
 
 ## Next class
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
 - [Quiz 03]{.alert} is next class, covering Lectures 12, 14, 15, 16 and 17
 - Revise the exercises from those lectures and you will be well prepared
 - [Lecture 21]{.alert} starts parallel computing
-- One question left from this module: what if the data is on a web page, with no API?
-- The optional [web-scraping tutorial]{.alert} ([link](https://danilofreire.github.io/datasci350/tutorials/05-web-scraping-tutorial.html)) covers that, from HTML tables in pandas to BeautifulSoup
+- What if the data is on a web page, with no API?
+- The optional [web-scraping tutorial](https://danilofreire.github.io/datasci350/tutorials/05-web-scraping-tutorial.html) covers that, from HTML tables in pandas to BeautifulSoup
 ::::
 
 ::::{.column width="45%"}
@@ -1085,7 +1232,7 @@ The script that built it, and the full list, are in the appendix
 1. Email me your group's names, or I assign you a group at random
 2. Clone the starter repository and run `python scripts/pull_data.py` once
 3. Finish Exercise 03 if you did not have time in class
-4. Revise Lectures 12 to 17 for the quiz
+4. Revise Lectures 12 and 14 to 17 for the quiz
 :::
 ::::
 :::
@@ -1096,14 +1243,18 @@ The script that built it, and the full list, are in the appendix
 ## Appendix 01 {#sec:appendix01}
 ### Exercise 01 solution
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 ::::{.column width="55%"}
+:::{style="font-size: 24px;"}
 ```python
 import json
 
 with open("data/wb_pop_ury.json") as f:
     wb = json.load(f)
+
+print(wb[0].keys())
+print(wb[1][0].keys())
 
 print(wb[0]["total"])
 print(wb[1][5]["date"], wb[1][5]["value"])
@@ -1111,13 +1262,20 @@ print(wb[1][0]["country"]["value"])
 ```
 
 ```text
+dict_keys(['page', 'pages', 'per_page', 'total',
+'sourceid', 'lastupdated'])
+dict_keys(['indicator', 'country',
+'countryiso3code', 'date', 'value',
+'unit', 'obs_status', 'decimal'])
 12
 2020 3398968
 Uruguay
 ```
+:::
 ::::
 
 ::::{.column width="45%"}
+- `.keys()` shows the names you can use at each level
 - `wb[0]` is the metadata, and `total` is one of its keys
 - Records run newest first, so 2020 is at position `5` (2025 is at `0`)
 - Last class's path `1` → `5` → `value` becomes `wb[1][5]["value"]`
@@ -1133,21 +1291,22 @@ Uruguay
 ## Appendix 02 {#sec:appendix02}
 ### Exercise 02 solution
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 ::::{.column width="57%"}
+:::{style="font-size: 24px;"}
 ```python
-import json
-import requests
+import json, requests
 
-url = "https://api.worldbank.org/v2/country/URY/indicator/SP.POP.TOTL"
+url = ("https://api.worldbank.org/v2/"
+       "country/URY/indicator/SP.POP.TOTL")
 params = {"format": "json", "date": "2014:2025"}
 
 r = requests.get(url, params=params, timeout=30)
 r.raise_for_status()
 payload = r.json()
 
-if len(payload) < 2:
+if len(payload) < 2 or payload[1] is None:
     print("No data:", payload)
 else:
     with open("data/wb_pop_ury.json", "w") as f:
@@ -1160,10 +1319,11 @@ else:
 https://api.worldbank.org/v2/country/URY/indicator/SP.POP.TOTL?format=json&date=2014%3A2025
 Saved 12 records
 ```
+:::
 ::::
 
 ::::{.column width="43%"}
-- Only `URY` and `SP.POP.TOTL` changed. The `params` are the same for every indicator
+- Only `URY`, `SP.POP.TOTL` and the file name changed. The `params` are the same for every indicator
 - With `XYZ`, the length check prints the "No data" message, and no file is written
 - If the `data/` folder does not exist, `open` fails. Create the folder first
 
@@ -1177,14 +1337,16 @@ Saved 12 records
 ## Appendix 03 {#sec:appendix03}
 ### Exercise 03 solution
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 ::::{.column width="57%"}
+:::{style="font-size: 24px;"}
 ```python
 import requests
 import pandas as pd
 
-url = "https://api.worldbank.org/v2/country/ARG;BRA;URY/indicator/NY.GDP.PCAP.KD"
+url = ("https://api.worldbank.org/v2/"
+       "country/ARG;BRA;URY/indicator/NY.GDP.PCAP.KD")
 params = {"format": "json", "date": "2014:2025", "per_page": 1000}
 
 r = requests.get(url, params=params, timeout=30)
@@ -1209,9 +1371,11 @@ print(latest)
 
 df.to_csv("data/gdp_south_america.csv", index=False)
 ```
+:::
 ::::
 
 ::::{.column width="43%"}
+:::{style="font-size: 24px;"}
 ```text
 (36, 3)
 0
@@ -1220,6 +1384,7 @@ df.to_csv("data/gdp_south_america.csv", index=False)
 0   Argentina  2025  13287.115953
 12     Brazil  2025   9747.995578
 ```
+:::
 
 - 36 records fit in one reply, so there is one page
 - The length check is left out here to fit the slide. Keep it in your own code
@@ -1233,21 +1398,24 @@ df.to_csv("data/gdp_south_america.csv", index=False)
 :::
 
 ## Appendix 04: API keys {#sec:appendix04}
-### For Track B APIs that ask who you are
+### For Track B
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 19px;"}
 :::{.columns}
 ::::{.column width="50%"}
 1. Sign up on the API's website. The key usually arrives by email in a minute
 2. Put it in a file called [`.env`]{.alert}, one `NAME=value` per line, with no quotes
 
+:::{style="font-size: 24px;"}
 ```
 NASA_API_KEY=abc123def456
 ```
+:::
 
 3. Add `.env` to your [`.gitignore`]{.alert} [before]{.alert} your first commit
 4. Read it in Python with `python-dotenv`, as in Lecture 14
 
+:::{style="font-size: 24px;"}
 ```python
 import os
 from dotenv import load_dotenv
@@ -1255,40 +1423,47 @@ from dotenv import load_dotenv
 load_dotenv()
 key = os.getenv("NASA_API_KEY")
 ```
+:::
 ::::
 
 ::::{.column width="50%"}
 5. Send it the way the documentation says:
 
+:::{style="font-size: 24px;"}
 ```python
 # In the query string
 params = {"api_key": key}
 
 # Or in a header, which is safer
+# (some APIs, e.g. GitHub; NASA uses api_key)
 headers = {"Authorization": f"Bearer {key}"}
 r = requests.get(url, headers=headers, timeout=30)
 ```
+:::
 
 - Headers are safer because URLs get saved in logs and browser history
 - GitHub found [more than 39 million leaked secrets](https://github.blog/security/application-security/next-evolution-github-advanced-security/) in 2024
 - Committed a key by accident? [Revoke it at once]{.alert} and get a new one. Deleting the file does not help, because Git keeps the history
+
+:::{style="margin-top: 10px; background: rgba(27, 58, 107, 0.08); padding: 10px; border-radius: 10px; font-size: 20px;"}
+[[Back to the slide]{.button}](#sec:keys-pages)
+:::
 ::::
 :::
 :::
 
 ## Appendix 05: pages {#sec:appendix05}
-### A loop that asks for one page at a time
 
-:::{style="margin-top: 30px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 19px;"}
 :::{.columns}
 ::::{.column width="56%"}
-GDP per capita for every country in 2023, 100 records per page
-
+:::{style="font-size: 20px;"}
 ```python
 import time
 import requests
 
-url = "https://api.worldbank.org/v2/country/all/indicator/NY.GDP.PCAP.KD"
+url = ("https://api.worldbank.org/v2/"
+       "country/all/indicator/NY.GDP.PCAP.KD")
 records = []
 page = 1
 
@@ -1309,30 +1484,37 @@ while True:
 
 print(len(records), "records")
 ```
+:::
 ::::
 
 ::::{.column width="44%"}
+:::{style="font-size: 20px;"}
 ```text
 page 1 of 3
 page 2 of 3
 page 3 of 3
-265 records
+266 records
 ```
+:::
 
+- GDP per capita for every country and regional group in 2023, 100 records per page
 - `while True:` repeats until a `break`
-- The metadata says how many `pages` there are, so the loop knows when to stop
-- `records.extend(...)` adds a whole page of records to the list
-- `time.sleep(0.5)` waits half a second between requests, to be polite to the server
+- The metadata's `pages` tells the loop when to stop
+- `records.extend(...)` adds a whole page to the list
+- `time.sleep(0.5)` waits half a second, to be polite to the server
 - A `429` status means you are asking too fast. Wait and try again
 - The saved pages are in [`data/`](https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-19/data) (`wb_gdppc_2023_page1.json` to `page3`)
+
+:::{style="margin-top: 10px; background: rgba(27, 58, 107, 0.08); padding: 10px; border-radius: 10px; font-size: 20px;"}
+[[Back to the slide]{.button}](#sec:keys-pages)
+:::
 ::::
 :::
 :::
 
 ## Appendix 06: how the course panel was built {#sec:appendix06}
-### The script, the columns, and the eight indicator codes
 
-:::{style="margin-top: 30px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 ::::{.column width="50%"}
 `data/wdi_panel.parquet` holds eight indicators for every country (regional and income groups such as "World" are dropped) from 1990 to 2023, in long format

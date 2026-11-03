@@ -13,7 +13,7 @@ Last class we used web APIs from the browser and the terminal. This class we do 
 - Checking for errors with `raise_for_status()`, and the World Bank's `200` that hides one
 - A `for` loop that builds a DataFrame from the records, and the `json_normalize` shortcut
 - Many countries in one request, missing values, and saving to CSV
-- The project starter's `pull_data.py`, part by part
+- Reading the project starter's `pull_data.py`
 - API keys and pages for Track B, in the appendix
 - Three exercises, each with a worked solution in the appendix
 
@@ -25,7 +25,7 @@ Everything the slides print came from a real request. The saved replies are in `
 - `wb_life_expectancy_5.json`: life expectancy for Brazil, India, Japan, Nigeria and the United States, 2000 to 2024
 - `wb_gdppc_2023_page1.json` to `page3`: the three pages of the pagination example in Appendix 05
 - `nasa_apod.json`: a NASA API reply, from the earlier version of this lecture
-- `wdi_panel.parquet`: eight indicators for 217 countries, 1990 to 2023, built by `data/build_wdi_panel.py` and used in Lectures 21 and 22
+- `wdi_panel.parquet`: eight indicators for 217 countries, 1990 to 2023, built by `data/build_wdi_panel.py` and used in Lecture 22
 
 ## Rendering
 

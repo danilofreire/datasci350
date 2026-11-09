@@ -11,7 +11,6 @@ Your laptop has eight cores and your Python script uses one of them. This lectur
 - `concurrent.futures`: `ProcessPoolExecutor` for CPU work, `ThreadPoolExecutor` for waiting
 - Big O notation, and why four cores cannot rescue an O(n²) algorithm
 - Amdahl's law: the serial share caps your speed-up
-- The Global Interpreter Lock and why threads do not always help
 - Dask arrays and DataFrames, lazy evaluation, and `.compute()`
 - Reading and writing CSV and parquet with Dask, with real timings
 - `dask.delayed` for pipelines, the task graph, and the dashboard at `localhost:8787`

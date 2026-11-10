@@ -257,6 +257,16 @@ Danilo Freire
 </div>
 </div></div>
 </div>
+</section>
+<section id="tweet-of-the-day" class="slide level2">
+<h2>Tweet of the day</h2>
+<div style="text-align: center; margin-top: 50px; font-size: 22px;">
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/huang-tweet.png"><img data-src="figures/huang-tweet.png" style="width:75.0%"></a></p>
+<p><a href="https://www.nbcnews.com/tech/tech-news/nvidia-ceo-jensen-huang-investigation-rcna608148">About Jensen Huang</a></p>
+<div style="font-size: 18px;">
+<p>Source: <a href="https://x.com/FangYi11101/status/2119586357853204813">X</a></p>
+</div>
+</div>
 </section></section>
 <section>
 <section id="todays-agenda" class="title-slide slide level1 center" data-background-color="#1B3A6B">
@@ -380,7 +390,8 @@ Danilo Freire
 <li><a href="https://joblib.readthedocs.io/"><code>joblib</code></a> sends tasks to <span class="alert">worker processes</span>: separate copies of Python</li>
 <li><code>Parallel(n_jobs=6)</code> runs up to six tasks at once. <code>n_jobs=-1</code> uses all cores</li>
 <li><code>delayed(bar)</code> wraps <code>bar</code>, so a worker runs it later</li>
-<li><code>delayed(bar)(x) for x in foo</code> is a <a href="https://docs.python.org/3/reference/expressions.html#generator-expressions">generator expression</a>: a <code>for</code> loop in brackets that makes one task per element</li>
+<li><code>delayed(bar)(x) for x in foo</code> is a <a href="https://www.geeksforgeeks.org/python/generator-expressions/">generator expression</a>: a <code>for</code> loop inside parentheses that makes one task per element</li>
+<li>More information about joblib on their website: <a href="https://joblib.readthedocs.io/en/stable/" class="uri">https://joblib.readthedocs.io/en/stable/</a></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
@@ -420,7 +431,7 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><code>calculation</code> runs ten heavy steps on ten million random numbers</li>
+<li>Our function <code>calculation</code> (below) runs ten heavy steps on ten million random numbers</li>
 <li>The calls are independent, so the problem is <a href="https://en.wikipedia.org/wiki/Embarrassingly_parallel">embarrassingly parallel</a></li>
 <li><a href="https://ipython.readthedocs.io/en/stable/interactive/magics.html#magic-timeit"><code>%timeit</code></a> averages a line over several runs (Jupyter only)</li>
 <li><code>%%timeit</code> (two <code>%</code> signs) times a whole cell</li>
@@ -492,7 +503,7 @@ Danilo Freire
 <li><span class="alert">Computing</span> (maths, model training): <a href="https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ProcessPoolExecutor"><code>ProcessPoolExecutor</code></a></li>
 <li><span class="alert">Waiting</span> (downloads, API calls): <a href="https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor"><code>ThreadPoolExecutor</code></a></li>
 <li>Processes are separate copies of Python that compute at the same time</li>
-<li>Threads are light. While one waits, the others keep working</li>
+<li>Threads share one copy of Python, so they start fast. While one waits, the others keep working</li>
 </ul>
 <div style="font-size: 1.1em;">
 <div id="59cc7c7f" class="cell" data-execution_count="9">
@@ -542,6 +553,7 @@ Danilo Freire
 <ul>
 <li><a href="https://joblib.readthedocs.io/">joblib</a> suits numeric loops, and <a href="https://scikit-learn.org/stable/">scikit-learn</a> uses it when you set <code>n_jobs=-1</code></li>
 <li><a href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_digits.html"><code>load_digits()</code></a> loads 1,797 small images of handwritten digits</li>
+<li>6 combinations × 3 folds (<code>cv=3</code>) = 18 fits shared across the cores</li>
 </ul>
 <div style="font-size: 1.1em;">
 <div id="ab62ef41" class="cell" data-cache="true" data-execution_count="11">
@@ -619,7 +631,7 @@ Time: 1.97s (all cores)</code></pre>
 <li>Calling <code>calculation</code> <code>n</code> times is <span class="alert">O(n)</span>: 100 calls take 100 times as long as one</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<style>.plot-first .cell { display: flex; flex-direction: column-reverse; }</style>
+<style>.plot-first .cell { display: flex; flex-direction: column-reverse; }.plot-first img { height: auto; }</style>
 <div class="plot-first" style="text-align: center;">
 <div id="84b8ef77" class="cell" data-cache="true" data-execution_count="12">
 <details class="code-fold">
@@ -664,11 +676,11 @@ Time: 1.97s (all cores)</code></pre>
 <li>Best candidates: <span class="alert">embarrassingly parallel O(n) tasks</span>, which share no data and do not wait for each other</li>
 </ul>
 <div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 20px;">
-<p>Parallelism divides the time by a constant but never changes the Big O class. O(n²) on eight cores is still O(n²)</p>
+<p>Parallelism divides the time by a constant but never changes the Big O class. <span class="alert">O(n²) on eight cores is still O(n²)</span></p>
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><span class="alert">Parallelism cannot fix this:</span></li>
+<li>Parallelism cannot fix this:</li>
 </ul>
 <div style="font-size: 1.2em;">
 <div id="85259e41" class="cell" data-cache="true" data-execution_count="13">
@@ -723,7 +735,7 @@ Time: 1.97s (all cores)</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
-<li>Run the parallel version and write down its time. It takes a while</li>
+<li>Run the parallel version and write down its time. It takes a few seconds</li>
 </ol>
 <div style="font-size: 1.2em;">
 <div id="a53586c5" class="cell" data-execution_count="15">
@@ -746,20 +758,17 @@ Time: 1.97s (all cores)</code></pre>
 </section>
 <section id="amdahls-law-the-speed-up-ceiling" class="slide level2">
 <h2>Amdahl’s law: the speed-up ceiling</h2>
-<div style="margin-top: 50px; font-size: 21px;">
+<div style="margin-top: 50px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
 <li>Some parts of a program <span class="alert">cannot run in parallel</span>: setup, merging results, or steps that wait for the one before</li>
 <li>That part is the <span class="alert">serial share</span> <span class="math inline">\(s\)</span>. The rest, <span class="math inline">\(p = 1 - s\)</span>, can be split across cores</li>
 <li>More cores only speed up <span class="math inline">\(p\)</span>, so <span class="math inline">\(s\)</span> sets a ceiling (<a href="https://en.wikipedia.org/wiki/Amdahl%27s_law">Amdahl’s law</a>)</li>
-<li><span class="math inline">\(\text{speedup} = \dfrac{1}{s + \dfrac{p}{N}}\)</span>, with <span class="math inline">\(N\)</span> = number of cores</li>
+<li><span class="math inline">\(\text{speedup} = \dfrac{1}{s + \dfrac{p}{N}}\)</span>, with <span class="math inline">\(N\)</span> = cores</li>
 <li>Example: 90% parallel (<span class="math inline">\(s = 0.1\)</span>) on 8 cores gives <span class="math inline">\(\frac{1}{0.1 + 0.9/8} = \frac{1}{0.2125} \approx 4.7\times\)</span>, not <span class="math inline">\(8\times\)</span></li>
 <li>With infinite cores, the limit is <span class="math inline">\(1/0.1 = 10\times\)</span></li>
 </ul>
-<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;">
-<p>Ten people chop vegetables faster than one, but the oven still takes 10 minutes. Dinner can never be faster than the oven</p>
-</div>
 </div><div class="column" style="width:50%;">
 <div class="plot-first" style="text-align: center;">
 <div id="8a816cfe" class="cell" data-cache="true" data-execution_count="16">
@@ -796,6 +805,9 @@ Time: 1.97s (all cores)</code></pre>
 </div>
 </div>
 </div>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;">
+<p>Ten people chop vegetables faster than one, but the oven still takes 10 minutes. Dinner can never be faster than the oven</p>
+</div>
 </div></div>
 </div>
 </section></section>
@@ -816,7 +828,7 @@ Time: 1.97s (all cores)</code></pre>
 <li>A <a href="https://docs.dask.org/en/stable/scheduling.html">task scheduler</a> splits the work into small tasks and spreads them over your cores</li>
 <li>Dask offers <a href="https://docs.dask.org/en/stable/array.html">arrays</a>, <a href="https://docs.dask.org/en/stable/dataframe.html">DataFrames</a> and <a href="https://docs.dask.org/en/stable/bag.html">bags</a> (parallel lists)</li>
 <li>Latest release: <a href="https://github.com/dask/dask/releases/tag/2026.8.0">2026.8.0</a> (August 2026)</li>
-<li>Next lecture times the same group-by in DuckDB, pandas and Dask</li>
+<li>Next lecture times the same group-by in <a href="https://duckdb.org/">DuckDB</a>, pandas and Dask</li>
 </ul>
 </div><div class="column" style="width:48%;">
 <div style="text-align: center; margin-top: -10px;">
@@ -953,7 +965,7 @@ Time: 1.97s (all cores)</code></pre>
 </div>
 </div>
 <ul>
-<li><code>.compute()</code> runs the plan:</li>
+<li><code>.compute()</code> <span class="alert">runs the plan</span>:</li>
 </ul>
 <div style="font-size: 1.2em;">
 <div id="f8384b1f" class="cell" data-cache="true" data-execution_count="20">
@@ -971,7 +983,7 @@ Time: 1.97s (all cores)</code></pre>
 <h2>Dask arrays</h2>
 <div style="margin-top: 50px; font-size: 21px;">
 <ul>
-<li>Maths (<code>+</code>, <code>*</code>, <code>exp</code>, <code>log</code>) and summaries (<code>sum()</code>, <code>mean()</code>, <code>std()</code>) work as in NumPy</li>
+<li>Maths (<code>+</code>, <code>*</code>, <code>exp</code>, <code>log</code>) and summaries (<code>sum()</code>, <code>mean()</code>, <code>std()</code>) work as in NumPy (<a href="https://docs.dask.org/en/stable/array-numpy-compatibility.html">full list</a>)</li>
 </ul>
 <div style="font-size: 1.2em;">
 <div id="fa9cae1a" class="cell" data-cache="true" data-execution_count="21">
@@ -1122,7 +1134,7 @@ dtype: object</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Dask DataFrames support most of the pandas API</li>
+<li>Dask DataFrames support most of the pandas API (<a href="https://docs.dask.org/en/stable/dataframe-api.html">full list</a>)</li>
 <li><code>head()</code> is not lazy: it computes the first rows straight away</li>
 </ul>
 <div style="font-size: 1.2em;">
@@ -1229,7 +1241,7 @@ Expr=(((Filter(frame=ArrowStringConversion(frame=Timeseries(5afcdfc)), predicate
 </div>
 </div>
 <ul>
-<li><code>df3</code> shows no numbers until <code>.compute()</code> runs the plan and returns a pandas Series</li>
+<li><code>df3</code> shows no numbers until <code>.compute()</code> <span class="alert">runs the plan</span> and returns a pandas Series</li>
 </ul>
 <div style="font-size: 1.2em;">
 <div id="6755b1a4" class="cell" data-cache="true" data-execution_count="29">
@@ -1361,7 +1373,7 @@ Name: x, Length: 26, dtype: float64</code></pre>
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><code>.persist()</code> computes a result once and keeps it in memory for later steps</li>
+<li><code>.persist()</code> <span class="alert">computes a result once and keeps it in memory</span> for later steps</li>
 <li>Persist small results, not the full 120 MB table</li>
 </ul>
 <div style="font-size: 1.2em;">
@@ -1439,7 +1451,7 @@ Name: x, Length: 26, dtype: float64</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Dask does the heavy work on data too big for memory</li>
+<li><span class="alert">Dask does the heavy work</span> on data too big for memory</li>
 <li>Dask code reads like pandas, so switching is easy</li>
 </ul>
 <div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;">
@@ -1678,7 +1690,7 @@ Name: x, Length: 26, dtype: float64</code></pre>
 <div class="column" style="width:50%;">
 <ul>
 <li>The <code>data</code> folder now has 30 CSV files, 182 MB in total</li>
-<li><code>dd.read_csv</code> accepts a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">glob pattern</a>: <code>2000-*-*.csv</code> matches them all</li>
+<li><code>dd.read_csv</code> accepts a <a href="https://en.wikipedia.org/wiki/Glob_(programming)">glob pattern</a> (the wildcards from Lecture 04): <code>2000-*-*.csv</code> matches them all</li>
 <li>Dask reads them as one DataFrame, a few files at a time and in parallel, so memory use stays low</li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -1785,9 +1797,13 @@ Name: x, Length: 26, dtype: float64</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a></a>df.to_parquet(<span class="st">'data/2000-01.parquet'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
+<div style="text-align: center; margin-top: 30px;">
+<p><a href="https://github.com/apache/parquet-java"><img data-src="figures/parquet-logo.svg" style="width:60.0%"></a></p>
+<p><a href="https://github.com/apache/parquet-java">Apache Parquet on GitHub</a> · <a href="https://parquet.apache.org/docs/">Documentation</a></p>
+</div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Read back only the columns you need:</li>
+<li>Read back <span class="alert">only the columns you need</span>:</li>
 </ul>
 <div style="font-size: 1.2em;">
 <div id="0ce904c6" class="cell" data-cache="true" data-execution_count="38">
@@ -1906,7 +1922,7 @@ Name: x, Length: 26, dtype: float64</code></pre>
 </div>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>pandas reads both formats too:</li>
+<li>pandas reads <a href="https://pandas.pydata.org/docs/reference/api/pandas.read_parquet.html">parquet files</a> too:</li>
 </ul>
 <div style="font-size: 1.2em;">
 <div id="b2624d48" class="cell" data-cache="true" data-execution_count="40">
@@ -1926,6 +1942,9 @@ Name: x, Length: 26, dtype: float64</code></pre>
 </div>
 </div>
 </div>
+<ul>
+<li>CSV loads one day with all 5 columns. Parquet loads 30 days but <span class="alert">only the 2 columns we named</span></li>
+</ul>
 <div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;">
 <p>Use parquet for files over 100 MB, or with <span class="alert">many columns</span> when you need only a few. Keep <span class="alert">CSV</span> for small files and anything a colleague will open in Excel</p>
 </div>
@@ -1943,7 +1962,7 @@ Name: x, Length: 26, dtype: float64</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><code>dask.delayed</code> parallelises functions you already have</li>
+<li><a href="https://docs.dask.org/en/stable/delayed.html"><code>dask.delayed</code></a> parallelises functions you already have</li>
 <li>No Dask DataFrame or array needed</li>
 <li>First, four calls in a row:</li>
 </ul>
@@ -1987,7 +2006,7 @@ Name: x, Length: 26, dtype: float64</code></pre>
 </div>
 </div>
 <ul>
-<li><code>dask.compute(*results)</code> runs all four tasks. The <code>*</code> passes the list items one by one</li>
+<li><code>dask.compute(*results)</code> runs all four tasks. <code>*</code> unpacks the list into four arguments</li>
 </ul>
 </div></div>
 </div>
@@ -2090,7 +2109,7 @@ Name: x, Length: 26, dtype: float64</code></pre>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><span class="alert">Measure first</span> with <code>%timeit</code> and <code>cProfile</code>. Amdahl’s law says what fixing the slow part is worth</li>
+<li><span class="alert">Measure first</span> with <code>%timeit</code>. Amdahl’s law says what fixing the slow part is worth</li>
 <li>Check that tasks are <span class="alert">independent</span> and big enough to be worth a worker</li>
 <li>A <span class="alert">better algorithm</span> often beats parallel code on large inputs</li>
 <li>A <span class="alert">faster engine</span> like DuckDB may beat parallel pandas (next lecture)</li>
@@ -2258,6 +2277,21 @@ Name: x, Length: 26, dtype: float64</code></pre>
 <pre><code>31.6 ms ± 379 μs per loop (mean ± std. dev. of 7 runs, 10 loops each)</code></pre>
 </div>
 </div>
+<p><a href="#/sec:exercise02"><span class="button">Back to exercise</span></a></p>
+</div>
+</section>
+<section id="appendix-02-why-medium-chunks-win" class="slide level2">
+<h2>Appendix 02: why medium chunks win</h2>
+<div style="margin-top: 50px; font-size: 24px;">
+<ul>
+<li>Every chunk becomes a few tasks, and each task has a <span class="alert">fixed overhead</span>: Dask plans it, sends it to a worker and collects the result</li>
+<li><span class="alert">Small chunks</span> (100): hundreds of tiny tasks, so most of the time goes on overhead</li>
+<li><span class="alert">Large chunks</span> (2): little overhead, but only 2 cores have work</li>
+<li><span class="alert">Medium chunks</span> (5): 5 cores busy, few tasks to manage</li>
+<li><span class="alert">Auto</span> aims for about 128 MB per chunk. Our 80 MB array becomes one chunk on one core</li>
+<li>Best size: big enough that overhead is small, small enough that every core gets work</li>
+<li>My laptop has 10 cores, so about 10-20 chunks would probably be faster still</li>
+</ul>
 <p><a href="#/sec:exercise02"><span class="button">Back to exercise</span></a></p>
 </div>
 

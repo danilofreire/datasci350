@@ -232,7 +232,7 @@ Danilo Freire
 </section>
 <section id="parallel-computing-fundamentals" class="slide level2">
 <h2>Parallel computing fundamentals</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -248,7 +248,7 @@ Danilo Freire
 </div><div class="column" style="width:50%;">
 <ul>
 <li>Some engines <span class="alert">use all your cores</span> with no setup</li>
-<li>DuckDB is one, and today we use it to revise <span class="alert">SQL</span></li>
+<li><a href="https://duckdb.org/">DuckDB</a> is one, and today we use it to revise <span class="alert">SQL</span></li>
 <li>All queries run on the <span class="alert">WDI panel</span> from Lecture 19</li>
 <li><a href="https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet">Download it here</a> or use the path <code>../lecture-19/data/wdi_panel.parquet</code></li>
 </ul>
@@ -304,7 +304,7 @@ Danilo Freire
 </section>
 <section id="why-sql" class="slide level2">
 <h2>Why SQL</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
@@ -329,7 +329,7 @@ Danilo Freire
 </section>
 <section id="why-duckdb-for-a-revision-class" class="slide level2">
 <h2>Why DuckDB for a revision class</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
@@ -356,12 +356,12 @@ Danilo Freire
 </section>
 <section id="what-a-table-is" class="slide level2">
 <h2>What a table is</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
 <li>A <span class="alert">table</span> is a grid: <span class="alert">rows</span> are observations, <span class="alert">columns</span> are variables</li>
-<li>Each column has one <span class="alert">type</span>. Ours are <code>VARCHAR</code> (text), <code>SMALLINT</code> (whole numbers) and <code>DOUBLE</code> (decimals)</li>
+<li>Each column has <a href="https://duckdb.org/docs/2.0/sql/data_types/overview">one type</a>. Ours are <code>VARCHAR</code> (text), <code>SMALLINT</code> (whole numbers) and <code>DOUBLE</code> (decimals)</li>
 <li>Other common types: <code>BOOLEAN</code> (true or false), <code>DATE</code> (a day) and <code>TIMESTAMP</code> (a day and a time)</li>
 <li>Each cell holds one value, or <code>NULL</code></li>
 <li>The <span class="alert">WDI panel</span>: 217 countries, 8 indicators, 1990 to 2023</li>
@@ -438,7 +438,7 @@ Danilo Freire
 </section>
 <section id="querying-a-parquet-file" class="slide level2">
 <h2>Querying a Parquet file</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -478,7 +478,7 @@ Danilo Freire
 </section>
 <section id="creating-a-view" class="slide level2">
 <h2>Creating a view</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:44%;">
 <ul>
@@ -570,7 +570,7 @@ Danilo Freire
 </section>
 <section id="select-aliases-order-by-limit" class="slide level2">
 <h2>SELECT, aliases, ORDER BY, LIMIT</h2>
-<div style="margin-top: 40px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:48%;">
 <ul>
@@ -612,7 +612,7 @@ Danilo Freire
 </section>
 <section id="where-with-and-or-and-not" class="slide level2">
 <h2>WHERE with AND, OR and NOT</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:48%;">
 <ul>
@@ -648,7 +648,7 @@ Danilo Freire
 </div>
 </div>
 </div>
-<div style="background: rgba(230, 57, 70, 0.1); padding: 12px; border-radius: 10px; font-size: 18px; margin-top: 10px;">
+<div style="background: rgba(230, 57, 70, 0.1); padding: 12px; border-radius: 10px; font-size: 20px; margin-top: 10px;">
 <p>Without the brackets, the query returns 496 rows: GDP for every country in 2000, all of Brazil’s 2020 rows, and every Japanese row</p>
 </div>
 </div></div>
@@ -656,7 +656,7 @@ Danilo Freire
 </section>
 <section id="in-and-between" class="slide level2">
 <h2>IN and BETWEEN</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:46%;">
 <ul>
@@ -701,7 +701,7 @@ Danilo Freire
 </section>
 <section id="like-and-ilike" class="slide level2">
 <h2>LIKE and ILIKE</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:44%;">
 <ul>
@@ -756,10 +756,10 @@ Danilo Freire
 </section>
 <section id="every-clause-in-one-query" class="slide level2">
 <h2>Every clause in one query</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:45%;">
-<div style="text-align: center; font-size: 22px; margin-top: 10px; margin-bottom: 30px;">
+<div style="text-align: center; font-size: 25px; margin-top: 10px; margin-bottom: 30px;">
 <table class="caption-top">
 <thead>
 <tr class="header">
@@ -853,11 +853,11 @@ Danilo Freire
 </section>
 <section id="sec-group-by" class="slide level2">
 <h2>GROUP BY</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:48%;">
 <ul>
-<li>An <span class="alert">aggregate function</span> turns many rows into one number: <code>COUNT</code>, <code>SUM</code>, <code>AVG</code> (mean), <code>MIN</code>, <code>MAX</code></li>
+<li>An <a href="https://duckdb.org/docs/2.0/sql/functions/aggregates">aggregate function</a> turns many rows into one number: <code>COUNT</code>, <code>SUM</code>, <code>AVG</code> (mean), <code>MIN</code>, <code>MAX</code></li>
 <li>Without <code>GROUP BY</code>, the whole table is one group, so one row</li>
 <li><span class="alert"><code>GROUP BY country</code></span> makes six groups, so six rows</li>
 <li>Every column in <code>SELECT</code> must be in <code>GROUP BY</code> or inside an aggregate
@@ -903,7 +903,7 @@ Danilo Freire
 </section>
 <section id="where-and-having" class="slide level2">
 <h2>WHERE and HAVING</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:48%;">
 <ul>
@@ -947,7 +947,7 @@ Danilo Freire
 </section>
 <section id="sec-fix-query" class="slide level2 scrollable">
 <h2>Try it yourself: fix the query</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:42%;">
 <ol type="1">
@@ -978,7 +978,7 @@ Danilo Freire
 </section>
 <section id="count-and-countvalue" class="slide level2">
 <h2>COUNT(*) and COUNT(value)</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:48%;">
 <ul>
@@ -1025,7 +1025,7 @@ Danilo Freire
 </section>
 <section id="missing-values" class="slide level2">
 <h2>Missing values</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:48%;">
 <ul>
@@ -1072,7 +1072,7 @@ Danilo Freire
 </section>
 <section id="case" class="slide level2">
 <h2>CASE</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>
@@ -1124,7 +1124,7 @@ Danilo Freire
 </section>
 <section id="sec-windows" class="slide level2">
 <h2>Window functions</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>
@@ -1176,7 +1176,7 @@ Danilo Freire
 </section>
 <section id="ranking-with-a-window" class="slide level2">
 <h2>Ranking with a window</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>
@@ -1328,7 +1328,7 @@ Danilo Freire
 </section>
 <section id="left-join" class="slide level2">
 <h2>LEFT JOIN</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:46%;">
 <ul>
@@ -1369,7 +1369,7 @@ Danilo Freire
 </section>
 <section id="sec-full-outer" class="slide level2">
 <h2>FULL OUTER JOIN</h2>
-<div style="margin-top: 40px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>
@@ -1412,7 +1412,7 @@ Danilo Freire
 </section>
 <section id="sec-predict-rows" class="slide level2">
 <h2>Try it yourself: predict the rows</h2>
-<div style="margin-top: 40px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <p>How many rows does each query return? Which rows get a NULL?</p>
 <div class="columns">
 <div class="column" style="width:23%;">
@@ -1524,7 +1524,7 @@ Danilo Freire
 </section>
 <section id="querying-a-dataframe-by-name" class="slide level2">
 <h2>Querying a DataFrame by name</h2>
-<div style="margin-top: 40px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>
@@ -1581,7 +1581,7 @@ Danilo Freire
 </section>
 <section id="sec-pandas" class="slide level2">
 <h2>Handing the result back to pandas</h2>
-<div style="margin-top: 40px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:45%;">
 <ul>

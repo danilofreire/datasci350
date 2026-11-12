@@ -33,7 +33,7 @@ editor:
 
 ## Parallel computing fundamentals
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
 - Last class: [parallel and scalable computing]{.alert}
@@ -46,7 +46,7 @@ editor:
 
 :::{.column width="50%"}
 - Some engines [use all your cores]{.alert} with no setup
-- DuckDB is one, and today we use it to revise [SQL]{.alert}
+- [DuckDB](https://duckdb.org/) is one, and today we use it to revise [SQL]{.alert}
 - All queries run on the [WDI panel]{.alert} from Lecture 19
 - [Download it here](https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet) or use the path `../lecture-19/data/wdi_panel.parquet`
 
@@ -101,7 +101,7 @@ editor:
 
 ## Why SQL
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="52%"}
 - [SQL](https://en.wikipedia.org/wiki/SQL) queries [relational]{.alert} data: tables of rows and columns, linked by joins
@@ -126,7 +126,7 @@ DuckDB's SQL introduction: <https://duckdb.org/docs/stable/sql/introduction>
 
 ## Why DuckDB for a revision class
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="52%"}
 - [Zero setup]{.alert}: `pip install duckdb`, then `import duckdb`{style="white-space: nowrap;"}
@@ -152,11 +152,11 @@ Source: <https://duckdb.org>
 
 ## What a table is
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
 - A [table]{.alert} is a grid: [rows]{.alert} are observations, [columns]{.alert} are variables
-- Each column has one [type]{.alert}. Ours are `VARCHAR` (text), `SMALLINT` (whole numbers) and `DOUBLE` (decimals)
+- Each column has [one type](https://duckdb.org/docs/2.0/sql/data_types/overview). Ours are `VARCHAR` (text), `SMALLINT` (whole numbers) and `DOUBLE` (decimals)
 - Other common types: `BOOLEAN` (true or false), `DATE` (a day) and `TIMESTAMP` (a day and a time)
 - Each cell holds one value, or `NULL`
 - The [WDI panel]{.alert}: 217 countries, 8 indicators, 1990 to 2023
@@ -190,7 +190,7 @@ No two rows share the same `country`, `indicator` and `year`. Together they iden
 
 ## Querying a Parquet file
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
 - The WDI panel is a Parquet file with 59,024 rows
@@ -222,7 +222,7 @@ duckdb.sql("""
 
 ## Creating a view
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="44%"}
 - A [view]{.alert} is a saved query that behaves like a table
@@ -296,7 +296,7 @@ duckdb.sql("""
 
 ## SELECT, aliases, ORDER BY, LIMIT
 
-:::{style="margin-top: 40px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="48%"}
 - [Upper case]{.alert} is a convention: keywords and column names ignore case, so `select` and `Country` work too
@@ -330,7 +330,7 @@ duckdb.sql("""
 
 ## WHERE with AND, OR and NOT
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="48%"}
 - [`WHERE`]{.alert} keeps rows where the condition is true, like boolean indexing in pandas
@@ -359,7 +359,7 @@ duckdb.sql("""
 ```
 :::
 
-:::{style="background: rgba(230, 57, 70, 0.1); padding: 12px; border-radius: 10px; font-size: 18px; margin-top: 10px;"}
+:::{style="background: rgba(230, 57, 70, 0.1); padding: 12px; border-radius: 10px; font-size: 20px; margin-top: 10px;"}
 Without the brackets, the query returns 496 rows: GDP for every country in 2000, all of Brazil's 2020 rows, and every Japanese row
 :::
 :::
@@ -368,7 +368,7 @@ Without the brackets, the query returns 496 rows: GDP for every country in 2000,
 
 ## IN and BETWEEN
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="46%"}
 - [`IN`]{.alert} replaces a chain of `OR`s on one column
@@ -404,7 +404,7 @@ duckdb.sql("""
 
 ## LIKE and ILIKE
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="44%"}
 - [`LIKE`]{.alert} matches part of a text value
@@ -447,10 +447,10 @@ duckdb.sql("""
 
 ## Every clause in one query
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="45%"}
-:::{style="text-align: center; font-size: 22px; margin-top: 10px; margin-bottom: 30px;"}
+:::{style="text-align: center; font-size: 25px; margin-top: 10px; margin-bottom: 30px;"}
 | Clause | What it does |
 |---|---|
 | `FROM wdi` | picks the table |
@@ -513,10 +513,10 @@ duckdb.sql("""
 
 ## GROUP BY {#sec-group-by}
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="48%"}
-- An [aggregate function]{.alert} turns many rows into one number: `COUNT`, `SUM`, `AVG` (mean), `MIN`, `MAX`
+- An [aggregate function](https://duckdb.org/docs/2.0/sql/functions/aggregates) turns many rows into one number: `COUNT`, `SUM`, `AVG` (mean), `MIN`, `MAX`
 - Without `GROUP BY`, the whole table is one group, so one row
 - [`GROUP BY country`]{.alert} makes six groups, so six rows
 - Every column in `SELECT` must be in `GROUP BY` or inside an aggregate
@@ -552,7 +552,7 @@ duckdb.sql("""
 
 ## WHERE and HAVING
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="48%"}
 - `WHERE` filters rows [before]{.alert} grouping. [`HAVING`]{.alert} filters groups [after]{.alert}
@@ -590,7 +590,7 @@ duckdb.sql("""
 
 ## Try it yourself: fix the query {#sec-fix-query}
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="42%"}
 1. Run the query on the right
@@ -623,7 +623,7 @@ duckdb.sql("""
 
 ## COUNT(\*) and COUNT(value)
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="48%"}
 - [`COUNT(*)`]{.alert} counts rows, [`COUNT(value)`]{.alert} only rows where `value` is present
@@ -661,7 +661,7 @@ duckdb.sql("""
 
 ## Missing values
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="48%"}
 - [NULL]{.alert} means "unknown", not zero or an empty string
@@ -698,7 +698,7 @@ duckdb.sql("""
 
 ## CASE
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="45%"}
 - [`CASE`]{.alert} is an if-else ladder inside `SELECT`
@@ -740,7 +740,7 @@ duckdb.sql("""
 
 ## Window functions {#sec-windows}
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="45%"}
 - A [window function]{.alert} keeps every row and adds a group number beside it
@@ -776,7 +776,7 @@ duckdb.sql("""
 
 ## Ranking with a window
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="45%"}
 - [`RANK()`]{.alert} numbers rows by the `ORDER BY` inside `OVER`
@@ -898,7 +898,7 @@ duckdb.sql("""
 
 ## LEFT JOIN
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="46%"}
 - A [`LEFT JOIN`]{.alert} keeps every row of the left table, the one in `FROM` (`gdp2020` here)
@@ -930,7 +930,7 @@ duckdb.sql("""
 
 ## FULL OUTER JOIN {#sec-full-outer}
 
-:::{style="margin-top: 40px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="45%"}
 - A [`FULL OUTER JOIN`]{.alert} keeps every row from both tables, with NULLs where there is no partner
@@ -962,7 +962,7 @@ duckdb.sql("""
 
 ## Try it yourself: predict the rows {#sec-predict-rows}
 
-:::{style="margin-top: 40px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 How many rows does each query return? Which rows get a NULL?
 
 :::{.columns}
@@ -1033,7 +1033,7 @@ Answers: [[Appendix 10]{.button}](#sec-appendix-10)
 
 ## Querying a DataFrame by name
 
-:::{style="margin-top: 40px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="45%"}
 - DuckDB finds `df` among your Python variables and reads it in memory
@@ -1081,7 +1081,7 @@ duckdb.sql("""
 
 ## Handing the result back to pandas {#sec-pandas}
 
-:::{style="margin-top: 40px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="45%"}
 - [`.df()`]{.alert} turns a DuckDB result into a pandas DataFrame

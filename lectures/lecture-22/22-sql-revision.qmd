@@ -30,22 +30,21 @@ editor:
 # Brief recap 📚 {background-color="#1B3A6B"}
 
 ## Parallel computing fundamentals
-### Where lecture 21 left us
 
 :::{style="margin-top: 30px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
 - Last class: [parallel and scalable computing]{.alert}
   - `map`, `joblib` and `concurrent.futures`
-  - [Big O]{.alert}: parallelism divides the time, but not the growth rate
-  - [Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law): the serial share limits the speed-up
-  - [The GIL](https://en.wikipedia.org/wiki/Global_interpreter_lock): threads for waiting, processes for computing
-  - [Dask]{.alert}: lazy arrays and DataFrames for data bigger than RAM
+  - Parallelism divides the time, but not the [Big O]{.alert} growth rate
+  - [Amdahl's law](https://en.wikipedia.org/wiki/Amdahl%27s_law): the serial share caps the speed-up
+  - [Dask]{.alert}: lazy arrays and DataFrames bigger than RAM
+  - [Parquet]{.alert} is columnar: it reads only the columns you name
 :::
 
 :::{.column width="50%"}
 - Some engines [use all your cores]{.alert} with no setup
-- DuckDB is one of them, and today we use it to revise [SQL]{.alert}
+- DuckDB is one, and today we use it to revise [SQL]{.alert}
 - All queries run on the [WDI panel]{.alert} from Lecture 19
 - [Download it here](https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet) or use the path `../lecture-19/data/wdi_panel.parquet`
 
@@ -57,14 +56,13 @@ editor:
 :::
 
 ## Lecture overview
-### What we will cover today
 
 :::{style="margin-top: 12px; font-size: 21px;"}
 :::{.columns}
 ::::{.column width="50%"}
 [1. Why SQL and why DuckDB]{.alert}
 
-- A declarative language every engine speaks
+- You describe the answer, the engine plans the work
 - `import duckdb` is the whole setup
 
 [2. First queries]{.alert}
@@ -91,9 +89,8 @@ editor:
 
 [6. DuckDB and pandas]{.alert}
 
-- Querying a `pandas` DataFrame by its variable name
+- Querying a `pandas` DataFrame by name
 - Handing a result back with `.df()`
-- DuckDB on 200 million rows
 ::::
 :::
 :::
@@ -101,17 +98,15 @@ editor:
 # Why SQL, why DuckDB 🦆 {background-color="#1B3A6B"}
 
 ## Why SQL
-### You describe the answer, the engine finds it
 
 :::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="52%"}
-- [SQL](https://en.wikipedia.org/wiki/SQL) is a language for [asking questions of tables]{.alert}
-- It is [relational]{.alert}: tables of rows and columns, combined with joins
+- [SQL](https://en.wikipedia.org/wiki/SQL) queries [relational]{.alert} data: tables of rows and columns, linked by joins
 - It is [declarative]{.alert}: you say what you want, and the engine decides how
-  - No loops, no variables, no input/output code
+  - No loops, variables or input/output code
   - The engine can reorder the query, skip columns, or use every core
-- SQL is [about fifty years old](https://en.wikipedia.org/wiki/SQL), and tech job adverts list it [about as often as Python](https://finance.yahoo.com/sectors/technology/articles/research-sql-rivals-python-america-131700698.html)
+- SQL is [about fifty years old](https://en.wikipedia.org/wiki/SQL), and job adverts list it [about as often as Python](https://oxylabs.io/press-area/most-in-demand-programming-languages)
 - `SELECT`, `WHERE`, `GROUP BY` and `JOIN` work the same in DuckDB, SQLite, PostgreSQL, BigQuery and Snowflake
 :::
 
@@ -128,18 +123,15 @@ DuckDB's SQL introduction: <https://duckdb.org/docs/stable/sql/introduction>
 :::
 
 ## Why DuckDB for a revision class
-### An in-process engine with no setup
 
 :::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="52%"}
 - [Zero setup]{.alert}: `pip install duckdb`, then `import duckdb`
-- Unlike [PostgreSQL](https://www.postgresql.org/docs/current/admin.html), there is no server, user or password
-- [In-process]{.alert}: it runs inside your Python session, [like SQLite](https://www.sqlite.org/)
-- [Reads files by name]{.alert}: a Parquet or CSV path goes straight in `FROM`
-- It reads a pandas DataFrame by its variable name too
+- [In-process]{.alert}: it runs inside Python, [like SQLite](https://www.sqlite.org/), with no server, user or password, unlike [PostgreSQL](https://www.postgresql.org/docs/current/admin.html)
+- [Reads data by name]{.alert}: a Parquet or CSV path, or a pandas DataFrame, goes straight in `FROM`
 - [Columnar]{.alert} and [parallel]{.alert}, so the same `GROUP BY` works on 200 million rows
-- Version used here: [DuckDB 1.5.5](https://duckdb.org/2026/03/09/announcing-duckdb-150)
+- Version used here: [DuckDB 1.5.5](https://duckdb.org/2026/07/22/announcing-duckdb-155). Every query runs unchanged on [2.0](https://duckdb.org/2026/10/21/announcing-duckdb-200)
 :::
 
 :::{.column width="48%"}
@@ -157,19 +149,18 @@ Source: <https://duckdb.org>
 # First queries {background-color="#1B3A6B"}
 
 ## What a table is
-### Rows, columns and one value per cell
 
 :::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="50%"}
-- A [table]{.alert} is a grid: each [row]{.alert} is an observation, each [column]{.alert} a variable
-- Each column has one [type]{.alert}. Ours are text (`VARCHAR`), whole numbers (`SMALLINT`) and decimals (`DOUBLE`)
+- A [table]{.alert} is a grid: [rows]{.alert} are observations, [columns]{.alert} are variables
+- Each column has one [type]{.alert}. Ours are `VARCHAR` (text), `SMALLINT` (whole numbers) and `DOUBLE` (decimals)
 - Other common types: `BOOLEAN` (true or false), `DATE` and `TIMESTAMP`
-- A cell holds one value, or nothing: `NULL`
-- The [WDI panel]{.alert}: 217 countries, 8 indicators, 34 years (1990 to 2023)
-- The number is always in `value`. The `indicator` column says what it measures
-- So most queries start with `WHERE indicator = '...'`, or they mix dollars with years of life
-- In pandas terms: a table is a DataFrame, a column is a Series, and there is no index
+- Each cell holds one value, or `NULL`
+- The [WDI panel]{.alert}: 217 countries, 8 indicators, 1990 to 2023
+- `value` holds every number, and `indicator` says what it measures
+- Filter on `indicator` first, or you mix dollars with years of life
+- In pandas: a table is a DataFrame, a column a Series, and there is no index
 :::
 
 :::{.column width="50%"}
@@ -194,16 +185,15 @@ No two rows share the same `country`, `indicator` and `year`. Together they iden
 :::
 
 ## Querying a Parquet file
-### The file path goes in the FROM clause
 
 :::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
 - The WDI panel is a Parquet file with 59,024 rows
-- [Download it here](https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet) or use the path `../lecture-19/data/wdi_panel.parquet`
-- `duckdb.sql()` takes a query string and returns a result you can print
+- [Download it here](https://github.com/danilofreire/datasci350/raw/refs/heads/main/lectures/lecture-19/data/wdi_panel.parquet) or use `../lecture-19/data/wdi_panel.parquet`
+- `duckdb.sql()` runs a query string and returns a result you can print
 - The path goes in [single quotes]{.alert}: single quotes mean text, double quotes a column name
-- No `read_parquet`, connection or `fetchall()` needed. DuckDB handles it
+- No `read_parquet`, connection or `fetchall()` needed
 - The [column types]{.alert} under the names come from the file
 :::
 
@@ -227,18 +217,16 @@ duckdb.sql("""
 :::
 
 ## Creating a view
-### One name for the file
 
 :::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="44%"}
 - A [view]{.alert} is a saved query that behaves like a table
-- `CREATE OR REPLACE VIEW wdi AS ...` names the query `wdi`
-- Later queries say `FROM wdi`, with no file path
+- `CREATE OR REPLACE VIEW wdi AS ...` names it, so later queries say `FROM wdi`
 - A view holds no data: DuckDB re-reads the file each time
+- It disappears when Python restarts
 - `OR REPLACE` overwrites an old view, so the cell is safe to re-run
 - [`COUNT(DISTINCT country)`]{.alert} counts the different values in a column
-- The view disappears when Python restarts
 :::
 
 :::{.column width="56%"}
@@ -265,16 +253,15 @@ duckdb.sql("""
 :::
 
 ## DESCRIBE and SUMMARIZE
-### Two commands to run before any query
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="44%"}
 - Run both before writing a query, to learn the column names
 - [`DESCRIBE`]{.alert} lists the columns and their types
-- `country`, `iso3` and `indicator` are text (`VARCHAR`), so filters on them need single quotes
+- `country`, `iso3` and `indicator` are `VARCHAR`, so filter them with single quotes
 - [`SUMMARIZE`]{.alert} adds min, max, count and the share of missing values
-- 11.06% of `value` is missing. `country` and `year` have no gaps
+- `value` is 11.06% missing. `country` and `year` have no gaps
 - Its result is a table, so we can `SELECT` from it
 - In pandas: `df.dtypes` and `df.describe()`
 :::
@@ -303,17 +290,15 @@ duckdb.sql("""
 :::
 
 ## SELECT, aliases, ORDER BY, LIMIT
-### Picking columns and sorting the result
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="48%"}
-- The query is a Python string passed to `duckdb.sql()`
-- Keywords are upper case by convention, but `select` works too, and `Country` finds `country`
-- `SELECT` lists the columns you want. `*` means all of them
+- Upper case is a convention: keywords and column names ignore case, so `select` and `Country` work too
+- `SELECT` lists the columns you want, and `*` means all of them
 - It can compute new columns, like `ROUND(value, 0)`
 - [`AS`]{.alert} gives a column a new name, called an [alias]{.alert}
-- [`ORDER BY value DESC`]{.alert} sorts high to low. `ASC`, low to high, is the default
+- [`ORDER BY value DESC`]{.alert} sorts high to low. `ASC` (low to high) is the default
 - [`LIMIT`]{.alert} keeps the first rows, like `.head()` in pandas
 :::
 
@@ -339,18 +324,16 @@ duckdb.sql("""
 :::
 
 ## WHERE with AND, OR and NOT
-### Filtering rows with WHERE
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="48%"}
 - [`WHERE`]{.alert} keeps rows where the condition is true, like boolean indexing in pandas
 - Comparisons: `=`, `<>` (not equal), `<`, `<=`, `>`, `>=`
-- [`AND`]{.alert} needs both sides true. [`OR`]{.alert} needs either
+- [`AND`]{.alert} needs both sides true, [`OR`]{.alert} needs either
 - [`NOT`]{.alert} flips a condition: `NOT country = 'Japan'` would keep only Brazil
-- Text goes in single quotes, and the match is case-sensitive
-- The brackets matter, because `AND` is applied before `OR`
-- Four rows: Brazil on 6,818 and 8,435, Japan on 31,779 and 35,363
+- Text matches are case-sensitive
+- The brackets matter, because `AND` runs before `OR`
 :::
 
 :::{.column width="52%"}
@@ -379,7 +362,6 @@ Without the brackets, the query returns 496 rows: GDP for every country in 2000,
 :::
 
 ## IN and BETWEEN
-### Shorter ways to write the same conditions
 
 :::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
@@ -416,17 +398,15 @@ duckdb.sql("""
 :::
 
 ## LIKE and ILIKE
-### Matching part of a text value
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="44%"}
 - [`LIKE`]{.alert} matches part of a text value
-- `%` means any characters, or none. `_` means exactly one character
+- `%` means any characters, or none. `_` means exactly one
 - `'United%'` starts with United, `'%States'` ends with States, `'%King%'` contains King
 - [`DISTINCT`]{.alert} removes duplicates. Without it, each country appears once per indicator and year
-- `LIKE` is case-sensitive, so `'united%'` finds nothing
-- [`ILIKE`]{.alert} ignores case, and finds the same three countries
+- `LIKE` is case-sensitive, so `'united%'` finds nothing. [`ILIKE`]{.alert} ignores case
 - In pandas: `.str.startswith()` or `.str.contains()`
 :::
 
@@ -460,8 +440,7 @@ duckdb.sql("""
 :::
 :::
 
-## One query, one clause at a time
-### Every clause you have met, in one query
+## Every clause in one query
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -504,8 +483,7 @@ duckdb.sql("""
 :::
 :::
 
-## The order a query really runs in
-### How the engine evaluates a query
+## How the engine evaluates a query
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{style="text-align: center;"}
@@ -530,18 +508,17 @@ duckdb.sql("""
 # Aggregating {background-color="#1B3A6B"}
 
 ## GROUP BY {#sec-group-by}
-### One row of output per group
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="48%"}
-- An [aggregate function]{.alert} turns many rows into one number
-- The common ones: `COUNT`, `SUM`, `AVG` (mean), `MIN`, `MAX`
-- Without `GROUP BY`, the whole table is one group, so you get one row
+- An [aggregate function]{.alert} turns many rows into one number: `COUNT`, `SUM`, `AVG` (mean), `MIN`, `MAX`
+- Without `GROUP BY`, the whole table is one group, so one row
 - [`GROUP BY country`]{.alert} makes six groups, so six rows
 - Every column in `SELECT` must be in `GROUP BY` or inside an aggregate
-  - `SELECT country, value ... GROUP BY country` fails: each group has 14 values, and SQL will not pick one
-- `n` is 14: the years 2010 to 2023. In pandas: `.groupby("country").agg(...)`
+  - `SELECT country, value ... GROUP BY country` fails: SQL will not pick one of 14 values
+- `n` is 14: the years 2010 to 2023
+- In pandas: `.groupby("country").agg(...)`
 - Two grouping columns give one row per pair: [[Appendix 04]{.button}](#sec-appendix-04)
 :::
 
@@ -570,7 +547,6 @@ duckdb.sql("""
 :::
 
 ## WHERE and HAVING
-### Filtering before and after grouping
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -579,8 +555,7 @@ duckdb.sql("""
 - Only `HAVING` can use an aggregate, because the groups exist by then
 - "Which years count?" is about rows, so it goes in `WHERE`
 - "Which countries qualify?" is about groups, so it goes in `HAVING`
-- `HAVING AVG(value) > 30000` keeps three countries
-- China (9,017), Brazil (8,923) and India (1,694) drop out
+- `HAVING AVG(value) > 30000` drops China (9,017), Brazil (8,923) and India (1,694)
 - `ORDER BY` can use the alias `mean_gdp`, because it runs after `SELECT`
 :::
 
@@ -610,17 +585,14 @@ duckdb.sql("""
 :::
 
 ## COUNT(\*) and COUNT(value)
-### Counting rows and counting values
 
 :::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="48%"}
-- [`COUNT(*)`]{.alert} counts rows
-- [`COUNT(value)`]{.alert} counts only the rows where `value` is present
+- [`COUNT(*)`]{.alert} counts rows, [`COUNT(value)`]{.alert} only rows where `value` is present
 - The difference is the number of missing values
 - `AVG`, `SUM`, `MIN` and `MAX` skip missing values without warning
-- 217 countries a year: 25 missing in 1990, 18 in 2000, 9 in 2020
-- So GDP coverage [improves]{.alert} over time
+- Missing GDP [falls]{.alert} over time: 25 of 217 countries in 1990, 18 in 2000, 9 in 2020
 - In pandas: `len(df)` against `df["value"].count()`
 - Check this before you trust a mean
 :::
@@ -651,17 +623,16 @@ duckdb.sql("""
 # NULLs, CASE and windows {background-color="#1B3A6B"}
 
 ## Missing values
-### Working with NULL
 
 :::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="48%"}
-- [NULL]{.alert} means "unknown". It is not zero, and not an empty string
+- [NULL]{.alert} means "unknown", not zero or an empty string
 - Any comparison with NULL gives NULL, so `NULL = NULL` never matches
 - Test with [`IS NULL`]{.alert} or [`IS NOT NULL`]{.alert}
 - [`COALESCE(a, b)`]{.alert} returns `a`, or `b` if `a` is NULL
 - Yemen has no 2020 GDP figure, so it shows 0 here
-- Filling with 0 is a choice. A mean over this column would be wrong
+- Filling with 0 is a choice, and a mean over this column would be wrong
 - `COALESCE` fills a missing value. A missing [row]{.alert} needs a `LEFT JOIN`
 - In pandas, NULL is `NaN`, and `.fillna(0)` does this
 :::
@@ -688,18 +659,18 @@ duckdb.sql("""
 :::
 
 ## CASE
-### Writing an if-else ladder inside a SELECT
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="45%"}
 - [`CASE`]{.alert} is an if-else ladder inside `SELECT`
-- `WHEN` gives a condition, and `THEN` the value to use if it holds
+- `WHEN` gives a condition, and `THEN` the value if it holds
 - Tests run top to bottom, and the first true one wins
-- `ELSE` catches the rest, and `END` closes the ladder. Without `ELSE`, unmatched rows get NULL
-- The cut-offs are the World Bank's FY24 income bands. The Bank applies them to GNI per capita, so here they are a rough guide
-- `IS NULL` comes first on purpose. Lower down, Yemen would fall to `ELSE` as "Low income"
-- The result is a new column you can group, join, or export
+- `ELSE` catches the rest, and `END` closes the ladder
+- Without `ELSE`, unmatched rows get NULL
+- The cut-offs are the World Bank's FY24 bands, set for GNI per capita, so here they are a rough guide
+- `IS NULL` comes first on purpose: lower down, Yemen would fall to `ELSE` as "Low income"
+- The result is a new column you can group, join or export
 :::
 
 :::{.column width="55%"}
@@ -730,15 +701,14 @@ duckdb.sql("""
 :::
 
 ## Window functions {#sec-windows}
-### A group-level number on every row
 
 :::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="45%"}
-- `GROUP BY year` would collapse these 12 rows into 2
 - A [window function]{.alert} keeps every row and adds a group number beside it
 - [`OVER`]{.alert} turns an aggregate into a window function
-- [`PARTITION BY year`]{.alert} makes one [window]{.alert}, a set of rows, per year. No rows are lost
+- [`PARTITION BY year`]{.alert} makes one [window]{.alert}, a set of rows, per year
+- `GROUP BY year` would collapse these 12 rows into 2. Here, no rows are lost
 - `year_mean` repeats on each row of its year: 20,885 in 2000, 26,347 in 2020
 - In pandas: `.groupby("year")["value"].transform("mean")`
 :::
@@ -767,19 +737,17 @@ duckdb.sql("""
 :::
 
 ## Ranking with a window
-### RANK() needs an ORDER BY inside OVER
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="45%"}
 - [`RANK()`]{.alert} numbers rows by the `ORDER BY` inside `OVER`
-- The inner `ORDER BY` sets the ranks. The outer one sorts the printed table
-- No `PARTITION BY`: one window for the whole result
-- Ties share a rank, and the next is skipped: 1, 2, 2, 4
+- The inner `ORDER BY` sets the ranks, the outer one sorts the printed table
+- No `PARTITION BY`, so one window covers the whole result. Add `PARTITION BY year` to rank within each year
+- Ties share a rank and skip the next: 1, 2, 2, 4
 - `DENSE_RANK()` gives 1, 2, 2, 3, and `ROW_NUMBER()` never ties
 - The United States ranks 1 (59,534), and India 6 (1,807)
 - `WHERE` runs first, so only these six countries are ranked
-- Add `PARTITION BY year` to rank within each year
 :::
 
 :::{.column width="55%"}
@@ -807,23 +775,23 @@ duckdb.sql("""
 # Joins {background-color="#1B3A6B"}
 
 ## Two small tables
-### Keys, and the two tables we will join
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="42%"}
 - A [table]{.alert} stores its data, unlike the `wdi` view
 - `CREATE TABLE ... AS SELECT` builds `gdp2020` from a query
-- `CREATE TABLE (col TYPE, ...)` declares empty columns. `INSERT INTO ... VALUES` adds rows
+- `CREATE TABLE (col TYPE, ...)` declares empty columns, and `INSERT INTO ... VALUES` adds rows
 - A [primary key]{.alert} identifies each row, with no duplicates or NULLs: `iso3` in `regions`
-- A [foreign key]{.alert} points at another table's primary key. `iso3` in `gdp2020` plays that role, but we never declare it, so `JPN` can sit there with no partner
+- A [foreign key]{.alert} points at another table's primary key. `iso3` in `gdp2020` plays that role
+- We never declare it, so `JPN` can sit there with no partner
 - Six rows in `gdp2020`, seven in `regions`
 - Mismatches: [`JPN`]{.alert} has GDP but no region. [`KOR`]{.alert} and [`AUS`]{.alert} have a region but no GDP
 - East Asia holds two codes, which matters in the exercise
 :::
 
 :::{.column width="58%"}
-:::{style="font-size: 23px;"}
+:::{style="font-size: 19px;"}
 ```{python}
 #| echo: true
 #| eval: true
@@ -856,48 +824,19 @@ duckdb.sql("SELECT * FROM regions ORDER BY iso3")
 :::
 :::
 
-## Reading a join
-### The ON clause and table aliases
+## INNER JOIN
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="46%"}
-- A [`JOIN`]{.alert} combines two tables into one wider result
+- A [`JOIN`]{.alert} combines two tables: each matching pair of rows becomes one output row
 - [`ON`]{.alert} says which columns must match: `iso3` on both sides
-- Each matching pair of rows becomes one output row
-- `AS g` and `AS r` are [table aliases]{.alert}: short names for the tables
-- `g.country` means "`country` from `gdp2020`". Prefix every column this way
-- The join type goes before `JOIN`. `INNER` is the default
-- In pandas: `pd.merge(gdp2020, regions, on="iso3")`
-- The next three slides run this with three join types
-:::
-
-:::{.column width="54%"}
-:::{style="font-size: 23px;"}
-```sql
-SELECT g.country, r.region, g.gdp_per_capita
-FROM gdp2020 AS g
-INNER JOIN regions AS r ON g.iso3 = r.iso3
-ORDER BY g.country
-```
-:::
-:::
-:::
-:::
-
-## INNER JOIN
-### Only the rows that match on both sides
-
-:::{style="margin-top: 40px; font-size: 23px;"}
-:::{.columns}
-:::{.column width="46%"}
-- An [`INNER JOIN`]{.alert} keeps only the codes in both tables
+- `AS g` and `AS r` are [table aliases]{.alert}. `g.country` means "`country` from `gdp2020`", so prefix every column this way
+- The join type goes before `JOIN`. An [`INNER JOIN`]{.alert}, the default, keeps only the codes in both tables
 - Six rows on the left, seven on the right, [five]{.alert} out
-- Japan drops out: `JPN` is not in `regions`
-- Korea and Australia drop out too: they have no 2020 GDP row
-- An inner join filters silently, with no warning about lost rows
-- If your row count falls after a join, this is usually why
-- In pandas: `pd.merge(..., how="inner")`
+- Japan drops out (`JPN` is not in `regions`), and so do Korea and Australia (no 2020 GDP row)
+- An inner join drops rows without warning, so check your row count after a join
+- In pandas: `pd.merge(gdp2020, regions, on="iso3")`, where `how="inner"` is the default
 :::
 
 :::{.column width="54%"}
@@ -919,18 +858,16 @@ duckdb.sql("""
 :::
 
 ## LEFT JOIN
-### Keeping every row of the left table
 
 :::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="46%"}
-- A [`LEFT JOIN`]{.alert} keeps every row of the left table
-- The left table is the one in `FROM`: `gdp2020` here
+- A [`LEFT JOIN`]{.alert} keeps every row of the left table, the one in `FROM` (`gdp2020` here)
 - [Six]{.alert} rows: Japan is back, with `NULL` for `region`
 - That NULL means "no partner found". Japan's 35,363 is unchanged
 - Korea and Australia are still missing: they exist only on the right
-- Swap the tables and you get a different answer, as in the exercise
 - The join you will use most: it adds labels without losing rows
+- Swap the tables and you get a different answer, as in the exercise
 - In pandas: `pd.merge(..., how="left")`
 :::
 
@@ -952,26 +889,17 @@ duckdb.sql("""
 :::
 :::
 
-## FULL OUTER JOIN
-### Every row from both tables survives
+## FULL OUTER JOIN {#sec-full-outer}
 
-:::{style="margin-top: 40px; font-size: 19px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="45%"}
 - A [`FULL OUTER JOIN`]{.alert} keeps every row from both tables, with NULLs where there is no partner
 - [Eight]{.alert} rows: five pairs, plus Japan, Korea and Australia
-- Korea and Australia have a region, but NULL `country` and `gdp_per_capita`
-- Japan has a country and 35,363, but NULL region columns
+- Korea and Australia have NULL `country` and `gdp_per_capita`. Japan has NULL region columns
 - On these tables: 5 rows from `INNER`, 6 from `LEFT`, 8 from `FULL OUTER`
 - To choose a join, ask which table must survive whole, and what to do with rows that have no partner
-
-:::{style="text-align: center; margin-top: 10px;"}
-[![](figures/sql-joins.png){width="80%"}](#){data-modal-type="image" data-modal-url="figures/sql-joins.png"}
-
-:::{style="font-size: 15px;"}
-Our two tables and the three joins. Click to enlarge
-:::
-:::
+- All three joins side by side: [[Appendix 06]{.button}](#sec-appendix-06)
 :::
 
 :::{.column width="55%"}
@@ -994,7 +922,6 @@ duckdb.sql("""
 :::
 
 ## Try it yourself! 🧠 {#sec-exercise-01}
-### Ten minutes
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
@@ -1028,15 +955,13 @@ Solution: [[Appendix 01]{.button}](#sec-appendix-01)
 # DuckDB and pandas 🐼 {background-color="#1B3A6B"}
 
 ## Querying a DataFrame by name
-### Your Python variable becomes a SQL table
 
 :::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="45%"}
-- DuckDB finds `df` among your Python variables and queries it by name
-- No registration, no copy, no conversion: it reads the DataFrame in memory
-- The same `SELECT` works on a file, a view or a DataFrame
+- DuckDB finds `df` among your Python variables and reads it in memory, with no registration or copy
 - `SELECT COUNT(*) FROM df` gives 59,024, like the Parquet file
+- The same `SELECT` works on a file, a view or a DataFrame
 - You can join two DataFrames in one query
 :::
 
@@ -1057,26 +982,25 @@ duckdb.sql("SELECT COUNT(*) AS n FROM df")
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 12px; border-radius: 10px; font-size: 18px; margin-top: 8px;"}
-`country` is a pandas [category]{.alert}: a text column with a fixed list of allowed values. DuckDB calls this type an [enum]{.alert} (short for enumeration). Add `::VARCHAR` to turn it into plain text
+`country` is a pandas [category]{.alert}: text with a fixed list of allowed values. DuckDB calls it an [enum]{.alert} (short for enumeration). Add `::VARCHAR` to turn it into plain text
 :::
 :::
 :::
 :::
 
 ## Handing the result back to pandas {#sec-pandas}
-### Turning a result into a DataFrame
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="45%"}
 - [`.df()`]{.alert} turns a DuckDB result into a pandas DataFrame
+- Without it, you get a DuckDB result that prints as a text table
 - `.pl()` gives a Polars DataFrame, and `.to_arrow_table()` an Arrow table
-- Without `.df()`, you get a DuckDB result that prints as a text table
 - `country::VARCHAR` turns the category back into plain text
 - SQL returns 18 rows, and `pivot` reshapes them into 6 rows by 3 columns
-- DuckDB has a `PIVOT` statement too, but reshaping reads more easily in pandas
+- DuckDB has `PIVOT` too, but reshaping reads more easily in pandas
 - After `.df()`, it is ordinary pandas: `.plot()`, `.to_csv()`, `seaborn`, `statsmodels`
-- SQL or pandas? [[Appendix 06]{.button}](#sec-appendix-06)
+- SQL or pandas? [[Appendix 07]{.button}](#sec-appendix-07)
 :::
 
 :::{.column width="55%"}
@@ -1105,60 +1029,9 @@ long.pivot(index="country", columns="indicator",
 :::
 :::
 
-## DuckDB on 200 million rows {#sec-benchmark}
-### The same SQL on a 200-million-row file
-
-:::{style="margin-top: 40px; font-size: 20px;"}
-:::{.columns}
-:::{.column width="55%"}
-:::{style="text-align: center;"}
-```{python}
-#| echo: false
-#| eval: true
-#| cache: true
-import pandas as pd
-import matplotlib.pyplot as plt
-
-res = pd.read_csv("data/benchmark_results.csv")
-res = res[res["tool"] != "polars"].sort_values("seconds")
-
-colours = {"pandas": "#888888", "dask": "#F2A93B",
-           "duckdb": "#2CA02C"}
-bar_colours = [colours[t] for t in res["tool"]]
-
-fig, ax = plt.subplots(figsize=(7, 4.2))
-bars = ax.barh(res["tool"], res["seconds"], color=bar_colours)
-ax.set_xlabel("Wall-clock time (seconds, lower is better)", fontsize=12)
-ax.set_title("Mean value by indicator and decade\n200 million rows, one machine",
-             fontsize=13, fontweight="bold")
-ax.bar_label(bars, fmt="%.2f s", padding=4, fontsize=11)
-ax.margins(x=0.15)
-ax.invert_yaxis()
-plt.tight_layout()
-plt.show()
-```
-:::
-:::
-
-:::{.column width="45%"}
-:::{style="font-size: 20px;"}
-- Task: mean `value` by indicator and decade, on `wdi_big.parquet`, a synthetic panel of [200,681,600 rows]{.alert}
-- [DuckDB]{.alert}: 0.53 s. [Dask]{.alert}: 5.39 s. [pandas]{.alert}: 9.65 s
-- pandas loads every column into RAM. DuckDB reads only the three columns the query uses
-- Why: columnar storage, vectorised execution, and all cores by default
-- MacBook Pro, Apple M5, 10 cores, 24 GB RAM, macOS 26.6
-- Your seconds will differ, but the ranking usually holds
-- [Polars]{.alert} is in the same range as DuckDB (Tutorial 07)
-- The query and scripts: [[Appendix 07]{.button}](#sec-appendix-07)
-:::
-:::
-:::
-:::
-
 # Summary {background-color="#1B3A6B"}
 
-## What we learned today
-### The vocabulary, in the order we met it
+## What we learned today {#sec-summary}
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
@@ -1175,32 +1048,12 @@ plt.show()
 - [`CASE`]{.alert} builds a category column from an if-else ladder
 - A [window function]{.alert} keeps every row: `AVG ... OVER (PARTITION BY year)` adds the year mean, `RANK()` a position
 - Joins: 5 rows from `INNER`, 6 from `LEFT`, 8 from `FULL OUTER` on the same two tables
-- On 200 million rows, DuckDB runs the same query in [0.53 seconds]{.alert}
-:::
+- On 200 million rows, DuckDB runs the same query in [0.53 seconds]{.alert}: [[Appendix 08]{.button}](#sec-benchmark)
 :::
 :::
 
-## Next class {#sec-next-class}
-
-:::{style="margin-top: 40px; font-size: 21px;"}
-:::{.columns}
-:::{.column width="50%"}
-- [Lecture 23]{.alert}: dependency management, virtual environments and containers
-- Today's queries depended on your Python, your DuckDB version and your laptop
-- Next class we package all three into an [image]{.alert}, so anyone who runs it gets the same answer
-- `pip install duckdb` stops being a setup instruction and becomes a line in a `Dockerfile`
-:::
-
-:::{.column width="50%"}
-:::{style="margin-top: -15px;"}
-Before then:
-
-1. Finish the join exercise if you did not complete it in class
-2. Work through [Tutorial 04](https://danilofreire.github.io/datasci350/04-duckdb-sql-tutorial.html), the DuckDB SQL tutorial on the course website
-3. Check that `import duckdb` works in your environment
-4. More practice with `GROUP BY` and `HAVING`: [[Appendix 02]{.button}](#sec-appendix-02). Common error messages: [[Appendix 03]{.button}](#sec-appendix-03)
-:::
-:::
+:::{style="text-align: center; margin-top: 20px;"}
+Practice: [[Appendix 02]{.button}](#sec-appendix-02) Errors: [[Appendix 03]{.button}](#sec-appendix-03)
 :::
 :::
 
@@ -1246,7 +1099,6 @@ duckdb.sql("""
 :::
 
 ## Appendix 02: Practice at home: GROUP BY and HAVING {#sec-appendix-02}
-### One more question to try on your own
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -1259,7 +1111,7 @@ Which countries have had the highest life expectancy since 2010?
 4. Compute the mean of `value` for each country
 5. Keep the countries whose mean is above 82
 6. Sort from highest to lowest
-7. Return the top five, rounded to one decimal
+7. Return the top five, rounded to two decimals
 :::
 
 :::{.column width="54%"}
@@ -1270,7 +1122,7 @@ Which countries have had the highest life expectancy since 2010?
 #| cache: true
 duckdb.sql("""
     SELECT country,
-           ROUND(AVG(value), 1) AS mean_life_exp
+           ROUND(AVG(value), 2) AS mean_life_exp
     FROM wdi
     WHERE indicator = 'life_expectancy'
       AND year >= 2010
@@ -1289,7 +1141,7 @@ duckdb.sql("""
 :::
 
 :::{style="text-align: center; margin-top: 15px;"}
-[[Back to Next class]{.button}](#sec-next-class)
+[[Back to the summary]{.button}](#sec-summary)
 :::
 :::
 ## Appendix 03: When something goes wrong {#sec-appendix-03}
@@ -1326,12 +1178,11 @@ The view lives in the session that created it. Re-run the `CREATE VIEW` cell aft
 :::
 
 :::{style="text-align: center; margin-top: 15px;"}
-[[Back to Next class]{.button}](#sec-next-class)
+[[Back to the summary]{.button}](#sec-summary)
 :::
 :::
 
 ## Appendix 04: Grouping by two columns {#sec-appendix-04}
-### Every combination that exists in the data
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
@@ -1371,7 +1222,6 @@ duckdb.sql("""
 :::
 
 ## Appendix 05: Anti-joins and UNION {#sec-appendix-05}
-### Finding rows with no partner
 
 :::{style="margin-top: 40px; font-size: 19px;"}
 :::{.columns}
@@ -1423,8 +1273,17 @@ duckdb.sql("""
 :::
 :::
 
-## Appendix 06: When SQL beats a DataFrame {#sec-appendix-06}
-### A checklist for each tool
+## Appendix 06: The three joins side by side {#sec-appendix-06}
+
+:::{style="margin-top: 20px; text-align: center;"}
+[![](figures/sql-joins.png){width="88%"}](#){data-modal-type="image" data-modal-url="figures/sql-joins.png"}
+:::
+
+:::{style="text-align: center; margin-top: 10px;"}
+[[Back to FULL OUTER JOIN]{.button}](#sec-full-outer)
+:::
+
+## Appendix 07: When SQL beats a DataFrame {#sec-appendix-07}
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
@@ -1457,8 +1316,60 @@ Want more practice? The course website has a full self-study [DuckDB SQL tutoria
 :::
 :::
 
-## Appendix 07: The benchmark query {#sec-appendix-07}
-### The query and where the timings come from
+## Appendix 08: DuckDB on 200 million rows {#sec-benchmark}
+
+:::{style="margin-top: 40px; font-size: 20px;"}
+:::{.columns}
+:::{.column width="55%"}
+:::{style="text-align: center;"}
+```{python}
+#| echo: false
+#| eval: true
+#| cache: true
+import pandas as pd
+import matplotlib.pyplot as plt
+
+res = pd.read_csv("data/benchmark_results.csv")
+res = res[res["tool"] != "polars"].sort_values("seconds")
+
+colours = {"pandas": "#888888", "dask": "#F2A93B",
+           "duckdb": "#2CA02C"}
+bar_colours = [colours[t] for t in res["tool"]]
+
+fig, ax = plt.subplots(figsize=(7, 4.2))
+bars = ax.barh(res["tool"], res["seconds"], color=bar_colours)
+ax.set_xlabel("Wall-clock time (seconds, lower is better)", fontsize=12)
+ax.set_title("Mean value by indicator and decade\n200 million rows, one machine",
+             fontsize=13, fontweight="bold")
+ax.bar_label(bars, fmt="%.2f s", padding=4, fontsize=11)
+ax.margins(x=0.15)
+ax.invert_yaxis()
+plt.tight_layout()
+plt.show()
+```
+:::
+:::
+
+:::{.column width="45%"}
+:::{style="font-size: 20px;"}
+- Task: mean `value` by indicator and decade, on `wdi_big.parquet`, a synthetic panel of [200,681,600 rows]{.alert}
+- [DuckDB]{.alert}: 0.53 s. [Dask]{.alert}: 5.39 s. [pandas]{.alert}: 9.65 s
+- pandas loads every column into RAM. DuckDB reads only the three columns the query uses
+- Why: columnar storage, vectorised execution, and all cores by default
+- MacBook Pro, Apple M5, 10 cores, 24 GB RAM, macOS 26.6
+- Your seconds will differ, but the ranking usually holds
+- [Polars]{.alert} is in the same range as DuckDB (Tutorial 07)
+- The query and scripts: [[Appendix 09]{.button}](#sec-appendix-09)
+:::
+:::
+:::
+:::
+
+:::{style="text-align: center; margin-top: 15px;"}
+[[Back to the summary]{.button}](#sec-summary)
+:::
+
+## Appendix 09: The benchmark query {#sec-appendix-09}
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}

@@ -15,8 +15,7 @@ Back in Lecture 02 you voted for a SQL revision instead of a Polars class, so th
 - Two window slides: a group mean on every row with `AVG ... OVER (PARTITION BY year)`, and a position with `RANK()`
 - Primary keys, foreign keys, and `INNER`, `LEFT` and `FULL OUTER JOIN` on two tiny tables
 - DuckDB and pandas: querying a DataFrame by its variable name, and handing the result back with `.df()`
-- The same SQL on 200 million rows, timed against pandas and Dask
-- One exercise on joins with a worked solution, and seven appendices: a GROUP BY question to practise at home, grouping by two columns, anti-joins and `UNION`, when SQL beats a DataFrame, the benchmark query, and the errors you are most likely to hit
+- One exercise on joins with a worked solution, and nine appendices: a GROUP BY question to practise at home, the errors you are most likely to hit, grouping by two columns, anti-joins and `UNION`, the three joins side by side, when SQL beats a DataFrame, and the same SQL on 200 million rows, timed against pandas and Dask, with its query
 
 ## The data
 
@@ -44,4 +43,4 @@ Finish the join exercise if you did not complete it in class. Work through Tutor
 
 The previous deck, `22-scaling-in-practice.qmd`, is archived in `lectures/archive/`. Polars now lives in Tutorial 07 on the course website.
 
-Tool claims (DuckDB 1.5.5) checked on 2 September 2026.
+Tool claims (DuckDB 1.5.5, and every query re-run on DuckDB 2.0.0) checked on 11 November 2026.

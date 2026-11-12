@@ -15,7 +15,7 @@ Back in Lecture 02 you voted for a SQL revision instead of a Polars class, so th
 - Two window slides: a group mean on every row with `AVG ... OVER (PARTITION BY year)`, and a position with `RANK()`
 - Primary keys, foreign keys, and `INNER`, `LEFT` and `FULL OUTER JOIN` on two tiny tables
 - DuckDB and pandas: querying a DataFrame by its variable name, and handing the result back with `.df()`
-- One exercise on joins with a worked solution, and nine appendices: a GROUP BY question to practise at home, the errors you are most likely to hit, grouping by two columns, anti-joins and `UNION`, the three joins side by side, when SQL beats a DataFrame, and the same SQL on 200 million rows, timed against pandas and Dask, with its query
+- Two activities we do together: fix a broken query, and predict how many rows three joins return. A join exercise to practise at home, and ten appendices: the exercise's solution, a GROUP BY question to practise at home, grouping by two columns, anti-joins and `UNION`, the three joins side by side, when SQL beats a DataFrame, the same SQL on 200 million rows, timed against pandas and Dask, with its query, and the answers to both activities
 
 ## The data
 
@@ -39,7 +39,7 @@ QUARTO_PYTHON=~/miniconda3/envs/datasci/bin/python quarto render 22-sql-revision
 
 ## Before the next class
 
-Finish the join exercise if you did not complete it in class. Work through Tutorial 04, the DuckDB SQL tutorial on the course website. Check that `import duckdb` works in your environment. Lecture 23 moves from making your analysis fast to making it run anywhere, with containers and dependency management.
+Try the join exercise in the appendix. Work through Tutorial 04, the DuckDB SQL tutorial on the course website. Check that `import duckdb` works in your environment. Lecture 23 moves from making your analysis fast to making it run anywhere, with containers and dependency management.
 
 The previous deck, `22-scaling-in-practice.qmd`, is archived in `lectures/archive/`. Polars now lives in Tutorial 07 on the course website.
 

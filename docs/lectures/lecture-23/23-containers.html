@@ -226,28 +226,26 @@ Danilo Freire
 <h1>Brief recap 📚</h1>
 
 </section>
-<section id="scaling-up-an-analysis" class="slide level2">
-<h2>Scaling up an analysis</h2>
-<div style="margin-top: 30px; font-size: 24px;">
+<section id="sql-with-duckdb" class="slide level2">
+<h2>SQL with DuckDB</h2>
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li>We set up a <span class="alert">Dask cluster</span> and watched work flow through the dashboard</li>
-<li>We met the <span class="alert">“single-machine renaissance”</span>
-<ul>
-<li>Columnar memory, vectorised kernels, all cores by default</li>
-</ul></li>
-<li><span class="alert">DuckDB</span>: SQL over files, out-of-core, results back into pandas</li>
-<li>Our little <span class="alert">benchmark</span>: <a href="https://duckdb.org/">DuckDB</a> finished in under a second, way ahead of <a href="https://pandas.pydata.org/">pandas</a> and <a href="https://dask.org/">Dask</a></li>
-<li>pandas for small data, DuckDB when it grows, Dask when it leaves one machine</li>
+<li>SQL is <span class="alert">declarative</span>: you describe the result and the engine plans the work</li>
+<li><a href="https://duckdb.org/">DuckDB</a> reads a Parquet file or a pandas DataFrame by name</li>
+<li><code>WHERE</code> filters rows, <code>GROUP BY</code> forms groups, <code>HAVING</code> filters groups</li>
+<li><span class="alert">NULL</span> means unknown, and <code>COALESCE</code> replaces it with another value</li>
+<li>A <span class="alert">window function</span> adds a group statistic and keeps every row</li>
+<li><code>INNER JOIN</code> keeps matches, <code>LEFT JOIN</code> every left row, <code>FULL OUTER JOIN</code> all rows</li>
 <li>Now that your pipeline works, <span class="alert">let’s make it run anywhere!</span> 🤓</li>
 </ul>
 </div><div class="column" style="width:48%;">
 <div style="text-align: center; margin-top: 0px;">
-<p><a href="#/" data-modal-type="image" data-modal-url="figures/dask-dashboard-benchmark.png"><img data-src="figures/dask-dashboard-benchmark.png" style="width:100.0%"></a></p>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/duckdb-benchmark-l22.png"><img data-src="figures/duckdb-benchmark-l22.png" style="width:100.0%"></a></p>
 </div>
-<div style="font-size: 20px; text-align: center;">
-<p>The Dask dashboard during the 200-million-row benchmark</p>
+<div style="font-size: 17px; text-align: center;">
+<p>Source: <a href="https://danilofreire.github.io/datasci350/lectures/lecture-22/22-sql-revision.html#/sec-benchmark">Lecture 22, Appendix 07</a></p>
 </div>
 </div></div>
 </div>
@@ -260,7 +258,7 @@ Danilo Freire
 <section id="lecture-overview" class="slide level2">
 <h2>Lecture overview</h2>
 <h3 id="will-your-code-run-anywhere-else">Will your code run anywhere else?</h3>
-<div style="margin-top: 0px; font-size: 24px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="alert">1. Dependency management</span></p>
@@ -270,20 +268,20 @@ Danilo Freire
 </ul>
 <p><span class="alert">2. Virtual environments</span></p>
 <ul>
-<li><code>venv</code> and <code>pip</code>, and the <code>requirements.txt</code> every Dockerfile reads</li>
-<li><code>conda</code> for software that is not Python, <code>uv</code> for speed</li>
+<li><code>venv</code>, <code>pip</code> and <code>requirements.txt</code></li>
+<li><code>conda</code> for non-Python software, <code>uv</code> for speed</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><span class="alert">3. Containers</span></p>
 <ul>
-<li>What Docker is, and how an image differs from a container</li>
-<li>Docker Desktop, its licence, and the free alternatives</li>
+<li>Docker images and containers</li>
+<li>Docker Desktop’s licence and free alternatives</li>
 </ul>
 <p><span class="alert">4. Your first image</span></p>
 <ul>
-<li>Six instructions, built, run, and pushed to Docker Hub</li>
-<li>The <span class="alert">final project</span> is due on the last day of classes, and 30% of the project grade is a container that renders your report</li>
-<li>Starter: <a href="https://github.com/danilofreire/datasci350-project-starter">github.com/danilofreire/datasci350-project-starter</a></li>
+<li>A six-line Dockerfile, built, run and pushed to Docker Hub</li>
+<li>A container that renders your report is 30% of the <span class="alert">final project</span> grade</li>
+<li>Project starter: <a href="https://github.com/danilofreire/datasci350-project-starter">github.com/danilofreire/datasci350-project-starter</a></li>
 </ul>
 </div></div>
 </div>
@@ -296,15 +294,14 @@ Danilo Freire
 <section id="congratulations" class="slide level2">
 <h2>Congratulations! 🎉</h2>
 <h3 id="you-have-a-project">You have a project 🥳</h3>
-<div style="margin-top: 20px; font-size: 24px;">
+<div style="margin-top: 50px; font-size: 28px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Your code works, it is fast thanks to DuckDB, the report renders, the repository is documented</li>
-<li>One question remains: <span class="alert">will it run anywhere else?</span></li>
-<li>What happens when you move it to a new machine, hand it to a colleague, or open it again in six months?</li>
-<li>Everything so far assumed one thing you never wrote down: <span class="alert">the software installed on your laptop</span></li>
-<li><span class="alert">Dependency management</span> makes that assumption explicit</li>
+<li>Your code lives on GitHub, pulls data with <code>requests</code>, runs fast with DuckDB, and renders in Quarto</li>
+<li>Will it run on a new machine, on a colleague’s laptop, or in six months?</li>
+<li>It depends on <span class="alert">the software installed on your laptop</span>, which you never wrote down</li>
+<li><span class="alert">Dependency management</span> records every package and its version, so others can rebuild the same setup</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; margin-top: -20px;">
@@ -315,17 +312,13 @@ Danilo Freire
 </section>
 <section id="why-do-we-need-dependency-management" class="slide level2">
 <h2>Why do we need dependency management?</h2>
-<div style="margin-top: 30px; font-size: 21px;">
+<div style="margin-top: 50px; font-size: 25px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<h3 id="the-problem">The problem</h3>
+<h3 id="software-changes">Software changes</h3>
 <ul>
-<li><span class="alert">Libraries change constantly!</span></li>
-<li>Even very simple code breaks when software updates</li>
-<li>From Python 2.x to 3.x:
-<ul>
-<li><code>-c</code> means “run this command”</li>
-</ul></li>
+<li><span class="alert">Libraries change constantly</span>, and even simple code breaks after an update</li>
+<li>Python 2 to 3 (<code>-c</code> runs a command):</li>
 </ul>
 <div style="font-size: 21px; margin-top: 20px; margin-bottom: 20px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a></a>python2 -c 'print "Hello, DATASCI350!"'</span>
@@ -340,15 +333,14 @@ Danilo Freire
 <span id="cb1-10"><a></a>'print'. Did you mean print(...)?</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:50%;">
-<h3 id="some-definitions">Some definitions</h3>
-<div style="font-size: 22px;">
+<h3 id="definitions">Definitions</h3>
+<div style="font-size: 25px;">
 <ul>
-<li><span class="alert">Dependency management</span>: making sure your code will run in the future</li>
-<li><span class="alert">Dependencies</span>: external libraries, packages, and software your code needs</li>
-<li><span class="alert">Packages</span>: have a name, a version, and possibly their own dependencies</li>
-<li><span class="alert">Package registry</span>: a directory that stores packages and metadata, e.g., <a href="https://cran.r-project.org/">CRAN</a>, <a href="https://pypi.org/">PyPI</a>, <a href="https://docs.conda.io/en/latest/">Conda</a></li>
-<li><span class="alert">Dependency management tools</span>: <code>pip</code>, <code>conda</code>, and others install and track those packages</li>
-<li>Every tool in this lecture exists to write that list down and replay it somewhere else</li>
+<li><span class="alert">Dependencies</span> are the libraries and software your code needs</li>
+<li>Each <span class="alert">package</span> has a name, a version, and possibly its own dependencies</li>
+<li>A <span class="alert">package registry</span> stores packages and metadata: <a href="https://cran.r-project.org/">CRAN</a>, <a href="https://pypi.org/">PyPI</a>, <a href="https://docs.conda.io/en/latest/">Conda</a></li>
+<li><span class="alert">Dependency management</span> tools (<a href="https://pip.pypa.io/"><code>pip</code></a>, <a href="https://docs.conda.io/projects/conda/"><code>conda</code></a>) install and record them, so your code still runs later</li>
+<li>Every tool today writes that list down and replays it elsewhere</li>
 </ul>
 </div>
 </div></div>
@@ -356,410 +348,421 @@ Danilo Freire
 </section>
 <section id="the-reproducibility-crisis" class="slide level2">
 <h2>The reproducibility crisis</h2>
-<div style="margin-top: 30px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><span class="alert">Reproducibility crisis</span>: many researchers cannot replicate published results</li>
-<li>It affects computer science, statistics, psychology, and medicine alike</li>
-<li>Some causes are statistical: p-hacking, publication bias, low power</li>
-<li>A 2016 <a href="https://www.nature.com/articles/533452a">Nature survey</a> asked 1,576 researchers:
+<li><span class="alert">Reproducibility crisis</span>: many published results <a href="https://en.wikipedia.org/wiki/Replication_crisis">cannot be replicated</a></li>
+<li>It affects <a href="https://dl.acm.org/doi/10.1145/2812803">computer science</a>, <a href="https://doi.org/10.1080/00031305.2016.1154108">statistics</a>, <a href="https://www.science.org/doi/10.1126/science.aac4716">psychology</a> and <a href="https://doi.org/10.1371/journal.pmed.0020124">medicine</a></li>
+<li>A 2016 <a href="https://www.nature.com/articles/533452a">Nature survey</a> of 1,576 researchers found:
 <ul>
 <li><span class="alert">More than 70%</span> had failed to reproduce another scientist’s experiment</li>
-<li><span class="alert">More than half</span> had failed to reproduce one of their own</li>
+<li><span class="alert">More than half</span> had failed to reproduce their own</li>
 </ul></li>
-<li>Missing documentation and unrecorded dependencies are as common, and both have a technical fix</li>
-<li>The rest of today is that fix</li>
+<li>Some causes are statistical: <a href="https://doi.org/10.1371/journal.pbio.1002106">p-hacking</a>, <a href="https://www.science.org/doi/10.1126/science.1255484">publication bias</a>, <a href="https://www.nature.com/articles/nrn3475">low power</a></li>
+<li>Others are technical: <a href="https://www.nature.com/articles/s41597-022-01143-6">missing documentation and unrecorded dependencies</a></li>
+<li>Today’s tools fix the technical ones</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; margin-top: -20px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/reproducibility.webp"><img data-src="figures/reproducibility.webp" style="width:85.0%"></a></p>
+</div>
+<div style="font-size: 17px; text-align: center;">
+<p>Source: <a href="https://www.nature.com/articles/533452a">Baker (2016), Nature</a></p>
 </div>
 </div></div>
 </div>
 </section>
 <section id="the-reproducibility-trade-off" class="slide level2">
 <h2>The reproducibility trade-off</h2>
-<h3 id="how-far-do-you-go">How far do you go?</h3>
-<div style="margin-top: 20px; font-size: 23px;">
+<div style="margin-top: 40px; font-size: 23px;">
 <div style="text-align: center; margin-top: 10px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/trade-off.png"><img data-src="figures/trade-off.png" style="width:72.0%"></a></p>
 </div>
+<div style="font-size: 17px; text-align: center; margin-top: -10px;">
+<p>Source: <a href="https://utrechtuniversity.github.io/workshop-computational-reproducibility/chapters/dependency-management.html">Utrecht University, Computational reproducibility workshop</a></p>
+</div>
 <ul>
-<li>How far should you go to make a result reproducible? <span class="alert">It depends on who has to rerun it</span></li>
-<li>At minimum, <span class="alert">declare your dependencies</span> so others know what you used</li>
-<li><span class="alert">Manage them</span> with a package or environment manager (<code>conda</code>, <code>pip</code>, <code>uv</code>)</li>
-<li><span class="alert">Pin them</span> with <code>renv</code> (R) or <code>uv</code> (Python), which record exact versions</li>
-<li>Host them online with <a href="https://codeocean.com/">Code Ocean</a> ($$$) or <a href="https://mybinder.org/">Binder</a> (free and limited)</li>
-<li>Go further with <span class="alert">containers</span> (<a href="https://www.docker.com/">Docker</a>, <a href="https://apptainer.org/">Apptainer</a>) for full portability</li>
-<li>Your project sits near the right-hand end, and the rest of today is how to get there</li>
+<li>How far to go <span class="alert">depends on who has to rerun your code</span></li>
+<li>At minimum, <span class="alert">declare</span> your dependencies so others know what you used</li>
+<li><span class="alert">Manage</span> them with <a href="https://docs.conda.io/projects/conda/"><code>conda</code></a>, <a href="https://pip.pypa.io/"><code>pip</code></a> or <a href="https://docs.astral.sh/uv/"><code>uv</code></a></li>
+<li><span class="alert">Pin</span> exact versions with <a href="https://rstudio.github.io/renv/"><code>renv</code></a> (R) or <a href="https://docs.astral.sh/uv/"><code>uv</code></a> (Python)</li>
+<li><span class="alert">Host</span> them online with <a href="https://codeocean.com/">Code Ocean</a> ($$$) or <a href="https://mybinder.org/">Binder</a> (free, limited)</li>
+<li><span class="alert">Containerise</span> with <a href="https://www.docker.com/">Docker</a> or <a href="https://apptainer.org/">Apptainer</a> for full portability</li>
+<li>Your final project goes all the way, to a container</li>
 </ul>
 </div>
 </section>
 <section id="how-to-declare-dependencies" class="slide level2">
 <h2>How to declare dependencies?</h2>
-<h3 id="one-file-in-the-repository-root">One file in the repository root</h3>
-<div style="margin-top: 20px; font-size: 24px;">
+<div style="margin-top: 40px; font-size: 24px;">
+<p>Your analysis uses, e.g., Python, NumPy, pandas and matplotlib. Ask:</p>
 <ul>
-<li>Say your analysis uses Python, NumPy, pandas, and matplotlib. Ask yourself:
-<ul>
-<li>What packages do I need?</li>
-<li>Will this work on my collaborator’s operating system?</li>
-<li>Can someone else reproduce my results?</li>
-</ul></li>
-<li>Use a <span class="alert">package manager to declare your dependencies</span> in a single file</li>
-<li><span class="alert">Store it in the repository root</span> so collaborators can install everything in one step</li>
-<li>Which file depends on your package manager:
-<ul>
-<li><code>pip</code> (Python only): <span class="alert"><code>requirements.txt</code></span></li>
-<li><code>conda</code> (Python and R): <code>environment.yml</code></li>
-<li><code>uv</code> (Python only): <code>pyproject.toml</code> and <code>uv.lock</code></li>
-</ul></li>
-<li>Know <code>requirements.txt</code> best: every Dockerfile reads it, including your project starter’s</li>
-<li>Let’s see all three</li>
+<li class="fragment">Which packages do I need?</li>
+<li class="fragment">Will this work on my collaborator’s operating system?</li>
+<li class="fragment">Can someone else reproduce my results?</li>
 </ul>
+<div class="fragment">
+<ul>
+<li>A package manager declares your dependencies in <span class="alert">plain text files</span></li>
+<li>Keep them in the <span class="alert">repository root</span>, so collaborators install everything in one step</li>
+<li>The files depend on the tool:
+<ul>
+<li><code>pip</code> (Python only): <a href="https://pip.pypa.io/en/stable/reference/requirements-file-format/"><code>requirements.txt</code></a></li>
+<li><code>conda</code> (Python and R): <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file"><code>environment.yml</code></a></li>
+<li><code>uv</code> (Python only): <a href="https://packaging.python.org/en/latest/guides/writing-pyproject-toml/"><code>pyproject.toml</code></a> and <a href="https://docs.astral.sh/uv/concepts/projects/layout/#the-lockfile"><code>uv.lock</code></a></li>
+</ul></li>
+<li>Most Python Dockerfiles read <span class="alert"><code>requirements.txt</code></span>, including the project starter’s</li>
+</ul>
+</div>
 </div>
 </section></section>
 <section>
 <section id="virtual-environments" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>Virtual environments 🌐</h1>
+<h1>Virtual environments</h1>
 
 </section>
 <section id="venv-and-pip-an-isolated-python" class="slide level2">
 <h2><code>venv</code> and <code>pip</code>: an isolated Python</h2>
-<h3 id="the-workflow-your-dockerfile-will-use">The workflow your Dockerfile will use</h3>
-<div style="margin-top: 2px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li><span class="alert"><code>venv</code></span> ships with Python. It creates a folder with its own <code>python</code> and <code>site-packages</code></li>
-<li><span class="alert">Nothing you install inside it touches the system Python</span></li>
-<li>Two projects can keep two versions of the same package</li>
-<li>Create it, switch into it, and install:</li>
+<li><span class="alert"><code>venv</code></span> ships with Python and <span class="alert">creates a folder</span> with its own <code>python</code> and <code>site-packages</code></li>
+<li>Installs stay inside it, so two projects can keep two versions of one package</li>
+<li>Create, activate, install:</li>
 </ul>
-<div style="margin-top: 20px; margin-bottom: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>python3 -m venv .venv</span>
+<div style="margin-top: 20px; margin-bottom: 20px; font-size: 18px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>mkdir venv-demo &amp;&amp; cd venv-demo  # any project folder</span>
 <span id="cb2-2"><a></a></span>
-<span id="cb2-3"><a></a>source .venv/bin/activate    # macOS and Linux</span>
-<span id="cb2-4"><a></a>.venv\Scripts\activate       # Windows</span>
-<span id="cb2-5"><a></a></span>
-<span id="cb2-6"><a></a>pip install requests polars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-3"><a></a>python3 -m venv .venv            # create the environment</span>
+<span id="cb2-4"><a></a></span>
+<span id="cb2-5"><a></a>source .venv/bin/activate        # macOS and Linux</span>
+<span id="cb2-6"><a></a>.venv\Scripts\activate           # Windows</span>
+<span id="cb2-7"><a></a></span>
+<span id="cb2-8"><a></a>pip install requests polars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Add <code>.venv/</code> to your <code>.gitignore</code> (Python 3.13 and later does this for you). The package list goes into git, but <span class="alert">the folder stays on your machine</span></li>
+<li>The folder stays out of git (Python 3.13+ adds its own <code>.gitignore</code>). <span class="alert">Only the package list is committed</span></li>
 </ul>
 </div><div class="column" style="width:48%;">
 <ul>
-<li><code>which python</code> tells you which interpreter you are actually using:</li>
-</ul>
-<div style="font-size: 19px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a></a>which python</span>
-<span id="cb3-2"><a></a>/private/tmp/[...]/l23/venv-demo/.venv/bin/python</span>
-<span id="cb3-3"><a></a></span>
-<span id="cb3-4"><a></a>python --version</span>
-<span id="cb3-5"><a></a>Python 3.14.6</span>
-<span id="cb3-6"><a></a></span>
-<span id="cb3-7"><a></a>pip --version</span>
-<span id="cb3-8"><a></a>pip 26.1.2 [...] (python 3.14)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<ul>
-<li>The path ends in <code>.venv/bin/python</code>, so the environment is active. The install itself:</li>
+<li><code>which python</code> shows which interpreter is active:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a></a>Successfully installed certifi-2026.7.22</span>
-<span id="cb4-2"><a></a>charset_normalizer-3.5.1 idna-3.19 polars-1.44.2</span>
-<span id="cb4-3"><a></a>polars-runtime-32-1.44.2 requests-2.34.2</span>
-<span id="cb4-4"><a></a>urllib3-2.7.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a></a>which python</span>
+<span id="cb3-2"><a></a>~/venv-demo/.venv/bin/python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li><span class="alert">Docker images do this too</span></li>
-<li>The project starter’s Dockerfile runs <code>python3 -m venv /opt/venv</code> and sets <code>ENV PATH="/opt/venv/bin:$PATH"</code>, so later steps use that Python without activating it</li>
+<li>A path ending in <code>.venv/bin/python</code> means the environment is on. <code>pip list</code> shows what is installed:</li>
+</ul>
+<div style="font-size: 20px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a></a>pip list</span>
+<span id="cb4-2"><a></a>Package            Version</span>
+<span id="cb4-3"><a></a>------------------ ----------</span>
+<span id="cb4-4"><a></a>certifi            2026.10.23</span>
+<span id="cb4-5"><a></a>charset-normalizer 3.5.2</span>
+<span id="cb4-6"><a></a>idna               3.20</span>
+<span id="cb4-7"><a></a>pip                26.0.1</span>
+<span id="cb4-8"><a></a>polars             2.1.0</span>
+<span id="cb4-9"><a></a>polars-runtime-32  2.1.0</span>
+<span id="cb4-10"><a></a>requests           2.34.2</span>
+<span id="cb4-11"><a></a>urllib3            2.8.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><span class="alert">Docker images do this too</span>: the project starter runs <code>python3 -m venv /opt/venv</code>, then sets <code>ENV PATH="/opt/venv/bin:$PATH"</code> so later steps use it without activating</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="requirements.txt-the-file-you-commit" class="slide level2">
 <h2><code>requirements.txt</code>: the file you commit</h2>
-<h3 id="pip-freeze-writes-it-and-pip-install--r-reads-it"><code>pip freeze</code> writes it and <code>pip install -r</code> reads it</h3>
-<div style="margin-top: 20px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Inside the clean environment, <span class="alert"><code>pip freeze</code></span> <span class="alert">prints every installed package with its exact version:</span></li>
+<li><span class="alert"><code>pip freeze</code></span> prints every installed package with its exact version:</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a></a>pip freeze &gt; requirements.txt</span>
 <span id="cb5-2"><a></a>cat requirements.txt</span>
 <span id="cb5-3"><a></a></span>
-<span id="cb5-4"><a></a>certifi==2026.7.22</span>
-<span id="cb5-5"><a></a>charset-normalizer==3.5.1</span>
-<span id="cb5-6"><a></a>idna==3.19</span>
-<span id="cb5-7"><a></a>polars==1.44.2</span>
-<span id="cb5-8"><a></a>polars-runtime-32==1.44.2</span>
+<span id="cb5-4"><a></a>certifi==2026.10.23</span>
+<span id="cb5-5"><a></a>charset-normalizer==3.5.2</span>
+<span id="cb5-6"><a></a>idna==3.20</span>
+<span id="cb5-7"><a></a>polars==2.1.0</span>
+<span id="cb5-8"><a></a>polars-runtime-32==2.1.0</span>
 <span id="cb5-9"><a></a>requests==2.34.2</span>
-<span id="cb5-10"><a></a>urllib3==2.7.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-10"><a></a>urllib3==2.8.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Two packages became seven lines because <code>pip</code> lists the dependencies of your dependencies</li>
-<li>The <span class="alert"><code>==</code> pins</span> say “these exact versions”</li>
+<li>Two packages became seven lines because <code>pip</code> also lists your dependencies’ dependencies</li>
+<li>The <span class="alert"><code>==</code> pins</span> mean “these exact versions”</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Your collaborator <span class="alert">makes their own environment and installs from the file:</span></li>
+<li>Your collaborator creates an environment and <span class="alert">installs from the file</span>:</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a></a>python3 -m venv .venv</span>
 <span id="cb6-2"><a></a>source .venv/bin/activate</span>
 <span id="cb6-3"><a></a>pip install -r requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Run <code>pip freeze</code> inside a <span class="alert">conda</span> environment and some lines come out as <code>name @ file:///...</code> local paths, which install nowhere else</li>
-<li>Freeze inside a plain <code>venv</code> and the problem never appears</li>
-<li><a href="https://github.com/danilofreire/datasci350-project-starter">Our project starter repo</a> pins every package by hand, with a comment for each:</li>
+<li>To leave the environment and <span class="alert">delete it</span>:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a></a># Talking to web APIs</span>
-<span id="cb7-2"><a></a>requests==2.32.5</span>
-<span id="cb7-3"><a></a></span>
-<span id="cb7-4"><a></a># Data processing (use either, or both)</span>
-<span id="cb7-5"><a></a>pandas==3.0.5</span>
-<span id="cb7-6"><a></a>duckdb==1.5.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a></a>deactivate</span>
+<span id="cb7-2"><a></a>rm -rf .venv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>The <a href="https://github.com/danilofreire/datasci350-project-starter">project starter</a> pins every package by hand, with a comment for each:</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a></a># Talking to web APIs</span>
+<span id="cb8-2"><a></a>requests==2.32.5</span>
+<span id="cb8-3"><a></a></span>
+<span id="cb8-4"><a></a># Data processing (use either, or both)</span>
+<span id="cb8-5"><a></a>pandas==3.0.5</span>
+<span id="cb8-6"><a></a>duckdb==1.5.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </div>
 </section>
 <section id="conda-in-one-slide" class="slide level2">
 <h2>Conda in one slide</h2>
-<h3 id="you-met-conda-in-datasci-151">You met conda in DATASCI 151</h3>
-<div style="margin-top: 20px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 18px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><a href="https://docs.conda.io/">Conda</a> <span class="alert">manages environments and packages together,</span> and installs non-Python software: compilers, R, CUDA</li>
-<li>Create it and switch into it:</li>
+<li><a href="https://docs.conda.io/">Conda</a> <span class="alert">manages environments and packages</span>, including non-Python software: compilers, R, CUDA</li>
 </ul>
-<div style="margin-top: 20px; margin-bottom: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a></a>conda create --name l23-demo \</span>
-<span id="cb8-2"><a></a>  python=3.14 numpy pandas -y</span>
-<span id="cb8-3"><a></a>conda activate l23-demo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a></a>conda create --name l23-demo \</span>
+<span id="cb9-2"><a></a>  python=3.14 numpy pandas -y</span>
+<span id="cb9-3"><a></a>conda activate l23-demo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Export it with <span class="alert"><code>--from-history</code></span>, which records only the packages you asked for:</li>
+<li><span class="alert"><code>--from-history</code></span> exports only the packages you asked for:</li>
 </ul>
-<div style="margin-top: 20px; margin-bottom: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a></a>conda env export --name l23-demo \</span>
-<span id="cb9-2"><a></a>  --from-history &gt; environment.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a></a>conda env export --name l23-demo \</span>
+<span id="cb10-2"><a></a>  --from-history &gt; environment.yml</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Others recreate it with <code>conda env create --file environment.yml</code>, then <code>conda activate l23-demo</code></li>
+<li>Others rebuild it from the file:</li>
+</ul>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a></a>conda env create --file environment.yml</span>
+<span id="cb11-2"><a></a>conda activate l23-demo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>To <span class="alert">delete it</span>, run <code>conda deactivate</code> first, then:</li>
+</ul>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a></a>conda env remove --name l23-demo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>Inside conda, <code>pip freeze</code> can write <code>name @ file:///...</code> lines that fail elsewhere. Use <span class="alert"><code>pip list --format=freeze</code></span></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>The file it produced:</li>
+<li>The resulting file:</li>
 </ul>
 <div style="font-size: 20px; margin-top: 10px; margin-bottom: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb10-1"><a></a>name: l23-demo</span>
-<span id="cb10-2"><a></a>channels:</span>
-<span id="cb10-3"><a></a>  - conda-forge</span>
-<span id="cb10-4"><a></a>  - defaults</span>
-<span id="cb10-5"><a></a>dependencies:</span>
-<span id="cb10-6"><a></a>  - pandas</span>
-<span id="cb10-7"><a></a>  - numpy</span>
-<span id="cb10-8"><a></a>  - python=3.14</span>
-<span id="cb10-9"><a></a>prefix: /Users/dafreir/miniconda3/envs/l23-demo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a></a>name: l23-demo</span>
+<span id="cb13-2"><a></a>channels:</span>
+<span id="cb13-3"><a></a>  - conda-forge</span>
+<span id="cb13-4"><a></a>  - defaults</span>
+<span id="cb13-5"><a></a>dependencies:</span>
+<span id="cb13-6"><a></a>  - pandas</span>
+<span id="cb13-7"><a></a>  - numpy</span>
+<span id="cb13-8"><a></a>  - python=3.14</span>
+<span id="cb13-9"><a></a>prefix: ~/miniconda3/envs/l23-demo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Drop <code>--from-history</code> and it lists every transitive package instead:</li>
+<li>Without <code>--from-history</code>, it lists every package, including dependencies of dependencies:</li>
 </ul>
 <div style="font-size: 20px; margin-top: 20px; margin-bottom: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a></a>  - _openmp_mutex=4.5=7_kmp_llvm</span>
-<span id="cb11-2"><a></a>  - bzip2=1.0.8=h4e30115_10</span>
-<span id="cb11-3"><a></a>  - libblas=3.11.0=9_h51639a9_openblas</span>
-<span id="cb11-4"><a></a>  - libcxx=23.1.0=h55c6f16_0</span>
-<span id="cb11-5"><a></a>  [...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a></a>  - _openmp_mutex=4.5=7_kmp_llvm</span>
+<span id="cb14-2"><a></a>  - bzip2=1.0.8=h4e30115_10</span>
+<span id="cb14-3"><a></a>  - libblas=3.11.0=9_h51639a9_openblas</span>
+<span id="cb14-4"><a></a>  - libcxx=23.1.0=h55c6f16_0</span>
+<span id="cb14-5"><a></a>  [...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Those files describe one machine exactly but <span class="alert">rarely install on another.</span> The next slide takes one apart</li>
+<li>That full list describes one machine exactly but <span class="alert">rarely installs on another</span></li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="what-are-build-strings" class="slide level2">
 <h2>What are build strings?</h2>
-<h3 id="reading-a-conda-package-specification">Reading a conda package specification</h3>
-<div style="margin-top: 12px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>A conda <a href="https://docs.conda.io/projects/conda-build/en/stable/concepts/package-naming-conv.html">build</a> is <span class="alert">a specific compiled binary of a package</span></li>
-<li>The same version can be compiled differently per platform, Python version, or feature set</li>
-<li>A full conda package specification:</li>
+<li>A conda <a href="https://docs.conda.io/projects/conda-build/en/stable/concepts/package-naming-conv.html">build</a> is <span class="alert">one compiled binary of a package</span></li>
+<li>The same version is compiled separately for each platform, Python version and feature set</li>
+<li>A full package specification:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb12-1"><a></a>numpy=1.21.5=py39h12345_0</span>
-<span id="cb12-2"><a></a>└──┬─┘└─┬──┘ └────┬───┘└┬┘</span>
-<span id="cb12-3"><a></a>   │    │         │     │</span>
-<span id="cb12-4"><a></a>   │    │         │     └─ Build number (0)</span>
-<span id="cb12-5"><a></a>   │    │         └─────── Build string (py39h12345)</span>
-<span id="cb12-6"><a></a>   │    └───────────────── Version (1.21.5)</span>
-<span id="cb12-7"><a></a>   └────────────────────── Package name (numpy)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="margin-top: 20px; margin-bottom: 20px; font-size: 18px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a></a>numpy=1.21.5=py39h12345_0</span>
+<span id="cb15-2"><a></a>└──┬─┘└─┬──┘ └────┬───┘└┬┘</span>
+<span id="cb15-3"><a></a>   │    │         │     │</span>
+<span id="cb15-4"><a></a>   │    │         │     └─ Build number (0)</span>
+<span id="cb15-5"><a></a>   │    │         └─────── Build string (py39h12345_0)</span>
+<span id="cb15-6"><a></a>   │    └───────────────── Version (1.21.5)</span>
+<span id="cb15-7"><a></a>   └────────────────────── Package name (numpy)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
-<li>The <span class="alert"><code>--no-builds</code> flag</span> strips the build strings, but macOS-only packages stay in the file</li>
+<li><code>--no-builds</code> strips build strings, but macOS-only packages stay in the file</li>
 <li>For a file that <span class="alert">works on other platforms</span>, use <code>--from-history</code></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><p>The build string (<code>py39h12345</code>) encodes metadata:</p>
+<li>The build string (<code>py39h12345_0</code>) encodes metadata and ends in the build number:
 <ul>
 <li>Python version (<code>py39</code>, <code>py310</code>)</li>
 <li>Compiler (<code>gcc9</code>, <code>clang</code>)</li>
 <li>Features (<code>nomkl</code>, <code>cuda</code>)</li>
 </ul></li>
-<li><p>The platform (<code>linux-64</code>, <code>osx-arm64</code>) is stored separately, not in the build string</p></li>
-<li><p>Why do builds exist?</p>
-<ul>
-<li>Software is compiled differently per operating system</li>
-<li>Packages target specific Python versions</li>
-<li>Builds enable or disable optional features</li>
-<li>Different compilers produce different binaries</li>
-</ul></li>
-<li><p>The line <code>libblas=3.11.0=9_h51639a9_openblas</code> on the previous slide will not resolve on a Linux collaborator’s machine</p></li>
+<li>The platform (<code>linux-64</code>, <code>osx-arm64</code>) is stored separately</li>
+<li>So <code>libblas=3.11.0=9_h51639a9_openblas</code> from the previous slide <span class="alert">will not resolve on Linux</span></li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="uv-a-fast-python-package-manager" class="slide level2">
 <h2><code>uv</code>: a fast Python package manager</h2>
-<h3 id="maybe-new-to-you">Maybe new to you</h3>
-<div style="margin-top: 12px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><a href="https://docs.astral.sh/uv/">uv</a> is a Python package and project manager built by <a href="https://astral.sh/">Astral</a>, the people behind the <a href="https://docs.astral.sh/ruff/">Ruff</a> linter</li>
-<li>Written in Rust, it replaces <code>pip</code>, <code>pip-tools</code>, <code>pipx</code>, <code>poetry</code>, <code>pyenv</code>, and <code>virtualenv</code> with one command</li>
-<li>It installs Python itself, so you need no separate installer</li>
+<li><a href="https://docs.astral.sh/uv/">uv</a> is a Python package and project manager from <a href="https://astral.sh/">Astral</a>, the makers of the <a href="https://docs.astral.sh/ruff/">Ruff</a> linter</li>
+<li>Written in <a href="https://www.rust-lang.org/">Rust</a>, it replaces <code>pip</code>, <code>pip-tools</code>, <code>pipx</code>, <code>poetry</code>, <code>pyenv</code> and <code>virtualenv</code></li>
+<li><code>--python 3.14</code> picks the version, and uv <span class="alert">downloads it</span> if it is missing</li>
 <li>Install it:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a></a># macOS and Linux</span>
-<span id="cb13-2"><a></a>curl -LsSf https://astral.sh/uv/install.sh | sh</span>
-<span id="cb13-3"><a></a></span>
-<span id="cb13-4"><a></a># or with Homebrew</span>
-<span id="cb13-5"><a></a>brew install uv</span>
-<span id="cb13-6"><a></a></span>
-<span id="cb13-7"><a></a>uv --version</span>
-<span id="cb13-8"><a></a>uv 0.11.7 (9d177269e 2026-04-15</span>
-<span id="cb13-9"><a></a>aarch64-apple-darwin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 19px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a></a># macOS and Linux: download and run the installer</span>
+<span id="cb16-2"><a></a>curl -LsSf https://astral.sh/uv/install.sh | sh</span>
+<span id="cb16-3"><a></a></span>
+<span id="cb16-4"><a></a># or with Homebrew</span>
+<span id="cb16-5"><a></a>brew install uv</span>
+<span id="cb16-6"><a></a></span>
+<span id="cb16-7"><a></a>uv --version    # check that it worked</span>
+<span id="cb16-8"><a></a>uv 0.11.7 (9d177269e 2026-04-15</span>
+<span id="cb16-9"><a></a>aarch64-apple-darwin)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:50%;">
-<div style="text-align: center; margin-top: -10px;">
-<p><a href="#/" data-modal-type="image" data-modal-url="figures/uv-docs-2026.png"><img data-src="figures/uv-docs-2026.png" style="width:46.0%"></a></p>
-</div>
-<div style="font-size: 17px; text-align: center;">
-<p><a href="https://docs.astral.sh/uv/" class="uri">https://docs.astral.sh/uv/</a></p>
-</div>
-<div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a></a>uv init l23-uv-demo --python 3.14</span>
-<span id="cb14-2"><a></a>cd l23-uv-demo</span>
-<span id="cb14-3"><a></a>uv add polars requests</span>
-<span id="cb14-4"><a></a></span>
-<span id="cb14-5"><a></a>Using CPython 3.14.6 interpreter at:</span>
-<span id="cb14-6"><a></a>  /opt/homebrew/opt/python@3.14/bin/python3.14</span>
-<span id="cb14-7"><a></a>Creating virtual environment at: .venv</span>
-<span id="cb14-8"><a></a>Resolved 8 packages in 378ms</span>
-<span id="cb14-9"><a></a>Prepared 2 packages in 6.66s</span>
-<span id="cb14-10"><a></a>Installed 7 packages in 10ms</span>
-<span id="cb14-11"><a></a> + polars==1.44.2</span>
-<span id="cb14-12"><a></a> [...]</span>
-<span id="cb14-13"><a></a> + requests==2.34.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><span class="alert"><code>uv init</code></span> creates a project folder with a <code>pyproject.toml</code>, a <code>main.py</code> and a git repository:</li>
+</ul>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb17-1"><a></a>uv init l23-uv-demo --python 3.14</span>
+<span id="cb17-2"><a></a>cd l23-uv-demo</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li><span class="alert">378 milliseconds!</span></li>
+<li><span class="alert"><code>uv add</code></span> creates <code>.venv</code>, installs the packages and records them in <code>pyproject.toml</code> and <code>uv.lock</code>:</li>
+</ul>
+<div style="margin-top: 10px; margin-bottom: 10px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a></a>uv add polars requests</span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a>Creating virtual environment at: .venv</span>
+<span id="cb18-4"><a></a>Resolved 8 packages in 279ms</span>
+<span id="cb18-5"><a></a>Installed 7 packages in 8ms</span>
+<span id="cb18-6"><a></a> + polars==2.1.0</span>
+<span id="cb18-7"><a></a> [...]</span>
+<span id="cb18-8"><a></a> + requests==2.34.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li>uv <span class="alert">updates both files for you</span>, so you do not need <code>activate</code> or <code>pip freeze</code></li>
+<li>More information: <a href="https://docs.astral.sh/uv/" class="uri">https://docs.astral.sh/uv/</a></li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="uv-project-files-and-sharing" class="slide level2">
 <h2><code>uv</code>: project files and sharing</h2>
-<h3 id="just-two-files-and-both-belong-in-git">Just two files, and both belong in git</h3>
-<div style="margin-top: 20px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><span class="alert"><code>pyproject.toml</code></span> holds your direct dependencies and is meant for humans. Mine after <code>uv add</code>:</li>
+<li><span class="alert"><code>pyproject.toml</code></span> lists your direct dependencies, for humans to read. Mine after <code>uv add</code>:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a></a>[project]</span>
-<span id="cb15-2"><a></a>name = "l23-uv-demo"</span>
-<span id="cb15-3"><a></a>version = "0.1.0"</span>
-<span id="cb15-4"><a></a>description = "Add your description here"</span>
-<span id="cb15-5"><a></a>readme = "README.md"</span>
-<span id="cb15-6"><a></a>requires-python = "&gt;=3.14"</span>
-<span id="cb15-7"><a></a>dependencies = [</span>
-<span id="cb15-8"><a></a>    "polars&gt;=1.44.2",</span>
-<span id="cb15-9"><a></a>    "requests&gt;=2.34.2",</span>
-<span id="cb15-10"><a></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb19-1"><a></a>[project]</span>
+<span id="cb19-2"><a></a>name = "l23-uv-demo"</span>
+<span id="cb19-3"><a></a>version = "0.1.0"</span>
+<span id="cb19-4"><a></a>description = "Add your description here"</span>
+<span id="cb19-5"><a></a>readme = "README.md"</span>
+<span id="cb19-6"><a></a>requires-python = "&gt;=3.14"</span>
+<span id="cb19-7"><a></a>dependencies = [</span>
+<span id="cb19-8"><a></a>    "polars&gt;=2.1.0",</span>
+<span id="cb19-9"><a></a>    "requests&gt;=2.34.2",</span>
+<span id="cb19-10"><a></a>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><span class="alert">TOML</span> (<a href="https://toml.io/en/">Tom’s Obvious Minimal Language</a>): a config format of key-value pairs and <code>[sections]</code>. Created by Tom Preston-Werner, a GitHub co-founder. <a href="https://toml.io/en/">More here</a>
-<ul>
-<li>Very similar to <a href="https://yaml.org/">YAML,</a> which we saw when writing Quarto documents</li>
-</ul></li>
+<li><a href="https://toml.io/en/">TOML</a> is a config format of key-value pairs and <code>[sections]</code>, close to the <a href="https://yaml.org/">YAML</a> in Quarto headers</li>
+<li><a href="https://en.wikipedia.org/wiki/Tom_Preston-Werner">Tom Preston-Werner</a>, a GitHub co-founder, created it (“Tom’s Obvious Minimal Language”)</li>
 <li><code>uv init</code> also writes <code>.gitignore</code>, <code>.python-version</code>, <code>README.md</code> and <code>main.py</code>, and starts a git repository</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><span class="alert"><code>uv.lock</code></span> <span class="alert">is generated for you,</span> recording the exact version and hash of every package</li>
-<li>Mine is 182 lines, for seven packages plus the project. <span class="alert">You never edit it by hand</span></li>
-<li><span class="alert">Push both <code>pyproject.toml</code> and <code>uv.lock</code></span>. Your collaborator clones and runs <code>uv sync</code> <span class="alert">to get the same environment:</span></li>
+<li><span class="alert"><code>uv.lock</code></span> records the exact version and hash of every package. Mine is 182 lines</li>
+<li>uv writes it for you. <span class="alert">Never edit it by hand</span></li>
+<li>Commit and push both files. Your collaborator clones <span class="alert">the repository</span> and runs <span class="alert"><code>uv sync</code></span>:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a></a>uv sync</span>
-<span id="cb16-2"><a></a>Resolved 8 packages in 2ms</span>
-<span id="cb16-3"><a></a>Checked 7 packages in 1ms</span>
-<span id="cb16-4"><a></a></span>
-<span id="cb16-5"><a></a>uv run python -c \</span>
-<span id="cb16-6"><a></a>  "import polars; print(polars.__version__)"</span>
-<span id="cb16-7"><a></a>1.44.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a></a>uv sync</span>
+<span id="cb20-2"><a></a>Resolved 8 packages in 2ms</span>
+<span id="cb20-3"><a></a>Checked 7 packages in 1ms</span>
+<span id="cb20-4"><a></a></span>
+<span id="cb20-5"><a></a>uv run python -c \</span>
+<span id="cb20-6"><a></a>  "import polars; print(polars.__version__)"</span>
+<span id="cb20-7"><a></a>2.1.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>uv run</code> executes inside the project environment, so there is nothing to activate</li>
-<li><code>uv</code> manages Python versions too: <code>uv python install 3.14</code> and <code>uv python pin 3.14</code></li>
-<li><a href="https://docs.astral.sh/uv/">More about <code>uv</code> here</a></li>
+<li><code>uv run</code> runs inside the project environment, with nothing to activate</li>
+<li><code>uv python install 3.14</code> and <code>uv python pin 3.14</code> manage Python versions</li>
+<li><a href="https://docs.astral.sh/uv/">More about <code>uv</code></a></li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="uv-handing-a-project-to-docker" class="slide level2">
 <h2><code>uv</code>: handing a project to Docker</h2>
-<h3 id="every-dockerfile-still-wants-requirements.txt">Every Dockerfile still wants <code>requirements.txt</code></h3>
-<div style="margin-top: 20px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 21px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li>Docker images read <code>requirements.txt</code>, and <span class="alert"><code>uv export</code></span> writes one from your lock file:</li>
+<li><span class="alert"><code>uv export</code></span> writes a <code>requirements.txt</code> from your lock file, for Dockerfiles that expect one:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb17-1"><a></a>uv export --format requirements-txt --no-hashes</span>
-<span id="cb17-2"><a></a></span>
-<span id="cb17-3"><a></a>Resolved 8 packages in 2ms</span>
-<span id="cb17-4"><a></a># This file was autogenerated by uv via the</span>
-<span id="cb17-5"><a></a># following command:</span>
-<span id="cb17-6"><a></a>#    uv export --format requirements-txt</span>
-<span id="cb17-7"><a></a>#      --no-hashes</span>
-<span id="cb17-8"><a></a>certifi==2026.7.22</span>
-<span id="cb17-9"><a></a>    # via requests</span>
-<span id="cb17-10"><a></a>charset-normalizer==3.5.1</span>
-<span id="cb17-11"><a></a>    # via requests</span>
-<span id="cb17-12"><a></a>polars==1.44.2</span>
-<span id="cb17-13"><a></a>    # via l23-uv-demo</span>
-<span id="cb17-14"><a></a>requests==2.34.2</span>
-<span id="cb17-15"><a></a>    # via l23-uv-demo</span>
-<span id="cb17-16"><a></a>[...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a></a>uv export --format requirements-txt --no-hashes</span>
+<span id="cb21-2"><a></a></span>
+<span id="cb21-3"><a></a>Resolved 8 packages in 2ms</span>
+<span id="cb21-4"><a></a># This file was autogenerated by uv via the</span>
+<span id="cb21-5"><a></a># following command:</span>
+<span id="cb21-6"><a></a>#    uv export --format requirements-txt</span>
+<span id="cb21-7"><a></a>#      --no-hashes</span>
+<span id="cb21-8"><a></a>certifi==2026.10.23</span>
+<span id="cb21-9"><a></a>    # via requests</span>
+<span id="cb21-10"><a></a>charset-normalizer==3.5.2</span>
+<span id="cb21-11"><a></a>    # via requests</span>
+<span id="cb21-12"><a></a>[...]</span>
+<span id="cb21-13"><a></a>polars==2.1.0</span>
+<span id="cb21-14"><a></a>    # via l23-uv-demo</span>
+<span id="cb21-15"><a></a>[...]</span>
+<span id="cb21-16"><a></a>requests==2.34.2</span>
+<span id="cb21-17"><a></a>    # via l23-uv-demo</span>
+<span id="cb21-18"><a></a>[...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Drop <code>--no-hashes</code> and each line also carries the wheel’s SHA-256, which <code>pip</code> then verifies</li>
+<li>Without <code>--no-hashes</code>, each line also carries a SHA-256 hash that <code>pip</code> verifies</li>
 </ul>
 </div><div class="column" style="width:48%;">
 <ul>
 <li>Redirect it into the file your Dockerfile copies:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a></a>uv export --format requirements-txt \</span>
-<span id="cb18-2"><a></a>  --no-hashes &gt; requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb22-1"><a></a>uv export --format requirements-txt \</span>
+<span id="cb22-2"><a></a>  --no-hashes &gt; requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The <code># via</code> comments name which package pulled each dependency in. <code>pip freeze</code> never does</li>
-<li>Want the <code>venv</code> and <code>pip</code> workflow at uv’s speed? Drop-in replacements:</li>
+<li>The <code># via</code> comments show which package pulled each dependency in. <code>pip freeze</code> has none</li>
+<li>Already have a <code>requirements.txt</code>? <span class="alert"><code>uv pip</code></span> is a faster drop-in for <code>pip</code>:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb19-1"><a></a>uv venv</span>
-<span id="cb19-2"><a></a>source .venv/bin/activate</span>
-<span id="cb19-3"><a></a>uv pip install -r requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a></a>uv venv</span>
+<span id="cb23-2"><a></a>source .venv/bin/activate</span>
+<span id="cb23-3"><a></a>uv pip install -r requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Same commands, same files as the <code>venv</code> slides, with <code>uv</code> doing the install</li>
+<li>For a new project, <code>uv init</code>, <code>uv add</code> and <code>uv run</code> are simpler</li>
 </ul>
 </div></div>
 </div>
@@ -777,6 +780,7 @@ Danilo Freire
 </div>
 <div style="font-size: 17px; text-align: center;">
 <p>Each cell is one combination someone has to test by hand</p>
+<p>Source: <a href="https://www.slideshare.net/slideshow/docker-intro-november/28618034">dotCloud (2013), Docker introduction</a></p>
 </div>
 </div>
 </section>
@@ -788,6 +792,7 @@ Danilo Freire
 </div>
 <div style="font-size: 17px; text-align: center;">
 <p>Sacks, barrels, and crates, each loaded differently at every port</p>
+<p>Source: <a href="https://www.slideshare.net/slideshow/docker-intro-november/28618034">dotCloud (2013), Docker introduction</a></p>
 </div>
 </div>
 </section>
@@ -799,6 +804,7 @@ Danilo Freire
 </div>
 <div style="font-size: 17px; text-align: center;">
 <p>Shipping had the same combinatorial problem</p>
+<p>Source: <a href="https://www.slideshare.net/slideshow/docker-intro-november/28618034">dotCloud (2013), Docker introduction</a></p>
 </div>
 </div>
 </section>
@@ -810,6 +816,7 @@ Danilo Freire
 </div>
 <div style="font-size: 17px; text-align: center;">
 <p>A standard box fits every ship, train, and lorry, and nobody opens it in transit</p>
+<p>Source: <a href="https://www.slideshare.net/slideshow/docker-intro-november/28618034">dotCloud (2013), Docker introduction</a></p>
 </div>
 </div>
 </section>
@@ -837,72 +844,67 @@ Danilo Freire
 </section>
 <section id="what-are-software-containers" class="slide level2">
 <h2>What are software containers?</h2>
-<h3 id="lighter-than-a-virtual-machine">Lighter than a virtual machine</h3>
-<div style="margin-top: 20px; font-size: 24px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><a href="https://www.docker.com/resources/what-container">Containers</a> package software so it can run on any system</li>
-<li>A <a href="https://www.vmware.com/topics/virtual-machine">virtual machine</a> boots a whole operating system. A container carries only <span class="alert">the libraries the application needs</span>, so it starts in a second</li>
-<li>A virtual environment isolates Python packages. A container also carries the operating system libraries, the interpreter, and the system tools your code touches</li>
-<li>It then runs on <span class="alert">any system with Docker installed</span>, as long as the image was built for that chip (Intel/AMD <code>amd64</code> or Apple Silicon <code>arm64</code>)</li>
+<li><a href="https://www.docker.com/resources/what-container">Containers</a> package software so it runs on any system</li>
+<li>A <a href="https://www.vmware.com/topics/virtual-machine">virtual machine</a> boots a whole operating system. A container carries only <span class="alert">the libraries the app needs</span>, so it starts in a second</li>
+<li>A virtual environment isolates Python packages. A container also holds the system libraries, the interpreter and system tools</li>
+<li>It runs on <span class="alert">any machine with Docker</span> if the image matches the chip: <code>amd64</code> (Intel/AMD) or <code>arm64</code> (Apple Silicon)</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li>Created with tools like <a href="https://www.docker.com/">Docker</a> or <a href="https://apptainer.org/">Apptainer</a></li>
-<li>Usually <span class="alert">a stripped-down Linux</span> (<a href="https://ubuntu.com/">Ubuntu</a> or <a href="https://alpinelinux.org/">Alpine Linux</a>) with only the required libraries</li>
-<li>Why Linux? It is open source and the most widely used server operating system</li>
-<li>Stored in <a href="https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-registry/">container registries</a> like <a href="https://hub.docker.com/">Docker Hub</a>, so you can share them</li>
-<li><a href="https://docs.docker.com/get-started/overview/">More about Docker here</a></li>
+<li>Built with <a href="https://www.docker.com/">Docker</a> or <a href="https://apptainer.org/">Apptainer</a></li>
+<li>Usually <span class="alert">a stripped-down Linux</span> (<a href="https://ubuntu.com/">Ubuntu</a>, <a href="https://alpinelinux.org/">Alpine</a>), the most widely used open-source server system</li>
+<li>Shared through <a href="https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-registry/">container registries</a> like <a href="https://hub.docker.com/">Docker Hub</a></li>
+<li><a href="https://docs.docker.com/get-started/overview/">More about Docker</a></li>
 </ul>
 <div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;">
-<p>Lecture 10 listed four ingredients of a reproducible result: code, data, environment, documentation. <span class="alert">A container ships the environment with the code already inside it</span></p>
+<p>Lecture 10’s four ingredients of reproducibility: code, data, environment, documentation. <span class="alert">A container ships the environment with the code</span></p>
 </div>
 </div></div>
 </div>
 </section>
 <section id="what-is-docker" class="slide level2">
 <h2>What is Docker?</h2>
-<h3 id="images-containers-and-registries">Images, containers, and registries</h3>
-<div style="margin-top: 12px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li><a href="https://www.docker.com/">Docker</a> is the leading containerisation platform</li>
-<li>Three concepts that you should know:
-<ul>
-<li><span class="alert">Image</span>: a read-only template holding the operating system, the libraries, your code, and the configuration. You <span class="alert">build</span> images from a <code>Dockerfile</code></li>
-<li><span class="alert">Container</span>: a running instance of an image. <span class="alert">Many containers from one image</span></li>
-<li><span class="alert">Registry</span>: a collection of repositories you pull images from, such as Docker Hub</li>
-</ul></li>
-<li>An image is a class and a container is an object (<a href="https://stackoverflow.com/questions/23735149/what-is-the-difference-between-a-docker-image-and-a-container">more here</a>)</li>
-<li>The syntax borrows from Git and Linux, so it should feel familiar</li>
-<li>The <code>docker</code> command is a client. It sends every instruction to a background <span class="alert">daemon</span>, which does the building and the running</li>
+<li><a href="https://www.docker.com/">Docker</a> is the leading container platform</li>
+<li>An <span class="alert">image</span> is a read-only template: operating system, libraries, code and configuration. You <span class="alert">build</span> it from a <code>Dockerfile</code></li>
+<li>A <span class="alert">container</span> is a running instance of an image, and one image can start many</li>
+<li>A <span class="alert">registry</span> such as <a href="https://hub.docker.com/">Docker Hub</a> stores images for you to pull</li>
+<li>Image is to container as recipe is to dish, or class to object (<a href="https://stackoverflow.com/questions/23735149/what-is-the-difference-between-a-docker-image-and-a-container">more here</a>)</li>
+<li>The syntax borrows from Git (<code>docker pull</code>, <code>docker push</code>) and Linux (<code>docker ps</code>, <code>docker rm</code>)</li>
+<li>The <code>docker</code> command is a client. A background <span class="alert">daemon</span> does the building and running</li>
 </ul>
 </div><div class="column" style="width:48%;">
 <div style="text-align: center; margin-top: -10px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/docker-architecture.png"><img data-src="figures/docker-architecture.png" style="width:100.0%"></a></p>
 </div>
 <div style="font-size: 17px; text-align: center;">
-<p>Client, daemon, and registry, from the <a href="https://docs.docker.com/get-started/docker-overview/">Docker documentation</a></p>
+<p>Client, daemon, and registry</p>
+<p>Source: <a href="https://docs.docker.com/get-started/docker-overview/">Docker documentation</a></p>
 </div>
 </div></div>
 </div>
 </section>
 <section id="docker-desktop-and-the-alternatives" class="slide level2">
 <h2>Docker Desktop and the alternatives</h2>
-<div style="margin-top: 20px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li><a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> runs the Docker engine on macOS and Windows. It is how most of you will install Docker</li>
-<li>The free licence covers personal use, education, non-commercial open source, and companies with <span class="alert">fewer than 250 employees and under $10M in annual revenue</span></li>
-<li>A free Docker Hub account allows <span class="alert">200 image pulls every six hours</span>, and anonymous use 100</li>
-<li><a href="https://docs.docker.com/engine/">Docker Engine</a> itself is open source and free everywhere, including every Linux server</li>
-<li>Free alternatives that take the same commands: <a href="https://podman.io/">Podman</a>, <a href="https://github.com/abiosoft/colima">Colima</a> (macOS), <a href="https://orbstack.dev/">OrbStack</a> (macOS, free for personal use), and <a href="https://rancherdesktop.io/">Rancher Desktop</a></li>
+<li><a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> runs Docker on macOS and Windows. Most of you will install it</li>
+<li>It is free for personal use, education, non-commercial open source, and companies under 250 employees and $10M revenue</li>
+<li>Docker Hub allows <span class="alert">200 pulls every six hours</span> with a free account, 100 without</li>
+<li><a href="https://docs.docker.com/engine/">Docker Engine</a> is open source and free, but runs <span class="alert">only on Linux</span> (including WSL)</li>
+<li>On macOS, an app runs it inside a Linux virtual machine. Docker Desktop, <a href="https://podman.io/">Podman</a> (as <code>podman</code>), <a href="https://github.com/abiosoft/colima">Colima</a>, <a href="https://orbstack.dev/">OrbStack</a> (free for personal use) and <a href="https://rancherdesktop.io/">Rancher Desktop</a> all take the same <code>docker</code> commands</li>
 </ul>
 <div style="background: rgba(230, 57, 70, 0.1); padding: 10px 15px; border-radius: 10px; font-size: 19px; margin-top: 8px;">
-<p>Every <code>docker</code> command on these slides ran through OrbStack. The commands are identical under Docker Desktop</p>
+<p>I ran every <code>docker</code> command on these slides through OrbStack. Docker Desktop takes the same commands</p>
 </div>
 </div><div class="column" style="width:45%;">
 <div style="text-align: center; margin-top: -10px;">
@@ -920,116 +922,126 @@ Danilo Freire
 </div></div>
 </div>
 </section>
-<section id="check-your-installation-with-hello-world" class="slide level2">
+<section id="sec-hello-world" class="slide level2">
 <h2>Check your installation with <code>hello-world</code></h2>
-<div style="margin-top: 30px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:55%;">
 <ul>
-<li>Install Docker with <a href="https://docs.docker.com/get-docker/">these instructions</a>, start the application once, and run:</li>
+<li>Install <a href="https://docs.docker.com/get-docker/">Docker Desktop</a> (Docker Engine on Linux), open it once, and run:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a></a>docker run hello-world</span>
-<span id="cb20-2"><a></a></span>
-<span id="cb20-3"><a></a>Unable to find image 'hello-world:latest' locally</span>
-<span id="cb20-4"><a></a>latest: Pulling from library/hello-world</span>
-<span id="cb20-5"><a></a>58dee6a49ef1: Pull complete</span>
-<span id="cb20-6"><a></a>Digest: sha256:5dd0d3e6e255...</span>
-<span id="cb20-7"><a></a>Status: Downloaded newer image for hello-world:latest</span>
-<span id="cb20-8"><a></a></span>
-<span id="cb20-9"><a></a>Hello from Docker!</span>
-<span id="cb20-10"><a></a>This message shows that your installation appears to be</span>
-<span id="cb20-11"><a></a>working correctly.</span>
-<span id="cb20-12"><a></a>[...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a></a>docker -v</span>
-<span id="cb21-2"><a></a></span>
-<span id="cb21-3"><a></a>Docker version 29.4.0, build 9d7ad9f</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 20px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb24-1"><a></a>docker run hello-world</span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a>Unable to find image 'hello-world:latest' locally</span>
+<span id="cb24-4"><a></a>latest: Pulling from library/hello-world</span>
+<span id="cb24-5"><a></a>58dee6a49ef1: Pull complete</span>
+<span id="cb24-6"><a></a>Digest: sha256:5dd0d3e6e255...</span>
+<span id="cb24-7"><a></a>Status: Downloaded newer image for hello-world:latest</span>
+<span id="cb24-8"><a></a></span>
+<span id="cb24-9"><a></a>Hello from Docker!</span>
+<span id="cb24-10"><a></a>This message shows that your installation appears to be</span>
+<span id="cb24-11"><a></a>working correctly.</span>
+<span id="cb24-12"><a></a>[...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb25-1"><a></a>docker -v</span>
+<span id="cb25-2"><a></a></span>
+<span id="cb25-3"><a></a>Docker version 29.8.2, build 7fc2dff</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>On Windows, turn on WSL Integration in Docker Desktop: <a href="#/sec-appendix-03"><span class="button">Appendix 03</span></a></li>
+</ul>
 </div><div class="column" style="width:45%;">
 <ul>
-<li>The image was not on my laptop, so Docker <span class="alert">pulled it from Docker Hub</span> and ran it</li>
-<li>The message lists the <span class="alert">four steps:</span> the client contacted the daemon, the daemon pulled the image, created a container from it, and streamed the output to your terminal</li>
-<li>Those four steps are the client, daemon, and registry diagram from two slides ago</li>
-<li>Create a free <a href="https://hub.docker.com/">Docker Hub</a> account as soon as possible. You will need it!</li>
+<li>The image was not on my laptop, so Docker <span class="alert">pulled it from Docker Hub</span></li>
+<li>The output lists <span class="alert">four steps</span>:
+<ul>
+<li>The client contacts the <a href="https://en.wikipedia.org/wiki/Daemon_(computing)">daemon</a> (Docker’s background service)</li>
+<li>The daemon pulls the image</li>
+<li>It creates a container</li>
+<li>It streams the output to your terminal</li>
+</ul></li>
+<li>Create a free <a href="https://hub.docker.com/">Docker Hub</a> account now. You will need it!</li>
 </ul>
 <div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
-<p>Nothing happens and the terminal complains about a daemon? The application is not running: <a href="#/sec-appendix-02"><span class="button">Appendix 02</span></a></p>
+<p>A daemon error means the Docker application is not running: <a href="#/sec-appendix-02"><span class="button">Appendix 02</span></a></p>
 </div>
 </div></div>
 </div>
 </section>
 <section id="lets-create-our-first-container" class="slide level2">
 <h2>Let’s create our first container</h2>
-<h3 id="a-dockerfile-is-a-plain-text-recipe">A Dockerfile is a plain-text recipe</h3>
-<div style="margin-top: 12px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li>A <code>Dockerfile</code> is a <span class="alert">plain-text recipe</span> that builds everything needed to recreate a project</li>
-<li>It goes under version control, named <code>Dockerfile</code> with no extension</li>
-<li>You <span class="alert">rarely start from scratch</span>: <a href="https://hub.docker.com/">Docker Hub</a> holds base images for almost anything</li>
-<li>Its Data Science category alone showed <a href="https://hub.docker.com/search?categories=Data+Science">9,427 results</a> (August 2026)</li>
-<li>We build one now with three files. Your project’s has the same shape</li>
-<li>Demo files: <a href="https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker"><code>lectures/lecture-23/docker/</code></a> in the course repository</li>
+<li>A <a href="https://docs.docker.com/reference/dockerfile/"><code>Dockerfile</code></a> is a plain-text recipe that rebuilds everything a project needs</li>
+<li>Name it <code>Dockerfile</code>, with no extension, and commit it</li>
+<li><a href="https://docs.docker.com/build/concepts/dockerfile/">More about Dockerfiles</a></li>
+<li><a href="https://hub.docker.com/">Docker Hub</a> holds base images for almost anything, so you <span class="alert">rarely start from scratch</span></li>
+<li>Its <a href="https://hub.docker.com/categories/data-science">Data Science category</a> showed 9,400+ packages (August 2026)</li>
+<li>We build one now from the three files on the right. Your project’s has the same shape</li>
+<li>Demo files: <a href="https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker"><code>lectures/lecture-23/docker/</code></a></li>
 </ul>
 </div><div class="column" style="width:48%;">
-<div style="font-size: 19px;">
+<div style="font-size: 20px;">
 <ul>
-<li><code>requirements.txt</code>, same file from the <code>pip</code> slides:</li>
+<li>File 1, <code>requirements.txt</code>: the packages to install</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb22-1"><a></a>numpy==2.5.2</span>
-<span id="cb22-2"><a></a>pandas==3.0.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a></a>numpy==2.5.2</span>
+<span id="cb26-2"><a></a>pandas==3.0.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>hello.py</code>, so the container has something to do:</li>
+<li>File 2, <code>hello.py</code>: the script the container runs</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a></a>import numpy as np</span>
-<span id="cb23-2"><a></a>import pandas as pd</span>
-<span id="cb23-3"><a></a></span>
-<span id="cb23-4"><a></a>print("Hello, DATASCI350!")</span>
-<span id="cb23-5"><a></a>print(f"numpy  {np.__version__}")</span>
-<span id="cb23-6"><a></a>print(f"pandas {pd.__version__}")</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a></a>import numpy as np</span>
+<span id="cb27-2"><a></a>import pandas as pd</span>
+<span id="cb27-3"><a></a></span>
+<span id="cb27-4"><a></a>print("Hello, DATASCI350!")</span>
+<span id="cb27-5"><a></a>print(f"numpy  {np.__version__}")</span>
+<span id="cb27-6"><a></a>print(f"pandas {pd.__version__}")</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The third file is the <code>Dockerfile</code>. The next slide takes it line by line</li>
+<li>File 3, the <code>Dockerfile</code>, puts them together (next slide)</li>
 </ul>
 </div>
 <div style="text-align: center; margin-top: 10px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/docker-hub-datascience-2026.png"><img data-src="figures/docker-hub-datascience-2026.png" style="width:39.0%"></a></p>
 </div>
 <div style="font-size: 17px; text-align: center;">
-<p><a href="https://hub.docker.com/search?categories=Data+Science">Docker Hub</a></p>
+<p><a href="https://hub.docker.com/categories/data-science">Docker Hub</a></p>
 </div>
 </div></div>
 </div>
 </section>
 <section id="the-dockerfile" class="slide level2">
 <h2>The Dockerfile</h2>
-<h3 id="six-instructions-five-build-steps">Six instructions, five build steps</h3>
 <div style="margin-top: 15px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb24-1"><a></a># Start from an official Python image</span>
-<span id="cb24-2"><a></a>FROM python:3.14-slim</span>
-<span id="cb24-3"><a></a></span>
-<span id="cb24-4"><a></a># Everything below happens inside /app</span>
-<span id="cb24-5"><a></a>WORKDIR /app</span>
-<span id="cb24-6"><a></a></span>
-<span id="cb24-7"><a></a># Copy requirements first, so Docker can</span>
-<span id="cb24-8"><a></a># cache the install</span>
-<span id="cb24-9"><a></a>COPY requirements.txt .</span>
-<span id="cb24-10"><a></a>RUN pip install --no-cache-dir -r requirements.txt</span>
-<span id="cb24-11"><a></a></span>
-<span id="cb24-12"><a></a># Copy the script</span>
-<span id="cb24-13"><a></a>COPY hello.py .</span>
-<span id="cb24-14"><a></a></span>
-<span id="cb24-15"><a></a># What runs when the container starts</span>
-<span id="cb24-16"><a></a>CMD ["python", "hello.py"]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a># Start from an official Python image on Docker Hub</span>
+<span id="cb28-2"><a></a>FROM python:3.14-slim</span>
+<span id="cb28-3"><a></a></span>
+<span id="cb28-4"><a></a># Create /app inside the image and move into it</span>
+<span id="cb28-5"><a></a>WORKDIR /app</span>
+<span id="cb28-6"><a></a></span>
+<span id="cb28-7"><a></a># Copy requirements.txt from your folder to /app</span>
+<span id="cb28-8"><a></a># First, so editing hello.py won't reinstall</span>
+<span id="cb28-9"><a></a>COPY requirements.txt .</span>
+<span id="cb28-10"><a></a>RUN pip install --no-cache-dir -r requirements.txt</span>
+<span id="cb28-11"><a></a></span>
+<span id="cb28-12"><a></a># Copy hello.py from your folder into /app</span>
+<span id="cb28-13"><a></a>COPY hello.py .</span>
+<span id="cb28-14"><a></a></span>
+<span id="cb28-15"><a></a># The command that runs when the container starts</span>
+<span id="cb28-16"><a></a>CMD ["python", "hello.py"]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li><code>--no-cache-dir -r</code> means “install from the file and don’t keep a cache of the wheels”</li>
-<li><span class="alert">Let’s build it!</span> <code>-t</code> tags the image <code>datasci350-example</code>, and <code>.</code> is the folder holding the <code>Dockerfile</code>:</li>
+<li><code>-r</code> installs from the file, and <code>--no-cache-dir</code> keeps no copy of the downloads</li>
+<li><span class="alert">Build it</span>: <code>-t</code> tags the image <code>datasci350-example</code>, and <code>.</code> is the folder holding the <code>Dockerfile</code>:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb25-1"><a></a>docker build -t datasci350-example .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 24px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb29-1"><a></a>docker build -t datasci350-example .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:48%;">
 <ul>
-<li><code>docker build</code> runs the instructions <span class="alert">in order</span></li>
-<li><code>COPY</code> and <code>RUN</code> add layers to the image. <code>CMD</code> only records the start command</li>
+<li><code>docker build</code> runs the instructions <span class="alert">in order</span>. <code>COPY</code> and <code>RUN</code> add layers, while <code>CMD</code> only records the start command</li>
 </ul>
 <div style="text-align: center; font-size: 17px; margin-top: 10px; margin-bottom: 10px;">
 <table class="caption-top">
@@ -1070,203 +1082,201 @@ Danilo Freire
 </table>
 </div>
 <ul>
-<li><a href="https://docs.docker.com/reference/dockerfile/">Full reference here</a></li>
+<li><a href="https://docs.docker.com/reference/dockerfile/">Full reference</a></li>
 </ul>
 <div style="text-align: center; margin-top: 10px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/docker-hub-python-2026.png"><img data-src="figures/docker-hub-python-2026.png" style="width:50.0%"></a></p>
 </div>
 <div style="font-size: 19px; text-align: center;">
-<p>The official Python image on Docker Hub: <a href="https://hub.docker.com/_/python" class="uri">https://hub.docker.com/_/python</a></p>
+<p>Official Python image: <a href="https://hub.docker.com/_/python" class="uri">https://hub.docker.com/_/python</a></p>
 </div>
 </div></div>
 </div>
 </section>
-<section id="the-build-step-by-step" class="slide level2">
-<h2>The build, step by step</h2>
-<h3 id="real-output-trimmed">Real output (trimmed)</h3>
-<div style="margin-top: 20px; font-size: 20px;">
+<section id="building-the-image" class="slide level2">
+<h2>Building the image</h2>
+<div style="margin-top: 20px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:56%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a></a>docker build --progress=plain -t datasci350-example .</span>
-<span id="cb26-2"><a></a></span>
-<span id="cb26-3"><a></a>#5 [1/5] FROM docker.io/library/python:3.14-slim</span>
-<span id="cb26-4"><a></a>#5 sha256:bf7af02297 30.16MB / 30.16MB 63.7s done</span>
-<span id="cb26-5"><a></a>#5 DONE 64.4s</span>
-<span id="cb26-6"><a></a></span>
-<span id="cb26-7"><a></a>#6 [2/5] WORKDIR /app</span>
-<span id="cb26-8"><a></a>#6 DONE 0.2s</span>
-<span id="cb26-9"><a></a></span>
-<span id="cb26-10"><a></a>#7 [3/5] COPY requirements.txt .</span>
-<span id="cb26-11"><a></a>#7 DONE 0.0s</span>
-<span id="cb26-12"><a></a></span>
-<span id="cb26-13"><a></a>#8 [4/5] RUN pip install --no-cache-dir -r</span>
-<span id="cb26-14"><a></a>    requirements.txt</span>
-<span id="cb26-15"><a></a>#8 51.68 Successfully installed numpy-2.5.2</span>
-<span id="cb26-16"><a></a>    pandas-3.0.5 [...]</span>
-<span id="cb26-17"><a></a>#8 DONE 51.9s</span>
-<span id="cb26-18"><a></a></span>
-<span id="cb26-19"><a></a>#9 [5/5] COPY hello.py .</span>
-<span id="cb26-20"><a></a>#9 DONE 0.1s</span>
-<span id="cb26-21"><a></a></span>
-<span id="cb26-22"><a></a>#10 exporting to image</span>
-<span id="cb26-23"><a></a>#10 naming to datasci350-example:latest done</span>
-<span id="cb26-24"><a></a>#10 DONE 2.7s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb30-1"><a></a>docker build -t datasci350-example .</span>
+<span id="cb30-2"><a></a></span>
+<span id="cb30-3"><a></a>#5 [1/5] FROM docker.io/library/python:3.14-slim</span>
+<span id="cb30-4"><a></a>#5 sha256:acd43e9beb 30.21MB / 30.21MB 1.8s done</span>
+<span id="cb30-5"><a></a>#5 DONE 2.6s</span>
+<span id="cb30-6"><a></a></span>
+<span id="cb30-7"><a></a>#7 [2/5] WORKDIR /app</span>
+<span id="cb30-8"><a></a>#7 DONE 0.4s</span>
+<span id="cb30-9"><a></a></span>
+<span id="cb30-10"><a></a>#8 [3/5] COPY requirements.txt .</span>
+<span id="cb30-11"><a></a>#8 DONE 0.0s</span>
+<span id="cb30-12"><a></a></span>
+<span id="cb30-13"><a></a>#9 [4/5] RUN pip install --no-cache-dir -r</span>
+<span id="cb30-14"><a></a>    requirements.txt</span>
+<span id="cb30-15"><a></a>#9 5.262 Successfully installed numpy-2.5.2</span>
+<span id="cb30-16"><a></a>    pandas-3.0.5 [...]</span>
+<span id="cb30-17"><a></a>#9 DONE 5.6s</span>
+<span id="cb30-18"><a></a></span>
+<span id="cb30-19"><a></a>#10 [5/5] COPY hello.py .</span>
+<span id="cb30-20"><a></a>#10 DONE 0.0s</span>
+<span id="cb30-21"><a></a></span>
+<span id="cb30-22"><a></a>#11 exporting to image</span>
+<span id="cb30-23"><a></a>#11 DONE 3.2s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:44%;">
 <ul>
-<li>The five numbered steps, <code>[1/5]</code> to <code>[5/5]</code>, are every instruction except <code>CMD</code></li>
-<li>Step <code>[1/5]</code> took <span class="alert">64.4 seconds</span> because Docker downloaded the <code>python:3.14-slim</code> base image, about 44 MB compressed. That happens once per machine</li>
-<li>Step <code>[4/5]</code> is the <code>pip install</code>, and its <span class="alert">51.9 seconds</span> is the slow part of every rebuild</li>
-<li>The whole build came to about <span class="alert">two minutes</span>, almost all of it downloading</li>
-<li><code>docker images</code> shows what came out:</li>
+<li><code>[1/5]</code> to <code>[5/5]</code> are the instructions before <code>CMD</code></li>
+<li><code>[1/5]</code> downloads the base image: <span class="alert">2.6 seconds</span>, once per machine</li>
+<li><code>[4/5]</code> installs the packages: <span class="alert">5.6 seconds</span></li>
+<li>The whole build took <span class="alert">13 seconds</span>, most of it downloading</li>
+<li><code>docker images</code> shows the result:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a></a>docker images datasci350-example</span>
-<span id="cb27-2"><a></a></span>
-<span id="cb27-3"><a></a>IMAGE                DISK USAGE  CONTENT SIZE</span>
-<span id="cb27-4"><a></a>datasci350-example        406MB          88MB</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 19px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb31-1"><a></a>docker images datasci350-example</span>
+<span id="cb31-2"><a></a></span>
+<span id="cb31-3"><a></a>IMAGE                DISK USAGE  CONTENT SIZE</span>
+<span id="cb31-4"><a></a>datasci350-example        409MB        88.2MB</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 <ul>
-<li>Python, NumPy, pandas, Debian OS, and your code</li>
+<li>It holds Debian, Python, NumPy, pandas and your code</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="layer-caching" class="slide level2">
 <h2>Layer caching</h2>
-<h3 id="why-the-second-build-takes-no-time-at-all">Why the second build takes no time at all</h3>
-<div style="margin-top: 20px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
-<li>Run the same build again, changing nothing:</li>
+<li>Rebuild without changing anything:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a>docker build -t datasci350-example .</span>
-<span id="cb28-2"><a></a></span>
-<span id="cb28-3"><a></a>#5 [1/5] FROM docker.io/library/python:3.14-slim</span>
-<span id="cb28-4"><a></a>#5 DONE 0.0s</span>
-<span id="cb28-5"><a></a></span>
-<span id="cb28-6"><a></a>#6 [3/5] COPY requirements.txt .</span>
-<span id="cb28-7"><a></a>#6 CACHED</span>
-<span id="cb28-8"><a></a></span>
-<span id="cb28-9"><a></a>#7 [4/5] RUN pip install --no-cache-dir -r</span>
-<span id="cb28-10"><a></a>    requirements.txt</span>
-<span id="cb28-11"><a></a>#7 CACHED</span>
-<span id="cb28-12"><a></a></span>
-<span id="cb28-13"><a></a>#8 [2/5] WORKDIR /app</span>
-<span id="cb28-14"><a></a>#8 CACHED</span>
-<span id="cb28-15"><a></a></span>
-<span id="cb28-16"><a></a>#9 [5/5] COPY hello.py .</span>
-<span id="cb28-17"><a></a>#9 CACHED</span>
-<span id="cb28-18"><a></a></span>
-<span id="cb28-19"><a></a>#10 exporting to image</span>
-<span id="cb28-20"><a></a>#10 DONE 0.1s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div style="font-size: 20px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a></a>docker build -t datasci350-example .</span>
+<span id="cb32-2"><a></a></span>
+<span id="cb32-3"><a></a>#5 [1/5] FROM docker.io/library/python:3.14-slim</span>
+<span id="cb32-4"><a></a>#5 DONE 0.0s</span>
+<span id="cb32-5"><a></a></span>
+<span id="cb32-6"><a></a>#6 [2/5] WORKDIR /app</span>
+<span id="cb32-7"><a></a>#6 CACHED</span>
+<span id="cb32-8"><a></a></span>
+<span id="cb32-9"><a></a>#7 [3/5] COPY requirements.txt .</span>
+<span id="cb32-10"><a></a>#7 CACHED</span>
+<span id="cb32-11"><a></a></span>
+<span id="cb32-12"><a></a>#8 [4/5] RUN pip install --no-cache-dir -r</span>
+<span id="cb32-13"><a></a>    requirements.txt</span>
+<span id="cb32-14"><a></a>#8 CACHED</span>
+<span id="cb32-15"><a></a></span>
+<span id="cb32-16"><a></a>#9 [5/5] COPY hello.py .</span>
+<span id="cb32-17"><a></a>#9 CACHED</span>
+<span id="cb32-18"><a></a></span>
+<span id="cb32-19"><a></a>#10 exporting to image</span>
+<span id="cb32-20"><a></a>#10 DONE 0.1s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
 </div><div class="column" style="width:48%;">
 <ul>
-<li>Every layer says <span class="alert"><code>CACHED</code></span> and the build finishes in <span class="alert">0.754 seconds</span></li>
-<li>Docker reuses a layer when its instruction and its inputs are unchanged</li>
+<li>Every layer says <span class="alert"><code>CACHED</code></span>, and the build takes <span class="alert">0.79 seconds</span></li>
+<li>Docker reuses a layer when its instruction and inputs are unchanged</li>
 <li>Once one layer misses, <span class="alert">every layer below it rebuilds</span></li>
-<li>That is why <code>COPY requirements.txt</code> sits above <code>COPY hello.py</code>: editing your script invalidates only the last layer, and the slow <code>pip install</code> stays cached</li>
-<li>Put <code>COPY . .</code> at the top and any edit re-installs every package</li>
-<li>Your project starter’s <code>Dockerfile</code> uses the same ordering, for the same reason</li>
-<li>The <code>#</code> numbers are log IDs, so a cached run can list steps out of order. The <code>[n/5]</code> labels give the real order</li>
+<li>So <code>COPY requirements.txt</code> sits above <code>COPY hello.py</code>. Editing your script rebuilds only the last layer, and <code>pip install</code> stays cached</li>
+<li>With <code>COPY . .</code> (copy everything) at the top, any edit reinstalls every package</li>
+<li>The project starter’s <code>Dockerfile</code> uses the same order</li>
 </ul>
 </div></div>
 </div>
 </section>
 <section id="lets-run-and-share-the-container" class="slide level2">
 <h2>Let’s run and share the container</h2>
-<h3 id="from-docker-run-to-docker-hub">From <code>docker run</code> to Docker Hub</h3>
 <div style="margin-top: 20px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Run it. The <span class="alert"><code>--rm</code> flag</span> deletes the container when it exits, so you do not accumulate hundreds of dead ones:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb29-1"><a></a>docker run --rm datasci350-example</span>
-<span id="cb29-2"><a></a></span>
-<span id="cb29-3"><a></a>Hello, DATASCI350!</span>
-<span id="cb29-4"><a></a>numpy  2.5.2</span>
-<span id="cb29-5"><a></a>pandas 3.0.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<li><span class="alert"><code>docker run</code></span> starts a container from the image and runs its <code>CMD</code>:
 <ul>
-<li>Those version numbers come from inside the image, so they are the same on every machine that runs it</li>
-<li><span class="alert">The image is now something you can hand to someone</span> 🤓</li>
+<li><code>--rm</code> deletes the container when it stops</li>
+</ul></li>
 </ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a></a>docker run --rm datasci350-example</span>
+<span id="cb33-2"><a></a></span>
+<span id="cb33-3"><a></a>Hello, DATASCI350!</span>
+<span id="cb33-4"><a></a>numpy  2.5.2</span>
+<span id="cb33-5"><a></a>pandas 3.0.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li><p>These versions come from inside the image, so every machine prints the same</p></li>
+<li><p><span class="alert">You can now hand the image to someone</span> 🤓</p></li>
+<li><p>Log in to <a href="https://hub.docker.com/">Docker Hub</a>:</p></li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb34-1"><a></a>docker login</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Tag the image with your own username (the part before the slash):</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb35-1"><a></a>docker tag datasci350-example \</span>
+<span id="cb35-2"><a></a>  danilofreire/datasci350-example:latest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
-<ul>
-<li>To share it, log in to <a href="https://hub.docker.com/">Docker Hub</a>:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb30-1"><a></a>docker login</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>Tag the image with your Docker Hub username:</li>
-</ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb31-1"><a></a>docker tag datasci350-example \</span>
-<span id="cb31-2"><a></a>  danilofreire/datasci350-example:latest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Push it:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a></a>docker push danilofreire/datasci350-example:latest</span>
-<span id="cb32-2"><a></a></span>
-<span id="cb32-3"><a></a>bf7af0229701: Pushed</span>
-<span id="cb32-4"><a></a>c66215f6ebe7: Pushed</span>
-<span id="cb32-5"><a></a>latest: digest: sha256:b24fd8fc20ef... size: 856</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb36-1"><a></a>docker push \</span>
+<span id="cb36-2"><a></a>  danilofreire/datasci350-example:latest</span>
+<span id="cb36-3"><a></a></span>
+<span id="cb36-4"><a></a>bf7af0229701: Pushed</span>
+<span id="cb36-5"><a></a>c66215f6ebe7: Pushed</span>
+<span id="cb36-6"><a></a>latest: digest: sha256:b24fd8fc20ef...</span>
+<span id="cb36-7"><a></a>    size: 856</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The name before the slash is your account, so use your own username</li>
-<li><code>docker push</code> sends only your laptop’s chip type. Optional, if you share an image with people on other computers, build for both chips:</li>
+<li>Optional, not needed for the final project: <a href="https://docs.docker.com/build/building/multi-platform/"><code>buildx</code></a> builds for Intel and Apple chips at once, so anyone can pull it</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a></a>docker buildx build --platform linux/amd64,linux/arm64 \</span>
-<span id="cb33-2"><a></a>  -t danilofreire/datasci350-example:latest --push .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb37-1"><a></a>docker buildx build \</span>
+<span id="cb37-2"><a></a>  --platform linux/amd64,linux/arm64 \</span>
+<span id="cb37-3"><a></a>  -t danilofreire/datasci350-example:latest \</span>
+<span id="cb37-4"><a></a>  --push .</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </div>
 </section>
-<section id="and-here-it-is" class="slide level2">
-<h2>And here it is</h2>
-<h3 id="the-image-on-docker-hub">The image on Docker Hub</h3>
+<section id="the-image-on-docker-hub" class="slide level2">
+<h2>The image on Docker Hub</h2>
 <div style="margin-top: 20px; font-size: 20px; text-align: center;">
-<p><a href="https://hub.docker.com/r/danilofreire/datasci350-example" class="uri">https://hub.docker.com/r/danilofreire/datasci350-example</a></p>
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/docker-hub-image-2026.png"><img data-src="figures/docker-hub-image-2026.png" style="width:68.0%"></a></p>
-<div style="font-size: 17px;">
-<p>Pushed and captured on 26 August 2026</p>
-</div>
+<p><a href="https://hub.docker.com/r/danilofreire/datasci350-example" class="uri">https://hub.docker.com/r/danilofreire/datasci350-example</a></p>
 </div>
 </section>
 <section id="docker-pull" class="slide level2">
 <h2>Docker pull</h2>
-<h3 id="anyone-anywhere-two-commands">Anyone, anywhere, two commands</h3>
 <div style="margin-top: 20px; font-size: 22px;">
 <ul>
-<li>The image sits on Docker Hub now, so anyone can fetch it and run it:</li>
+<li>Anyone can now download the image from Docker Hub with <span class="alert"><code>docker pull</code></span>, then run it:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb34-1"><a></a>docker pull danilofreire/datasci350-example:latest</span>
-<span id="cb34-2"><a></a>docker run --rm danilofreire/datasci350-example:latest</span>
-<span id="cb34-3"><a></a></span>
-<span id="cb34-4"><a></a>latest: Pulling from danilofreire/datasci350-example</span>
-<span id="cb34-5"><a></a>Digest: sha256:0e5a94a5aebd...</span>
-<span id="cb34-6"><a></a>Status: Downloaded newer image</span>
-<span id="cb34-7"><a></a>Hello, DATASCI350!</span>
-<span id="cb34-8"><a></a>numpy  2.5.2</span>
-<span id="cb34-9"><a></a>pandas 3.0.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb38-1"><a></a>docker pull danilofreire/datasci350-example:latest</span>
+<span id="cb38-2"><a></a></span>
+<span id="cb38-3"><a></a>latest: Pulling from danilofreire/datasci350-example</span>
+<span id="cb38-4"><a></a>Digest: sha256:0e5a94a5aebd...</span>
+<span id="cb38-5"><a></a>Status: Downloaded newer image</span>
+<span id="cb38-6"><a></a></span>
+<span id="cb38-7"><a></a>docker run --rm danilofreire/datasci350-example:latest</span>
+<span id="cb38-8"><a></a></span>
+<span id="cb38-9"><a></a>Hello, DATASCI350!</span>
+<span id="cb38-10"><a></a>numpy  2.5.2</span>
+<span id="cb38-11"><a></a>pandas 3.0.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>They need Docker and nothing else: no Python, no NumPy</li>
-<li>The image is published for both Intel/AMD (<code>amd64</code>) and Apple Silicon (<code>arm64</code>) chips, so it runs on Windows, Linux and any Mac</li>
-<li>Our example is tiny, and the shape is the same for a real project: your report renders inside the image the way this script runs</li>
-<li>That is what the container part of the project grade tests. <span class="alert">I run <code>docker build</code> and <code>docker run</code> on a clean machine, and either your report appears or it does not</span></li>
-<li><span class="alert">Lecture 25</span> builds the project container instruction by instruction</li>
+<li>Python, NumPy and pandas come inside the image, so they only need Docker</li>
+<li>It runs on Windows, Linux and any Mac, because it is published for <code>amd64</code> (Intel/AMD) and <code>arm64</code> (Apple Silicon)</li>
+<li>Your project works the same way. <span class="alert">I build and run it on a clean machine, and if your report appears, we both celebrate</span> 🎉</li>
+<li><span class="alert">Lecture 25</span> builds the project container line by line</li>
 </ul>
 <div style="text-align: center; margin-top: 15px;">
-<p><a href="#/sec-exercise-01"><span class="button">Try it yourself</span></a></p>
+<p><a href="#/sec-exercise-01"><span class="button">Try it at home</span></a></p>
 </div>
 </div>
 </section>
 <section id="sec-exercise-01" class="slide level2 scrollable">
-<h2>Try it yourself! 🧠</h2>
-<h3 id="ten-minutes">Ten minutes</h3>
-<div style="margin-top: 20px; font-size: 23px;">
+<h2>Try it at home</h2>
+<div style="margin-top: 40px; font-size: 23px;">
 <ol type="1">
 <li>Copy the <a href="https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker"><code>docker/</code></a> folder from the course repository: <a href="https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker" class="uri">https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker</a></li>
 <li>Open a terminal inside that folder</li>
 <li>Run <code>docker build -t datasci350-example .</code></li>
 <li>Run <code>docker run --rm datasci350-example</code>. Three lines appear</li>
-<li>Open <code>requirements.txt</code>. Add the line <code>polars==1.44.2</code></li>
+<li>Open <code>requirements.txt</code>. Add the line <code>polars==2.1.0</code></li>
 <li>Open <code>hello.py</code>. Import <code>polars</code> and print <code>pl.__version__</code></li>
 <li>Run <code>docker build -t datasci350-example .</code> again</li>
 <li>Read the output. Note which steps say <code>CACHED</code></li>
@@ -1285,47 +1295,50 @@ Danilo Freire
 </section>
 <section id="what-we-learned-today" class="slide level2">
 <h2>What we learned today</h2>
-<h3 id="four-tools-and-one-deliverable">Four tools and one deliverable</h3>
-<div style="margin-top: 20px; font-size: 21px;">
+<div style="margin-top: 40px; font-size: 24px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li><span class="alert">Dependency management</span>: writing down the software your code assumes</li>
-<li>Python 2 <code>print</code>: the script was fine, but the environment changed</li>
-<li><span class="alert"><code>venv</code> and <code>pip</code></span>: <code>pip freeze</code> writes pins, <code>pip install -r</code> reads them</li>
-<li><span class="alert">Conda</span>: <code>--from-history</code> travels, <span class="alert">build strings</span> stay home</li>
+<li><span class="alert">Dependency management</span> records what your code needs</li>
+<li>Code breaks when the environment changes (the Python 2 <code>print</code> script)</li>
+<li><code>pip freeze</code> writes <span class="alert"><code>==</code> pins</span>, and <code>pip install -r</code> reads them</li>
+<li>Export <span class="alert">conda</span> with <code>--from-history</code> to work on other platforms</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
-<li><span class="alert">uv</span>: <code>pyproject.toml</code> + <code>uv.lock</code>, then <code>uv sync</code></li>
-<li><span class="alert">Containers</span>: image = recipe, container = running instance, registry = storage</li>
-<li><span class="alert">Layer caching</span>: two-minute build, 0.754-second rebuild</li>
-<li>Docker Desktop is free, and <span class="alert">Podman, Colima, OrbStack</span> run the same commands</li>
+<li>Commit <code>pyproject.toml</code> and <code>uv.lock</code>, then <span class="alert"><code>uv sync</code></span> rebuilds the environment</li>
+<li>An <span class="alert">image</span> is a template, a container runs it, a registry stores it</li>
+<li><span class="alert">Layer caching</span> cut a 13-second build to 0.79 seconds</li>
+<li>Docker Desktop, Podman, Colima and OrbStack run the <span class="alert">same commands</span></li>
 </ul>
 </div></div>
-<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;">
-<p>Your container is the deliverable: I run <code>docker build</code> and <code>docker run</code>, and your report appears or it does not 😅</p>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 23px; margin-top: 15px;">
+<p><span class="alert">Your container is the deliverable</span>: if <code>docker build</code> and <code>docker run</code> show your report on my machine, you’re done 🚀</p>
 </div>
 </div>
 </section>
 <section id="next-class" class="slide level2 scrollable">
 <h2>Next class</h2>
-<h3 id="quiz-first-docker-after">Quiz first, Docker after</h3>
-<div style="margin-top: 20px; font-size: 22px;">
+<div style="margin-top: 40px; font-size: 25px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><span class="alert">Quiz 04</span>: web APIs and JSON, from Lectures 18 and 19. No new material that day</p>
-<p><span class="alert">Lecture 25</span>, on 24 November, is Docker for Data Science. We take the project starter’s <code>Dockerfile</code> instruction by instruction, and it installs Quarto as well as Python</p>
-<p>Everything today was the small version of that file</p>
+<ul>
+<li><span class="alert">Quiz 04</span> (19 November): web APIs and JSON, Lectures 18 and 19</li>
+<li><span class="alert">Assignment 09</span> is due the same day</li>
+<li><span class="alert">Lecture 25</span> (24 November): the project starter’s <code>Dockerfile</code>, with Python and Quarto</li>
+<li>Today’s <code>Dockerfile</code> is a small version of it</li>
+</ul>
 </div><div class="column" style="width:50%;">
-<p>Before then:</p>
+<p style="margin-top: 0;">
+Before then:
+</p>
 <ol type="1">
-<li>Install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a>, or an alternative from the licensing slide, and check <code>docker run hello-world</code></li>
-<li>Create a free account on <a href="https://hub.docker.com/">Docker Hub</a></li>
-<li>Clone <a href="https://github.com/danilofreire/datasci350-project-starter" class="uri">https://github.com/danilofreire/datasci350-project-starter</a> and run <code>docker build</code> once on your own wifi</li>
+<li>Install <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> or an alternative, and run <code>docker run hello-world</code></li>
+<li>Create a free <a href="https://hub.docker.com/">Docker Hub</a> account</li>
+<li>Clone the <a href="https://github.com/danilofreire/datasci350-project-starter">project starter</a> and run <code>docker build</code> once on your own wifi</li>
 </ol>
-<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;">
-<p><span class="alert">Quiz 05</span> covers Lectures 21, 22, 23, and 25. The <span class="alert">final project</span> is due on the last day of classes</p>
+<div style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 23px; margin-top: 15px;">
+<p><span class="alert">Quiz 05</span> covers Lectures 21, 22, 23 and 25. The <span class="alert">final project</span> is due on the last day of classes</p>
 </div>
 </div></div>
 </div>
@@ -1342,53 +1355,52 @@ Danilo Freire
 </section>
 <section id="sec-appendix-01" class="slide level2">
 <h2>Appendix 01: Exercise solution</h2>
-<h3 id="what-the-rebuild-printed">What the rebuild printed</h3>
-<div style="margin-top: 5px; font-size: 20px;">
+<div style="margin-top: 5px; font-size: 18px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="alert">Steps 5 and 6</span>, the two edited files:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb35-1"><a></a># requirements.txt</span>
-<span id="cb35-2"><a></a>numpy==2.5.2</span>
-<span id="cb35-3"><a></a>pandas==3.0.5</span>
-<span id="cb35-4"><a></a>polars==1.44.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb36-1"><a></a># hello.py</span>
-<span id="cb36-2"><a></a>import numpy as np</span>
-<span id="cb36-3"><a></a>import pandas as pd</span>
-<span id="cb36-4"><a></a>import polars as pl</span>
-<span id="cb36-5"><a></a></span>
-<span id="cb36-6"><a></a>print("Hello, DATASCI350!")</span>
-<span id="cb36-7"><a></a>print(f"numpy  {np.__version__}")</span>
-<span id="cb36-8"><a></a>print(f"pandas {pd.__version__}")</span>
-<span id="cb36-9"><a></a>print(f"polars {pl.__version__}")</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb39-1"><a></a># requirements.txt</span>
+<span id="cb39-2"><a></a>numpy==2.5.2</span>
+<span id="cb39-3"><a></a>pandas==3.0.5</span>
+<span id="cb39-4"><a></a>polars==2.1.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb40-1"><a></a># hello.py</span>
+<span id="cb40-2"><a></a>import numpy as np</span>
+<span id="cb40-3"><a></a>import pandas as pd</span>
+<span id="cb40-4"><a></a>import polars as pl</span>
+<span id="cb40-5"><a></a></span>
+<span id="cb40-6"><a></a>print("Hello, DATASCI350!")</span>
+<span id="cb40-7"><a></a>print(f"numpy  {np.__version__}")</span>
+<span id="cb40-8"><a></a>print(f"pandas {pd.__version__}")</span>
+<span id="cb40-9"><a></a>print(f"polars {pl.__version__}")</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><span class="alert">Step 9</span>, the run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb37-1"><a></a>docker run --rm datasci350-example</span>
-<span id="cb37-2"><a></a></span>
-<span id="cb37-3"><a></a>Hello, DATASCI350!</span>
-<span id="cb37-4"><a></a>numpy  2.5.2</span>
-<span id="cb37-5"><a></a>pandas 3.0.5</span>
-<span id="cb37-6"><a></a>polars 1.44.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb41-1"><a></a>docker run --rm datasci350-example</span>
+<span id="cb41-2"><a></a></span>
+<span id="cb41-3"><a></a>Hello, DATASCI350!</span>
+<span id="cb41-4"><a></a>numpy  2.5.2</span>
+<span id="cb41-5"><a></a>pandas 3.0.5</span>
+<span id="cb41-6"><a></a>polars 2.1.0</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The image grew from 406MB to <span class="alert">638MB</span> on disk</li>
+<li>The image grew from 409MB to <span class="alert">639MB</span> on disk</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><span class="alert">Steps 7 and 8</span>, the rebuild on my laptop:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb38-1"><a></a>#6 [2/5] WORKDIR /app</span>
-<span id="cb38-2"><a></a>#6 CACHED</span>
-<span id="cb38-3"><a></a></span>
-<span id="cb38-4"><a></a>#7 [3/5] COPY requirements.txt .</span>
-<span id="cb38-5"><a></a>#7 DONE 0.0s</span>
-<span id="cb38-6"><a></a></span>
-<span id="cb38-7"><a></a>#8 [4/5] RUN pip install --no-cache-dir -r</span>
-<span id="cb38-8"><a></a>    requirements.txt</span>
-<span id="cb38-9"><a></a>#8 32.94 Successfully installed numpy-2.5.2</span>
-<span id="cb38-10"><a></a>    pandas-3.0.5 polars-1.44.2 [...]</span>
-<span id="cb38-11"><a></a>#8 DONE 33.1s</span>
-<span id="cb38-12"><a></a></span>
-<span id="cb38-13"><a></a>#9 [5/5] COPY hello.py .</span>
-<span id="cb38-14"><a></a>#9 DONE 0.1s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb42-1"><a></a>#6 [2/5] WORKDIR /app</span>
+<span id="cb42-2"><a></a>#6 CACHED</span>
+<span id="cb42-3"><a></a></span>
+<span id="cb42-4"><a></a>#7 [3/5] COPY requirements.txt .</span>
+<span id="cb42-5"><a></a>#7 DONE 0.1s</span>
+<span id="cb42-6"><a></a></span>
+<span id="cb42-7"><a></a>#8 [4/5] RUN pip install --no-cache-dir -r</span>
+<span id="cb42-8"><a></a>    requirements.txt</span>
+<span id="cb42-9"><a></a>#8 7.711 Successfully installed numpy-2.5.2</span>
+<span id="cb42-10"><a></a>    pandas-3.0.5 polars-2.1.0 [...]</span>
+<span id="cb42-11"><a></a>#8 DONE 8.1s</span>
+<span id="cb42-12"><a></a></span>
+<span id="cb42-13"><a></a>#9 [5/5] COPY hello.py .</span>
+<span id="cb42-14"><a></a>#9 DONE 0.0s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>One layer stayed cached and three rebuilt. The miss at <code>#7</code> forced every later layer to run again</li>
-<li>Most of those 33 seconds went on <code>polars</code>, which the first build never fetched</li>
+<li><code>pip install</code> reran in full (8.1 seconds), downloading NumPy and pandas again along with <code>polars</code></li>
 <li><span class="alert">Step 10</span>: with the <code>COPY</code> lines swapped, editing <code>hello.py</code> alone invalidates <code>COPY hello.py</code> and re-runs <code>pip install</code> for nothing</li>
 </ul>
 <div style="margin-top: 15px;">
@@ -1399,12 +1411,11 @@ Danilo Freire
 </section>
 <section id="sec-appendix-02" class="slide level2">
 <h2>Appendix 02: When something goes wrong</h2>
-<h3 id="six-errors-you-are-likely-to-meet">Six errors you are likely to meet</h3>
 <div style="margin-top: 20px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="alert"><code>Cannot connect to the Docker daemon</code></span></p>
-<p>Docker Desktop is not running. Start the application, wait for the whale icon to settle, and try again. On my laptop OrbStack was stopped, and <code>docker info</code> answered <code>failed to connect to the docker API at unix:///Users/dafreir/.orbstack/run/docker.sock</code>.</p>
+<p>Docker Desktop is not running. Start the application, wait for the whale icon to settle, and try again. On my laptop OrbStack was stopped, and <code>docker info</code> answered <code>failed to connect to the docker API at unix://~/.orbstack/run/docker.sock</code>.</p>
 <p><span class="alert"><code>permission denied ... /var/run/docker.sock</code></span></p>
 <p>On Linux, your user is not in the <code>docker</code> group. Run <code>sudo usermod -aG docker $USER</code>, then log out and back in.</p>
 <p><span class="alert"><code>pip: command not found</code></span></p>
@@ -1416,6 +1427,40 @@ Danilo Freire
 <p>Docker Hub allows 100 anonymous pulls every six hours from one address. Run <code>docker login</code> with your free account (200 pulls) and pull again.</p>
 <p><span class="alert"><code>failed to read dockerfile: open Dockerfile: no such file or directory</code></span></p>
 <p>You are in the wrong folder. The <code>.</code> at the end of <code>docker build -t name .</code> is where Docker looks, so <code>cd</code> into the folder holding the <code>Dockerfile</code></p>
+<div style="margin-top: 15px;">
+<p><a href="#/sec-hello-world"><span class="button">Back to hello-world</span></a></p>
+</div>
+</div></div>
+</div>
+</section>
+<section id="sec-appendix-03" class="slide level2 scrollable">
+<h2>Appendix 03: Docker on Windows with WSL</h2>
+<div style="margin-top: 20px; font-size: 20px;">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><span class="alert">With Docker Desktop (recommended)</span></p>
+<ol type="1">
+<li>Install <a href="https://learn.microsoft.com/en-us/windows/wsl/install">WSL</a>: open PowerShell as administrator, run <code>wsl --install</code> and restart. You get Ubuntu by default</li>
+<li>Install <a href="https://docs.docker.com/desktop/setup/install/windows-install/">Docker Desktop for Windows</a> and keep “Use WSL 2” ticked</li>
+<li>In Docker Desktop, open Settings → Resources → <a href="https://docs.docker.com/desktop/features/wsl/">WSL Integration</a>, turn on Ubuntu, then Apply &amp; restart</li>
+<li>Open Ubuntu and check:</li>
+</ol>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb43-1"><a></a>docker run hello-world</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Keep your projects inside Ubuntu (<code>~/...</code>), not in <code>/mnt/c/...</code>. Builds are much faster there</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><span class="alert">Without Docker Desktop</span></p>
+<p>Install <a href="https://docs.docker.com/engine/install/ubuntu/">Docker Engine</a> inside Ubuntu, then let your user run <code>docker</code> without <code>sudo</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb44-1"><a></a>curl -fsSL https://get.docker.com -o get-docker.sh</span>
+<span id="cb44-2"><a></a>sudo sh get-docker.sh</span>
+<span id="cb44-3"><a></a>sudo usermod -aG docker $USER</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Close and reopen the terminal. If <code>docker</code> cannot connect, start the engine with <code>sudo service docker start</code>. Use one route only, not both.</p>
+<p><span class="alert"><code>The command 'docker' could not be found in this WSL 2 distro</code></span></p>
+<p>WSL Integration is off for your distribution. Turn it on as in step 3</p>
+<div style="margin-top: 15px;">
+<p><a href="#/sec-hello-world"><span class="button">Back to hello-world</span></a></p>
+</div>
 </div></div>
 </div>
 

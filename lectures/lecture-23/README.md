@@ -15,7 +15,7 @@ Your pipeline works on your laptop, with the packages you happened to install. T
 
 ## The demo folder
 
-`docker/` holds the three files built on the slides; `docker/README.md` has the build and run instructions. The exercise asks you to add `polars==1.44.0`, rebuild, and read which layers say `CACHED`.
+`docker/` holds the three files built on the slides; `docker/README.md` has the build and run instructions. The exercise asks you to add `polars==1.44.2`, rebuild, and read which layers say `CACHED`.
 
 ## Rendering
 
@@ -39,7 +39,7 @@ The final project is due on 8 December. Quiz 05, on 3 December, covers Lectures 
 
 ## Verification
 
-Tool versions and every terminal output verified on 25 August 2026: Python 3.14, uv 0.11.7, conda 26.1.1, Docker 29.4.0 (through OrbStack), NumPy 2.5.2, pandas 3.0.5, Polars 1.44.0. The `venv`, `pip` and uv outputs were re-run on 15 September 2026, when Polars resolved to 1.44.2; the Docker slides keep the 1.44.0 build captured in August. Docker Hub's Data Science category held 9,427 images and the Docker Desktop licence thresholds were read from docker.com/pricing/faq on the same date. The Docker Hub push and its screenshot were refreshed on 26 August 2026.
+Tool versions and every terminal output verified on 25 August 2026: Python 3.14, uv 0.11.7, conda 26.1.1, Docker 29.4.0 (through OrbStack), NumPy 2.5.2, pandas 3.0.5, Polars 1.44.0. The `venv`, `pip` and uv outputs were re-run on 15 September 2026, when Polars resolved to 1.44.2, and the exercise uses that version. Docker Hub's Data Science category held 9,427 images and the Docker Desktop licence thresholds were read from docker.com/pricing/faq on the same date. The Docker Hub push and its screenshot were refreshed on 26 August 2026.
 
 ## Using AI in this course
 

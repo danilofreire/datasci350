@@ -25,26 +25,26 @@ editor:
 
 # Brief recap 📚 {background-color="#1B3A6B"}
 
-## Scaling up an analysis
+## SQL with DuckDB
 
-:::{style="margin-top: 30px; font-size: 24px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="52%"}
-- We set up a [Dask cluster]{.alert} and watched work flow through the dashboard
-- We met the ["single-machine renaissance"]{.alert}
-  - Columnar memory, vectorised kernels, all cores by default
-- [DuckDB]{.alert}: SQL over files, out-of-core, results back into pandas
-- Our little [benchmark]{.alert}: [DuckDB](https://duckdb.org/) finished in under a second, way ahead of [pandas](https://pandas.pydata.org/) and [Dask](https://dask.org/)
-- pandas for small data, DuckDB when it grows, Dask when it leaves one machine
+- SQL is [declarative]{.alert}: you describe the result and the engine plans the work
+- [DuckDB](https://duckdb.org/) reads a Parquet file or a pandas DataFrame by name
+- `WHERE` filters rows, `GROUP BY` forms groups, `HAVING` filters groups
+- [NULL]{.alert} means unknown, and `COALESCE` replaces it with another value
+- A [window function]{.alert} adds a group statistic and keeps every row
+- `INNER JOIN` keeps matches, `LEFT JOIN` every left row, `FULL OUTER JOIN` all rows
 - Now that your pipeline works, [let's make it run anywhere!]{.alert} 🤓
 :::
 
 :::{.column width="48%"}
 :::{style="text-align: center; margin-top: 0px;"}
-[![](figures/dask-dashboard-benchmark.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/dask-dashboard-benchmark.png"}
+[![](figures/duckdb-benchmark-l22.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/duckdb-benchmark-l22.png"}
 :::
-:::{style="font-size: 20px; text-align: center;"}
-The Dask dashboard during the 200-million-row benchmark
+:::{style="font-size: 17px; text-align: center;"}
+Source: [Lecture 22, Appendix 07](https://danilofreire.github.io/datasci350/lectures/lecture-22/22-sql-revision.html#/sec-benchmark)
 :::
 :::
 :::
@@ -55,7 +55,7 @@ The Dask dashboard during the 200-million-row benchmark
 ## Lecture overview
 ### Will your code run anywhere else?
 
-:::{style="margin-top: 0px; font-size: 24px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 
 :::{.columns}
 :::{.column width="50%"}
@@ -66,21 +66,21 @@ The Dask dashboard during the 200-million-row benchmark
 
 [2. Virtual environments]{.alert}
 
-- `venv` and `pip`, and the `requirements.txt` every Dockerfile reads
-- `conda` for software that is not Python, `uv` for speed
+- `venv`, `pip` and `requirements.txt`
+- `conda` for non-Python software, `uv` for speed
 :::
 
 :::{.column width="50%"}
 [3. Containers]{.alert}
 
-- What Docker is, and how an image differs from a container
-- Docker Desktop, its licence, and the free alternatives
+- Docker images and containers
+- Docker Desktop's licence and free alternatives
 
 [4. Your first image]{.alert}
 
-- Six instructions, built, run, and pushed to Docker Hub
-- The [final project]{.alert} is due on the last day of classes, and 30% of the project grade is a container that renders your report
-- Starter: [github.com/danilofreire/datasci350-project-starter](https://github.com/danilofreire/datasci350-project-starter)
+- A six-line Dockerfile, built, run and pushed to Docker Hub
+- A container that renders your report is 30% of the [final project]{.alert} grade
+- Project starter: [github.com/danilofreire/datasci350-project-starter](https://github.com/danilofreire/datasci350-project-starter)
 :::
 :::
 :::
@@ -90,14 +90,13 @@ The Dask dashboard during the 200-million-row benchmark
 ## Congratulations! 🎉
 ### You have a project 🥳
 
-:::{style="margin-top: 20px; font-size: 24px;"}
+:::{style="margin-top: 50px; font-size: 28px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Your code works, it is fast thanks to DuckDB, the report renders, the repository is documented
-- One question remains: [will it run anywhere else?]{.alert}
-- What happens when you move it to a new machine, hand it to a colleague, or open it again in six months?
-- Everything so far assumed one thing you never wrote down: [the software installed on your laptop]{.alert}
-- [Dependency management]{.alert} makes that assumption explicit
+- Your code lives on GitHub, pulls data with `requests`, runs fast with DuckDB, and renders in Quarto
+- Will it run on a new machine, on a colleague's laptop, or in six months?
+- It depends on [the software installed on your laptop]{.alert}, which you never wrote down
+- [Dependency management]{.alert} records every package and its version, so others can rebuild the same setup
 :::
 
 :::{.column width="50%"}
@@ -110,15 +109,13 @@ The Dask dashboard during the 200-million-row benchmark
 
 ## Why do we need dependency management?
 
-:::{style="margin-top: 30px; font-size: 21px;"}
+:::{style="margin-top: 50px; font-size: 25px;"}
 :::{.columns}
 :::{.column width="50%"}
-### The problem
+### Software changes
 
-- [Libraries change constantly!]{.alert}
-- Even very simple code breaks when software updates
-- From Python 2.x to 3.x:
-  - `-c` means "run this command"
+- [Libraries change constantly]{.alert}, and even simple code breaks after an update
+- Python 2 to 3 (`-c` runs a command):
 
 :::{style="font-size: 21px; margin-top: 20px; margin-bottom: 20px;"}
 ```text
@@ -137,15 +134,14 @@ SyntaxError: Missing parentheses in call to
 :::
 
 :::{.column width="50%"}
-### Some definitions
+### Definitions
 
-:::{style="font-size: 22px;"}
-- [Dependency management]{.alert}: making sure your code will run in the future
-- [Dependencies]{.alert}: external libraries, packages, and software your code needs
-- [Packages]{.alert}: have a name, a version, and possibly their own dependencies
-- [Package registry]{.alert}: a directory that stores packages and metadata, e.g., [CRAN](https://cran.r-project.org/), [PyPI](https://pypi.org/), [Conda](https://docs.conda.io/en/latest/)
-- [Dependency management tools]{.alert}: `pip`, `conda`, and others install and track those packages
-- Every tool in this lecture exists to write that list down and replay it somewhere else
+:::{style="font-size: 25px;"}
+- [Dependencies]{.alert} are the libraries and software your code needs
+- Each [package]{.alert} has a name, a version, and possibly its own dependencies
+- A [package registry]{.alert} stores packages and metadata: [CRAN](https://cran.r-project.org/), [PyPI](https://pypi.org/), [Conda](https://docs.conda.io/en/latest/)
+- [Dependency management]{.alert} tools ([`pip`](https://pip.pypa.io/), [`conda`](https://docs.conda.io/projects/conda/)) install and record them, so your code still runs later
+- Every tool today writes that list down and replays it elsewhere
 :::
 :::
 :::
@@ -153,150 +149,157 @@ SyntaxError: Missing parentheses in call to
 
 ## The reproducibility crisis
 
-:::{style="margin-top: 30px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [Reproducibility crisis]{.alert}: many researchers cannot replicate published results
-- It affects computer science, statistics, psychology, and medicine alike
-- Some causes are statistical: p-hacking, publication bias, low power
-- A 2016 [Nature survey](https://www.nature.com/articles/533452a) asked 1,576 researchers:
+- [Reproducibility crisis]{.alert}: many published results [cannot be replicated](https://en.wikipedia.org/wiki/Replication_crisis)
+- It affects [computer science](https://dl.acm.org/doi/10.1145/2812803), [statistics](https://doi.org/10.1080/00031305.2016.1154108), [psychology](https://www.science.org/doi/10.1126/science.aac4716) and [medicine](https://doi.org/10.1371/journal.pmed.0020124)
+- A 2016 [Nature survey](https://www.nature.com/articles/533452a) of 1,576 researchers found:
   - [More than 70%]{.alert} had failed to reproduce another scientist's experiment
-  - [More than half]{.alert} had failed to reproduce one of their own
-- Missing documentation and unrecorded dependencies are as common, and both have a technical fix
-- The rest of today is that fix
+  - [More than half]{.alert} had failed to reproduce their own
+- Some causes are statistical: [p-hacking](https://doi.org/10.1371/journal.pbio.1002106), [publication bias](https://www.science.org/doi/10.1126/science.1255484), [low power](https://www.nature.com/articles/nrn3475)
+- Others are technical: [missing documentation and unrecorded dependencies](https://www.nature.com/articles/s41597-022-01143-6)
+- Today's tools fix the technical ones
 :::
 
 :::{.column width="50%"}
 :::{style="text-align: center; margin-top: -20px;"}
 [![](figures/reproducibility.webp){width="85%"}](#){data-modal-type="image" data-modal-url="figures/reproducibility.webp"}
 :::
+:::{style="font-size: 17px; text-align: center;"}
+Source: [Baker (2016), Nature](https://www.nature.com/articles/533452a)
+:::
 :::
 :::
 :::
 
 ## The reproducibility trade-off
-### How far do you go?
 
-:::{style="margin-top: 20px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 :::{style="text-align: center; margin-top: 10px;"}
 [![](figures/trade-off.png){width="72%"}](#){data-modal-type="image" data-modal-url="figures/trade-off.png"}
 :::
+:::{style="font-size: 17px; text-align: center; margin-top: -10px;"}
+Source: [Utrecht University, Computational reproducibility workshop](https://utrechtuniversity.github.io/workshop-computational-reproducibility/chapters/dependency-management.html)
+:::
 
-- How far should you go to make a result reproducible? [It depends on who has to rerun it]{.alert}
-- At minimum, [declare your dependencies]{.alert} so others know what you used
-- [Manage them]{.alert} with a package or environment manager (`conda`, `pip`, `uv`)
-- [Pin them]{.alert} with `renv` (R) or `uv` (Python), which record exact versions
-- Host them online with [Code Ocean](https://codeocean.com/) ($$$) or [Binder](https://mybinder.org/) (free and limited)
-- Go further with [containers]{.alert} ([Docker](https://www.docker.com/), [Apptainer](https://apptainer.org/)) for full portability
-- Your project sits near the right-hand end, and the rest of today is how to get there
+- How far to go [depends on who has to rerun your code]{.alert}
+- At minimum, [declare]{.alert} your dependencies so others know what you used
+- [Manage]{.alert} them with [`conda`](https://docs.conda.io/projects/conda/), [`pip`](https://pip.pypa.io/) or [`uv`](https://docs.astral.sh/uv/)
+- [Pin]{.alert} exact versions with [`renv`](https://rstudio.github.io/renv/) (R) or [`uv`](https://docs.astral.sh/uv/) (Python)
+- [Host]{.alert} them online with [Code Ocean](https://codeocean.com/) ($$$) or [Binder](https://mybinder.org/) (free, limited)
+- [Containerise]{.alert} with [Docker](https://www.docker.com/) or [Apptainer](https://apptainer.org/) for full portability
+- Your final project goes all the way, to a container
 :::
 
 ## How to declare dependencies?
-### One file in the repository root
 
-:::{style="margin-top: 20px; font-size: 24px;"}
-- Say your analysis uses Python, NumPy, pandas, and matplotlib. Ask yourself:
-  - What packages do I need?
-  - Will this work on my collaborator's operating system?
-  - Can someone else reproduce my results?
+:::{style="margin-top: 40px; font-size: 24px;"}
+Your analysis uses, e.g., Python, NumPy, pandas and matplotlib. Ask:
 
-- Use a [package manager to declare your dependencies]{.alert} in a single file
-- [Store it in the repository root]{.alert} so collaborators can install everything in one step
-- Which file depends on your package manager:
-  - `pip` (Python only): [`requirements.txt`]{.alert}
-  - `conda` (Python and R): `environment.yml`
-  - `uv` (Python only): `pyproject.toml` and `uv.lock`
-- Know `requirements.txt` best: every Dockerfile reads it, including your project starter's
-- Let's see all three
+:::{.incremental}
+- Which packages do I need?
+- Will this work on my collaborator's operating system?
+- Can someone else reproduce my results?
 :::
 
-# Virtual environments 🌐 {background-color="#1B3A6B"}
+:::{.fragment}
+- A package manager declares your dependencies in [plain text files]{.alert}
+- Keep them in the [repository root]{.alert}, so collaborators install everything in one step
+- The files depend on the tool:
+  - `pip` (Python only): [`requirements.txt`](https://pip.pypa.io/en/stable/reference/requirements-file-format/)
+  - `conda` (Python and R): [`environment.yml`](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-from-an-environment-yml-file)
+  - `uv` (Python only): [`pyproject.toml`](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/) and [`uv.lock`](https://docs.astral.sh/uv/concepts/projects/layout/#the-lockfile)
+- Most Python Dockerfiles read [`requirements.txt`]{.alert}, including the project starter's
+:::
+:::
+
+# Virtual environments {background-color="#1B3A6B"}
 
 ## `venv` and `pip`: an isolated Python
-### The workflow your Dockerfile will use
 
-:::{style="margin-top: 2px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="52%"}
-- [`venv`]{.alert} ships with Python. It creates a folder with its own `python` and `site-packages`
-- [Nothing you install inside it touches the system Python]{.alert} 
-- Two projects can keep two versions of the same package
-- Create it, switch into it, and install:
+- [`venv`]{.alert} ships with Python and [creates a folder]{.alert} with its own `python` and `site-packages`
+- Installs stay inside it, so two projects can keep two versions of one package
+- Create, activate, install:
 
-:::{style="margin-top: 20px; margin-bottom: 20px;"}
+:::{style="margin-top: 20px; margin-bottom: 20px; font-size: 18px;"}
 ```{verbatim}
-python3 -m venv .venv
+mkdir venv-demo && cd venv-demo  # any project folder
 
-source .venv/bin/activate    # macOS and Linux
-.venv\Scripts\activate       # Windows
+python3 -m venv .venv            # create the environment
+
+source .venv/bin/activate        # macOS and Linux
+.venv\Scripts\activate           # Windows
 
 pip install requests polars
 ```
 :::
 
-- Add `.venv/` to your `.gitignore` (Python 3.13 and later does this for you). The package list goes into git, but [the folder stays on your machine]{.alert}
+- The folder stays out of git (Python 3.13+ adds its own `.gitignore`). [Only the package list is committed]{.alert}
 :::
 
 :::{.column width="48%"}
-- `which python` tells you which interpreter you are actually using:
-
-:::{style="font-size: 19px;"}
-```{verbatim}
-which python
-/private/tmp/[...]/l23/venv-demo/.venv/bin/python
-
-python --version
-Python 3.14.6
-
-pip --version
-pip 26.1.2 [...] (python 3.14)
-```
-:::
-
-- The path ends in `.venv/bin/python`, so the environment is active. The install itself:
+- `which python` shows which interpreter is active:
 
 :::{style="font-size: 20px;"}
 ```{verbatim}
-Successfully installed certifi-2026.7.22
-charset_normalizer-3.5.1 idna-3.19 polars-1.44.2
-polars-runtime-32-1.44.2 requests-2.34.2
-urllib3-2.7.0
+which python
+~/venv-demo/.venv/bin/python
 ```
 :::
 
-- [Docker images do this too]{.alert} 
-- The project starter's Dockerfile runs `python3 -m venv /opt/venv` and sets `ENV PATH="/opt/venv/bin:$PATH"`, so later steps use that Python without activating it
+- A path ending in `.venv/bin/python` means the environment is on. `pip list` shows what is installed:
+
+:::{style="font-size: 20px;"}
+```{verbatim}
+pip list
+Package            Version
+------------------ ----------
+certifi            2026.10.23
+charset-normalizer 3.5.2
+idna               3.20
+pip                26.0.1
+polars             2.1.0
+polars-runtime-32  2.1.0
+requests           2.34.2
+urllib3            2.8.0
+```
+:::
+
+- [Docker images do this too]{.alert}: the project starter runs `python3 -m venv /opt/venv`, then sets `ENV PATH="/opt/venv/bin:$PATH"` so later steps use it without activating
 :::
 :::
 :::
 
 ## `requirements.txt`: the file you commit
-### `pip freeze` writes it and `pip install -r` reads it
 
-:::{style="margin-top: 20px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Inside the clean environment, [`pip freeze`]{.alert} [prints every installed package with its exact version:]{.alert}
+- [`pip freeze`]{.alert} prints every installed package with its exact version:
 
 ```{verbatim}
 pip freeze > requirements.txt
 cat requirements.txt
 
-certifi==2026.7.22
-charset-normalizer==3.5.1
-idna==3.19
-polars==1.44.2
-polars-runtime-32==1.44.2
+certifi==2026.10.23
+charset-normalizer==3.5.2
+idna==3.20
+polars==2.1.0
+polars-runtime-32==2.1.0
 requests==2.34.2
-urllib3==2.7.0
+urllib3==2.8.0
 ```
 
-- Two packages became seven lines because `pip` lists the dependencies of your dependencies
-- The [`==` pins]{.alert} say "these exact versions"
+- Two packages became seven lines because `pip` also lists your dependencies' dependencies
+- The [`==` pins]{.alert} mean "these exact versions"
 :::
 
 :::{.column width="50%"}
-- Your collaborator [makes their own environment and installs from the file:]{.alert}
+- Your collaborator creates an environment and [installs from the file]{.alert}:
 
 ```{verbatim}
 python3 -m venv .venv
@@ -304,9 +307,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Run `pip freeze` inside a [conda]{.alert} environment and some lines come out as `name @ file:///...` local paths, which install nowhere else
-- Freeze inside a plain `venv` and the problem never appears
-- [Our project starter repo](https://github.com/danilofreire/datasci350-project-starter) pins every package by hand, with a comment for each:
+- To leave the environment and [delete it]{.alert}:
+
+```{verbatim}
+deactivate
+rm -rf .venv
+```
+
+- The [project starter](https://github.com/danilofreire/datasci350-project-starter) pins every package by hand, with a comment for each:
 
 ```{verbatim}
 # Talking to web APIs
@@ -321,15 +329,13 @@ duckdb==1.5.5
 :::
 
 ## Conda in one slide
-### You met conda in DATASCI 151
 
-:::{style="margin-top: 20px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 18px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [Conda](https://docs.conda.io/) [manages environments and packages together,]{.alert} and installs non-Python software: compilers, R, CUDA
-- Create it and switch into it:
+- [Conda](https://docs.conda.io/) [manages environments and packages]{.alert}, including non-Python software: compilers, R, CUDA
 
-:::{style="margin-top: 20px; margin-bottom: 20px;"}
+:::{style="margin-top: 10px; margin-bottom: 10px;"}
 ```{verbatim}
 conda create --name l23-demo \
   python=3.14 numpy pandas -y
@@ -337,20 +343,37 @@ conda activate l23-demo
 ```
 :::
 
-- Export it with [`--from-history`]{.alert}, which records only the packages you asked for:
+- [`--from-history`]{.alert} exports only the packages you asked for:
 
-:::{style="margin-top: 20px; margin-bottom: 20px;"}
+:::{style="margin-top: 10px; margin-bottom: 10px;"}
 ```{verbatim}
 conda env export --name l23-demo \
   --from-history > environment.yml
 ```
 :::
 
-- Others recreate it with `conda env create --file environment.yml`, then `conda activate l23-demo`
+- Others rebuild it from the file:
+
+:::{style="margin-top: 10px; margin-bottom: 10px;"}
+```{verbatim}
+conda env create --file environment.yml
+conda activate l23-demo
+```
+:::
+
+- To [delete it]{.alert}, run `conda deactivate` first, then:
+
+:::{style="margin-top: 10px; margin-bottom: 10px;"}
+```{verbatim}
+conda env remove --name l23-demo
+```
+:::
+
+- Inside conda, `pip freeze` can write `name @ file:///...` lines that fail elsewhere. Use [`pip list --format=freeze`]{.alert}
 :::
 
 :::{.column width="50%"}
-- The file it produced:
+- The resulting file:
 
 :::{style="font-size: 20px; margin-top: 10px; margin-bottom: 20px;"}
 ```{verbatim}
@@ -362,11 +385,11 @@ dependencies:
   - pandas
   - numpy
   - python=3.14
-prefix: /Users/dafreir/miniconda3/envs/l23-demo
+prefix: ~/miniconda3/envs/l23-demo
 ```
 :::
 
-- Drop `--from-history` and it lists every transitive package instead:
+- Without `--from-history`, it lists every package, including dependencies of dependencies:
 
 :::{style="font-size: 20px; margin-top: 20px; margin-bottom: 20px;"}
 ```{verbatim}
@@ -378,116 +401,111 @@ prefix: /Users/dafreir/miniconda3/envs/l23-demo
 ```
 :::
 
-- Those files describe one machine exactly but [rarely install on another.]{.alert} The next slide takes one apart
+- That full list describes one machine exactly but [rarely installs on another]{.alert}
 :::
 :::
 :::
 
 ## What are build strings?
-### Reading a conda package specification
 
-:::{style="margin-top: 12px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="50%"}
-- A conda [build](https://docs.conda.io/projects/conda-build/en/stable/concepts/package-naming-conv.html) is [a specific compiled binary of a package]{.alert}
-- The same version can be compiled differently per platform, Python version, or feature set
-- A full conda package specification:
+- A conda [build](https://docs.conda.io/projects/conda-build/en/stable/concepts/package-naming-conv.html) is [one compiled binary of a package]{.alert}
+- The same version is compiled separately for each platform, Python version and feature set
+- A full package specification:
 
+:::{style="margin-top: 20px; margin-bottom: 20px; font-size: 18px;"}
 ```{verbatim}
 numpy=1.21.5=py39h12345_0
 └──┬─┘└─┬──┘ └────┬───┘└┬┘
    │    │         │     │
    │    │         │     └─ Build number (0)
-   │    │         └─────── Build string (py39h12345)
+   │    │         └─────── Build string (py39h12345_0)
    │    └───────────────── Version (1.21.5)
    └────────────────────── Package name (numpy)
 ```
+:::
 
-- The [`--no-builds` flag]{.alert} strips the build strings, but macOS-only packages stay in the file
+- `--no-builds` strips build strings, but macOS-only packages stay in the file
 - For a file that [works on other platforms]{.alert}, use `--from-history`
 :::
 
 :::{.column width="50%"}
-- The build string (`py39h12345`) encodes metadata:
+- The build string (`py39h12345_0`) encodes metadata and ends in the build number:
   - Python version (`py39`, `py310`)
   - Compiler (`gcc9`, `clang`)
   - Features (`nomkl`, `cuda`)
 
-- The platform (`linux-64`, `osx-arm64`) is stored separately, not in the build string
-
-- Why do builds exist?
-  - Software is compiled differently per operating system
-  - Packages target specific Python versions
-  - Builds enable or disable optional features
-  - Different compilers produce different binaries
-
-- The line `libblas=3.11.0=9_h51639a9_openblas` on the previous slide will not resolve on a Linux collaborator's machine
+- The platform (`linux-64`, `osx-arm64`) is stored separately
+- So `libblas=3.11.0=9_h51639a9_openblas` from the previous slide [will not resolve on Linux]{.alert}
 :::
 :::
 :::
 
 ## `uv`: a fast Python package manager
-### Maybe new to you
 
-:::{style="margin-top: 12px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [uv](https://docs.astral.sh/uv/) is a Python package and project manager built by [Astral](https://astral.sh/), the people behind the [Ruff](https://docs.astral.sh/ruff/) linter
-- Written in Rust, it replaces `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv`, and `virtualenv` with one command
-- It installs Python itself, so you need no separate installer
+- [uv](https://docs.astral.sh/uv/) is a Python package and project manager from [Astral](https://astral.sh/), the makers of the [Ruff](https://docs.astral.sh/ruff/) linter
+- Written in [Rust](https://www.rust-lang.org/), it replaces `pip`, `pip-tools`, `pipx`, `poetry`, `pyenv` and `virtualenv`
+- `--python 3.14` picks the version, and uv [downloads it]{.alert} if it is missing
 - Install it:
 
+:::{style="font-size: 19px;"}
 ```{verbatim}
-# macOS and Linux
+# macOS and Linux: download and run the installer
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # or with Homebrew
 brew install uv
 
-uv --version
+uv --version    # check that it worked
 uv 0.11.7 (9d177269e 2026-04-15
 aarch64-apple-darwin)
 ```
 :::
 
-:::{.column width="50%"}
-:::{style="text-align: center; margin-top: -10px;"}
-[![](figures/uv-docs-2026.png){width="46%"}](#){data-modal-type="image" data-modal-url="figures/uv-docs-2026.png"}
-:::
-:::{style="font-size: 17px; text-align: center;"}
-<https://docs.astral.sh/uv/>
 :::
 
-:::{style="font-size: 20px;"}
+:::{.column width="50%"}
+- [`uv init`]{.alert} creates a project folder with a `pyproject.toml`, a `main.py` and a git repository:
+
+:::{style="margin-top: 10px; margin-bottom: 10px;"}
 ```{verbatim}
 uv init l23-uv-demo --python 3.14
 cd l23-uv-demo
+```
+:::
+
+- [`uv add`]{.alert} creates `.venv`, installs the packages and records them in `pyproject.toml` and `uv.lock`:
+
+:::{style="margin-top: 10px; margin-bottom: 10px;"}
+```{verbatim}
 uv add polars requests
 
-Using CPython 3.14.6 interpreter at:
-  /opt/homebrew/opt/python@3.14/bin/python3.14
 Creating virtual environment at: .venv
-Resolved 8 packages in 378ms
-Prepared 2 packages in 6.66s
-Installed 7 packages in 10ms
- + polars==1.44.2
+Resolved 8 packages in 279ms
+Installed 7 packages in 8ms
+ + polars==2.1.0
  [...]
  + requests==2.34.2
 ```
 :::
 
-- [378 milliseconds!]{.alert}
+- uv [updates both files for you]{.alert}, so you do not need `activate` or `pip freeze`
+- More information: <https://docs.astral.sh/uv/>
 :::
 :::
 :::
 
 ## `uv`: project files and sharing
-### Just two files, and both belong in git
 
-:::{style="margin-top: 20px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [`pyproject.toml`]{.alert} holds your direct dependencies and is meant for humans. Mine after `uv add`:
+- [`pyproject.toml`]{.alert} lists your direct dependencies, for humans to read. Mine after `uv add`:
 
 ```{verbatim}
 [project]
@@ -497,20 +515,20 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
-    "polars>=1.44.2",
+    "polars>=2.1.0",
     "requests>=2.34.2",
 ]
 ```
 
-- [TOML]{.alert} ([Tom's Obvious Minimal Language](https://toml.io/en/)): a config format of key-value pairs and `[sections]`. Created by Tom Preston-Werner, a GitHub co-founder. [More here](https://toml.io/en/)
-  - Very similar to [YAML,](https://yaml.org/) which we saw when writing Quarto documents
+- [TOML](https://toml.io/en/) is a config format of key-value pairs and `[sections]`, close to the [YAML](https://yaml.org/) in Quarto headers
+- [Tom Preston-Werner](https://en.wikipedia.org/wiki/Tom_Preston-Werner), a GitHub co-founder, created it ("Tom's Obvious Minimal Language")
 - `uv init` also writes `.gitignore`, `.python-version`, `README.md` and `main.py`, and starts a git repository
 :::
 
 :::{.column width="50%"}
-- [`uv.lock`]{.alert} [is generated for you,]{.alert} recording the exact version and hash of every package
-- Mine is 182 lines, for seven packages plus the project. [You never edit it by hand]{.alert}
-- [Push both `pyproject.toml` and `uv.lock`]{.alert}. Your collaborator clones and runs `uv sync` [to get the same environment:]{.alert}
+- [`uv.lock`]{.alert} records the exact version and hash of every package. Mine is 182 lines
+- uv writes it for you. [Never edit it by hand]{.alert}
+- Commit and push both files. Your collaborator clones [the repository]{.alert} and runs [`uv sync`]{.alert}:
 
 ```{verbatim}
 uv sync
@@ -519,23 +537,22 @@ Checked 7 packages in 1ms
 
 uv run python -c \
   "import polars; print(polars.__version__)"
-1.44.2
+2.1.0
 ```
 
-- `uv run` executes inside the project environment, so there is nothing to activate
-- `uv` manages Python versions too: `uv python install 3.14` and `uv python pin 3.14`
-- [More about `uv` here](https://docs.astral.sh/uv/)
+- `uv run` runs inside the project environment, with nothing to activate
+- `uv python install 3.14` and `uv python pin 3.14` manage Python versions
+- [More about `uv`](https://docs.astral.sh/uv/)
 :::
 :::
 :::
 
 ## `uv`: handing a project to Docker
-### Every Dockerfile still wants `requirements.txt`
 
-:::{style="margin-top: 20px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="52%"}
-- Docker images read `requirements.txt`, and [`uv export`]{.alert} writes one from your lock file:
+- [`uv export`]{.alert} writes a `requirements.txt` from your lock file, for Dockerfiles that expect one:
 
 ```{verbatim}
 uv export --format requirements-txt --no-hashes
@@ -545,18 +562,20 @@ Resolved 8 packages in 2ms
 # following command:
 #    uv export --format requirements-txt
 #      --no-hashes
-certifi==2026.7.22
+certifi==2026.10.23
     # via requests
-charset-normalizer==3.5.1
+charset-normalizer==3.5.2
     # via requests
-polars==1.44.2
+[...]
+polars==2.1.0
     # via l23-uv-demo
+[...]
 requests==2.34.2
     # via l23-uv-demo
 [...]
 ```
 
-- Drop `--no-hashes` and each line also carries the wheel's SHA-256, which `pip` then verifies
+- Without `--no-hashes`, each line also carries a SHA-256 hash that `pip` verifies
 :::
 
 :::{.column width="48%"}
@@ -567,8 +586,8 @@ uv export --format requirements-txt \
   --no-hashes > requirements.txt
 ```
 
-- The `# via` comments name which package pulled each dependency in. `pip freeze` never does
-- Want the `venv` and `pip` workflow at uv's speed? Drop-in replacements:
+- The `# via` comments show which package pulled each dependency in. `pip freeze` has none
+- Already have a `requirements.txt`? [`uv pip`]{.alert} is a faster drop-in for `pip`:
 
 ```{verbatim}
 uv venv
@@ -576,7 +595,7 @@ source .venv/bin/activate
 uv pip install -r requirements.txt
 ```
 
-- Same commands, same files as the `venv` slides, with `uv` doing the install
+- For a new project, `uv init`, `uv add` and `uv run` are simpler
 :::
 :::
 :::
@@ -591,6 +610,8 @@ uv pip install -r requirements.txt
 :::
 :::{style="font-size: 17px; text-align: center;"}
 Each cell is one combination someone has to test by hand
+
+Source: [dotCloud (2013), Docker introduction](https://www.slideshare.net/slideshow/docker-intro-november/28618034)
 :::
 :::
 
@@ -602,6 +623,8 @@ Each cell is one combination someone has to test by hand
 :::
 :::{style="font-size: 17px; text-align: center;"}
 Sacks, barrels, and crates, each loaded differently at every port
+
+Source: [dotCloud (2013), Docker introduction](https://www.slideshare.net/slideshow/docker-intro-november/28618034)
 :::
 :::
 
@@ -613,6 +636,8 @@ Sacks, barrels, and crates, each loaded differently at every port
 :::
 :::{style="font-size: 17px; text-align: center;"}
 Shipping had the same combinatorial problem
+
+Source: [dotCloud (2013), Docker introduction](https://www.slideshare.net/slideshow/docker-intro-november/28618034)
 :::
 :::
 
@@ -624,6 +649,8 @@ Shipping had the same combinatorial problem
 :::
 :::{style="font-size: 17px; text-align: center;"}
 A standard box fits every ship, train, and lorry, and nobody opens it in transit
+
+Source: [dotCloud (2013), Docker introduction](https://www.slideshare.net/slideshow/docker-intro-november/28618034)
 :::
 :::
 
@@ -650,45 +677,41 @@ The host only needs Docker, and the image carries everything else
 :::
 
 ## What are software containers?
-### Lighter than a virtual machine
 
-:::{style="margin-top: 20px; font-size: 24px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [Containers](https://www.docker.com/resources/what-container) package software so it can run on any system
-- A [virtual machine](https://www.vmware.com/topics/virtual-machine) boots a whole operating system. A container carries only [the libraries the application needs]{.alert}, so it starts in a second
-- A virtual environment isolates Python packages. A container also carries the operating system libraries, the interpreter, and the system tools your code touches
-- It then runs on [any system with Docker installed]{.alert}, as long as the image was built for that chip (Intel/AMD `amd64` or Apple Silicon `arm64`)
+- [Containers](https://www.docker.com/resources/what-container) package software so it runs on any system
+- A [virtual machine](https://www.vmware.com/topics/virtual-machine) boots a whole operating system. A container carries only [the libraries the app needs]{.alert}, so it starts in a second
+- A virtual environment isolates Python packages. A container also holds the system libraries, the interpreter and system tools
+- It runs on [any machine with Docker]{.alert} if the image matches the chip: `amd64` (Intel/AMD) or `arm64` (Apple Silicon)
 :::
 
 :::{.column width="50%"}
-- Created with tools like [Docker](https://www.docker.com/) or [Apptainer](https://apptainer.org/) 
-- Usually [a stripped-down Linux]{.alert} ([Ubuntu](https://ubuntu.com/) or [Alpine Linux](https://alpinelinux.org/)) with only the required libraries
-- Why Linux? It is open source and the most widely used server operating system
-- Stored in [container registries](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-registry/) like [Docker Hub](https://hub.docker.com/), so you can share them
-- [More about Docker here](https://docs.docker.com/get-started/overview/)
+- Built with [Docker](https://www.docker.com/) or [Apptainer](https://apptainer.org/)
+- Usually [a stripped-down Linux]{.alert} ([Ubuntu](https://ubuntu.com/), [Alpine](https://alpinelinux.org/)), the most widely used open-source server system
+- Shared through [container registries](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-registry/) like [Docker Hub](https://hub.docker.com/)
+- [More about Docker](https://docs.docker.com/get-started/overview/)
 
 :::{style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;"}
-Lecture 10 listed four ingredients of a reproducible result: code, data, environment, documentation. [A container ships the environment with the code already inside it]{.alert}
+Lecture 10's four ingredients of reproducibility: code, data, environment, documentation. [A container ships the environment with the code]{.alert}
 :::
 :::
 :::
 :::
 
 ## What is Docker?
-### Images, containers, and registries
 
-:::{style="margin-top: 12px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="52%"}
-- [Docker](https://www.docker.com/) is the leading containerisation platform
-- Three concepts that you should know:
-  - [Image]{.alert}: a read-only template holding the operating system, the libraries, your code, and the configuration. You [build]{.alert} images from a `Dockerfile`
-  - [Container]{.alert}: a running instance of an image. [Many containers from one image]{.alert}
-  - [Registry]{.alert}: a collection of repositories you pull images from, such as Docker Hub
-- An image is a class and a container is an object ([more here](https://stackoverflow.com/questions/23735149/what-is-the-difference-between-a-docker-image-and-a-container))
-- The syntax borrows from Git and Linux, so it should feel familiar
-- The `docker` command is a client. It sends every instruction to a background [daemon]{.alert}, which does the building and the running
+- [Docker](https://www.docker.com/) is the leading container platform
+- An [image]{.alert} is a read-only template: operating system, libraries, code and configuration. You [build]{.alert} it from a `Dockerfile`
+- A [container]{.alert} is a running instance of an image, and one image can start many
+- A [registry]{.alert} such as [Docker Hub](https://hub.docker.com/) stores images for you to pull
+- Image is to container as recipe is to dish, or class to object ([more here](https://stackoverflow.com/questions/23735149/what-is-the-difference-between-a-docker-image-and-a-container))
+- The syntax borrows from Git (`docker pull`, `docker push`) and Linux (`docker ps`, `docker rm`)
+- The `docker` command is a client. A background [daemon]{.alert} does the building and running
 :::
 
 :::{.column width="48%"}
@@ -696,7 +719,9 @@ Lecture 10 listed four ingredients of a reproducible result: code, data, environ
 [![](figures/docker-architecture.png){width="100%"}](#){data-modal-type="image" data-modal-url="figures/docker-architecture.png"}
 :::
 :::{style="font-size: 17px; text-align: center;"}
-Client, daemon, and registry, from the [Docker documentation](https://docs.docker.com/get-started/docker-overview/)
+Client, daemon, and registry
+
+Source: [Docker documentation](https://docs.docker.com/get-started/docker-overview/)
 :::
 :::
 :::
@@ -704,17 +729,17 @@ Client, daemon, and registry, from the [Docker documentation](https://docs.docke
 
 ## Docker Desktop and the alternatives
 
-:::{style="margin-top: 20px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="55%"}
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) runs the Docker engine on macOS and Windows. It is how most of you will install Docker
-- The free licence covers personal use, education, non-commercial open source, and companies with [fewer than 250 employees and under $10M in annual revenue]{.alert}
-- A free Docker Hub account allows [200 image pulls every six hours]{.alert}, and anonymous use 100
-- [Docker Engine](https://docs.docker.com/engine/) itself is open source and free everywhere, including every Linux server
-- Free alternatives that take the same commands: [Podman](https://podman.io/), [Colima](https://github.com/abiosoft/colima) (macOS), [OrbStack](https://orbstack.dev/) (macOS, free for personal use), and [Rancher Desktop](https://rancherdesktop.io/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) runs Docker on macOS and Windows. Most of you will install it
+- It is free for personal use, education, non-commercial open source, and companies under 250 employees and $10M revenue
+- Docker Hub allows [200 pulls every six hours]{.alert} with a free account, 100 without
+- [Docker Engine](https://docs.docker.com/engine/) is open source and free, but runs [only on Linux]{.alert} (including WSL)
+- On macOS, an app runs it inside a Linux virtual machine. Docker Desktop, [Podman](https://podman.io/) (as `podman`), [Colima](https://github.com/abiosoft/colima), [OrbStack](https://orbstack.dev/) (free for personal use) and [Rancher Desktop](https://rancherdesktop.io/) all take the same `docker` commands
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 10px 15px; border-radius: 10px; font-size: 19px; margin-top: 8px;"}
-Every `docker` command on these slides ran through OrbStack. The commands are identical under Docker Desktop
+I ran every `docker` command on these slides through OrbStack. Docker Desktop takes the same commands
 :::
 :::
 
@@ -736,13 +761,14 @@ Docker Desktop on macOS
 :::
 :::
 
-## Check your installation with `hello-world`
+## Check your installation with `hello-world` {#sec-hello-world}
 
-:::{style="margin-top: 30px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="55%"}
-- Install Docker with [these instructions](https://docs.docker.com/get-docker/), start the application once, and run:
+- Install [Docker Desktop](https://docs.docker.com/get-docker/) (Docker Engine on Linux), open it once, and run:
 
+:::{style="font-size: 20px;"}
 ```text
 docker run hello-world
 
@@ -757,51 +783,57 @@ This message shows that your installation appears to be
 working correctly.
 [...]
 ```
+:::
 
 ```text
 docker -v
 
-Docker version 29.4.0, build 9d7ad9f
+Docker version 29.8.2, build 7fc2dff
 ```
+
+- On Windows, turn on WSL Integration in Docker Desktop: [[Appendix 03]{.button}](#sec-appendix-03)
 :::
 
 :::{.column width="45%"}
-- The image was not on my laptop, so Docker [pulled it from Docker Hub]{.alert} and ran it
-- The message lists the [four steps:]{.alert} the client contacted the daemon, the daemon pulled the image, created a container from it, and streamed the output to your terminal
-- Those four steps are the client, daemon, and registry diagram from two slides ago
-- Create a free [Docker Hub](https://hub.docker.com/) account as soon as possible. You will need it!
+- The image was not on my laptop, so Docker [pulled it from Docker Hub]{.alert}
+- The output lists [four steps]{.alert}:
+  - The client contacts the [daemon](https://en.wikipedia.org/wiki/Daemon_(computing)) (Docker's background service)
+  - The daemon pulls the image
+  - It creates a container
+  - It streams the output to your terminal
+- Create a free [Docker Hub](https://hub.docker.com/) account now. You will need it!
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-Nothing happens and the terminal complains about a daemon? The application is not running: [[Appendix 02]{.button}](#sec-appendix-02)
+A daemon error means the Docker application is not running: [[Appendix 02]{.button}](#sec-appendix-02)
 :::
 :::
 :::
 :::
 
 ## Let's create our first container
-### A Dockerfile is a plain-text recipe
 
-:::{style="margin-top: 12px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="52%"}
-- A `Dockerfile` is a [plain-text recipe]{.alert} that builds everything needed to recreate a project
-- It goes under version control, named `Dockerfile` with no extension
-- You [rarely start from scratch]{.alert}: [Docker Hub](https://hub.docker.com/) holds base images for almost anything
-- Its Data Science category alone showed [9,427 results](https://hub.docker.com/search?categories=Data+Science) (August 2026)
-- We build one now with three files. Your project's has the same shape
-- Demo files: [`lectures/lecture-23/docker/`](https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker) in the course repository
+- A [`Dockerfile`](https://docs.docker.com/reference/dockerfile/) is a plain-text recipe that rebuilds everything a project needs
+- Name it `Dockerfile`, with no extension, and commit it
+- [More about Dockerfiles](https://docs.docker.com/build/concepts/dockerfile/)
+- [Docker Hub](https://hub.docker.com/) holds base images for almost anything, so you [rarely start from scratch]{.alert}
+- Its [Data Science category](https://hub.docker.com/categories/data-science) showed 9,400+ packages (August 2026)
+- We build one now from the three files on the right. Your project's has the same shape
+- Demo files: [`lectures/lecture-23/docker/`](https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker)
 :::
 
 :::{.column width="48%"}
-:::{style="font-size: 19px;"}
-- `requirements.txt`, same file from the `pip` slides:
+:::{style="font-size: 20px;"}
+- File 1, `requirements.txt`: the packages to install
 
 ```{verbatim}
 numpy==2.5.2
 pandas==3.0.5
 ```
 
-- `hello.py`, so the container has something to do:
+- File 2, `hello.py`: the script the container runs
 
 ```{verbatim}
 import numpy as np
@@ -812,54 +844,54 @@ print(f"numpy  {np.__version__}")
 print(f"pandas {pd.__version__}")
 ```
 
-- The third file is the `Dockerfile`. The next slide takes it line by line
+- File 3, the `Dockerfile`, puts them together (next slide)
 :::
 :::{style="text-align: center; margin-top: 10px;"}
 [![](figures/docker-hub-datascience-2026.png){width="39%"}](#){data-modal-type="image" data-modal-url="figures/docker-hub-datascience-2026.png"}
 :::
 :::{style="font-size: 17px; text-align: center;"}
-[Docker Hub](https://hub.docker.com/search?categories=Data+Science)
+[Docker Hub](https://hub.docker.com/categories/data-science)
 :::
 :::
 :::
 :::
 
 ## The Dockerfile
-### Six instructions, five build steps
 
 :::{style="margin-top: 15px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="52%"}
 ```{verbatim}
-# Start from an official Python image
+# Start from an official Python image on Docker Hub
 FROM python:3.14-slim
 
-# Everything below happens inside /app
+# Create /app inside the image and move into it
 WORKDIR /app
 
-# Copy requirements first, so Docker can
-# cache the install
+# Copy requirements.txt from your folder to /app
+# First, so editing hello.py won't reinstall
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the script
+# Copy hello.py from your folder into /app
 COPY hello.py .
 
-# What runs when the container starts
+# The command that runs when the container starts
 CMD ["python", "hello.py"]
 ```
 
-- `--no-cache-dir -r` means "install from the file and don't keep a cache of the wheels"
-- [Let's build it!]{.alert} `-t` tags the image `datasci350-example`, and `.` is the folder holding the `Dockerfile`:
+- `-r` installs from the file, and `--no-cache-dir` keeps no copy of the downloads
+- [Build it]{.alert}: `-t` tags the image `datasci350-example`, and `.` is the folder holding the `Dockerfile`:
 
+:::{style="font-size: 24px;"}
 ```{verbatim}
 docker build -t datasci350-example .
 ```
 :::
+:::
 
 :::{.column width="48%"}
-- `docker build` runs the instructions [in order]{.alert}
-- `COPY` and `RUN` add layers to the image. `CMD` only records the start command
+- `docker build` runs the instructions [in order]{.alert}. `COPY` and `RUN` add layers, while `CMD` only records the start command
 
 :::{style="text-align: center; font-size: 17px; margin-top: 10px; margin-bottom: 10px;"}
 | Instruction | What it does | Runs when |
@@ -871,95 +903,95 @@ docker build -t datasci350-example .
 | `CMD` | Names the command the container starts with | Start |
 :::
 
-- [Full reference here](https://docs.docker.com/reference/dockerfile/)
+- [Full reference](https://docs.docker.com/reference/dockerfile/)
 
 :::{style="text-align: center; margin-top: 10px;"}
 [![](figures/docker-hub-python-2026.png){width="50%"}](#){data-modal-type="image" data-modal-url="figures/docker-hub-python-2026.png"}
 :::
 :::{style="font-size: 19px; text-align: center;"}
-The official Python image on Docker Hub: <https://hub.docker.com/_/python>
+Official Python image: <https://hub.docker.com/_/python>
 :::
 :::
 :::
 :::
 
-## The build, step by step
-### Real output (trimmed)
+## Building the image
 
-:::{style="margin-top: 20px; font-size: 20px;"}
+:::{style="margin-top: 20px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="56%"}
 :::{style="font-size: 20px;"}
 ```text
-docker build --progress=plain -t datasci350-example .
+docker build -t datasci350-example .
 
 #5 [1/5] FROM docker.io/library/python:3.14-slim
-#5 sha256:bf7af02297 30.16MB / 30.16MB 63.7s done
-#5 DONE 64.4s
+#5 sha256:acd43e9beb 30.21MB / 30.21MB 1.8s done
+#5 DONE 2.6s
 
-#6 [2/5] WORKDIR /app
-#6 DONE 0.2s
+#7 [2/5] WORKDIR /app
+#7 DONE 0.4s
 
-#7 [3/5] COPY requirements.txt .
-#7 DONE 0.0s
+#8 [3/5] COPY requirements.txt .
+#8 DONE 0.0s
 
-#8 [4/5] RUN pip install --no-cache-dir -r
+#9 [4/5] RUN pip install --no-cache-dir -r
     requirements.txt
-#8 51.68 Successfully installed numpy-2.5.2
+#9 5.262 Successfully installed numpy-2.5.2
     pandas-3.0.5 [...]
-#8 DONE 51.9s
+#9 DONE 5.6s
 
-#9 [5/5] COPY hello.py .
-#9 DONE 0.1s
+#10 [5/5] COPY hello.py .
+#10 DONE 0.0s
 
-#10 exporting to image
-#10 naming to datasci350-example:latest done
-#10 DONE 2.7s
+#11 exporting to image
+#11 DONE 3.2s
 ```
 :::
 :::
 
 :::{.column width="44%"}
-- The five numbered steps, `[1/5]` to `[5/5]`, are every instruction except `CMD`
-- Step `[1/5]` took [64.4 seconds]{.alert} because Docker downloaded the `python:3.14-slim` base image, about 44 MB compressed. That happens once per machine
-- Step `[4/5]` is the `pip install`, and its [51.9 seconds]{.alert} is the slow part of every rebuild
-- The whole build came to about [two minutes]{.alert}, almost all of it downloading
-- `docker images` shows what came out:
+- `[1/5]` to `[5/5]` are the instructions before `CMD`
+- `[1/5]` downloads the base image: [2.6 seconds]{.alert}, once per machine
+- `[4/5]` installs the packages: [5.6 seconds]{.alert}
+- The whole build took [13 seconds]{.alert}, most of it downloading
+- `docker images` shows the result:
 
+:::{style="font-size: 19px;"}
 ```{verbatim}
 docker images datasci350-example
 
 IMAGE                DISK USAGE  CONTENT SIZE
-datasci350-example        406MB          88MB
+datasci350-example        409MB        88.2MB
 ```
+:::
 
-- Python, NumPy, pandas, Debian OS, and your code
+- It holds Debian, Python, NumPy, pandas and your code
 :::
 :::
 :::
 
 ## Layer caching
-### Why the second build takes no time at all
 
-:::{style="margin-top: 20px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="52%"}
-- Run the same build again, changing nothing:
+- Rebuild without changing anything:
 
+:::{style="font-size: 20px;"}
 ```text
 docker build -t datasci350-example .
 
 #5 [1/5] FROM docker.io/library/python:3.14-slim
 #5 DONE 0.0s
 
-#6 [3/5] COPY requirements.txt .
+#6 [2/5] WORKDIR /app
 #6 CACHED
 
-#7 [4/5] RUN pip install --no-cache-dir -r
-    requirements.txt
+#7 [3/5] COPY requirements.txt .
 #7 CACHED
 
-#8 [2/5] WORKDIR /app
+#8 [4/5] RUN pip install --no-cache-dir -r
+    requirements.txt
 #8 CACHED
 
 #9 [5/5] COPY hello.py .
@@ -969,26 +1001,26 @@ docker build -t datasci350-example .
 #10 DONE 0.1s
 ```
 :::
+:::
 
 :::{.column width="48%"}
-- Every layer says [`CACHED`]{.alert} and the build finishes in [0.754 seconds]{.alert}
-- Docker reuses a layer when its instruction and its inputs are unchanged
+- Every layer says [`CACHED`]{.alert}, and the build takes [0.79 seconds]{.alert}
+- Docker reuses a layer when its instruction and inputs are unchanged
 - Once one layer misses, [every layer below it rebuilds]{.alert}
-- That is why `COPY requirements.txt` sits above `COPY hello.py`: editing your script invalidates only the last layer, and the slow `pip install` stays cached
-- Put `COPY . .` at the top and any edit re-installs every package
-- Your project starter's `Dockerfile` uses the same ordering, for the same reason
-- The `#` numbers are log IDs, so a cached run can list steps out of order. The `[n/5]` labels give the real order
+- So `COPY requirements.txt` sits above `COPY hello.py`. Editing your script rebuilds only the last layer, and `pip install` stays cached
+- With `COPY . .` (copy everything) at the top, any edit reinstalls every package
+- The project starter's `Dockerfile` uses the same order
 :::
 :::
 :::
 
 ## Let's run and share the container
-### From `docker run` to Docker Hub
 
 :::{style="margin-top: 20px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Run it. The [`--rm` flag]{.alert} deletes the container when it exits, so you do not accumulate hundreds of dead ones:
+- [`docker run`]{.alert} starts a container from the image and runs its `CMD`:
+  - `--rm` deletes the container when it stops
 
 ```text
 docker run --rm datasci350-example
@@ -998,96 +1030,93 @@ numpy  2.5.2
 pandas 3.0.5
 ```
 
-- Those version numbers come from inside the image, so they are the same on every machine that runs it
-- [The image is now something you can hand to someone]{.alert} 🤓
-:::
+- These versions come from inside the image, so every machine prints the same
+- [You can now hand the image to someone]{.alert} 🤓
 
-:::{.column width="50%"}
-- To share it, log in to [Docker Hub](https://hub.docker.com/):
+- Log in to [Docker Hub](https://hub.docker.com/):
 
 ```{verbatim}
 docker login
 ```
 
-- Tag the image with your Docker Hub username:
+- Tag the image with your own username (the part before the slash):
 
 ```{verbatim}
 docker tag datasci350-example \
   danilofreire/datasci350-example:latest
 ```
+:::
 
+:::{.column width="50%"}
 - Push it:
 
 ```text
-docker push danilofreire/datasci350-example:latest
+docker push \
+  danilofreire/datasci350-example:latest
 
 bf7af0229701: Pushed
 c66215f6ebe7: Pushed
-latest: digest: sha256:b24fd8fc20ef... size: 856
+latest: digest: sha256:b24fd8fc20ef...
+    size: 856
 ```
 
-- The name before the slash is your account, so use your own username
-- `docker push` sends only your laptop's chip type. Optional, if you share an image with people on other computers, build for both chips:
+- Optional, not needed for the final project: [`buildx`](https://docs.docker.com/build/building/multi-platform/) builds for Intel and Apple chips at once, so anyone can pull it
 
 ```{verbatim}
-docker buildx build --platform linux/amd64,linux/arm64 \
-  -t danilofreire/datasci350-example:latest --push .
+docker buildx build \
+  --platform linux/amd64,linux/arm64 \
+  -t danilofreire/datasci350-example:latest \
+  --push .
 ```
 :::
 :::
 :::
 
-## And here it is
-### The image on Docker Hub
+## The image on Docker Hub
 
 :::{style="margin-top: 20px; font-size: 20px; text-align: center;"}
-<https://hub.docker.com/r/danilofreire/datasci350-example>
-
 [![](figures/docker-hub-image-2026.png){width="68%"}](#){data-modal-type="image" data-modal-url="figures/docker-hub-image-2026.png"}
 
-:::{style="font-size: 17px;"}
-Pushed and captured on 26 August 2026
-:::
+<https://hub.docker.com/r/danilofreire/datasci350-example>
 :::
 
 ## Docker pull
-### Anyone, anywhere, two commands
 
 :::{style="margin-top: 20px; font-size: 22px;"}
-- The image sits on Docker Hub now, so anyone can fetch it and run it:
+- Anyone can now download the image from Docker Hub with [`docker pull`]{.alert}, then run it:
 
 ```text
 docker pull danilofreire/datasci350-example:latest
-docker run --rm danilofreire/datasci350-example:latest
 
 latest: Pulling from danilofreire/datasci350-example
 Digest: sha256:0e5a94a5aebd...
 Status: Downloaded newer image
+
+docker run --rm danilofreire/datasci350-example:latest
+
 Hello, DATASCI350!
 numpy  2.5.2
 pandas 3.0.5
 ```
 
-- They need Docker and nothing else: no Python, no NumPy
-- The image is published for both Intel/AMD (`amd64`) and Apple Silicon (`arm64`) chips, so it runs on Windows, Linux and any Mac
-- Our example is tiny, and the shape is the same for a real project: your report renders inside the image the way this script runs
-- That is what the container part of the project grade tests. [I run `docker build` and `docker run` on a clean machine, and either your report appears or it does not]{.alert}
-- [Lecture 25]{.alert} builds the project container instruction by instruction
+- Python, NumPy and pandas come inside the image, so they only need Docker
+- It runs on Windows, Linux and any Mac, because it is published for `amd64` (Intel/AMD) and `arm64` (Apple Silicon)
+- Your project works the same way. [I build and run it on a clean machine, and if your report appears, we both celebrate]{.alert} 🎉
+- [Lecture 25]{.alert} builds the project container line by line
 
 :::{style="text-align: center; margin-top: 15px;"}
-[[Try it yourself]{.button}](#sec-exercise-01)
+[[Try it at home]{.button}](#sec-exercise-01)
 :::
 :::
 
-## Try it yourself! 🧠 {#sec-exercise-01}
-### Ten minutes
+## Try it at home {#sec-exercise-01}
 
-:::{style="margin-top: 20px; font-size: 23px;"}
+:::{style="margin-top: 40px; font-size: 23px;"}
 1. Copy the [`docker/`](https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker) folder from the course repository: <https://github.com/danilofreire/datasci350/tree/main/lectures/lecture-23/docker>
 2. Open a terminal inside that folder
 3. Run `docker build -t datasci350-example .`
 4. Run `docker run --rm datasci350-example`. Three lines appear
-5. Open `requirements.txt`. Add the line `polars==1.44.2`
+5. Open `requirements.txt`. Add the line `polars==2.1.0`
 6. Open `hello.py`. Import `polars` and print `pl.__version__`
 7. Run `docker build -t datasci350-example .` again
 8. Read the output. Note which steps say `CACHED`
@@ -1102,52 +1131,49 @@ Solution: [[Appendix 01]{.button}](#sec-appendix-01)
 # Summary {background-color="#1B3A6B"}
 
 ## What we learned today
-### Four tools and one deliverable
 
-:::{style="margin-top: 20px; font-size: 21px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [Dependency management]{.alert}: writing down the software your code assumes
-- Python 2 `print`: the script was fine, but the environment changed
-- [`venv` and `pip`]{.alert}: `pip freeze` writes pins, `pip install -r` reads them
-- [Conda]{.alert}: `--from-history` travels, [build strings]{.alert} stay home
+- [Dependency management]{.alert} records what your code needs
+- Code breaks when the environment changes (the Python 2 `print` script)
+- `pip freeze` writes [`==` pins]{.alert}, and `pip install -r` reads them
+- Export [conda]{.alert} with `--from-history` to work on other platforms
 :::
 
 :::{.column width="50%"}
-- [uv]{.alert}: `pyproject.toml` + `uv.lock`, then `uv sync`
-- [Containers]{.alert}: image = recipe, container = running instance, registry = storage
-- [Layer caching]{.alert}: two-minute build, 0.754-second rebuild
-- Docker Desktop is free, and [Podman, Colima, OrbStack]{.alert} run the same commands
+- Commit `pyproject.toml` and `uv.lock`, then [`uv sync`]{.alert} rebuilds the environment
+- An [image]{.alert} is a template, a container runs it, a registry stores it
+- [Layer caching]{.alert} cut a 13-second build to 0.79 seconds
+- Docker Desktop, Podman, Colima and OrbStack run the [same commands]{.alert}
 :::
 :::
 
-:::{style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;"}
-Your container is the deliverable: I run `docker build` and `docker run`, and your report appears or it does not 😅
+:::{style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 23px; margin-top: 15px;"}
+[Your container is the deliverable]{.alert}: if `docker build` and `docker run` show your report on my machine, you're done 🚀
 :::
 :::
 
 ## Next class
-### Quiz first, Docker after
 
-:::{style="margin-top: 20px; font-size: 22px;"}
+:::{style="margin-top: 40px; font-size: 25px;"}
 :::{.columns}
 :::{.column width="50%"}
-[Quiz 04]{.alert}: web APIs and JSON, from Lectures 18 and 19. No new material that day
-
-[Lecture 25]{.alert}, on 24 November, is Docker for Data Science. We take the project starter's `Dockerfile` instruction by instruction, and it installs Quarto as well as Python
-
-Everything today was the small version of that file
+- [Quiz 04]{.alert} (19 November): web APIs and JSON, Lectures 18 and 19
+- [Assignment 09]{.alert} is due the same day
+- [Lecture 25]{.alert} (24 November): the project starter's `Dockerfile`, with Python and Quarto
+- Today's `Dockerfile` is a small version of it
 :::
 
 :::{.column width="50%"}
-Before then:
+<p style="margin-top: 0;">Before then:</p>
 
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop), or an alternative from the licensing slide, and check `docker run hello-world`
-2. Create a free account on [Docker Hub](https://hub.docker.com/)
-3. Clone <https://github.com/danilofreire/datasci350-project-starter> and run `docker build` once on your own wifi
+1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop) or an alternative, and run `docker run hello-world`
+2. Create a free [Docker Hub](https://hub.docker.com/) account
+3. Clone the [project starter](https://github.com/danilofreire/datasci350-project-starter) and run `docker build` once on your own wifi
 
-:::{style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;"}
-[Quiz 05]{.alert} covers Lectures 21, 22, 23, and 25. The [final project]{.alert} is due on the last day of classes
+:::{style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 23px; margin-top: 15px;"}
+[Quiz 05]{.alert} covers Lectures 21, 22, 23 and 25. The [final project]{.alert} is due on the last day of classes
 :::
 :::
 :::
@@ -1158,9 +1184,8 @@ Before then:
 # Appendix 📚 {background-color="#1B3A6B"}
 
 ## Appendix 01: Exercise solution {#sec-appendix-01}
-### What the rebuild printed
 
-:::{style="margin-top: 5px; font-size: 20px;"}
+:::{style="margin-top: 5px; font-size: 18px;"}
 :::{.columns}
 :::{.column width="50%"}
 [Steps 5 and 6]{.alert}, the two edited files:
@@ -1169,7 +1194,7 @@ Before then:
 # requirements.txt
 numpy==2.5.2
 pandas==3.0.5
-polars==1.44.2
+polars==2.1.0
 ```
 
 ```{verbatim}
@@ -1192,10 +1217,10 @@ docker run --rm datasci350-example
 Hello, DATASCI350!
 numpy  2.5.2
 pandas 3.0.5
-polars 1.44.2
+polars 2.1.0
 ```
 
-- The image grew from 406MB to [638MB]{.alert} on disk
+- The image grew from 409MB to [639MB]{.alert} on disk
 :::
 
 :::{.column width="50%"}
@@ -1206,20 +1231,20 @@ polars 1.44.2
 #6 CACHED
 
 #7 [3/5] COPY requirements.txt .
-#7 DONE 0.0s
+#7 DONE 0.1s
 
 #8 [4/5] RUN pip install --no-cache-dir -r
     requirements.txt
-#8 32.94 Successfully installed numpy-2.5.2
-    pandas-3.0.5 polars-1.44.2 [...]
-#8 DONE 33.1s
+#8 7.711 Successfully installed numpy-2.5.2
+    pandas-3.0.5 polars-2.1.0 [...]
+#8 DONE 8.1s
 
 #9 [5/5] COPY hello.py .
-#9 DONE 0.1s
+#9 DONE 0.0s
 ```
 
 - One layer stayed cached and three rebuilt. The miss at `#7` forced every later layer to run again
-- Most of those 33 seconds went on `polars`, which the first build never fetched
+- `pip install` reran in full (8.1 seconds), downloading NumPy and pandas again along with `polars`
 - [Step 10]{.alert}: with the `COPY` lines swapped, editing `hello.py` alone invalidates `COPY hello.py` and re-runs `pip install` for nothing
 
 :::{style="margin-top: 15px;"}
@@ -1230,14 +1255,13 @@ polars 1.44.2
 :::
 
 ## Appendix 02: When something goes wrong {#sec-appendix-02}
-### Six errors you are likely to meet
 
 :::{style="margin-top: 20px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="50%"}
 [`Cannot connect to the Docker daemon`]{.alert}
 
-Docker Desktop is not running. Start the application, wait for the whale icon to settle, and try again. On my laptop OrbStack was stopped, and `docker info` answered `failed to connect to the docker API at unix:///Users/dafreir/.orbstack/run/docker.sock`.
+Docker Desktop is not running. Start the application, wait for the whale icon to settle, and try again. On my laptop OrbStack was stopped, and `docker info` answered `failed to connect to the docker API at unix://~/.orbstack/run/docker.sock`.
 
 [`permission denied ... /var/run/docker.sock`]{.alert}
 
@@ -1260,6 +1284,53 @@ Docker Hub allows 100 anonymous pulls every six hours from one address. Run `doc
 [`failed to read dockerfile: open Dockerfile: no such file or directory`]{.alert}
 
 You are in the wrong folder. The `.` at the end of `docker build -t name .` is where Docker looks, so `cd` into the folder holding the `Dockerfile`
+
+:::{style="margin-top: 15px;"}
+[[Back to hello-world]{.button}](#sec-hello-world)
+:::
+:::
+:::
+:::
+
+## Appendix 03: Docker on Windows with WSL {#sec-appendix-03}
+
+:::{style="margin-top: 20px; font-size: 20px;"}
+:::{.columns}
+:::{.column width="50%"}
+[With Docker Desktop (recommended)]{.alert}
+
+1. Install [WSL](https://learn.microsoft.com/en-us/windows/wsl/install): open PowerShell as administrator, run `wsl --install` and restart. You get Ubuntu by default
+2. Install [Docker Desktop for Windows](https://docs.docker.com/desktop/setup/install/windows-install/) and keep "Use WSL 2" ticked
+3. In Docker Desktop, open Settings → Resources → [WSL Integration](https://docs.docker.com/desktop/features/wsl/), turn on Ubuntu, then Apply & restart
+4. Open Ubuntu and check:
+
+```{verbatim}
+docker run hello-world
+```
+
+- Keep your projects inside Ubuntu (`~/...`), not in `/mnt/c/...`. Builds are much faster there
+:::
+
+:::{.column width="50%"}
+[Without Docker Desktop]{.alert}
+
+Install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) inside Ubuntu, then let your user run `docker` without `sudo`:
+
+```{verbatim}
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+sudo usermod -aG docker $USER
+```
+
+Close and reopen the terminal. If `docker` cannot connect, start the engine with `sudo service docker start`. Use one route only, not both.
+
+[`The command 'docker' could not be found in this WSL 2 distro`]{.alert}
+
+WSL Integration is off for your distribution. Turn it on as in step 3
+
+:::{style="margin-top: 15px;"}
+[[Back to hello-world]{.button}](#sec-hello-world)
+:::
 :::
 :::
 :::

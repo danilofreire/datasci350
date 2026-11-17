@@ -1,16 +1,16 @@
-# Start from an official Python image
+# Start from an official Python image on Docker Hub
 FROM python:3.14-slim
 
-# Everything below happens inside /app
+# Create /app inside the image and move into it
 WORKDIR /app
 
-# Copy requirements first, so Docker can
-# cache the install
+# Copy requirements.txt from your folder to /app
+# First, so editing hello.py won't reinstall
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the script
+# Copy hello.py from your folder into /app
 COPY hello.py .
 
-# What runs when the container starts
+# The command that runs when the container starts
 CMD ["python", "hello.py"]

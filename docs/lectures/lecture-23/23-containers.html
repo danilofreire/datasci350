@@ -281,7 +281,6 @@ Danilo Freire
 <ul>
 <li>A six-line Dockerfile, built, run and pushed to Docker Hub</li>
 <li>A container that renders your report is 30% of the <span class="alert">final project</span> grade</li>
-<li>Project starter: <a href="https://github.com/danilofreire/datasci350-project-starter">github.com/danilofreire/datasci350-project-starter</a></li>
 </ul>
 </div></div>
 </div>
@@ -382,6 +381,7 @@ Danilo Freire
 <div style="font-size: 17px; text-align: center; margin-top: -10px;">
 <p>Source: <a href="https://utrechtuniversity.github.io/workshop-computational-reproducibility/chapters/dependency-management.html">Utrecht University, Computational reproducibility workshop</a></p>
 </div>
+<div style="margin-top: 40px;">
 <ul>
 <li>How far to go <span class="alert">depends on who has to rerun your code</span></li>
 <li>At minimum, <span class="alert">declare</span> your dependencies so others know what you used</li>
@@ -391,6 +391,7 @@ Danilo Freire
 <li><span class="alert">Containerise</span> with <a href="https://www.docker.com/">Docker</a> or <a href="https://apptainer.org/">Apptainer</a> for full portability</li>
 <li>Your final project goes all the way, to a container</li>
 </ul>
+</div>
 </div>
 </section>
 <section id="how-to-declare-dependencies" class="slide level2">
@@ -427,11 +428,13 @@ Danilo Freire
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
+<div style="font-size: 22px;">
 <ul>
 <li><span class="alert"><code>venv</code></span> ships with Python and <span class="alert">creates a folder</span> with its own <code>python</code> and <code>site-packages</code></li>
 <li>Installs stay inside it, so two projects can keep two versions of one package</li>
 <li>Create, activate, install:</li>
 </ul>
+</div>
 <div style="margin-top: 20px; margin-bottom: 20px; font-size: 18px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource {verbatim} number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>mkdir venv-demo &amp;&amp; cd venv-demo  # any project folder</span>
 <span id="cb2-2"><a></a></span>
@@ -442,9 +445,11 @@ Danilo Freire
 <span id="cb2-7"><a></a></span>
 <span id="cb2-8"><a></a>pip install requests polars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
+<div style="font-size: 22px;">
 <ul>
 <li>The folder stays out of git (Python 3.13+ adds its own <code>.gitignore</code>). <span class="alert">Only the package list is committed</span></li>
 </ul>
+</div>
 </div><div class="column" style="width:48%;">
 <ul>
 <li><code>which python</code> shows which interpreter is active:</li>

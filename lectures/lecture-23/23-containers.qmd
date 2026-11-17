@@ -80,7 +80,6 @@ Source: [Lecture 22, Appendix 07](https://danilofreire.github.io/datasci350/lect
 
 - A six-line Dockerfile, built, run and pushed to Docker Hub
 - A container that renders your report is 30% of the [final project]{.alert} grade
-- Project starter: [github.com/danilofreire/datasci350-project-starter](https://github.com/danilofreire/datasci350-project-starter)
 :::
 :::
 :::
@@ -183,6 +182,7 @@ Source: [Baker (2016), Nature](https://www.nature.com/articles/533452a)
 Source: [Utrecht University, Computational reproducibility workshop](https://utrechtuniversity.github.io/workshop-computational-reproducibility/chapters/dependency-management.html)
 :::
 
+:::{style="margin-top: 40px;"}
 - How far to go [depends on who has to rerun your code]{.alert}
 - At minimum, [declare]{.alert} your dependencies so others know what you used
 - [Manage]{.alert} them with [`conda`](https://docs.conda.io/projects/conda/), [`pip`](https://pip.pypa.io/) or [`uv`](https://docs.astral.sh/uv/)
@@ -190,6 +190,7 @@ Source: [Utrecht University, Computational reproducibility workshop](https://utr
 - [Host]{.alert} them online with [Code Ocean](https://codeocean.com/) ($$$) or [Binder](https://mybinder.org/) (free, limited)
 - [Containerise]{.alert} with [Docker](https://www.docker.com/) or [Apptainer](https://apptainer.org/) for full portability
 - Your final project goes all the way, to a container
+:::
 :::
 
 ## How to declare dependencies?
@@ -221,9 +222,11 @@ Your analysis uses, e.g., Python, NumPy, pandas and matplotlib. Ask:
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="52%"}
+:::{style="font-size: 22px;"}
 - [`venv`]{.alert} ships with Python and [creates a folder]{.alert} with its own `python` and `site-packages`
 - Installs stay inside it, so two projects can keep two versions of one package
 - Create, activate, install:
+:::
 
 :::{style="margin-top: 20px; margin-bottom: 20px; font-size: 18px;"}
 ```{verbatim}
@@ -238,7 +241,9 @@ pip install requests polars
 ```
 :::
 
+:::{style="font-size: 22px;"}
 - The folder stays out of git (Python 3.13+ adds its own `.gitignore`). [Only the package list is committed]{.alert}
+:::
 :::
 
 :::{.column width="48%"}

@@ -695,8 +695,8 @@ The host only needs Docker, and the image carries everything else
 :::{.column width="50%"}
 - Built with [Docker](https://www.docker.com/) or [Apptainer](https://apptainer.org/)
 - Usually [a stripped-down Linux]{.alert} ([Ubuntu](https://ubuntu.com/), [Alpine](https://alpinelinux.org/)), the most widely used open-source server system
-- Shared through [container registries](https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-registry/) like [Docker Hub](https://hub.docker.com/)
-- [More about Docker](https://docs.docker.com/get-started/overview/)
+- Shared through [container registries](https://docs.docker.com/learn/content/what-is-a-container/) like [Docker Hub](https://hub.docker.com/)
+- [More about Docker](https://docs.docker.com/learn/)
 
 :::{style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;"}
 Lecture 10's four ingredients of reproducibility: code, data, environment, documentation. [A container ships the environment with the code]{.alert}
@@ -726,7 +726,7 @@ Lecture 10's four ingredients of reproducibility: code, data, environment, docum
 :::{style="font-size: 17px; text-align: center;"}
 Client, daemon, and registry
 
-Source: [Docker documentation](https://docs.docker.com/get-started/docker-overview/)
+Source: [Docker documentation](https://docs.docker.com/learn/content/what-is-a-container/)
 :::
 :::
 :::

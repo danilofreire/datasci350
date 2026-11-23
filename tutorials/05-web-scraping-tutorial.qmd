@@ -576,6 +576,18 @@ Two hints. The elements you need carry the classes `product_pod` and `price_colo
 
 If you fetch the live page, save it to disk before you start experimenting on it. The solution is in @sec-solutions.
 
+## Try it on a second site
+
+Steps 3 and 4 of the recipe change between sites. This exercise shows you what that means in practice.
+
+<https://web-scraping.dev/products> is a practice shop run by a scraping company. A saved copy of page 1 is included at `data/scraping/scrapingdev_products.html`.
+
+1. Run `parse_books` on the saved copy. How many rows do you get?
+2. Open the live page, inspect one product card, and find the branch that holds one record.
+3. Write a new parser that extracts the title, price and link of every product. Report how many products there are and their mean price to two decimal places.
+
+Two hints. Not every field from the bookshop exists here, so decide which ones carry over before you write any code. And the site's `robots.txt` asks for two seconds between requests, so add a pause if you fetch more than one page. The solution is in @sec-solutions.
+
 # Ethics, law, and reliability
 
 ## `robots.txt`
@@ -863,6 +875,43 @@ print(mystery.nsmallest(5, "price").to_string(index=False, max_colwidth=40))
 ```
 
 The page header says "Mystery" with a count. Checking your row count against what the page claims is the cheapest bug-catcher there is.
+
+## A second site
+
+The bookshop parser runs without an error and returns nothing:
+
+```{python}
+#| echo: true
+#| eval: true
+with open("data/scraping/scrapingdev_products.html", encoding="utf-8") as f:
+    shop = BeautifulSoup(f.read(), "html.parser")
+
+print(f"parse_books found {len(parse_books(shop))} rows")
+```
+
+An empty result with no error is the most dangerous kind of failure. Always check the row count.
+
+The inspector shows each product in a `div` with the classes `row product`. The title and link sit in `h3 a`, as before. The price sits in `div.price`, with no currency symbol. There is no rating or stock field on this page.
+
+```{python}
+#| echo: true
+#| eval: true
+cards = shop.select("div.product")
+if not cards:
+    raise ValueError("No product cards found. Has the page structure changed?")
+
+products = pd.DataFrame([
+    {"title": c.select_one("h3 a").get_text(strip=True),
+     "price": float(c.select_one("div.price").get_text(strip=True)),
+     "url": c.select_one("h3 a").get("href")}
+    for c in cards
+])
+
+print(products.to_string(index=False, max_colwidth=40))
+print(f"\n{len(products)} products, mean price ${products['price'].mean():.2f}")
+```
+
+Two things changed: the selectors and the list of fields. Fetching, parsing and tabulating stayed the same.
 
 That is the end of the tutorial. You read HTML as a tree, pulled a Wikipedia table into pandas and cleaned it, walked a bookshop page with BeautifulSoup, and met the case, *hiQ Labs v. LinkedIn*, that defines where the legal lines sit. Keep the selector cheat sheet in @sec-cheatsheet to hand, and start every future job at the top of the ladder in Section 2.
 

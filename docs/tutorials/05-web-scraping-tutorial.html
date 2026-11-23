@@ -385,6 +385,7 @@ div.csl-indent {
   <li><a href="#step-3-the-universal-recipe" id="toc-step-3-the-universal-recipe" class="nav-link" data-scroll-target="#step-3-the-universal-recipe">Step 3: the universal recipe</a></li>
   <li><a href="#scraping-several-pages" id="toc-scraping-several-pages" class="nav-link" data-scroll-target="#scraping-several-pages">Scraping several pages</a></li>
   <li><a href="#try-it-yourself-1" id="toc-try-it-yourself-1" class="nav-link" data-scroll-target="#try-it-yourself-1">Try it yourself</a></li>
+  <li><a href="#try-it-on-a-second-site" id="toc-try-it-on-a-second-site" class="nav-link" data-scroll-target="#try-it-on-a-second-site">Try it on a second site</a></li>
   </ul></li>
   <li><a href="#ethics-law-and-reliability" id="toc-ethics-law-and-reliability" class="nav-link" data-scroll-target="#ethics-law-and-reliability">Ethics, law, and reliability</a>
   <ul class="collapse">
@@ -407,6 +408,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#wikipedia-gdp-table" id="toc-wikipedia-gdp-table" class="nav-link" data-scroll-target="#wikipedia-gdp-table">Wikipedia GDP table</a></li>
   <li><a href="#mystery-books" id="toc-mystery-books" class="nav-link" data-scroll-target="#mystery-books">Mystery books</a></li>
+  <li><a href="#a-second-site" id="toc-a-second-site" class="nav-link" data-scroll-target="#a-second-site">A second site</a></li>
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
@@ -629,7 +631,7 @@ div.csl-indent {
 <section id="worked-example-world-population-from-wikipedia" class="level2">
 <h2 class="anchored" data-anchor-id="worked-example-world-population-from-wikipedia">Worked example: world population from Wikipedia</h2>
 <p>Here is the live fetch, shown but not executed. Note the <code>User-Agent</code> header: Wikipedia asks that automated clients identify themselves, and a project name with an email address is the polite way to do it.</p>
-<div id="2682ae33" class="cell" data-execution_count="2">
+<div id="56977688" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://en.wikipedia.org/wiki/List_of_countries_by_population_(United_Nations)"</span></span>
@@ -643,7 +645,7 @@ div.csl-indent {
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    f.write(r.text)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And here is the version that runs, reading the saved page. <code>read_html</code> accepts a file path.</p>
-<div id="ff9a5633" class="cell" data-execution_count="3">
+<div id="337e9c4b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pd.read_html(<span class="st">"data/scraping/wikipedia_population_un.html"</span>)</span>
@@ -668,7 +670,7 @@ div.csl-indent {
 <section id="the-cleaning-is-the-real-work" class="level2">
 <h2 class="anchored" data-anchor-id="the-cleaning-is-the-real-work">The cleaning is the real work</h2>
 <p>Look at what arrived.</p>
-<div id="23bd576f" class="cell" data-execution_count="4">
+<div id="f294923f" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df.head(<span class="dv">4</span>).iloc[:, :<span class="dv">3</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="3">
 <pre><code>  Country or territory  Population (1 July 2022)  Population (1 July 2023)
@@ -679,7 +681,7 @@ div.csl-indent {
 </div>
 </div>
 <p>Column names carry footnote markers, the population columns may have come in as text, and the first row is a total rather than a country. This is normal. A table built to be read by a person is not a dataset. The cleaning below is the real work of <code>read_html</code> scraping:</p>
-<div id="fc3c5fe1" class="cell" data-execution_count="5">
+<div id="4fe65578" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>clean <span class="op">=</span> df.copy()</span>
@@ -729,7 +731,7 @@ United States  341534046.0  343477335.0        0.57
 <section id="checking-your-work" class="level2">
 <h2 class="anchored" data-anchor-id="checking-your-work">Checking your work</h2>
 <p>Never trust a scrape you have not sanity-checked.</p>
-<div id="efcc981a" class="cell" data-execution_count="6">
+<div id="f73c6c68" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"rows parsed:        </span><span class="sc">{</span><span class="bu">len</span>(clean)<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"missing pop_2023:   </span><span class="sc">{</span>clean[<span class="st">'pop_2023'</span>]<span class="sc">.</span>isna()<span class="sc">.</span><span class="bu">sum</span>()<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
@@ -754,7 +756,7 @@ United States  343477335.0
 <section id="the-row-that-was-not-a-country" class="level2">
 <h2 class="anchored" data-anchor-id="the-row-that-was-not-a-country">The row that was not a country</h2>
 <p>Tables written for people often carry totals, subtotals, and notes in the same shape as the data. Drop them on purpose.</p>
-<div id="9b093280" class="cell" data-execution_count="7">
+<div id="29933c70" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>countries <span class="op">=</span> clean[clean[<span class="st">"country"</span>] <span class="op">!=</span> <span class="st">"World"</span>].copy()</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"before: </span><span class="sc">{</span><span class="bu">len</span>(clean)<span class="sc">}</span><span class="ss"> rows   after: </span><span class="sc">{</span><span class="bu">len</span>(countries)<span class="sc">}</span><span class="ss"> rows"</span>)</span>
@@ -802,7 +804,7 @@ difference:       0.01%</code></pre>
 <section id="find-and-find_all" class="level2">
 <h2 class="anchored" data-anchor-id="find-and-find_all"><code>find</code> and <code>find_all</code></h2>
 <p>The two basic search methods take a tag name and, optionally, attribute filters.</p>
-<div id="a97388b9" class="cell" data-execution_count="8">
+<div id="e8454d05" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>html <span class="op">=</span> <span class="st">"""</span></span>
@@ -835,7 +837,7 @@ difference:       0.01%</code></pre>
 <section id="getting-text-and-attributes-out" class="level2">
 <h2 class="anchored" data-anchor-id="getting-text-and-attributes-out">Getting text and attributes out</h2>
 <p>Once you hold an element, you want the text between its tags or the value of an attribute.</p>
-<div id="ce9e163b" class="cell" data-execution_count="9">
+<div id="4f5666d6" class="cell" data-execution_count="9">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> books[<span class="dv">0</span>]</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Text between the tags</span></span>
@@ -859,7 +861,7 @@ b1 None</code></pre>
 <section id="select-the-same-selectors-as-your-browser" class="level2">
 <h2 class="anchored" data-anchor-id="select-the-same-selectors-as-your-browser"><code>select</code>: the same selectors as your browser</h2>
 <p><code>select()</code> takes the CSS selectors from Section 3.4. <code>select_one()</code> is its <code>find</code> equivalent.</p>
-<div id="b1f3b367" class="cell" data-execution_count="10">
+<div id="f24ccaff" class="cell" data-execution_count="10">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">len</span>(soup.select(<span class="st">"div.book"</span>)))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(soup.select_one(<span class="st">"div.book h3 a"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>))</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(soup.select_one(<span class="st">"#b2 .price"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>))</span>
@@ -877,7 +879,7 @@ Invisible Cities
 <h2 class="anchored" data-anchor-id="worked-example-books.toscrape.com">Worked example: books.toscrape.com</h2>
 <p><a href="https://books.toscrape.com" class="uri">https://books.toscrape.com</a> is a fake bookshop built specifically for practising scraping. It has 1,000 books, 20 per page across 50 pages. The prices and ratings are random and mean nothing. Its banner says “We love being scraped!”, which is as clear a permission as you will ever get. Practise here, not on a real shop.</p>
 <p>Step one is always the same: fetch the page once and save it. This is the fetch that created the cached copy, shown but not executed.</p>
-<div id="2b4c4b99" class="cell" data-execution_count="11">
+<div id="8c7e5595" class="cell" data-execution_count="11">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://books.toscrape.com/catalogue/page-1.html"</span></span>
@@ -893,7 +895,7 @@ Invisible Cities
 <section id="a-trap-worth-meeting-now-encoding" class="level2">
 <h2 class="anchored" data-anchor-id="a-trap-worth-meeting-now-encoding">A trap worth meeting now: encoding</h2>
 <p>Fetch that page, print a price, and you may see <code>Â£51.77</code> instead of <code>£51.77</code>. Here is why. The server sends <code>Content-Type: text/html</code> with no charset. The HTTP specification says that when no charset is given, the client should assume <code>ISO-8859-1</code>, and <code>requests</code> follows the rule. But the page is actually UTF-8, so the pound sign gets mangled, and later <code>float(price.replace("£", ""))</code> fails with an error that mentions none of this.</p>
-<div id="0c898b4e" class="cell" data-execution_count="12">
+<div id="ce95a802" class="cell" data-execution_count="12">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> requests.get(url, headers<span class="op">=</span>headers, timeout<span class="op">=</span><span class="dv">15</span>)</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.encoding)             <span class="co"># ISO-8859-1</span></span>
@@ -907,7 +909,7 @@ Invisible Cities
 <section id="step-1-find-the-branch-that-holds-one-record" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-find-the-branch-that-holds-one-record">Step 1: find the branch that holds one record</h2>
 <p>Now we parse the saved page and answer the first of the two questions from Section 3.2.</p>
-<div id="8a11d4f8" class="cell" data-execution_count="13">
+<div id="9db30795" class="cell" data-execution_count="13">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/books_page1.html"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
@@ -952,7 +954,7 @@ Invisible Cities
 </section>
 <section id="step-2-locate-each-field-inside-the-branch" class="level2">
 <h2 class="anchored" data-anchor-id="step-2-locate-each-field-inside-the-branch">Step 2: locate each field inside the branch</h2>
-<div id="8f8609d0" class="cell" data-execution_count="14">
+<div id="f9aaf132" class="cell" data-execution_count="14">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>card <span class="op">=</span> cards[<span class="dv">0</span>]</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"title (visible text):"</span>, card.select_one(<span class="st">"h3 a"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>))</span>
@@ -973,7 +975,7 @@ link                : a-light-in-the-attic_1000/index.html</code></pre>
 </section>
 <section id="step-3-the-universal-recipe" class="level2">
 <h2 class="anchored" data-anchor-id="step-3-the-universal-recipe">Step 3: the universal recipe</h2>
-<div id="d1f3f57e" class="cell" data-execution_count="15">
+<div id="4264daec" class="cell" data-execution_count="15">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>WORDS <span class="op">=</span> {<span class="st">"One"</span>: <span class="dv">1</span>, <span class="st">"Two"</span>: <span class="dv">2</span>, <span class="st">"Three"</span>: <span class="dv">3</span>, <span class="st">"Four"</span>: <span class="dv">4</span>, <span class="st">"Five"</span>: <span class="dv">5</span>}</span>
@@ -1021,7 +1023,7 @@ Sapiens: A Brief History of...  54.23       5      True sapiens-a-brief-history-
 <section id="scraping-several-pages" class="level2">
 <h2 class="anchored" data-anchor-id="scraping-several-pages">Scraping several pages</h2>
 <p>Real jobs rarely stop at one page. Here is the loop that fetched three pages of the bookshop, again shown but not executed.</p>
-<div id="7cb34348" class="cell" data-execution_count="16">
+<div id="feb6a4c4" class="cell" data-execution_count="16">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1044,7 +1046,7 @@ Sapiens: A Brief History of...  54.23       5      True sapiens-a-brief-history-
 <span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>    time.sleep(<span class="dv">1</span>)        <span class="co"># one second between pages</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><code>time.sleep(1)</code> is the same courtesy you learned for APIs, and it matters more here. An API expects programmatic traffic; a website was built for people. Notice also that the loop saves each page as it goes. Run it once, then develop your parser against the files, which is what the next cell does.</p>
-<div id="05fe805e" class="cell" data-execution_count="17">
+<div id="97aef91a" class="cell" data-execution_count="17">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>all_rows <span class="op">=</span> []</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> page <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">4</span>):</span>
@@ -1074,13 +1076,24 @@ rating counts: {1: 15, 2: 8, 3: 13, 4: 10, 5: 14}</code></pre>
 <p>Two hints. The elements you need carry the classes <code>product_pod</code> and <code>price_color</code>; work out for yourself which one is the record and which one is the field. And the price arrives as text with a currency symbol in front, so it will not average until it is a number.</p>
 <p>If you fetch the live page, save it to disk before you start experimenting on it. The solution is in <a href="#sec-solutions" class="quarto-xref">Section&nbsp;11</a>.</p>
 </section>
+<section id="try-it-on-a-second-site" class="level2">
+<h2 class="anchored" data-anchor-id="try-it-on-a-second-site">Try it on a second site</h2>
+<p>Steps 3 and 4 of the recipe change between sites. This exercise shows you what that means in practice.</p>
+<p><a href="https://web-scraping.dev/products" class="uri">https://web-scraping.dev/products</a> is a practice shop run by a scraping company. A saved copy of page 1 is included at <code>data/scraping/scrapingdev_products.html</code>.</p>
+<ol type="1">
+<li>Run <code>parse_books</code> on the saved copy. How many rows do you get?</li>
+<li>Open the live page, inspect one product card, and find the branch that holds one record.</li>
+<li>Write a new parser that extracts the title, price and link of every product. Report how many products there are and their mean price to two decimal places.</li>
+</ol>
+<p>Two hints. Not every field from the bookshop exists here, so decide which ones carry over before you write any code. And the site’s <code>robots.txt</code> asks for two seconds between requests, so add a pause if you fetch more than one page. The solution is in <a href="#sec-solutions" class="quarto-xref">Section&nbsp;11</a>.</p>
+</section>
 </section>
 <section id="ethics-law-and-reliability" class="level1">
 <h1>Ethics, law, and reliability</h1>
 <section id="robots.txt" class="level2">
 <h2 class="anchored" data-anchor-id="robots.txt"><code>robots.txt</code></h2>
 <p>Almost every site publishes a file at <code>/robots.txt</code> saying which paths automated clients should leave alone. Fetch <a href="https://en.wikipedia.org/robots.txt" class="uri">https://en.wikipedia.org/robots.txt</a> and you will find a long, well-commented one. A saved copy ships with the tutorial.</p>
-<div id="97acbd7b" class="cell" data-execution_count="18">
+<div id="78f24c23" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/wikipedia_robots.txt"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>    lines <span class="op">=</span> [l <span class="cf">for</span> l <span class="kw">in</span> f.read().splitlines()</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>             <span class="cf">if</span> l.startswith((<span class="st">"User-agent"</span>, <span class="st">"Disallow"</span>, <span class="st">"Allow"</span>, <span class="st">"Crawl-delay"</span>))]</span>
@@ -1149,7 +1162,7 @@ Disallow: /</code></pre>
 <h2 class="anchored" data-anchor-id="why-scrapers-rot">Why scrapers rot</h2>
 <p>An API is a promise. HTML is not a promise, it is a design decision, and designs change. A site redesign renames <code>product_pod</code> to <code>product-card</code>, and your <code>select</code> quietly returns <code>[]</code>. The dangerous word is <em>quietly</em>. You do not get an exception. You get an empty list, an empty DataFrame, and a plot with no points, and you spend an hour blaming pandas.</p>
 <p>The defence is to fail loudly: check that you found something, and that you found roughly what you expected.</p>
-<div id="96c4cc35" class="cell" data-execution_count="19">
+<div id="69bf8d5d" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>cards <span class="op">=</span> soup.select(<span class="st">"article.product_pod"</span>)</span>
 <span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> cards:</span>
@@ -1383,7 +1396,7 @@ Cache the HTML to disk. Include a check that raises if no books are found.</code
 <section id="wikipedia-gdp-table" class="level2">
 <h2 class="anchored" data-anchor-id="wikipedia-gdp-table">Wikipedia GDP table</h2>
 <p>The lesson of this exercise is the loop that prints every table’s shape. You do not guess the index, you look.</p>
-<div id="7f16802b" class="cell" data-execution_count="20">
+<div id="d1e9c2e7" class="cell" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>tables <span class="op">=</span> pd.read_html(<span class="st">"data/scraping/wikipedia_gdp_nominal.html"</span>)</span>
@@ -1406,7 +1419,7 @@ Cache the HTML to disk. Include a check that raises if no books are found.</code
 </div>
 </div>
 <p>The main country table is the one with roughly 200 rows. The headers span two rows, so pandas builds a <code>MultiIndex</code>; flatten it, then find the country column and the IMF column by name rather than by position.</p>
-<div id="9855a7e8" class="cell" data-execution_count="21">
+<div id="467d53eb" class="cell" data-execution_count="21">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>gdp <span class="op">=</span> <span class="bu">next</span>(t <span class="cf">for</span> t <span class="kw">in</span> tables <span class="cf">if</span> t.shape[<span class="dv">0</span>] <span class="op">&gt;</span> <span class="dv">150</span>)</span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten the MultiIndex into single strings</span></span>
@@ -1436,7 +1449,7 @@ Country/Territory IMF (2026)[1]
 <section id="mystery-books" class="level2">
 <h2 class="anchored" data-anchor-id="mystery-books">Mystery books</h2>
 <p>The fetch that created the cached copy, not executed here:</p>
-<div id="52b92315" class="cell" data-execution_count="22">
+<div id="d765a874" class="cell" data-execution_count="22">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://books.toscrape.com/catalogue/category/books/mystery_3/index.html"</span></span>
@@ -1449,7 +1462,7 @@ Country/Territory IMF (2026)[1]
 <span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    f.write(r.content)          <span class="co"># bytes, so the encoding trap cannot bite</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>And the parse, which runs on the saved page:</p>
-<div id="4dcc14b4" class="cell" data-execution_count="23">
+<div id="9e152ac8" class="cell" data-execution_count="23">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> bs4 <span class="im">import</span> BeautifulSoup</span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1487,6 +1500,47 @@ That Darkness (Gardiner and Renner #1)  13.92
 </div>
 </div>
 <p>The page header says “Mystery” with a count. Checking your row count against what the page claims is the cheapest bug-catcher there is.</p>
+</section>
+<section id="a-second-site" class="level2">
+<h2 class="anchored" data-anchor-id="a-second-site">A second site</h2>
+<p>The bookshop parser runs without an error and returns nothing:</p>
+<div id="6e4e0439" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/scraping/scrapingdev_products.html"</span>, encoding<span class="op">=</span><span class="st">"utf-8"</span>) <span class="im">as</span> f:</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>    shop <span class="op">=</span> BeautifulSoup(f.read(), <span class="st">"html.parser"</span>)</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"parse_books found </span><span class="sc">{</span><span class="bu">len</span>(parse_books(shop))<span class="sc">}</span><span class="ss"> rows"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>parse_books found 0 rows</code></pre>
+</div>
+</div>
+<p>An empty result with no error is the most dangerous kind of failure. Always check the row count.</p>
+<p>The inspector shows each product in a <code>div</code> with the classes <code>row product</code>. The title and link sit in <code>h3 a</code>, as before. The price sits in <code>div.price</code>, with no currency symbol. There is no rating or stock field on this page.</p>
+<div id="f7d7258e" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>cards <span class="op">=</span> shop.select(<span class="st">"div.product"</span>)</span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="kw">not</span> cards:</span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"No product cards found. Has the page structure changed?"</span>)</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>products <span class="op">=</span> pd.DataFrame([</span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"title"</span>: c.select_one(<span class="st">"h3 a"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>     <span class="st">"price"</span>: <span class="bu">float</span>(c.select_one(<span class="st">"div.price"</span>).get_text(strip<span class="op">=</span><span class="va">True</span>)),</span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a>     <span class="st">"url"</span>: c.select_one(<span class="st">"h3 a"</span>).get(<span class="st">"href"</span>)}</span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> c <span class="kw">in</span> cards</span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a>])</span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(products.to_string(index<span class="op">=</span><span class="va">False</span>, max_colwidth<span class="op">=</span><span class="dv">40</span>))</span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="sc">{</span><span class="bu">len</span>(products)<span class="sc">}</span><span class="ss"> products, mean price $</span><span class="sc">{</span>products[<span class="st">'price'</span>]<span class="sc">.</span>mean()<span class="sc">:.2f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                 title  price                                url
+Box of Chocolate Candy  24.99 https://web-scraping.dev/product/1
+Dark Red Energy Potion   4.99 https://web-scraping.dev/product/2
+    Teal Energy Potion   4.99 https://web-scraping.dev/product/3
+     Red Energy Potion   4.99 https://web-scraping.dev/product/4
+    Blue Energy Potion   4.99 https://web-scraping.dev/product/5
+
+5 products, mean price $8.99</code></pre>
+</div>
+</div>
+<p>Two things changed: the selectors and the list of fields. Fetching, parsing and tabulating stayed the same.</p>
 <p>That is the end of the tutorial. You read HTML as a tree, pulled a Wikipedia table into pandas and cleaned it, walked a bookshop page with BeautifulSoup, and met the case, <em>hiQ Labs v. LinkedIn</em>, that defines where the legal lines sit. Keep the selector cheat sheet in <a href="#sec-cheatsheet" class="quarto-xref">Section&nbsp;9</a> to hand, and start every future job at the top of the ladder in Section 2.</p>
 </section>
 </section>

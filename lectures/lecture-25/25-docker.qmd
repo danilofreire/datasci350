@@ -31,21 +31,21 @@ editor:
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="54%"}
-- We wrote dependencies down and [pinned]{.alert} them with `==`
+- We [pinned]{.alert} dependencies with `==`
 - `venv` and `pip` gave us an isolated Python
-  - The project starter builds the same thing at [`/opt/venv`]{.alert}
-- Docker's three main concepts:
+  - The project starter builds one at [`/opt/venv`]{.alert}
+- [Docker's three main concepts](https://docs.docker.com/learn/content/what-is-a-container/):
   - An [image]{.alert} is the recipe
   - A [container]{.alert} is a running instance
   - A [registry]{.alert} is where images live
-- We built a [six-instruction Dockerfile]{.alert} from `python:3.14-slim` in about two minutes
-- Layer caching brought the rebuild down to [0.754 seconds]{.alert}
-- We pushed the result to `danilofreire/datasci350-example`
-- Today we also install Quarto and render a report
+- A [six-instruction Dockerfile]{.alert} from `python:3.14-slim` built in 13 seconds
+- The cached rebuild took [0.79 seconds]{.alert}
+- We pushed it to [`danilofreire/datasci350-example`](https://hub.docker.com/r/danilofreire/datasci350-example)
+- Today we install Quarto in the image and render a report
 :::
 
 :::{.column width="46%"}
-- Lecture 23's cached rebuild, the output we finished on:
+- What we did last time:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -53,23 +53,66 @@ docker build -t datasci350-example .
 
 #5 [1/5] FROM docker.io/library/python:3.14-slim
 #5 DONE 0.0s
-
-#6 [3/5] COPY requirements.txt .
+#6 [2/5] WORKDIR /app
 #6 CACHED
-
-#7 [4/5] RUN pip install --no-cache-dir -r
-    requirements.txt
+#7 [3/5] COPY requirements.txt .
 #7 CACHED
-
-#8 [2/5] WORKDIR /app
+#8 [4/5] RUN pip install --no-cache-dir -r
+    requirements.txt
 #8 CACHED
-
 #9 [5/5] COPY hello.py .
 #9 CACHED
+#10 exporting to image
+#10 DONE 0.1s
 ```
 :::
 
-- I ran today's build once before class, so the project image is already on this laptop (to save time)
+- I built today's image before class, so it is already on my laptop
+:::
+:::
+:::
+
+## The Dockerfile from Lecture 23
+
+:::{style="margin-top: 40px; font-size: 21px;"}
+:::{.columns}
+:::{.column width="58%"}
+:::{style="font-size: 23px;"}
+```dockerfile
+# Start from an official Python image
+FROM python:3.14-slim
+
+# Create /app inside the image and move into it
+WORKDIR /app
+
+# Copy requirements.txt from your computer
+# into /app (the "."), then install it
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy hello.py from your computer into /app
+COPY hello.py .
+
+# The command that runs when the container starts
+CMD ["python", "hello.py"]
+```
+
+```text
+docker build -t datasci350-example .
+docker run --rm datasci350-example
+```
+:::
+:::
+
+:::{.column width="42%"}
+- `FROM` picks the base image, here [Python 3.14 on a slim Debian Linux](https://hub.docker.com/_/python)
+  - Base images live on [Docker Hub](https://hub.docker.com/), where you can search for one
+- `WORKDIR` creates `/app` and runs every later step inside it
+- `COPY` brings a file from your folder into the image
+- `RUN` executes a command while the image is built
+- `CMD` sets the command the container runs when it starts
+- `requirements.txt` is copied before `hello.py`, so editing the script does not reinstall the packages
+- Today's Dockerfile adds `ENV`, which sets a variable such as `PATH`, and `SHELL`, which picks the shell for `RUN`
 :::
 :::
 :::
@@ -83,38 +126,44 @@ docker build -t datasci350-example .
 :::{.column width="50%"}
 [1. The project starter]{.alert}
 
-- The five commands I run when I mark your container
-- Six files, keeping the API and your keys out of the image
+- How I will grade your container
+- Why `data/raw/` is in the repository
 
-[2. The Dockerfile, instruction by instruction]{.alert}
+[2. The Dockerfile]{.alert}
 
-- One instruction at a time, from `FROM` to `CMD`
-- `.dockerignore`, `docker history`, and the cold build timed on this laptop
+- What each line of the Dockerfile does
+- How long the first build takes
+
+[3. Run, change, rebuild]{.alert}
+
+- Use `-v` to get the report out
+- Why rebuilds take under a second
 :::
 
 :::{.column width="50%"}
-[3. Run, change, rebuild]{.alert}
+[4. When something goes wrong]{.alert}
 
-- The `-v` flag that decides whether you ever see the report
-- Layer caching on a real project: 3 minutes 12 seconds down to 0.666 seconds
+- I break the project twice and fix it
+- Open a shell inside a container
+- Clean up old images
 
-[4. What breaks, and the wider world]{.alert}
+[5. Beyond one Dockerfile]{.alert}
 
-- Two failures, an inspection session, and cleaning up
-- Ready-made images and Docker Hub
+- Ready-made images for Python and R
+- Share your image on Docker Hub
 :::
 :::
 :::
 
-# The project starter 📦 {background-color="#1B3A6B"}
+# The project starter {background-color="#1B3A6B"}
 
-## What the grader will do
-### You should test your container before submission
+## How I will grade your container
+### Test it yourself before you submit
 
 :::{style="margin-top: 40px; font-size: 22px;"}
 :::{.columns}
 :::{.column width="54%"}
-- [My whole grading procedure for the container:]{.alert}
+- [The commands I run:]{.alert}
 
 :::{style="margin-top: 20px; margin-bottom: 20px; font-size: 22px;"}
 ```text
@@ -128,14 +177,13 @@ open output/report.html
 ```
 :::
 
-- My machine has Docker installed and nothing else: no Python, no Quarto, no packages
-- It has internet during the build
-- These five commands are [30% of the project grade]{.alert}
-- Run them tonight on your own repository, and you know your mark for that criterion
+- I only have Docker installed, so your image must bring everything else
+- These commands are [30% of the project grade]{.alert}
+- Run them on your own repository first
 :::
 
 :::{.column width="46%"}
-- The full rubric, from [project/project-instructions.pdf](https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf) (page 5):
+- The rubric (page 5 of [project-instructions.pdf](https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf)):
 
 :::{style="text-align: center; font-size: 19px; margin-top: 10px; margin-bottom: 10px;"}
 | Criterion | Weight |
@@ -148,7 +196,7 @@ open output/report.html
 :::
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;"}
-A report that calls the API at render time fails on the day the API is down. Pull once, commit `data/raw/`, and leave it alone
+A report that calls the API at render time fails when the API is down. Pull once and commit `data/raw/`
 :::
 :::
 :::
@@ -169,6 +217,7 @@ datasci350-project-starter/
 ├── report.qmd
 ├── README.md
 ├── .gitignore
+├── .gitattributes
 ├── data/
 │   └── raw/
 │       ├── life_expectancy.csv
@@ -177,7 +226,7 @@ datasci350-project-starter/
     └── pull_data.py
 ```
 
-- The [split]{.alert} that matters: `scripts/pull_data.py` talks to the API, and `report.qmd` reads only `data/raw/`
+- Only `scripts/pull_data.py` calls the API. `report.qmd` reads the saved files in `data/raw/`
 :::
 
 :::{.column width="50%"}
@@ -186,14 +235,15 @@ datasci350-project-starter/
 |---|---|
 | `scripts/pull_data.py` | Calls the World Bank API once and saves the response |
 | `data/raw/` | The saved snapshot, committed on purpose |
-| `report.qmd` | The Quarto report, headings matching the rubric |
-| `requirements.txt` | Some Python packages, pinned |
-| `Dockerfile` | The recipe that builds the container |
+| `report.qmd` | The Quarto report, with headings that follow the rubric |
+| `requirements.txt` | The pinned Python packages |
+| `Dockerfile` | The instructions that build the image |
 | `.dockerignore` | What stays out of the image |
+| `.gitattributes` | Keeps Linux line endings inside the container |
 :::
 
 :::{style="text-align: center; margin-top: 10px;"}
-[![](figures/starter-repo-github-2026.png){width="72%"}](#){data-modal-type="image" data-modal-url="figures/starter-repo-github-2026.png"}
+[![](figures/starter-repo-github-2026.png){width="58%"}](#){data-modal-type="image" data-modal-url="figures/starter-repo-github-2026.png"}
 
 <https://github.com/danilofreire/datasci350-project-starter>
 :::
@@ -229,7 +279,7 @@ BRA,Brazil,SP.DYN.LE00.IN,2002,70.396
 BRA,Brazil,SP.DYN.LE00.IN,2003,70.884
 ```
 
-- Same API as Lectures 18 and 19, where we parsed the JSON by hand
+- Same World Bank API as Lecture 19, where we parsed the JSON by hand
 :::
 
 :::{.column width="48%"}
@@ -253,7 +303,6 @@ Add `data/raw/` to `.gitignore` and your build still succeeds. The failure arriv
 :::
 
 ## `requirements.txt` for a report
-### The nine packages the report needs
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -371,7 +420,7 @@ plt.show()
 # 1. Base image
 FROM ubuntu:24.04
 
-# 2. Build-time settings
+# 2. Environment and shell
 ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-c"]
 
@@ -439,7 +488,7 @@ SHELL ["/bin/bash", "-c"]
 
 - `latest` on the Ubuntu repository resolved to 24.04 last year, and today to [26.04]{.alert}
 - `FROM ubuntu:latest` in September builds a different operating system in December
-- `tzdata` is the package that would otherwise stop and ask you for a time zone
+- `tzdata` is the Ubuntu package that would otherwise stop and ask you for a time zone
 - `ubuntu:24.04` is [about 29MB compressed]{.alert}, and 108MB once unpacked
 :::
 
@@ -538,7 +587,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
   - It appears four times on that line, so change all four when you move to a new Quarto
 - `dpkg --print-architecture` printed `arm64` on my Mac, `amd64` on most Windows and Linux laptops
   - The same Dockerfile fetches the other file
-- This laptop has Quarto [1.9.38]{.alert} and the image has [1.10.18]{.alert}
+- My laptop has Quarto [1.9.38]{.alert} and the image has [1.10.18]{.alert}
   - The image's version renders your report, and it is the one I will run
 :::
 :::
@@ -745,8 +794,7 @@ datasci350-project:latest      1.52GB         347MB
 :::
 :::
 
-## Layer sizes
-### `docker history` shows what each instruction cost
+## `docker history` shows the size of each layer
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -788,7 +836,6 @@ docker history --format "{{.Size}}\t{{.CreatedBy}}" \
 # Run, change, rebuild {background-color="#1B3A6B"}
 
 ## Running the container
-### One flag decides whether you ever see the report
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -839,7 +886,6 @@ ls -la output
 :::
 
 ## Forgetting the mount
-### The report renders and then vanishes
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -878,19 +924,19 @@ docker run --rm datasci350-project bash -c \
 ```
 :::
 
+- `>/dev/null 2>&1` hides Quarto's messages, so only the file listing shows
 - Listed from inside the container before it exited, the file is there
 - It is the same file the mounted run produced
 - This is the most common Docker mistake in the course, and the terminal gives you no warning at all
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
-A render inside a container that has already been deleted leaves nothing on your laptop. Check `ls output` after every run, and check the timestamp on the file
+Without `-v`, the report is deleted with the container. After every run, check `ls output` and the file's timestamp
 :::
 :::
 :::
 :::
 
-## Change one line, rebuild {#sec-rebuild}
-### Layer caching on a real project
+## Rebuilding after a one-line change {#sec-rebuild}
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -942,7 +988,6 @@ docker build [...]  0.666 total
 # When something goes wrong ⚠️ {background-color="#1B3A6B"}
 
 ## Failure one: the data is not in the repository {#sec-failure-one}
-### What my clone sees
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -1001,7 +1046,6 @@ exit code: 1
 :::
 
 ## Failure two: a pin that does not exist
-### pip fails, the build stops, nothing below it is cached
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -1056,7 +1100,6 @@ Available versions: 1.5.5, 1.5.4, 1.5.3, [...]
 :::
 
 ## Inspecting a container that misbehaves
-### `docker run -it` and what it tells you
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -1107,7 +1150,6 @@ root
 :::
 
 ## Cleaning up
-### Images are big, and Docker never deletes anything by itself
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -1137,6 +1179,7 @@ Build Cache   8      0       1.643GB   0B
 ```
 
 - One project image is [1.52GB on disk]{.alert}. A few experiments and failed builds soon reach 10GB or more
+- Docker never deletes images by itself
 :::
 
 :::{.column width="48%"}
@@ -1146,16 +1189,17 @@ Build Cache   8      0       1.643GB   0B
 | `docker ps -a` | Nothing, it lists containers including exited ones |
 | `docker rm <id>` | One stopped container |
 | `docker rmi <image>` | One image |
-| `docker system df` | Nothing, it reports what is using space |
+| `docker system df` | Nothing, it reports what is using space (`df` = disk free) |
 | `docker system prune` | Stopped containers, unused networks, dangling images, build cache |
 | `docker system prune -a` | All of the above plus [every image not in use]{.alert} |
 :::
 
+- The ID comes from `docker ps -a`, and the first few characters are enough
 - A [dangling image]{.alert} has no tag, usually left behind when you rebuild a tag
 - `--rm` on `docker run` is what stops the container list growing in the first place
 
-:::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;"}
-`docker system prune -a` deletes every image no running container is using, including the one you spent three minutes building. Read the prompt before you type `y`
+:::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 5px;"}
+`docker system prune -a` deletes every image no running container is using. Read the prompt before you type `y`
 :::
 :::
 :::
@@ -1250,13 +1294,12 @@ docker buildx build --platform linux/amd64,linux/arm64 \
 :::
 :::
 
-## Try it yourself! 🧠 {#sec-exercise-01}
-### At home, after class
+## Try it yourself at home {#sec-exercise-01}
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="54%"}
-Do this at home with your clone of the starter. Step 2 takes about a minute.
+Use your clone of the starter. Step 2 takes about a minute
 
 1. Add `seaborn==0.13.2` under `duckdb==1.5.5` in `requirements.txt`
 2. Run `docker build -t datasci350-project .`
@@ -1296,7 +1339,6 @@ What to look for:
 - [Marker's test]{.alert}: five commands from a fresh clone, 30% of the project grade
 - [Dockerfile]{.alert}: seven blocks, base image to `CMD`
 - [`.dockerignore`]{.alert}: keeps `.git`, `output/`, and `.env` out of the image
-- [Secrets]{.alert}: `.env` stays out of the image, through `.dockerignore`
 - [Layer order]{.alert}: `COPY requirements.txt` above `COPY . /project`, so a rebuild takes a second
 :::
 
@@ -1476,7 +1518,7 @@ Docker Hub allows 100 anonymous pulls every six hours from one address, and 200 
 # We pin the tag to "24.04" rather than "latest".
 FROM ubuntu:24.04
 
-# 2. Build-time settings
+# 2. Environment and shell
 ENV DEBIAN_FRONTEND=noninteractive
 SHELL ["/bin/bash", "-c"]
 
@@ -1545,7 +1587,7 @@ ENV QUARTO_PYTHON=/opt/venv/bin/python
 CMD ["bash", "-c", "quarto render report.qmd && mkdir -p output && cp -a report.html output/ && echo 'Rendered report is in output/report.html'"]
 ```
 
-- The starter is at commit `eb4b6f8`
+- The starter is at commit `cb64771`
 - Comments are trimmed here. The file in your clone explains every line
 :::
 :::
@@ -1584,9 +1626,9 @@ docker compose down
 :::{.column width="50%"}
 - `down` removes the container and the network it created
 - `docker compose` with a space is the current command, while `docker-compose` with a hyphen is the legacy one
-  - This laptop runs [Compose v5.1.2]{.alert}
+  - I ran this with [Compose v5.1.2]{.alert}
 - The starter ships no compose file, so write your own
-- What it printed on this laptop:
+- What it printed on my laptop:
 
 :::{style="font-size: 20px;"}
 ```text

@@ -232,47 +232,86 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:54%;">
 <ul>
-<li>We wrote dependencies down and <span class="alert">pinned</span> them with <code>==</code></li>
+<li>We <span class="alert">pinned</span> dependencies with <code>==</code></li>
 <li><code>venv</code> and <code>pip</code> gave us an isolated Python
 <ul>
-<li>The project starter builds the same thing at <span class="alert"><code>/opt/venv</code></span></li>
+<li>The project starter builds one at <span class="alert"><code>/opt/venv</code></span></li>
 </ul></li>
-<li>Docker’s three main concepts:
+<li><a href="https://docs.docker.com/learn/content/what-is-a-container/">Docker’s three main concepts</a>:
 <ul>
 <li>An <span class="alert">image</span> is the recipe</li>
 <li>A <span class="alert">container</span> is a running instance</li>
 <li>A <span class="alert">registry</span> is where images live</li>
 </ul></li>
-<li>We built a <span class="alert">six-instruction Dockerfile</span> from <code>python:3.14-slim</code> in about two minutes</li>
-<li>Layer caching brought the rebuild down to <span class="alert">0.754 seconds</span></li>
-<li>We pushed the result to <code>danilofreire/datasci350-example</code></li>
-<li>Today we also install Quarto and render a report</li>
+<li>A <span class="alert">six-instruction Dockerfile</span> from <code>python:3.14-slim</code> built in 13 seconds</li>
+<li>The cached rebuild took <span class="alert">0.79 seconds</span></li>
+<li>We pushed it to <a href="https://hub.docker.com/r/danilofreire/datasci350-example"><code>danilofreire/datasci350-example</code></a></li>
+<li>Today we install Quarto in the image and render a report</li>
 </ul>
 </div><div class="column" style="width:46%;">
 <ul>
-<li>Lecture 23’s cached rebuild, the output we finished on:</li>
+<li>What we did last time:</li>
 </ul>
 <div style="font-size: 20px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb1-1"><a></a>docker build -t datasci350-example .</span>
 <span id="cb1-2"><a></a></span>
 <span id="cb1-3"><a></a>#5 [1/5] FROM docker.io/library/python:3.14-slim</span>
 <span id="cb1-4"><a></a>#5 DONE 0.0s</span>
-<span id="cb1-5"><a></a></span>
-<span id="cb1-6"><a></a>#6 [3/5] COPY requirements.txt .</span>
-<span id="cb1-7"><a></a>#6 CACHED</span>
-<span id="cb1-8"><a></a></span>
-<span id="cb1-9"><a></a>#7 [4/5] RUN pip install --no-cache-dir -r</span>
+<span id="cb1-5"><a></a>#6 [2/5] WORKDIR /app</span>
+<span id="cb1-6"><a></a>#6 CACHED</span>
+<span id="cb1-7"><a></a>#7 [3/5] COPY requirements.txt .</span>
+<span id="cb1-8"><a></a>#7 CACHED</span>
+<span id="cb1-9"><a></a>#8 [4/5] RUN pip install --no-cache-dir -r</span>
 <span id="cb1-10"><a></a>    requirements.txt</span>
-<span id="cb1-11"><a></a>#7 CACHED</span>
-<span id="cb1-12"><a></a></span>
-<span id="cb1-13"><a></a>#8 [2/5] WORKDIR /app</span>
-<span id="cb1-14"><a></a>#8 CACHED</span>
-<span id="cb1-15"><a></a></span>
-<span id="cb1-16"><a></a>#9 [5/5] COPY hello.py .</span>
-<span id="cb1-17"><a></a>#9 CACHED</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-11"><a></a>#8 CACHED</span>
+<span id="cb1-12"><a></a>#9 [5/5] COPY hello.py .</span>
+<span id="cb1-13"><a></a>#9 CACHED</span>
+<span id="cb1-14"><a></a>#10 exporting to image</span>
+<span id="cb1-15"><a></a>#10 DONE 0.1s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>I ran today’s build once before class, so the project image is already on this laptop (to save time)</li>
+<li>I built today’s image before class, so it is already on my laptop</li>
+</ul>
+</div></div>
+</div>
+</section>
+<section id="the-dockerfile-from-lecture-23" class="slide level2">
+<h2>The Dockerfile from Lecture 23</h2>
+<div style="margin-top: 40px; font-size: 21px;">
+<div class="columns">
+<div class="column" style="width:58%;">
+<div style="font-size: 23px;">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb2-1"><a></a><span class="co"># Start from an official Python image</span></span>
+<span id="cb2-2"><a></a><span class="kw">FROM</span> python:3.14-slim</span>
+<span id="cb2-3"><a></a></span>
+<span id="cb2-4"><a></a><span class="co"># Create /app inside the image and move into it</span></span>
+<span id="cb2-5"><a></a><span class="kw">WORKDIR</span> /app</span>
+<span id="cb2-6"><a></a></span>
+<span id="cb2-7"><a></a><span class="co"># Copy requirements.txt from your computer</span></span>
+<span id="cb2-8"><a></a><span class="co"># into /app (the "."), then install it</span></span>
+<span id="cb2-9"><a></a><span class="kw">COPY</span> requirements.txt .</span>
+<span id="cb2-10"><a></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> requirements.txt</span>
+<span id="cb2-11"><a></a></span>
+<span id="cb2-12"><a></a><span class="co"># Copy hello.py from your computer into /app</span></span>
+<span id="cb2-13"><a></a><span class="kw">COPY</span> hello.py .</span>
+<span id="cb2-14"><a></a></span>
+<span id="cb2-15"><a></a><span class="co"># The command that runs when the container starts</span></span>
+<span id="cb2-16"><a></a><span class="kw">CMD</span> [<span class="st">"python"</span>, <span class="st">"hello.py"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a></a>docker build -t datasci350-example .</span>
+<span id="cb3-2"><a></a>docker run --rm datasci350-example</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:42%;">
+<ul>
+<li><code>FROM</code> picks the base image, here <a href="https://hub.docker.com/_/python">Python 3.14 on a slim Debian Linux</a>
+<ul>
+<li>Base images live on <a href="https://hub.docker.com/">Docker Hub</a>, where you can search for one</li>
+</ul></li>
+<li><code>WORKDIR</code> creates <code>/app</code> and runs every later step inside it</li>
+<li><code>COPY</code> brings a file from your folder into the image</li>
+<li><code>RUN</code> executes a command while the image is built</li>
+<li><code>CMD</code> sets the command the container runs when it starts</li>
+<li><code>requirements.txt</code> is copied before <code>hello.py</code>, so editing the script does not reinstall the packages</li>
+<li>Today’s Dockerfile adds <code>ENV</code>, which sets a variable such as <code>PATH</code>, and <code>SHELL</code>, which picks the shell for <code>RUN</code></li>
 </ul>
 </div></div>
 </div>
@@ -289,60 +328,65 @@ Danilo Freire
 <div class="column" style="width:50%;">
 <p><span class="alert">1. The project starter</span></p>
 <ul>
-<li>The five commands I run when I mark your container</li>
-<li>Six files, keeping the API and your keys out of the image</li>
+<li>How I will grade your container</li>
+<li>Why <code>data/raw/</code> is in the repository</li>
 </ul>
-<p><span class="alert">2. The Dockerfile, instruction by instruction</span></p>
+<p><span class="alert">2. The Dockerfile</span></p>
 <ul>
-<li>One instruction at a time, from <code>FROM</code> to <code>CMD</code></li>
-<li><code>.dockerignore</code>, <code>docker history</code>, and the cold build timed on this laptop</li>
+<li>What each line of the Dockerfile does</li>
+<li>How long the first build takes</li>
 </ul>
-</div><div class="column" style="width:50%;">
 <p><span class="alert">3. Run, change, rebuild</span></p>
 <ul>
-<li>The <code>-v</code> flag that decides whether you ever see the report</li>
-<li>Layer caching on a real project: 3 minutes 12 seconds down to 0.666 seconds</li>
+<li>Use <code>-v</code> to get the report out</li>
+<li>Why rebuilds take under a second</li>
 </ul>
-<p><span class="alert">4. What breaks, and the wider world</span></p>
+</div><div class="column" style="width:50%;">
+<p><span class="alert">4. When something goes wrong</span></p>
 <ul>
-<li>Two failures, an inspection session, and cleaning up</li>
-<li>Ready-made images and Docker Hub</li>
+<li>I break the project twice and fix it</li>
+<li>Open a shell inside a container</li>
+<li>Clean up old images</li>
+</ul>
+<p><span class="alert">5. Beyond one Dockerfile</span></p>
+<ul>
+<li>Ready-made images for Python and R</li>
+<li>Share your image on Docker Hub</li>
 </ul>
 </div></div>
 </div>
 </section></section>
 <section>
 <section id="the-project-starter" class="title-slide slide level1 center" data-background-color="#1B3A6B">
-<h1>The project starter 📦</h1>
+<h1>The project starter</h1>
 
 </section>
-<section id="what-the-grader-will-do" class="slide level2">
-<h2>What the grader will do</h2>
-<h3 id="you-should-test-your-container-before-submission">You should test your container before submission</h3>
+<section id="how-i-will-grade-your-container" class="slide level2">
+<h2>How I will grade your container</h2>
+<h3 id="test-it-yourself-before-you-submit">Test it yourself before you submit</h3>
 <div style="margin-top: 40px; font-size: 22px;">
 <div class="columns">
 <div class="column" style="width:54%;">
 <ul>
-<li><span class="alert">My whole grading procedure for the container:</span></li>
+<li><span class="alert">The commands I run:</span></li>
 </ul>
 <div style="margin-top: 20px; margin-bottom: 20px; font-size: 22px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb2-1"><a></a>git clone &lt;your repo url&gt; fresh-test</span>
-<span id="cb2-2"><a></a>cd fresh-test</span>
-<span id="cb2-3"><a></a>docker build -t datasci350-project .</span>
-<span id="cb2-4"><a></a>docker run --rm \</span>
-<span id="cb2-5"><a></a>  -v "$(pwd)/output:/project/output" \</span>
-<span id="cb2-6"><a></a>  datasci350-project</span>
-<span id="cb2-7"><a></a>open output/report.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a></a>git clone &lt;your repo url&gt; fresh-test</span>
+<span id="cb4-2"><a></a>cd fresh-test</span>
+<span id="cb4-3"><a></a>docker build -t datasci350-project .</span>
+<span id="cb4-4"><a></a>docker run --rm \</span>
+<span id="cb4-5"><a></a>  -v "$(pwd)/output:/project/output" \</span>
+<span id="cb4-6"><a></a>  datasci350-project</span>
+<span id="cb4-7"><a></a>open output/report.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>My machine has Docker installed and nothing else: no Python, no Quarto, no packages</li>
-<li>It has internet during the build</li>
-<li>These five commands are <span class="alert">30% of the project grade</span></li>
-<li>Run them tonight on your own repository, and you know your mark for that criterion</li>
+<li>I only have Docker installed, so your image must bring everything else</li>
+<li>These commands are <span class="alert">30% of the project grade</span></li>
+<li>Run them on your own repository first</li>
 </ul>
 </div><div class="column" style="width:46%;">
 <ul>
-<li>The full rubric, from <a href="https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf">project/project-instructions.pdf</a> (page 5):</li>
+<li>The rubric (page 5 of <a href="https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf">project-instructions.pdf</a>):</li>
 </ul>
 <div style="text-align: center; font-size: 19px; margin-top: 10px; margin-bottom: 10px;">
 <table class="caption-top">
@@ -381,7 +425,7 @@ Danilo Freire
 </table>
 </div>
 <div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;">
-<p>A report that calls the API at render time fails on the day the API is down. Pull once, commit <code>data/raw/</code>, and leave it alone</p>
+<p>A report that calls the API at render time fails when the API is down. Pull once and commit <code>data/raw/</code></p>
 </div>
 </div></div>
 </div>
@@ -394,21 +438,22 @@ Danilo Freire
 <ul>
 <li>Clone it from <a href="https://github.com/danilofreire/datasci350-project-starter">github.com/danilofreire/datasci350-project-starter</a>:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb3-1"><a></a>datasci350-project-starter/</span>
-<span id="cb3-2"><a></a>├── Dockerfile</span>
-<span id="cb3-3"><a></a>├── .dockerignore</span>
-<span id="cb3-4"><a></a>├── requirements.txt</span>
-<span id="cb3-5"><a></a>├── report.qmd</span>
-<span id="cb3-6"><a></a>├── README.md</span>
-<span id="cb3-7"><a></a>├── .gitignore</span>
-<span id="cb3-8"><a></a>├── data/</span>
-<span id="cb3-9"><a></a>│   └── raw/</span>
-<span id="cb3-10"><a></a>│       ├── life_expectancy.csv</span>
-<span id="cb3-11"><a></a>│       └── life_expectancy_raw.json</span>
-<span id="cb3-12"><a></a>└── scripts/</span>
-<span id="cb3-13"><a></a>    └── pull_data.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a></a>datasci350-project-starter/</span>
+<span id="cb5-2"><a></a>├── Dockerfile</span>
+<span id="cb5-3"><a></a>├── .dockerignore</span>
+<span id="cb5-4"><a></a>├── requirements.txt</span>
+<span id="cb5-5"><a></a>├── report.qmd</span>
+<span id="cb5-6"><a></a>├── README.md</span>
+<span id="cb5-7"><a></a>├── .gitignore</span>
+<span id="cb5-8"><a></a>├── .gitattributes</span>
+<span id="cb5-9"><a></a>├── data/</span>
+<span id="cb5-10"><a></a>│   └── raw/</span>
+<span id="cb5-11"><a></a>│       ├── life_expectancy.csv</span>
+<span id="cb5-12"><a></a>│       └── life_expectancy_raw.json</span>
+<span id="cb5-13"><a></a>└── scripts/</span>
+<span id="cb5-14"><a></a>    └── pull_data.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The <span class="alert">split</span> that matters: <code>scripts/pull_data.py</code> talks to the API, and <code>report.qmd</code> reads only <code>data/raw/</code></li>
+<li>Only <code>scripts/pull_data.py</code> calls the API. <code>report.qmd</code> reads the saved files in <code>data/raw/</code></li>
 </ul>
 </div><div class="column" style="width:50%;">
 <div style="text-align: center; font-size: 17px; margin-top: 0px; margin-bottom: 10px;">
@@ -434,25 +479,29 @@ Danilo Freire
 </tr>
 <tr class="odd">
 <td><code>report.qmd</code></td>
-<td>The Quarto report, headings matching the rubric</td>
+<td>The Quarto report, with headings that follow the rubric</td>
 </tr>
 <tr class="even">
 <td><code>requirements.txt</code></td>
-<td>Some Python packages, pinned</td>
+<td>The pinned Python packages</td>
 </tr>
 <tr class="odd">
 <td><code>Dockerfile</code></td>
-<td>The recipe that builds the container</td>
+<td>The instructions that build the image</td>
 </tr>
 <tr class="even">
 <td><code>.dockerignore</code></td>
 <td>What stays out of the image</td>
 </tr>
+<tr class="odd">
+<td><code>.gitattributes</code></td>
+<td>Keeps Linux line endings inside the container</td>
+</tr>
 </tbody>
 </table>
 </div>
 <div style="text-align: center; margin-top: 10px;">
-<p><a href="#/" data-modal-type="image" data-modal-url="figures/starter-repo-github-2026.png"><img data-src="figures/starter-repo-github-2026.png" style="width:72.0%"></a></p>
+<p><a href="#/" data-modal-type="image" data-modal-url="figures/starter-repo-github-2026.png"><img data-src="figures/starter-repo-github-2026.png" style="width:58.0%"></a></p>
 <p><a href="https://github.com/danilofreire/datasci350-project-starter" class="uri">https://github.com/danilofreire/datasci350-project-starter</a></p>
 </div>
 </div></div>
@@ -467,34 +516,34 @@ Danilo Freire
 <ul>
 <li><code>scripts/pull_data.py</code> asks the World Bank for one indicator and writes two files:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb4-1"><a></a>python scripts/pull_data.py</span>
-<span id="cb4-2"><a></a></span>
-<span id="cb4-3"><a></a>data/raw/life_expectancy_raw.json</span>
-<span id="cb4-4"><a></a>data/raw/life_expectancy.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a></a>python scripts/pull_data.py</span>
+<span id="cb6-2"><a></a></span>
+<span id="cb6-3"><a></a>data/raw/life_expectancy_raw.json</span>
+<span id="cb6-4"><a></a>data/raw/life_expectancy.csv</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>The tidy CSV is 97 lines: a header and <span class="alert">96 rows</span>
 <ul>
 <li>Four countries, 2000 to 2023</li>
 </ul></li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a></a>head -5 data/raw/life_expectancy.csv</span>
-<span id="cb5-2"><a></a></span>
-<span id="cb5-3"><a></a>country_code,country,indicator,year,value</span>
-<span id="cb5-4"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2000,69.584</span>
-<span id="cb5-5"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2001,69.98</span>
-<span id="cb5-6"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2002,70.396</span>
-<span id="cb5-7"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2003,70.884</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a></a>head -5 data/raw/life_expectancy.csv</span>
+<span id="cb7-2"><a></a></span>
+<span id="cb7-3"><a></a>country_code,country,indicator,year,value</span>
+<span id="cb7-4"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2000,69.584</span>
+<span id="cb7-5"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2001,69.98</span>
+<span id="cb7-6"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2002,70.396</span>
+<span id="cb7-7"><a></a>BRA,Brazil,SP.DYN.LE00.IN,2003,70.884</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Same API as Lectures 18 and 19, where we parsed the JSON by hand</li>
+<li>Same World Bank API as Lecture 19, where we parsed the JSON by hand</li>
 </ul>
 </div><div class="column" style="width:48%;">
 <ul>
 <li>The starter’s <code>.gitignore</code> contains a note:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb6-1"><a></a># NOTE: data/raw/ is deliberately NOT ignored.</span>
-<span id="cb6-2"><a></a># The saved API snapshot must be committed so</span>
-<span id="cb6-3"><a></a># that the report renders from the same data on</span>
-<span id="cb6-4"><a></a># every machine, in every month.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a></a># NOTE: data/raw/ is deliberately NOT ignored.</span>
+<span id="cb8-2"><a></a># The saved API snapshot must be committed so</span>
+<span id="cb8-3"><a></a># that the report renders from the same data on</span>
+<span id="cb8-4"><a></a># every machine, in every month.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>The raw JSON lets you fix a tidying mistake without calling the API again</li>
 <li>33 kB of JSON and 4 kB of CSV. Git handles that without complaint</li>
@@ -507,7 +556,6 @@ Danilo Freire
 </section>
 <section id="requirements.txt-for-a-report" class="slide level2">
 <h2><code>requirements.txt</code> for a report</h2>
-<h3 id="the-nine-packages-the-report-needs">The nine packages the report needs</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:48%;">
@@ -515,26 +563,26 @@ Danilo Freire
 <li>The file, comments and all:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a></a># Talking to web APIs</span>
-<span id="cb7-2"><a></a>requests==2.32.5</span>
-<span id="cb7-3"><a></a></span>
-<span id="cb7-4"><a></a># Data processing (use either, or both)</span>
-<span id="cb7-5"><a></a># DuckDB runs SQL over your CSV files and</span>
-<span id="cb7-6"><a></a># hands the answer back as a pandas</span>
-<span id="cb7-7"><a></a># DataFrame when you call .df() on it.</span>
-<span id="cb7-8"><a></a>pandas==3.0.5</span>
-<span id="cb7-9"><a></a>duckdb==1.5.5</span>
-<span id="cb7-10"><a></a></span>
-<span id="cb7-11"><a></a># Plotting</span>
-<span id="cb7-12"><a></a>matplotlib==3.10.8</span>
-<span id="cb7-13"><a></a></span>
-<span id="cb7-14"><a></a># Quarto needs these to run Python code</span>
-<span id="cb7-15"><a></a># inside report.qmd</span>
-<span id="cb7-16"><a></a>ipykernel==7.2.0</span>
-<span id="cb7-17"><a></a>jupyter-client==8.8.0</span>
-<span id="cb7-18"><a></a>nbclient==0.10.4</span>
-<span id="cb7-19"><a></a>nbformat==5.10.4</span>
-<span id="cb7-20"><a></a>pyyaml==6.0.3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a></a># Talking to web APIs</span>
+<span id="cb9-2"><a></a>requests==2.32.5</span>
+<span id="cb9-3"><a></a></span>
+<span id="cb9-4"><a></a># Data processing (use either, or both)</span>
+<span id="cb9-5"><a></a># DuckDB runs SQL over your CSV files and</span>
+<span id="cb9-6"><a></a># hands the answer back as a pandas</span>
+<span id="cb9-7"><a></a># DataFrame when you call .df() on it.</span>
+<span id="cb9-8"><a></a>pandas==3.0.5</span>
+<span id="cb9-9"><a></a>duckdb==1.5.5</span>
+<span id="cb9-10"><a></a></span>
+<span id="cb9-11"><a></a># Plotting</span>
+<span id="cb9-12"><a></a>matplotlib==3.10.8</span>
+<span id="cb9-13"><a></a></span>
+<span id="cb9-14"><a></a># Quarto needs these to run Python code</span>
+<span id="cb9-15"><a></a># inside report.qmd</span>
+<span id="cb9-16"><a></a>ipykernel==7.2.0</span>
+<span id="cb9-17"><a></a>jupyter-client==8.8.0</span>
+<span id="cb9-18"><a></a>nbclient==0.10.4</span>
+<span id="cb9-19"><a></a>nbformat==5.10.4</span>
+<span id="cb9-20"><a></a>pyyaml==6.0.3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:52%;">
 <div style="text-align: center; font-size: 17px; margin-top: 0px; margin-bottom: 10px;">
@@ -605,23 +653,23 @@ Danilo Freire
 <li>The demo chunk (trimmed):</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a></a><span class="im">import</span> duckdb</span>
-<span id="cb8-2"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-3"><a></a></span>
-<span id="cb8-4"><a></a>data <span class="op">=</span> duckdb.sql(</span>
-<span id="cb8-5"><a></a>    <span class="st">"SELECT country, year, value "</span></span>
-<span id="cb8-6"><a></a>    <span class="st">"FROM 'data/raw/life_expectancy.csv' "</span></span>
-<span id="cb8-7"><a></a>    <span class="st">"ORDER BY country, year"</span></span>
-<span id="cb8-8"><a></a>).df()</span>
-<span id="cb8-9"><a></a></span>
-<span id="cb8-10"><a></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss"> rows covering "</span></span>
-<span id="cb8-11"><a></a>      <span class="ss">f"</span><span class="sc">{</span>data[<span class="st">'country'</span>]<span class="sc">.</span>nunique()<span class="sc">}</span><span class="ss"> countries."</span>)</span>
-<span id="cb8-12"><a></a></span>
-<span id="cb8-13"><a></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
-<span id="cb8-14"><a></a><span class="cf">for</span> country, subset <span class="kw">in</span> data.groupby(<span class="st">"country"</span>):</span>
-<span id="cb8-15"><a></a>    ax.plot(subset[<span class="st">"year"</span>], subset[<span class="st">"value"</span>])</span>
-<span id="cb8-16"><a></a>[...]</span>
-<span id="cb8-17"><a></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a></a><span class="im">import</span> duckdb</span>
+<span id="cb10-2"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb10-3"><a></a></span>
+<span id="cb10-4"><a></a>data <span class="op">=</span> duckdb.sql(</span>
+<span id="cb10-5"><a></a>    <span class="st">"SELECT country, year, value "</span></span>
+<span id="cb10-6"><a></a>    <span class="st">"FROM 'data/raw/life_expectancy.csv' "</span></span>
+<span id="cb10-7"><a></a>    <span class="st">"ORDER BY country, year"</span></span>
+<span id="cb10-8"><a></a>).df()</span>
+<span id="cb10-9"><a></a></span>
+<span id="cb10-10"><a></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss"> rows covering "</span></span>
+<span id="cb10-11"><a></a>      <span class="ss">f"</span><span class="sc">{</span>data[<span class="st">'country'</span>]<span class="sc">.</span>nunique()<span class="sc">}</span><span class="ss"> countries."</span>)</span>
+<span id="cb10-12"><a></a></span>
+<span id="cb10-13"><a></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">7</span>, <span class="dv">4</span>))</span>
+<span id="cb10-14"><a></a><span class="cf">for</span> country, subset <span class="kw">in</span> data.groupby(<span class="st">"country"</span>):</span>
+<span id="cb10-15"><a></a>    ax.plot(subset[<span class="st">"year"</span>], subset[<span class="st">"value"</span>])</span>
+<span id="cb10-16"><a></a>[...]</span>
+<span id="cb10-17"><a></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div style="text-align: center; margin-top: 5px;">
 <p><a href="#/" data-modal-type="image" data-modal-url="figures/starter-report-rendered-2026.png"><img data-src="figures/starter-report-rendered-2026.png" style="width:56.0%"></a></p>
@@ -661,32 +709,32 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:56%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb9-1"><a></a><span class="co"># 1. Base image</span></span>
-<span id="cb9-2"><a></a><span class="kw">FROM</span> ubuntu:24.04</span>
-<span id="cb9-3"><a></a></span>
-<span id="cb9-4"><a></a><span class="co"># 2. Build-time settings</span></span>
-<span id="cb9-5"><a></a><span class="kw">ENV</span> DEBIAN_FRONTEND=noninteractive</span>
-<span id="cb9-6"><a></a><span class="kw">SHELL</span> [<span class="st">"/bin/bash"</span>, <span class="st">"-c"</span>]</span>
-<span id="cb9-7"><a></a></span>
-<span id="cb9-8"><a></a><span class="co"># 3. System packages</span></span>
-<span id="cb9-9"><a></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="pp">[</span><span class="ss">...</span><span class="pp">]</span></span>
-<span id="cb9-10"><a></a></span>
-<span id="cb9-11"><a></a><span class="co"># 4. Quarto</span></span>
-<span id="cb9-12"><a></a><span class="kw">RUN</span> <span class="va">ARCH</span><span class="op">=</span><span class="va">$(</span><span class="ex">dpkg</span> <span class="at">--print-architecture</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">[...]</span></span>
-<span id="cb9-13"><a></a></span>
-<span id="cb9-14"><a></a><span class="co"># 5. Python environment</span></span>
-<span id="cb9-15"><a></a><span class="kw">RUN</span> <span class="ex">python3</span> <span class="at">-m</span> venv /opt/venv</span>
-<span id="cb9-16"><a></a><span class="kw">ENV</span> PATH=<span class="st">"/opt/venv/bin:$PATH"</span></span>
-<span id="cb9-17"><a></a><span class="kw">COPY</span> requirements.txt /project/requirements.txt</span>
-<span id="cb9-18"><a></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> /project/requirements.txt</span>
-<span id="cb9-19"><a></a></span>
-<span id="cb9-20"><a></a><span class="co"># 6. Project files</span></span>
-<span id="cb9-21"><a></a><span class="kw">WORKDIR</span> /project</span>
-<span id="cb9-22"><a></a><span class="kw">COPY</span> . /project</span>
-<span id="cb9-23"><a></a></span>
-<span id="cb9-24"><a></a><span class="co"># 7. Default command</span></span>
-<span id="cb9-25"><a></a><span class="kw">ENV</span> QUARTO_PYTHON=/opt/venv/bin/python</span>
-<span id="cb9-26"><a></a><span class="kw">CMD</span> [<span class="st">"bash"</span>, <span class="st">"-c"</span>, <span class="st">"quarto render report.qmd &amp;&amp; [...]"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb11-1"><a></a><span class="co"># 1. Base image</span></span>
+<span id="cb11-2"><a></a><span class="kw">FROM</span> ubuntu:24.04</span>
+<span id="cb11-3"><a></a></span>
+<span id="cb11-4"><a></a><span class="co"># 2. Environment and shell</span></span>
+<span id="cb11-5"><a></a><span class="kw">ENV</span> DEBIAN_FRONTEND=noninteractive</span>
+<span id="cb11-6"><a></a><span class="kw">SHELL</span> [<span class="st">"/bin/bash"</span>, <span class="st">"-c"</span>]</span>
+<span id="cb11-7"><a></a></span>
+<span id="cb11-8"><a></a><span class="co"># 3. System packages</span></span>
+<span id="cb11-9"><a></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="pp">[</span><span class="ss">...</span><span class="pp">]</span></span>
+<span id="cb11-10"><a></a></span>
+<span id="cb11-11"><a></a><span class="co"># 4. Quarto</span></span>
+<span id="cb11-12"><a></a><span class="kw">RUN</span> <span class="va">ARCH</span><span class="op">=</span><span class="va">$(</span><span class="ex">dpkg</span> <span class="at">--print-architecture</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="ex">[...]</span></span>
+<span id="cb11-13"><a></a></span>
+<span id="cb11-14"><a></a><span class="co"># 5. Python environment</span></span>
+<span id="cb11-15"><a></a><span class="kw">RUN</span> <span class="ex">python3</span> <span class="at">-m</span> venv /opt/venv</span>
+<span id="cb11-16"><a></a><span class="kw">ENV</span> PATH=<span class="st">"/opt/venv/bin:$PATH"</span></span>
+<span id="cb11-17"><a></a><span class="kw">COPY</span> requirements.txt /project/requirements.txt</span>
+<span id="cb11-18"><a></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> /project/requirements.txt</span>
+<span id="cb11-19"><a></a></span>
+<span id="cb11-20"><a></a><span class="co"># 6. Project files</span></span>
+<span id="cb11-21"><a></a><span class="kw">WORKDIR</span> /project</span>
+<span id="cb11-22"><a></a><span class="kw">COPY</span> . /project</span>
+<span id="cb11-23"><a></a></span>
+<span id="cb11-24"><a></a><span class="co"># 7. Default command</span></span>
+<span id="cb11-25"><a></a><span class="kw">ENV</span> QUARTO_PYTHON=/opt/venv/bin/python</span>
+<span id="cb11-26"><a></a><span class="kw">CMD</span> [<span class="st">"bash"</span>, <span class="st">"-c"</span>, <span class="st">"quarto render report.qmd &amp;&amp; [...]"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:44%;">
 <ul>
@@ -714,24 +762,24 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:52%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb10-1"><a></a><span class="co"># We pin the tag to "24.04" rather than "latest".</span></span>
-<span id="cb10-2"><a></a><span class="co"># "latest" changes over time, and a base image</span></span>
-<span id="cb10-3"><a></a><span class="co"># that changes breaks reproducibility.</span></span>
-<span id="cb10-4"><a></a><span class="kw">FROM</span> ubuntu:24.04</span>
-<span id="cb10-5"><a></a></span>
-<span id="cb10-6"><a></a><span class="co"># DEBIAN_FRONTEND=noninteractive stops apt-get</span></span>
-<span id="cb10-7"><a></a><span class="co"># from asking questions during the build.</span></span>
-<span id="cb10-8"><a></a><span class="co"># Nobody is at the keyboard to answer them.</span></span>
-<span id="cb10-9"><a></a><span class="kw">ENV</span> DEBIAN_FRONTEND=noninteractive</span>
-<span id="cb10-10"><a></a></span>
-<span id="cb10-11"><a></a><span class="co"># Use bash for the RUN steps below. Docker uses</span></span>
-<span id="cb10-12"><a></a><span class="co"># the simpler "sh" shell by default.</span></span>
-<span id="cb10-13"><a></a><span class="kw">SHELL</span> [<span class="st">"/bin/bash"</span>, <span class="st">"-c"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb12-1"><a></a><span class="co"># We pin the tag to "24.04" rather than "latest".</span></span>
+<span id="cb12-2"><a></a><span class="co"># "latest" changes over time, and a base image</span></span>
+<span id="cb12-3"><a></a><span class="co"># that changes breaks reproducibility.</span></span>
+<span id="cb12-4"><a></a><span class="kw">FROM</span> ubuntu:24.04</span>
+<span id="cb12-5"><a></a></span>
+<span id="cb12-6"><a></a><span class="co"># DEBIAN_FRONTEND=noninteractive stops apt-get</span></span>
+<span id="cb12-7"><a></a><span class="co"># from asking questions during the build.</span></span>
+<span id="cb12-8"><a></a><span class="co"># Nobody is at the keyboard to answer them.</span></span>
+<span id="cb12-9"><a></a><span class="kw">ENV</span> DEBIAN_FRONTEND=noninteractive</span>
+<span id="cb12-10"><a></a></span>
+<span id="cb12-11"><a></a><span class="co"># Use bash for the RUN steps below. Docker uses</span></span>
+<span id="cb12-12"><a></a><span class="co"># the simpler "sh" shell by default.</span></span>
+<span id="cb12-13"><a></a><span class="kw">SHELL</span> [<span class="st">"/bin/bash"</span>, <span class="st">"-c"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>latest</code> on the Ubuntu repository resolved to 24.04 last year, and today to <span class="alert">26.04</span></li>
 <li><code>FROM ubuntu:latest</code> in September builds a different operating system in December</li>
-<li><code>tzdata</code> is the package that would otherwise stop and ask you for a time zone</li>
+<li><code>tzdata</code> is the Ubuntu package that would otherwise stop and ask you for a time zone</li>
 <li><code>ubuntu:24.04</code> is <span class="alert">about 29MB compressed</span>, and 108MB once unpacked</li>
 </ul>
 </div><div class="column" style="width:48%;">
@@ -758,14 +806,14 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:52%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb11-1"><a></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
-<span id="cb11-2"><a></a>    ca-certificates <span class="dt">\</span></span>
-<span id="cb11-3"><a></a>    wget <span class="dt">\</span></span>
-<span id="cb11-4"><a></a>    git <span class="dt">\</span></span>
-<span id="cb11-5"><a></a>    python3.12 <span class="dt">\</span></span>
-<span id="cb11-6"><a></a>    python3.12-venv <span class="dt">\</span></span>
-<span id="cb11-7"><a></a>    python3-pip <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb11-8"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb13-1"><a></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
+<span id="cb13-2"><a></a>    ca-certificates <span class="dt">\</span></span>
+<span id="cb13-3"><a></a>    wget <span class="dt">\</span></span>
+<span id="cb13-4"><a></a>    git <span class="dt">\</span></span>
+<span id="cb13-5"><a></a>    python3.12 <span class="dt">\</span></span>
+<span id="cb13-6"><a></a>    python3.12-venv <span class="dt">\</span></span>
+<span id="cb13-7"><a></a>    python3-pip <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb13-8"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>One <code>RUN</code> is one <span class="alert">layer</span>
@@ -823,20 +871,20 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:54%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb12-1"><a></a><span class="kw">RUN</span> <span class="va">ARCH</span><span class="op">=</span><span class="va">$(</span><span class="ex">dpkg</span> <span class="at">--print-architecture</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb12-2"><a></a>    <span class="fu">wget</span> <span class="at">-q</span> <span class="st">"https://github.com/quarto-dev/quarto-cli/releases/download/v1.10.18/quarto-1.10.18-linux-</span><span class="va">${ARCH}</span><span class="st">.deb"</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb12-3"><a></a>    <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb12-4"><a></a>    <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> ./quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb12-5"><a></a>    <span class="fu">rm</span> quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb12-6"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb14-1"><a></a><span class="kw">RUN</span> <span class="va">ARCH</span><span class="op">=</span><span class="va">$(</span><span class="ex">dpkg</span> <span class="at">--print-architecture</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb14-2"><a></a>    <span class="fu">wget</span> <span class="at">-q</span> <span class="st">"https://github.com/quarto-dev/quarto-cli/releases/download/v1.10.18/quarto-1.10.18-linux-</span><span class="va">${ARCH}</span><span class="st">.deb"</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb14-3"><a></a>    <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb14-4"><a></a>    <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> ./quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb14-5"><a></a>    <span class="fu">rm</span> quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb14-6"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Quarto is absent from the Ubuntu package list, so we download the <code>.deb</code> from GitHub</li>
 <li>The build printed this near the end of the step:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a></a>#7 91.74 Setting up quarto (1.10.18) ...</span>
-<span id="cb13-2"><a></a>#7 DONE 92.0s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb15-1"><a></a>#7 91.74 Setting up quarto (1.10.18) ...</span>
+<span id="cb15-2"><a></a>#7 DONE 92.0s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><span class="alert">92.0 seconds</span>, the slowest step in the whole build, well ahead of pip’s 51.4</li>
@@ -853,7 +901,7 @@ Danilo Freire
 <ul>
 <li>The same Dockerfile fetches the other file</li>
 </ul></li>
-<li>This laptop has Quarto <span class="alert">1.9.38</span> and the image has <span class="alert">1.10.18</span>
+<li>My laptop has Quarto <span class="alert">1.9.38</span> and the image has <span class="alert">1.10.18</span>
 <ul>
 <li>The image’s version renders your report, and it is the one I will run</li>
 </ul></li>
@@ -868,21 +916,21 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:52%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb14-1"><a></a><span class="co"># Ubuntu protects its own Python installation,</span></span>
-<span id="cb14-2"><a></a><span class="co"># so we create a virtual environment at</span></span>
-<span id="cb14-3"><a></a><span class="co"># /opt/venv and install our packages there.</span></span>
-<span id="cb14-4"><a></a><span class="kw">RUN</span> <span class="ex">python3</span> <span class="at">-m</span> venv /opt/venv</span>
-<span id="cb14-5"><a></a></span>
-<span id="cb14-6"><a></a><span class="co"># PATH tells the shell where to look for</span></span>
-<span id="cb14-7"><a></a><span class="co"># programs. Putting /opt/venv/bin first means</span></span>
-<span id="cb14-8"><a></a><span class="co"># "python" and "pip" refer to the virtual</span></span>
-<span id="cb14-9"><a></a><span class="co"># environment, without activating it by hand.</span></span>
-<span id="cb14-10"><a></a><span class="kw">ENV</span> PATH=<span class="st">"/opt/venv/bin:$PATH"</span></span>
-<span id="cb14-11"><a></a></span>
-<span id="cb14-12"><a></a><span class="co"># We copy requirements.txt on its own, before</span></span>
-<span id="cb14-13"><a></a><span class="co"># the rest of the project.</span></span>
-<span id="cb14-14"><a></a><span class="kw">COPY</span> requirements.txt /project/requirements.txt</span>
-<span id="cb14-15"><a></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> /project/requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb16-1"><a></a><span class="co"># Ubuntu protects its own Python installation,</span></span>
+<span id="cb16-2"><a></a><span class="co"># so we create a virtual environment at</span></span>
+<span id="cb16-3"><a></a><span class="co"># /opt/venv and install our packages there.</span></span>
+<span id="cb16-4"><a></a><span class="kw">RUN</span> <span class="ex">python3</span> <span class="at">-m</span> venv /opt/venv</span>
+<span id="cb16-5"><a></a></span>
+<span id="cb16-6"><a></a><span class="co"># PATH tells the shell where to look for</span></span>
+<span id="cb16-7"><a></a><span class="co"># programs. Putting /opt/venv/bin first means</span></span>
+<span id="cb16-8"><a></a><span class="co"># "python" and "pip" refer to the virtual</span></span>
+<span id="cb16-9"><a></a><span class="co"># environment, without activating it by hand.</span></span>
+<span id="cb16-10"><a></a><span class="kw">ENV</span> PATH=<span class="st">"/opt/venv/bin:$PATH"</span></span>
+<span id="cb16-11"><a></a></span>
+<span id="cb16-12"><a></a><span class="co"># We copy requirements.txt on its own, before</span></span>
+<span id="cb16-13"><a></a><span class="co"># the rest of the project.</span></span>
+<span id="cb16-14"><a></a><span class="kw">COPY</span> requirements.txt /project/requirements.txt</span>
+<span id="cb16-15"><a></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> /project/requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Lecture 23’s <code>venv</code>, inside an image: <span class="alert"><code>ENV PATH</code></span> replaces <code>source .venv/bin/activate</code></li>
@@ -914,21 +962,21 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:54%;">
 <div style="font-size: 19px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb15-1"><a></a><span class="co"># WORKDIR sets the folder that later</span></span>
-<span id="cb15-2"><a></a><span class="co"># instructions run inside.</span></span>
-<span id="cb15-3"><a></a><span class="kw">WORKDIR</span> /project</span>
-<span id="cb15-4"><a></a></span>
-<span id="cb15-5"><a></a><span class="co"># Copy everything else from your repository into</span></span>
-<span id="cb15-6"><a></a><span class="co"># the image, including report.qmd and the saved</span></span>
-<span id="cb15-7"><a></a><span class="co"># data snapshot in data/raw/.</span></span>
-<span id="cb15-8"><a></a><span class="co"># The .dockerignore file next to this one lists</span></span>
-<span id="cb15-9"><a></a><span class="co"># what stays out.</span></span>
-<span id="cb15-10"><a></a><span class="kw">COPY</span> . /project</span>
-<span id="cb15-11"><a></a></span>
-<span id="cb15-12"><a></a><span class="co"># QUARTO_PYTHON points Quarto at the virtual</span></span>
-<span id="cb15-13"><a></a><span class="co"># environment's Python.</span></span>
-<span id="cb15-14"><a></a><span class="kw">ENV</span> QUARTO_PYTHON=/opt/venv/bin/python</span>
-<span id="cb15-15"><a></a><span class="kw">CMD</span> [<span class="st">"bash"</span>, <span class="st">"-c"</span>, <span class="st">"quarto render report.qmd &amp;&amp; mkdir -p output &amp;&amp; cp -a report.html output/ &amp;&amp; echo 'Rendered report is in output/report.html'"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb17-1"><a></a><span class="co"># WORKDIR sets the folder that later</span></span>
+<span id="cb17-2"><a></a><span class="co"># instructions run inside.</span></span>
+<span id="cb17-3"><a></a><span class="kw">WORKDIR</span> /project</span>
+<span id="cb17-4"><a></a></span>
+<span id="cb17-5"><a></a><span class="co"># Copy everything else from your repository into</span></span>
+<span id="cb17-6"><a></a><span class="co"># the image, including report.qmd and the saved</span></span>
+<span id="cb17-7"><a></a><span class="co"># data snapshot in data/raw/.</span></span>
+<span id="cb17-8"><a></a><span class="co"># The .dockerignore file next to this one lists</span></span>
+<span id="cb17-9"><a></a><span class="co"># what stays out.</span></span>
+<span id="cb17-10"><a></a><span class="kw">COPY</span> . /project</span>
+<span id="cb17-11"><a></a></span>
+<span id="cb17-12"><a></a><span class="co"># QUARTO_PYTHON points Quarto at the virtual</span></span>
+<span id="cb17-13"><a></a><span class="co"># environment's Python.</span></span>
+<span id="cb17-14"><a></a><span class="kw">ENV</span> QUARTO_PYTHON=/opt/venv/bin/python</span>
+<span id="cb17-15"><a></a><span class="kw">CMD</span> [<span class="st">"bash"</span>, <span class="st">"-c"</span>, <span class="st">"quarto render report.qmd &amp;&amp; mkdir -p output &amp;&amp; cp -a report.html output/ &amp;&amp; echo 'Rendered report is in output/report.html'"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:46%;">
 <ul>
@@ -957,30 +1005,30 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <div style="font-size: 19px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a></a># Version control</span>
-<span id="cb16-2"><a></a>.git</span>
-<span id="cb16-3"><a></a></span>
-<span id="cb16-4"><a></a># Python environments and caches</span>
-<span id="cb16-5"><a></a>.venv/</span>
-<span id="cb16-6"><a></a>venv/</span>
-<span id="cb16-7"><a></a>__pycache__/</span>
-<span id="cb16-8"><a></a></span>
-<span id="cb16-9"><a></a># API keys never enter the image</span>
-<span id="cb16-10"><a></a>.env</span>
-<span id="cb16-11"><a></a></span>
-<span id="cb16-12"><a></a># Quarto working files and rendered output</span>
-<span id="cb16-13"><a></a>.quarto/</span>
-<span id="cb16-14"><a></a>*.quarto_ipynb</span>
-<span id="cb16-15"><a></a>report.html</span>
-<span id="cb16-16"><a></a>report_files/</span>
-<span id="cb16-17"><a></a>output/</span>
-<span id="cb16-18"><a></a></span>
-<span id="cb16-19"><a></a># Operating system clutter</span>
-<span id="cb16-20"><a></a>.DS_Store</span>
-<span id="cb16-21"><a></a></span>
-<span id="cb16-22"><a></a># NOTE: data/raw/ is deliberately absent. The</span>
-<span id="cb16-23"><a></a># snapshot must reach the image, because</span>
-<span id="cb16-24"><a></a># report.qmd reads it.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a></a># Version control</span>
+<span id="cb18-2"><a></a>.git</span>
+<span id="cb18-3"><a></a></span>
+<span id="cb18-4"><a></a># Python environments and caches</span>
+<span id="cb18-5"><a></a>.venv/</span>
+<span id="cb18-6"><a></a>venv/</span>
+<span id="cb18-7"><a></a>__pycache__/</span>
+<span id="cb18-8"><a></a></span>
+<span id="cb18-9"><a></a># API keys never enter the image</span>
+<span id="cb18-10"><a></a>.env</span>
+<span id="cb18-11"><a></a></span>
+<span id="cb18-12"><a></a># Quarto working files and rendered output</span>
+<span id="cb18-13"><a></a>.quarto/</span>
+<span id="cb18-14"><a></a>*.quarto_ipynb</span>
+<span id="cb18-15"><a></a>report.html</span>
+<span id="cb18-16"><a></a>report_files/</span>
+<span id="cb18-17"><a></a>output/</span>
+<span id="cb18-18"><a></a></span>
+<span id="cb18-19"><a></a># Operating system clutter</span>
+<span id="cb18-20"><a></a>.DS_Store</span>
+<span id="cb18-21"><a></a></span>
+<span id="cb18-22"><a></a># NOTE: data/raw/ is deliberately absent. The</span>
+<span id="cb18-23"><a></a># snapshot must reach the image, because</span>
+<span id="cb18-24"><a></a># report.qmd reads it.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>The file lives in the root of the build context, next to the <code>Dockerfile</code>, and is committed with it</li>
@@ -990,13 +1038,13 @@ Danilo Freire
 <li>Before the first instruction, Docker sends the <span class="alert">build context</span> to the engine. The same folder, with and without the file:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb17-1"><a></a>=== WITHOUT .dockerignore ===</span>
-<span id="cb17-2"><a></a>#3 load .dockerignore:      2B done</span>
-<span id="cb17-3"><a></a>#5 load build context:      1.42MB done</span>
-<span id="cb17-4"><a></a></span>
-<span id="cb17-5"><a></a>=== WITH .dockerignore ===</span>
-<span id="cb17-6"><a></a>#3 load .dockerignore:      578B done</span>
-<span id="cb17-7"><a></a>#5 load build context:      59.36kB done</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb19-1"><a></a>=== WITHOUT .dockerignore ===</span>
+<span id="cb19-2"><a></a>#3 load .dockerignore:      2B done</span>
+<span id="cb19-3"><a></a>#5 load build context:      1.42MB done</span>
+<span id="cb19-4"><a></a></span>
+<span id="cb19-5"><a></a>=== WITH .dockerignore ===</span>
+<span id="cb19-6"><a></a>#3 load .dockerignore:      578B done</span>
+<span id="cb19-7"><a></a>#5 load build context:      59.36kB done</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><span class="alert">1.42MB down to 59.36kB</span>. Both folders held <code>.git</code>, the data, and a rendered report</li>
@@ -1018,30 +1066,30 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:54%;">
 <div style="font-size: 18px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a></a>time docker build --no-cache --progress=plain -t datasci350-project .</span>
-<span id="cb18-2"><a></a></span>
-<span id="cb18-3"><a></a>#5 [1/8] FROM docker.io/library/ubuntu:24.04</span>
-<span id="cb18-4"><a></a>#5 CACHED</span>
-<span id="cb18-5"><a></a>#6 [2/8] RUN apt-get update &amp;&amp; apt-get install [...]</span>
-<span id="cb18-6"><a></a>#6 DONE 36.0s</span>
-<span id="cb18-7"><a></a>#7 [3/8] RUN ARCH=$(dpkg --print-architecture) [...]</span>
-<span id="cb18-8"><a></a>#7 91.74 Setting up quarto (1.10.18) ...</span>
-<span id="cb18-9"><a></a>#7 DONE 92.0s</span>
-<span id="cb18-10"><a></a>#8 [4/8] RUN python3 -m venv /opt/venv</span>
-<span id="cb18-11"><a></a>#8 DONE 1.3s</span>
-<span id="cb18-12"><a></a>#9 [5/8] COPY requirements.txt /project/requirements.txt</span>
-<span id="cb18-13"><a></a>#9 DONE 0.0s</span>
-<span id="cb18-14"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
-<span id="cb18-15"><a></a>#10 50.70 Successfully installed asttokens-3.0.2 [...]</span>
-<span id="cb18-16"><a></a>#10 DONE 51.4s</span>
-<span id="cb18-17"><a></a>#11 [7/8] WORKDIR /project</span>
-<span id="cb18-18"><a></a>#11 DONE 0.1s</span>
-<span id="cb18-19"><a></a>#12 [8/8] COPY . /project</span>
-<span id="cb18-20"><a></a>#12 DONE 0.1s</span>
-<span id="cb18-21"><a></a>#13 exporting to image</span>
-<span id="cb18-22"><a></a>#13 DONE 10.5s</span>
-<span id="cb18-23"><a></a></span>
-<span id="cb18-24"><a></a>docker build [...]  3:11.77 total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a></a>time docker build --no-cache --progress=plain -t datasci350-project .</span>
+<span id="cb20-2"><a></a></span>
+<span id="cb20-3"><a></a>#5 [1/8] FROM docker.io/library/ubuntu:24.04</span>
+<span id="cb20-4"><a></a>#5 CACHED</span>
+<span id="cb20-5"><a></a>#6 [2/8] RUN apt-get update &amp;&amp; apt-get install [...]</span>
+<span id="cb20-6"><a></a>#6 DONE 36.0s</span>
+<span id="cb20-7"><a></a>#7 [3/8] RUN ARCH=$(dpkg --print-architecture) [...]</span>
+<span id="cb20-8"><a></a>#7 91.74 Setting up quarto (1.10.18) ...</span>
+<span id="cb20-9"><a></a>#7 DONE 92.0s</span>
+<span id="cb20-10"><a></a>#8 [4/8] RUN python3 -m venv /opt/venv</span>
+<span id="cb20-11"><a></a>#8 DONE 1.3s</span>
+<span id="cb20-12"><a></a>#9 [5/8] COPY requirements.txt /project/requirements.txt</span>
+<span id="cb20-13"><a></a>#9 DONE 0.0s</span>
+<span id="cb20-14"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
+<span id="cb20-15"><a></a>#10 50.70 Successfully installed asttokens-3.0.2 [...]</span>
+<span id="cb20-16"><a></a>#10 DONE 51.4s</span>
+<span id="cb20-17"><a></a>#11 [7/8] WORKDIR /project</span>
+<span id="cb20-18"><a></a>#11 DONE 0.1s</span>
+<span id="cb20-19"><a></a>#12 [8/8] COPY . /project</span>
+<span id="cb20-20"><a></a>#12 DONE 0.1s</span>
+<span id="cb20-21"><a></a>#13 exporting to image</span>
+<span id="cb20-22"><a></a>#13 DONE 10.5s</span>
+<span id="cb20-23"><a></a></span>
+<span id="cb20-24"><a></a>docker build [...]  3:11.77 total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><code>--progress=plain</code> prints the whole log instead of the animated summary
@@ -1061,9 +1109,9 @@ Danilo Freire
 <li>Total wall clock: <span class="alert">3 minutes 11.77 seconds</span></li>
 </ul>
 <div style="font-size: 18px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb19-1"><a></a>docker images datasci350-project</span>
-<span id="cb19-2"><a></a>IMAGE                      DISK USAGE  CONTENT SIZE</span>
-<span id="cb19-3"><a></a>datasci350-project:latest      1.52GB         347MB</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a></a>docker images datasci350-project</span>
+<span id="cb21-2"><a></a>IMAGE                      DISK USAGE  CONTENT SIZE</span>
+<span id="cb21-3"><a></a>datasci350-project:latest      1.52GB         347MB</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>On an amd64 laptop, the same Dockerfile fetches amd64 files and gives the same report</li>
@@ -1071,30 +1119,29 @@ Danilo Freire
 </div></div>
 </div>
 </section>
-<section id="layer-sizes" class="slide level2">
-<h2>Layer sizes</h2>
-<h3 id="docker-history-shows-what-each-instruction-cost"><code>docker history</code> shows what each instruction cost</h3>
+<section id="docker-history-shows-the-size-of-each-layer" class="slide level2">
+<h2><code>docker history</code> shows the size of each layer</h2>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:54%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb20-1"><a></a>docker history --format "{{.Size}}\t{{.CreatedBy}}" \</span>
-<span id="cb20-2"><a></a>  datasci350-project</span>
-<span id="cb20-3"><a></a></span>
-<span id="cb20-4"><a></a>0B       CMD ["bash" "-c" "quarto render [...]</span>
-<span id="cb20-5"><a></a>0B       ENV QUARTO_PYTHON=/opt/venv/bin/python</span>
-<span id="cb20-6"><a></a>81.9kB   COPY . /project</span>
-<span id="cb20-7"><a></a>0B       WORKDIR /project</span>
-<span id="cb20-8"><a></a>421MB    RUN pip install --no-cache-dir -r [...]</span>
-<span id="cb20-9"><a></a>4.1kB    COPY requirements.txt [...]</span>
-<span id="cb20-10"><a></a>0B       ENV PATH=/opt/venv/bin:/usr/local/sbin:[...]</span>
-<span id="cb20-11"><a></a>15.6MB   RUN python3 -m venv /opt/venv</span>
-<span id="cb20-12"><a></a>459MB    RUN ARCH=$(dpkg --print-architecture) [...]</span>
-<span id="cb20-13"><a></a>169MB    RUN apt-get update &amp;&amp; apt-get install [...]</span>
-<span id="cb20-14"><a></a>0B       SHELL [/bin/bash -c]</span>
-<span id="cb20-15"><a></a>0B       ENV DEBIAN_FRONTEND=noninteractive</span>
-<span id="cb20-16"><a></a>108MB    ADD file:0387b3d029de8fa08[...] in /</span>
-<span id="cb20-17"><a></a>0B       [...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb22-1"><a></a>docker history --format "{{.Size}}\t{{.CreatedBy}}" \</span>
+<span id="cb22-2"><a></a>  datasci350-project</span>
+<span id="cb22-3"><a></a></span>
+<span id="cb22-4"><a></a>0B       CMD ["bash" "-c" "quarto render [...]</span>
+<span id="cb22-5"><a></a>0B       ENV QUARTO_PYTHON=/opt/venv/bin/python</span>
+<span id="cb22-6"><a></a>81.9kB   COPY . /project</span>
+<span id="cb22-7"><a></a>0B       WORKDIR /project</span>
+<span id="cb22-8"><a></a>421MB    RUN pip install --no-cache-dir -r [...]</span>
+<span id="cb22-9"><a></a>4.1kB    COPY requirements.txt [...]</span>
+<span id="cb22-10"><a></a>0B       ENV PATH=/opt/venv/bin:/usr/local/sbin:[...]</span>
+<span id="cb22-11"><a></a>15.6MB   RUN python3 -m venv /opt/venv</span>
+<span id="cb22-12"><a></a>459MB    RUN ARCH=$(dpkg --print-architecture) [...]</span>
+<span id="cb22-13"><a></a>169MB    RUN apt-get update &amp;&amp; apt-get install [...]</span>
+<span id="cb22-14"><a></a>0B       SHELL [/bin/bash -c]</span>
+<span id="cb22-15"><a></a>0B       ENV DEBIAN_FRONTEND=noninteractive</span>
+<span id="cb22-16"><a></a>108MB    ADD file:0387b3d029de8fa08[...] in /</span>
+<span id="cb22-17"><a></a>0B       [...]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:46%;">
 <ul>
@@ -1117,28 +1164,27 @@ Danilo Freire
 </section>
 <section id="running-the-container" class="slide level2">
 <h2>Running the container</h2>
-<h3 id="one-flag-decides-whether-you-ever-see-the-report">One flag decides whether you ever see the report</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:54%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb21-1"><a></a>time docker run --rm \</span>
-<span id="cb21-2"><a></a>  -v "$(pwd)/output:/project/output" \</span>
-<span id="cb21-3"><a></a>  datasci350-project</span>
-<span id="cb21-4"><a></a></span>
-<span id="cb21-5"><a></a>Starting python3 kernel...Done</span>
-<span id="cb21-6"><a></a></span>
-<span id="cb21-7"><a></a>Executing 'report.quarto_ipynb'</span>
-<span id="cb21-8"><a></a>  Cell 1/1: 'fig-demo'...Done</span>
-<span id="cb21-9"><a></a>[...]</span>
-<span id="cb21-10"><a></a>Output created: report.html</span>
-<span id="cb21-11"><a></a></span>
-<span id="cb21-12"><a></a>Rendered report is in output/report.html</span>
-<span id="cb21-13"><a></a>docker run [...]  3.237 total</span>
-<span id="cb21-14"><a></a></span>
-<span id="cb21-15"><a></a>ls -la output</span>
-<span id="cb21-16"><a></a></span>
-<span id="cb21-17"><a></a>-rw-r--r--  1 dafreir  staff  1314625  report.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a></a>time docker run --rm \</span>
+<span id="cb23-2"><a></a>  -v "$(pwd)/output:/project/output" \</span>
+<span id="cb23-3"><a></a>  datasci350-project</span>
+<span id="cb23-4"><a></a></span>
+<span id="cb23-5"><a></a>Starting python3 kernel...Done</span>
+<span id="cb23-6"><a></a></span>
+<span id="cb23-7"><a></a>Executing 'report.quarto_ipynb'</span>
+<span id="cb23-8"><a></a>  Cell 1/1: 'fig-demo'...Done</span>
+<span id="cb23-9"><a></a>[...]</span>
+<span id="cb23-10"><a></a>Output created: report.html</span>
+<span id="cb23-11"><a></a></span>
+<span id="cb23-12"><a></a>Rendered report is in output/report.html</span>
+<span id="cb23-13"><a></a>docker run [...]  3.237 total</span>
+<span id="cb23-14"><a></a></span>
+<span id="cb23-15"><a></a>ls -la output</span>
+<span id="cb23-16"><a></a></span>
+<span id="cb23-17"><a></a>-rw-r--r--  1 dafreir  staff  1314625  report.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Three seconds, because the slow work happened at build time</li>
@@ -1190,21 +1236,20 @@ Danilo Freire
 </section>
 <section id="forgetting-the-mount" class="slide level2">
 <h2>Forgetting the mount</h2>
-<h3 id="the-report-renders-and-then-vanishes">The report renders and then vanishes</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb22-1"><a></a>docker run --rm datasci350-project</span>
-<span id="cb22-2"><a></a></span>
-<span id="cb22-3"><a></a>[...]</span>
-<span id="cb22-4"><a></a>Output created: report.html</span>
-<span id="cb22-5"><a></a></span>
-<span id="cb22-6"><a></a>Rendered report is in output/report.html</span>
-<span id="cb22-7"><a></a></span>
-<span id="cb22-8"><a></a>ls output</span>
-<span id="cb22-9"><a></a>ls: output: No such file or directory</span>
-<span id="cb22-10"><a></a>exit code: 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb24-1"><a></a>docker run --rm datasci350-project</span>
+<span id="cb24-2"><a></a></span>
+<span id="cb24-3"><a></a>[...]</span>
+<span id="cb24-4"><a></a>Output created: report.html</span>
+<span id="cb24-5"><a></a></span>
+<span id="cb24-6"><a></a>Rendered report is in output/report.html</span>
+<span id="cb24-7"><a></a></span>
+<span id="cb24-8"><a></a>ls output</span>
+<span id="cb24-9"><a></a>ls: output: No such file or directory</span>
+<span id="cb24-10"><a></a>exit code: 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>The container said it succeeded, and it did succeed</li>
@@ -1216,27 +1261,27 @@ Danilo Freire
 <li>The file really existed:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a></a>docker run --rm datasci350-project bash -c \</span>
-<span id="cb23-2"><a></a>  "quarto render report.qmd &gt;/dev/null 2&gt;&amp;1 \</span>
-<span id="cb23-3"><a></a>   &amp;&amp; mkdir -p output &amp;&amp; cp report.html output/ \</span>
-<span id="cb23-4"><a></a>   &amp;&amp; ls -la output"</span>
-<span id="cb23-5"><a></a></span>
-<span id="cb23-6"><a></a>-rw-r--r-- 1 root root [...] report.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb25-1"><a></a>docker run --rm datasci350-project bash -c \</span>
+<span id="cb25-2"><a></a>  "quarto render report.qmd &gt;/dev/null 2&gt;&amp;1 \</span>
+<span id="cb25-3"><a></a>   &amp;&amp; mkdir -p output &amp;&amp; cp report.html output/ \</span>
+<span id="cb25-4"><a></a>   &amp;&amp; ls -la output"</span>
+<span id="cb25-5"><a></a></span>
+<span id="cb25-6"><a></a>-rw-r--r-- 1 root root [...] report.html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
+<li><code>&gt;/dev/null 2&gt;&amp;1</code> hides Quarto’s messages, so only the file listing shows</li>
 <li>Listed from inside the container before it exited, the file is there</li>
 <li>It is the same file the mounted run produced</li>
 <li>This is the most common Docker mistake in the course, and the terminal gives you no warning at all</li>
 </ul>
 <div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;">
-<p>A render inside a container that has already been deleted leaves nothing on your laptop. Check <code>ls output</code> after every run, and check the timestamp on the file</p>
+<p>Without <code>-v</code>, the report is deleted with the container. After every run, check <code>ls output</code> and the file’s timestamp</p>
 </div>
 </div></div>
 </div>
 </section>
 <section id="sec-rebuild" class="slide level2">
-<h2>Change one line, rebuild</h2>
-<h3 id="layer-caching-on-a-real-project">Layer caching on a real project</h3>
+<h2>Rebuilding after a one-line change</h2>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
@@ -1244,27 +1289,27 @@ Danilo Freire
 <li>I changed the title in <code>report.qmd</code> and built again:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb24-1"><a></a>time docker build --progress=plain -t datasci350-project .</span>
-<span id="cb24-2"><a></a></span>
-<span id="cb24-3"><a></a>#4 transferring context: 4.95kB done</span>
-<span id="cb24-4"><a></a>#5 [1/8] FROM docker.io/library/ubuntu:24.04</span>
-<span id="cb24-5"><a></a>#5 DONE 0.0s</span>
-<span id="cb24-6"><a></a>#6 [3/8] RUN ARCH=$(dpkg --print-architecture) [...]</span>
-<span id="cb24-7"><a></a>#6 CACHED</span>
-<span id="cb24-8"><a></a>#7 [2/8] RUN apt-get update &amp;&amp; apt-get install [...]</span>
-<span id="cb24-9"><a></a>#7 CACHED</span>
-<span id="cb24-10"><a></a>#8 [5/8] COPY requirements.txt /project/requirements.txt</span>
-<span id="cb24-11"><a></a>#8 CACHED</span>
-<span id="cb24-12"><a></a>#9 [4/8] RUN python3 -m venv /opt/venv</span>
-<span id="cb24-13"><a></a>#9 CACHED</span>
-<span id="cb24-14"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
-<span id="cb24-15"><a></a>#10 CACHED</span>
-<span id="cb24-16"><a></a>#11 [7/8] WORKDIR /project</span>
-<span id="cb24-17"><a></a>#11 CACHED</span>
-<span id="cb24-18"><a></a>#12 [8/8] COPY . /project</span>
-<span id="cb24-19"><a></a>#12 DONE 0.0s</span>
-<span id="cb24-20"><a></a></span>
-<span id="cb24-21"><a></a>docker build [...]  0.666 total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a></a>time docker build --progress=plain -t datasci350-project .</span>
+<span id="cb26-2"><a></a></span>
+<span id="cb26-3"><a></a>#4 transferring context: 4.95kB done</span>
+<span id="cb26-4"><a></a>#5 [1/8] FROM docker.io/library/ubuntu:24.04</span>
+<span id="cb26-5"><a></a>#5 DONE 0.0s</span>
+<span id="cb26-6"><a></a>#6 [3/8] RUN ARCH=$(dpkg --print-architecture) [...]</span>
+<span id="cb26-7"><a></a>#6 CACHED</span>
+<span id="cb26-8"><a></a>#7 [2/8] RUN apt-get update &amp;&amp; apt-get install [...]</span>
+<span id="cb26-9"><a></a>#7 CACHED</span>
+<span id="cb26-10"><a></a>#8 [5/8] COPY requirements.txt /project/requirements.txt</span>
+<span id="cb26-11"><a></a>#8 CACHED</span>
+<span id="cb26-12"><a></a>#9 [4/8] RUN python3 -m venv /opt/venv</span>
+<span id="cb26-13"><a></a>#9 CACHED</span>
+<span id="cb26-14"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
+<span id="cb26-15"><a></a>#10 CACHED</span>
+<span id="cb26-16"><a></a>#11 [7/8] WORKDIR /project</span>
+<span id="cb26-17"><a></a>#11 CACHED</span>
+<span id="cb26-18"><a></a>#12 [8/8] COPY . /project</span>
+<span id="cb26-19"><a></a>#12 DONE 0.0s</span>
+<span id="cb26-20"><a></a></span>
+<span id="cb26-21"><a></a>docker build [...]  0.666 total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:48%;">
 <ul>
@@ -1288,7 +1333,6 @@ Danilo Freire
 </section>
 <section id="sec-failure-one" class="slide level2">
 <h2>Failure one: the data is not in the repository</h2>
-<h3 id="what-my-clone-sees">What my clone sees</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
@@ -1296,14 +1340,14 @@ Danilo Freire
 <li>I added <code>data/raw/</code> to <code>.gitignore</code>, committed, and cloned the result into a fresh folder:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb25-1"><a></a>ls data</span>
-<span id="cb25-2"><a></a>ls: data: No such file or directory</span>
-<span id="cb25-3"><a></a></span>
-<span id="cb25-4"><a></a>git ls-files data/raw</span>
-<span id="cb25-5"><a></a>(nothing)</span>
-<span id="cb25-6"><a></a></span>
-<span id="cb25-7"><a></a>docker build -t datasci350-project-nodata .</span>
-<span id="cb25-8"><a></a>#13 DONE 0.2s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a></a>ls data</span>
+<span id="cb27-2"><a></a>ls: data: No such file or directory</span>
+<span id="cb27-3"><a></a></span>
+<span id="cb27-4"><a></a>git ls-files data/raw</span>
+<span id="cb27-5"><a></a>(nothing)</span>
+<span id="cb27-6"><a></a></span>
+<span id="cb27-7"><a></a>docker build -t datasci350-project-nodata .</span>
+<span id="cb27-8"><a></a>#13 DONE 0.2s</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><span class="alert">The build succeeded</span>. Nothing in the Dockerfile mentions the CSV, so nothing complained</li>
@@ -1317,22 +1361,22 @@ Danilo Freire
 <li>The run, with the traceback trimmed to its last lines:</li>
 </ul>
 <div style="font-size: 19px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb26-1"><a></a>docker run --rm -v "$(pwd)/output:/project/output" \</span>
-<span id="cb26-2"><a></a>  datasci350-project-nodata</span>
-<span id="cb26-3"><a></a>Starting python3 kernel...Done</span>
-<span id="cb26-4"><a></a>Executing 'report.quarto_ipynb'</span>
-<span id="cb26-5"><a></a>  Cell 1/1: 'fig-demo'...</span>
-<span id="cb26-6"><a></a></span>
-<span id="cb26-7"><a></a>An error occurred while executing the following cell:</span>
-<span id="cb26-8"><a></a>[...]</span>
-<span id="cb26-9"><a></a>data = duckdb.sql("SELECT country, year, value "</span>
-<span id="cb26-10"><a></a>  "FROM 'data/raw/life_expectancy.csv' [...]").df()</span>
-<span id="cb26-11"><a></a>[...]</span>
-<span id="cb26-12"><a></a>IOException: IO Error: No files found that match</span>
-<span id="cb26-13"><a></a>the pattern "data/raw/life_expectancy.csv"</span>
-<span id="cb26-14"><a></a></span>
-<span id="cb26-15"><a></a>WARN: Error encountered when rendering files</span>
-<span id="cb26-16"><a></a>exit code: 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a>docker run --rm -v "$(pwd)/output:/project/output" \</span>
+<span id="cb28-2"><a></a>  datasci350-project-nodata</span>
+<span id="cb28-3"><a></a>Starting python3 kernel...Done</span>
+<span id="cb28-4"><a></a>Executing 'report.quarto_ipynb'</span>
+<span id="cb28-5"><a></a>  Cell 1/1: 'fig-demo'...</span>
+<span id="cb28-6"><a></a></span>
+<span id="cb28-7"><a></a>An error occurred while executing the following cell:</span>
+<span id="cb28-8"><a></a>[...]</span>
+<span id="cb28-9"><a></a>data = duckdb.sql("SELECT country, year, value "</span>
+<span id="cb28-10"><a></a>  "FROM 'data/raw/life_expectancy.csv' [...]").df()</span>
+<span id="cb28-11"><a></a>[...]</span>
+<span id="cb28-12"><a></a>IOException: IO Error: No files found that match</span>
+<span id="cb28-13"><a></a>the pattern "data/raw/life_expectancy.csv"</span>
+<span id="cb28-14"><a></a></span>
+<span id="cb28-15"><a></a>WARN: Error encountered when rendering files</span>
+<span id="cb28-16"><a></a>exit code: 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>The fix is two commands: <code>git add data/raw/</code> and <code>git commit</code></li>
@@ -1343,7 +1387,6 @@ Danilo Freire
 </section>
 <section id="failure-two-a-pin-that-does-not-exist" class="slide level2">
 <h2>Failure two: a pin that does not exist</h2>
-<h3 id="pip-fails-the-build-stops-nothing-below-it-is-cached">pip fails, the build stops, nothing below it is cached</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:54%;">
@@ -1351,23 +1394,23 @@ Danilo Freire
 <li>I changed <code>duckdb==1.5.5</code> to <code>duckdb==1.5.9</code> and built:</li>
 </ul>
 <div style="font-size: 19px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb27-1"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
-<span id="cb27-2"><a></a>#10 0.818 Collecting pandas==3.0.5 [...]</span>
-<span id="cb27-3"><a></a>#10 1.302 ERROR: Could not find a version that</span>
-<span id="cb27-4"><a></a>    satisfies the requirement duckdb==1.5.9</span>
-<span id="cb27-5"><a></a>    (from versions: [...] 1.5.4, 1.5.5, 1.5.6.dev36,</span>
-<span id="cb27-6"><a></a>    1.6.0.dev379, 2.0.0.dev2609121639)</span>
-<span id="cb27-7"><a></a>#10 1.302 ERROR: No matching distribution found</span>
-<span id="cb27-8"><a></a>    for duckdb==1.5.9</span>
-<span id="cb27-9"><a></a></span>
-<span id="cb27-10"><a></a>Dockerfile:85</span>
-<span id="cb27-11"><a></a>--------------------</span>
-<span id="cb27-12"><a></a>  84 |     COPY requirements.txt /project/requirements.txt</span>
-<span id="cb27-13"><a></a>  85 | &gt;&gt;&gt; RUN pip install --no-cache-dir -r /project/requirements.txt</span>
-<span id="cb27-14"><a></a>--------------------</span>
-<span id="cb27-15"><a></a>ERROR: failed to build: failed to solve: process</span>
-<span id="cb27-16"><a></a>"/bin/bash -c pip install [...]" did not complete</span>
-<span id="cb27-17"><a></a>successfully: exit code: 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb29-1"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
+<span id="cb29-2"><a></a>#10 0.818 Collecting pandas==3.0.5 [...]</span>
+<span id="cb29-3"><a></a>#10 1.302 ERROR: Could not find a version that</span>
+<span id="cb29-4"><a></a>    satisfies the requirement duckdb==1.5.9</span>
+<span id="cb29-5"><a></a>    (from versions: [...] 1.5.4, 1.5.5, 1.5.6.dev36,</span>
+<span id="cb29-6"><a></a>    1.6.0.dev379, 2.0.0.dev2609121639)</span>
+<span id="cb29-7"><a></a>#10 1.302 ERROR: No matching distribution found</span>
+<span id="cb29-8"><a></a>    for duckdb==1.5.9</span>
+<span id="cb29-9"><a></a></span>
+<span id="cb29-10"><a></a>Dockerfile:85</span>
+<span id="cb29-11"><a></a>--------------------</span>
+<span id="cb29-12"><a></a>  84 |     COPY requirements.txt /project/requirements.txt</span>
+<span id="cb29-13"><a></a>  85 | &gt;&gt;&gt; RUN pip install --no-cache-dir -r /project/requirements.txt</span>
+<span id="cb29-14"><a></a>--------------------</span>
+<span id="cb29-15"><a></a>ERROR: failed to build: failed to solve: process</span>
+<span id="cb29-16"><a></a>"/bin/bash -c pip install [...]" did not complete</span>
+<span id="cb29-17"><a></a>successfully: exit code: 1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:46%;">
 <ul>
@@ -1383,50 +1426,49 @@ Danilo Freire
 <li>Check a version before you pin it:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb28-1"><a></a>pip index versions duckdb</span>
-<span id="cb28-2"><a></a></span>
-<span id="cb28-3"><a></a>duckdb (1.5.5)</span>
-<span id="cb28-4"><a></a>Available versions: 1.5.5, 1.5.4, 1.5.3, [...]</span>
-<span id="cb28-5"><a></a>  INSTALLED: 1.5.5</span>
-<span id="cb28-6"><a></a>  LATEST:    1.5.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb30-1"><a></a>pip index versions duckdb</span>
+<span id="cb30-2"><a></a></span>
+<span id="cb30-3"><a></a>duckdb (1.5.5)</span>
+<span id="cb30-4"><a></a>Available versions: 1.5.5, 1.5.4, 1.5.3, [...]</span>
+<span id="cb30-5"><a></a>  INSTALLED: 1.5.5</span>
+<span id="cb30-6"><a></a>  LATEST:    1.5.5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 </div>
 </section>
 <section id="inspecting-a-container-that-misbehaves" class="slide level2">
 <h2>Inspecting a container that misbehaves</h2>
-<h3 id="docker-run--it-and-what-it-tells-you"><code>docker run -it</code> and what it tells you</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
 <ul>
 <li>Anything after the image name replaces the <code>CMD</code>, so this starts a shell instead of rendering:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb29"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb29-1"><a></a>docker run --rm -it datasci350-project bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb31-1"><a></a>docker run --rm -it datasci350-project bash</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Then look around, the way you would on any Linux machine:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb30"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb30-1"><a></a>quarto --version</span>
-<span id="cb30-2"><a></a>1.10.18</span>
-<span id="cb30-3"><a></a></span>
-<span id="cb30-4"><a></a>which python</span>
-<span id="cb30-5"><a></a>/opt/venv/bin/python</span>
-<span id="cb30-6"><a></a></span>
-<span id="cb30-7"><a></a>python -c "import pandas, duckdb, matplotlib; \</span>
-<span id="cb30-8"><a></a>  print(pandas.__version__, duckdb.__version__, \</span>
-<span id="cb30-9"><a></a>        matplotlib.__version__)"</span>
-<span id="cb30-10"><a></a>3.0.5 1.5.5 3.10.8</span>
-<span id="cb30-11"><a></a></span>
-<span id="cb30-12"><a></a>ls data/raw</span>
-<span id="cb30-13"><a></a>life_expectancy.csv</span>
-<span id="cb30-14"><a></a>life_expectancy_raw.json</span>
-<span id="cb30-15"><a></a></span>
-<span id="cb30-16"><a></a>pwd</span>
-<span id="cb30-17"><a></a>/project</span>
-<span id="cb30-18"><a></a></span>
-<span id="cb30-19"><a></a>whoami</span>
-<span id="cb30-20"><a></a>root</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a></a>quarto --version</span>
+<span id="cb32-2"><a></a>1.10.18</span>
+<span id="cb32-3"><a></a></span>
+<span id="cb32-4"><a></a>which python</span>
+<span id="cb32-5"><a></a>/opt/venv/bin/python</span>
+<span id="cb32-6"><a></a></span>
+<span id="cb32-7"><a></a>python -c "import pandas, duckdb, matplotlib; \</span>
+<span id="cb32-8"><a></a>  print(pandas.__version__, duckdb.__version__, \</span>
+<span id="cb32-9"><a></a>        matplotlib.__version__)"</span>
+<span id="cb32-10"><a></a>3.0.5 1.5.5 3.10.8</span>
+<span id="cb32-11"><a></a></span>
+<span id="cb32-12"><a></a>ls data/raw</span>
+<span id="cb32-13"><a></a>life_expectancy.csv</span>
+<span id="cb32-14"><a></a>life_expectancy_raw.json</span>
+<span id="cb32-15"><a></a></span>
+<span id="cb32-16"><a></a>pwd</span>
+<span id="cb32-17"><a></a>/project</span>
+<span id="cb32-18"><a></a></span>
+<span id="cb32-19"><a></a>whoami</span>
+<span id="cb32-20"><a></a>root</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:48%;">
 <ul>
@@ -1442,33 +1484,33 @@ Danilo Freire
 </section>
 <section id="cleaning-up" class="slide level2">
 <h2>Cleaning up</h2>
-<h3 id="images-are-big-and-docker-never-deletes-anything-by-itself">Images are big, and Docker never deletes anything by itself</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:52%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb31"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb31-1"><a></a>$ docker ps -a</span>
-<span id="cb31-2"><a></a>CONTAINER ID   IMAGE         STATUS</span>
-<span id="cb31-3"><a></a>5594bb583fbd   hello-world   Exited (0) 2 hours ago</span>
-<span id="cb31-4"><a></a></span>
-<span id="cb31-5"><a></a>$ docker system df</span>
-<span id="cb31-6"><a></a>TYPE          TOTAL  ACTIVE  SIZE      RECLAIMABLE</span>
-<span id="cb31-7"><a></a>Images        7      1       10.88GB   4.029GB (37%)</span>
-<span id="cb31-8"><a></a>Containers    1      0       0B        0B</span>
-<span id="cb31-9"><a></a>Build Cache   37     0       3.046GB   1.403GB</span>
-<span id="cb31-10"><a></a></span>
-<span id="cb31-11"><a></a>$ docker rm 5594bb583fbd</span>
-<span id="cb31-12"><a></a>$ docker rmi datasci350-project-nodata</span>
-<span id="cb31-13"><a></a>[...]</span>
-<span id="cb31-14"><a></a>$ docker system prune</span>
-<span id="cb31-15"><a></a>[...]</span>
-<span id="cb31-16"><a></a>Total reclaimed space: 1.931GB</span>
-<span id="cb31-17"><a></a></span>
-<span id="cb31-18"><a></a>$ docker system df</span>
-<span id="cb31-19"><a></a>Images        4      0       3.217GB   1.97GB (61%)</span>
-<span id="cb31-20"><a></a>Containers    0      0       0B        0B</span>
-<span id="cb31-21"><a></a>Build Cache   8      0       1.643GB   0B</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a></a>$ docker ps -a</span>
+<span id="cb33-2"><a></a>CONTAINER ID   IMAGE         STATUS</span>
+<span id="cb33-3"><a></a>5594bb583fbd   hello-world   Exited (0) 2 hours ago</span>
+<span id="cb33-4"><a></a></span>
+<span id="cb33-5"><a></a>$ docker system df</span>
+<span id="cb33-6"><a></a>TYPE          TOTAL  ACTIVE  SIZE      RECLAIMABLE</span>
+<span id="cb33-7"><a></a>Images        7      1       10.88GB   4.029GB (37%)</span>
+<span id="cb33-8"><a></a>Containers    1      0       0B        0B</span>
+<span id="cb33-9"><a></a>Build Cache   37     0       3.046GB   1.403GB</span>
+<span id="cb33-10"><a></a></span>
+<span id="cb33-11"><a></a>$ docker rm 5594bb583fbd</span>
+<span id="cb33-12"><a></a>$ docker rmi datasci350-project-nodata</span>
+<span id="cb33-13"><a></a>[...]</span>
+<span id="cb33-14"><a></a>$ docker system prune</span>
+<span id="cb33-15"><a></a>[...]</span>
+<span id="cb33-16"><a></a>Total reclaimed space: 1.931GB</span>
+<span id="cb33-17"><a></a></span>
+<span id="cb33-18"><a></a>$ docker system df</span>
+<span id="cb33-19"><a></a>Images        4      0       3.217GB   1.97GB (61%)</span>
+<span id="cb33-20"><a></a>Containers    0      0       0B        0B</span>
+<span id="cb33-21"><a></a>Build Cache   8      0       1.643GB   0B</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>One project image is <span class="alert">1.52GB on disk</span>. A few experiments and failed builds soon reach 10GB or more</li>
+<li>Docker never deletes images by itself</li>
 </ul>
 </div><div class="column" style="width:48%;">
 <div style="text-align: center; font-size: 17px; margin-top: 0px; margin-bottom: 10px;">
@@ -1498,7 +1540,7 @@ Danilo Freire
 </tr>
 <tr class="even">
 <td><code>docker system df</code></td>
-<td>Nothing, it reports what is using space</td>
+<td>Nothing, it reports what is using space (<code>df</code> = disk free)</td>
 </tr>
 <tr class="odd">
 <td><code>docker system prune</code></td>
@@ -1512,11 +1554,12 @@ Danilo Freire
 </table>
 </div>
 <ul>
+<li>The ID comes from <code>docker ps -a</code>, and the first few characters are enough</li>
 <li>A <span class="alert">dangling image</span> has no tag, usually left behind when you rebuild a tag</li>
 <li><code>--rm</code> on <code>docker run</code> is what stops the container list growing in the first place</li>
 </ul>
-<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;">
-<p><code>docker system prune -a</code> deletes every image no running container is using, including the one you spent three minutes building. Read the prompt before you type <code>y</code></p>
+<div style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 5px;">
+<p><code>docker system prune -a</code> deletes every image no running container is using. Read the prompt before you type <code>y</code></p>
 </div>
 </div></div>
 </div>
@@ -1539,14 +1582,14 @@ Danilo Freire
 <li>Start it and it prints a URL with a token, on port 8888:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb32"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb32-1"><a></a>docker run --rm -p 8888:8888 \</span>
-<span id="cb32-2"><a></a>  quay.io/jupyter/scipy-notebook</span>
-<span id="cb32-3"><a></a>[...]</span>
-<span id="cb32-4"><a></a>Executing: jupyter lab</span>
-<span id="cb32-5"><a></a>Jupyter Server 2.20.0 is running at:</span>
-<span id="cb32-6"><a></a>http://localhost:8888/lab?token=d59aac5d7a7e...</span>
-<span id="cb32-7"><a></a>Serving notebooks from local directory:</span>
-<span id="cb32-8"><a></a>  /home/jovyan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb34-1"><a></a>docker run --rm -p 8888:8888 \</span>
+<span id="cb34-2"><a></a>  quay.io/jupyter/scipy-notebook</span>
+<span id="cb34-3"><a></a>[...]</span>
+<span id="cb34-4"><a></a>Executing: jupyter lab</span>
+<span id="cb34-5"><a></a>Jupyter Server 2.20.0 is running at:</span>
+<span id="cb34-6"><a></a>http://localhost:8888/lab?token=d59aac5d7a7e...</span>
+<span id="cb34-7"><a></a>Serving notebooks from local directory:</span>
+<span id="cb34-8"><a></a>  /home/jovyan</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li><a href="https://rocker-project.org/">rocker</a> does the same for R: <code>r-ver</code>, <code>rstudio</code>, <code>tidyverse</code>, <code>verse</code>, <code>geospatial</code></li>
@@ -1580,12 +1623,12 @@ Danilo Freire
 <li>Push it with Lecture 23’s <code>buildx</code> command, which builds for both kinds of chip:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb33"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a></a>docker buildx build --platform linux/amd64,linux/arm64 \</span>
-<span id="cb33-2"><a></a>  -t danilofreire/datasci350-project:latest --push .</span>
-<span id="cb33-3"><a></a></span>
-<span id="cb33-4"><a></a>[...]</span>
-<span id="cb33-5"><a></a> =&gt; =&gt; pushing manifest for docker.io/danilofreire/</span>
-<span id="cb33-6"><a></a>    datasci350-project:latest@sha256:3136ee8fff92...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb35-1"><a></a>docker buildx build --platform linux/amd64,linux/arm64 \</span>
+<span id="cb35-2"><a></a>  -t danilofreire/datasci350-project:latest --push .</span>
+<span id="cb35-3"><a></a></span>
+<span id="cb35-4"><a></a>[...]</span>
+<span id="cb35-5"><a></a> =&gt; =&gt; pushing manifest for docker.io/danilofreire/</span>
+<span id="cb35-6"><a></a>    datasci350-project:latest@sha256:3136ee8fff92...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Docker Hub stores one image per chip: <span class="alert">334 MB for amd64 and 331 MB for arm64</span></li>
@@ -1604,12 +1647,11 @@ Danilo Freire
 </div>
 </section>
 <section id="sec-exercise-01" class="slide level2 scrollable">
-<h2>Try it yourself! 🧠</h2>
-<h3 id="at-home-after-class">At home, after class</h3>
+<h2>Try it yourself at home</h2>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:54%;">
-<p>Do this at home with your clone of the starter. Step 2 takes about a minute.</p>
+<p>Use your clone of the starter. Step 2 takes about a minute</p>
 <ol type="1">
 <li>Add <code>seaborn==0.13.2</code> under <code>duckdb==1.5.5</code> in <code>requirements.txt</code></li>
 <li>Run <code>docker build -t datasci350-project .</code></li>
@@ -1651,7 +1693,6 @@ Danilo Freire
 <li><span class="alert">Marker’s test</span>: five commands from a fresh clone, 30% of the project grade</li>
 <li><span class="alert">Dockerfile</span>: seven blocks, base image to <code>CMD</code></li>
 <li><span class="alert"><code>.dockerignore</code></span>: keeps <code>.git</code>, <code>output/</code>, and <code>.env</code> out of the image</li>
-<li><span class="alert">Secrets</span>: <code>.env</code> stays out of the image, through <code>.dockerignore</code></li>
 <li><span class="alert">Layer order</span>: <code>COPY requirements.txt</code> above <code>COPY . /project</code>, so a rebuild takes a second</li>
 </ul>
 </div><div class="column" style="width:50%;">
@@ -1707,52 +1748,52 @@ Danilo Freire
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="alert">Step 1</span>, in <code>requirements.txt</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb34"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb34-1"><a></a># Data processing (use either, or both)</span>
-<span id="cb34-2"><a></a>pandas==3.0.5</span>
-<span id="cb34-3"><a></a>duckdb==1.5.5</span>
-<span id="cb34-4"><a></a>seaborn==0.13.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb36-1"><a></a># Data processing (use either, or both)</span>
+<span id="cb36-2"><a></a>pandas==3.0.5</span>
+<span id="cb36-3"><a></a>duckdb==1.5.5</span>
+<span id="cb36-4"><a></a>seaborn==0.13.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><span class="alert">Steps 4 and 5</span>, in the demo chunk of <code>report.qmd</code>:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb35"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a></a><span class="im">import</span> duckdb</span>
-<span id="cb35-2"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb35-3"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb35-4"><a></a></span>
-<span id="cb35-5"><a></a>data <span class="op">=</span> duckdb.sql(</span>
-<span id="cb35-6"><a></a>    <span class="st">"SELECT country, year, value "</span></span>
-<span id="cb35-7"><a></a>    <span class="st">"FROM 'data/raw/life_expectancy.csv' "</span></span>
-<span id="cb35-8"><a></a>    <span class="st">"ORDER BY country, year"</span></span>
-<span id="cb35-9"><a></a>).df()</span>
-<span id="cb35-10"><a></a></span>
-<span id="cb35-11"><a></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss"> rows covering "</span></span>
-<span id="cb35-12"><a></a>      <span class="ss">f"</span><span class="sc">{</span>data[<span class="st">'country'</span>]<span class="sc">.</span>nunique()<span class="sc">}</span><span class="ss"> countries."</span>)</span>
-<span id="cb35-13"><a></a><span class="bu">print</span>(<span class="ss">f"seaborn </span><span class="sc">{</span>sns<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a></a><span class="im">import</span> duckdb</span>
+<span id="cb37-2"><a></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb37-3"><a></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb37-4"><a></a></span>
+<span id="cb37-5"><a></a>data <span class="op">=</span> duckdb.sql(</span>
+<span id="cb37-6"><a></a>    <span class="st">"SELECT country, year, value "</span></span>
+<span id="cb37-7"><a></a>    <span class="st">"FROM 'data/raw/life_expectancy.csv' "</span></span>
+<span id="cb37-8"><a></a>    <span class="st">"ORDER BY country, year"</span></span>
+<span id="cb37-9"><a></a>).df()</span>
+<span id="cb37-10"><a></a></span>
+<span id="cb37-11"><a></a><span class="bu">print</span>(<span class="ss">f"Loaded </span><span class="sc">{</span><span class="bu">len</span>(data)<span class="sc">}</span><span class="ss"> rows covering "</span></span>
+<span id="cb37-12"><a></a>      <span class="ss">f"</span><span class="sc">{</span>data[<span class="st">'country'</span>]<span class="sc">.</span>nunique()<span class="sc">}</span><span class="ss"> countries."</span>)</span>
+<span id="cb37-13"><a></a><span class="bu">print</span>(<span class="ss">f"seaborn </span><span class="sc">{</span>sns<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><span class="alert">Step 7</span>, in the rendered report:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb36"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb36-1"><a></a>grep -o "seaborn 0.13.2" output/report.html</span>
-<span id="cb36-2"><a></a>seaborn 0.13.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb38-1"><a></a>grep -o "seaborn 0.13.2" output/report.html</span>
+<span id="cb38-2"><a></a>seaborn 0.13.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Reverting both files and rebuilding took 2.06 seconds, all <code>CACHED</code>, back to 347MB and 53 packages</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <p><span class="alert">Steps 2 and 3</span>, the rebuild on my laptop:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb37-1"><a></a>#5 [1/8] FROM docker.io/library/ubuntu:24.04</span>
-<span id="cb37-2"><a></a>#5 DONE 0.0s</span>
-<span id="cb37-3"><a></a>#6 [3/8] RUN ARCH=$(dpkg --print-architecture) [...]</span>
-<span id="cb37-4"><a></a>#6 CACHED</span>
-<span id="cb37-5"><a></a>#7 [2/8] RUN apt-get update &amp;&amp; apt-get install [...]</span>
-<span id="cb37-6"><a></a>#7 CACHED</span>
-<span id="cb37-7"><a></a>#8 [4/8] RUN python3 -m venv /opt/venv</span>
-<span id="cb37-8"><a></a>#8 CACHED</span>
-<span id="cb37-9"><a></a>#9 [5/8] COPY requirements.txt /project/requirements.txt</span>
-<span id="cb37-10"><a></a>#9 DONE 0.0s</span>
-<span id="cb37-11"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
-<span id="cb37-12"><a></a>#10 18.77 Downloading seaborn-0.13.2-[...].whl (294 kB)</span>
-<span id="cb37-13"><a></a>#10 49.45 Successfully installed [...] seaborn-0.13.2 [...]</span>
-<span id="cb37-14"><a></a>#10 DONE 50.0s</span>
-<span id="cb37-15"><a></a>#11 [7/8] WORKDIR /project</span>
-<span id="cb37-16"><a></a>#11 DONE 0.1s</span>
-<span id="cb37-17"><a></a>#12 [8/8] COPY . /project</span>
-<span id="cb37-18"><a></a>#12 DONE 0.1s</span>
-<span id="cb37-19"><a></a></span>
-<span id="cb37-20"><a></a>docker build [...]  57.726 total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb39-1"><a></a>#5 [1/8] FROM docker.io/library/ubuntu:24.04</span>
+<span id="cb39-2"><a></a>#5 DONE 0.0s</span>
+<span id="cb39-3"><a></a>#6 [3/8] RUN ARCH=$(dpkg --print-architecture) [...]</span>
+<span id="cb39-4"><a></a>#6 CACHED</span>
+<span id="cb39-5"><a></a>#7 [2/8] RUN apt-get update &amp;&amp; apt-get install [...]</span>
+<span id="cb39-6"><a></a>#7 CACHED</span>
+<span id="cb39-7"><a></a>#8 [4/8] RUN python3 -m venv /opt/venv</span>
+<span id="cb39-8"><a></a>#8 CACHED</span>
+<span id="cb39-9"><a></a>#9 [5/8] COPY requirements.txt /project/requirements.txt</span>
+<span id="cb39-10"><a></a>#9 DONE 0.0s</span>
+<span id="cb39-11"><a></a>#10 [6/8] RUN pip install --no-cache-dir -r [...]</span>
+<span id="cb39-12"><a></a>#10 18.77 Downloading seaborn-0.13.2-[...].whl (294 kB)</span>
+<span id="cb39-13"><a></a>#10 49.45 Successfully installed [...] seaborn-0.13.2 [...]</span>
+<span id="cb39-14"><a></a>#10 DONE 50.0s</span>
+<span id="cb39-15"><a></a>#11 [7/8] WORKDIR /project</span>
+<span id="cb39-16"><a></a>#11 DONE 0.1s</span>
+<span id="cb39-17"><a></a>#12 [8/8] COPY . /project</span>
+<span id="cb39-18"><a></a>#12 DONE 0.1s</span>
+<span id="cb39-19"><a></a></span>
+<span id="cb39-20"><a></a>docker build [...]  57.726 total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Four steps cached, four rebuilt. The miss at <code>#9</code> forced everything below it to run again</li>
 <li>pip reinstalled all 54 packages, because the layer is rebuilt from nothing</li>
@@ -1793,77 +1834,77 @@ Danilo Freire
 <div style="margin-top: 30px; font-size: 18px;">
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb38-1"><a></a><span class="co"># 1. Base image</span></span>
-<span id="cb38-2"><a></a><span class="co"># FROM chooses the starting point: Ubuntu 24.04,</span></span>
-<span id="cb38-3"><a></a><span class="co"># the system you saw in the containers lecture.</span></span>
-<span id="cb38-4"><a></a><span class="co"># We pin the tag to "24.04" rather than "latest".</span></span>
-<span id="cb38-5"><a></a><span class="kw">FROM</span> ubuntu:24.04</span>
-<span id="cb38-6"><a></a></span>
-<span id="cb38-7"><a></a><span class="co"># 2. Build-time settings</span></span>
-<span id="cb38-8"><a></a><span class="kw">ENV</span> DEBIAN_FRONTEND=noninteractive</span>
-<span id="cb38-9"><a></a><span class="kw">SHELL</span> [<span class="st">"/bin/bash"</span>, <span class="st">"-c"</span>]</span>
-<span id="cb38-10"><a></a></span>
-<span id="cb38-11"><a></a><span class="co"># 3. System packages</span></span>
-<span id="cb38-12"><a></a><span class="co"># We do not pin apt versions here. Ubuntu replaces</span></span>
-<span id="cb38-13"><a></a><span class="co"># a version whenever it ships a security fix, and a</span></span>
-<span id="cb38-14"><a></a><span class="co"># pin that no longer exists stops the build. The</span></span>
-<span id="cb38-15"><a></a><span class="co"># base image tag and requirements.txt carry the pins.</span></span>
-<span id="cb38-16"><a></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
-<span id="cb38-17"><a></a>    ca-certificates <span class="dt">\</span></span>
-<span id="cb38-18"><a></a>    wget <span class="dt">\</span></span>
-<span id="cb38-19"><a></a>    git <span class="dt">\</span></span>
-<span id="cb38-20"><a></a>    python3.12 <span class="dt">\</span></span>
-<span id="cb38-21"><a></a>    python3.12-venv <span class="dt">\</span></span>
-<span id="cb38-22"><a></a>    python3-pip <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb38-23"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
-<span id="cb38-24"><a></a></span>
-<span id="cb38-25"><a></a><span class="co"># 4. Quarto</span></span>
-<span id="cb38-26"><a></a><span class="co"># Quarto is not in the Ubuntu package list, so we</span></span>
-<span id="cb38-27"><a></a><span class="co"># download the .deb from GitHub. The version is</span></span>
-<span id="cb38-28"><a></a><span class="co"># written out in full, so the image you build is</span></span>
-<span id="cb38-29"><a></a><span class="co"># the image everyone else builds.</span></span>
-<span id="cb38-30"><a></a><span class="kw">RUN</span> <span class="va">ARCH</span><span class="op">=</span><span class="va">$(</span><span class="ex">dpkg</span> <span class="at">--print-architecture</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb38-31"><a></a>    <span class="fu">wget</span> <span class="at">-q</span> <span class="st">"https://github.com/quarto-dev/quarto-cli/releases/download/v1.10.18/quarto-1.10.18-linux-</span><span class="va">${ARCH}</span><span class="st">.deb"</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb38-32"><a></a>    <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb38-33"><a></a>    <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> ./quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb38-34"><a></a>    <span class="fu">rm</span> quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
-<span id="cb38-35"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb40-1"><a></a><span class="co"># 1. Base image</span></span>
+<span id="cb40-2"><a></a><span class="co"># FROM chooses the starting point: Ubuntu 24.04,</span></span>
+<span id="cb40-3"><a></a><span class="co"># the system you saw in the containers lecture.</span></span>
+<span id="cb40-4"><a></a><span class="co"># We pin the tag to "24.04" rather than "latest".</span></span>
+<span id="cb40-5"><a></a><span class="kw">FROM</span> ubuntu:24.04</span>
+<span id="cb40-6"><a></a></span>
+<span id="cb40-7"><a></a><span class="co"># 2. Environment and shell</span></span>
+<span id="cb40-8"><a></a><span class="kw">ENV</span> DEBIAN_FRONTEND=noninteractive</span>
+<span id="cb40-9"><a></a><span class="kw">SHELL</span> [<span class="st">"/bin/bash"</span>, <span class="st">"-c"</span>]</span>
+<span id="cb40-10"><a></a></span>
+<span id="cb40-11"><a></a><span class="co"># 3. System packages</span></span>
+<span id="cb40-12"><a></a><span class="co"># We do not pin apt versions here. Ubuntu replaces</span></span>
+<span id="cb40-13"><a></a><span class="co"># a version whenever it ships a security fix, and a</span></span>
+<span id="cb40-14"><a></a><span class="co"># pin that no longer exists stops the build. The</span></span>
+<span id="cb40-15"><a></a><span class="co"># base image tag and requirements.txt carry the pins.</span></span>
+<span id="cb40-16"><a></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> <span class="dt">\</span></span>
+<span id="cb40-17"><a></a>    ca-certificates <span class="dt">\</span></span>
+<span id="cb40-18"><a></a>    wget <span class="dt">\</span></span>
+<span id="cb40-19"><a></a>    git <span class="dt">\</span></span>
+<span id="cb40-20"><a></a>    python3.12 <span class="dt">\</span></span>
+<span id="cb40-21"><a></a>    python3.12-venv <span class="dt">\</span></span>
+<span id="cb40-22"><a></a>    python3-pip <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb40-23"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
+<span id="cb40-24"><a></a></span>
+<span id="cb40-25"><a></a><span class="co"># 4. Quarto</span></span>
+<span id="cb40-26"><a></a><span class="co"># Quarto is not in the Ubuntu package list, so we</span></span>
+<span id="cb40-27"><a></a><span class="co"># download the .deb from GitHub. The version is</span></span>
+<span id="cb40-28"><a></a><span class="co"># written out in full, so the image you build is</span></span>
+<span id="cb40-29"><a></a><span class="co"># the image everyone else builds.</span></span>
+<span id="cb40-30"><a></a><span class="kw">RUN</span> <span class="va">ARCH</span><span class="op">=</span><span class="va">$(</span><span class="ex">dpkg</span> <span class="at">--print-architecture</span><span class="va">)</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb40-31"><a></a>    <span class="fu">wget</span> <span class="at">-q</span> <span class="st">"https://github.com/quarto-dev/quarto-cli/releases/download/v1.10.18/quarto-1.10.18-linux-</span><span class="va">${ARCH}</span><span class="st">.deb"</span> <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb40-32"><a></a>    <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb40-33"><a></a>    <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> ./quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb40-34"><a></a>    <span class="fu">rm</span> quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
+<span id="cb40-35"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div><div class="column" style="width:50%;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb39-1"><a></a><span class="co"># 5. Python environment</span></span>
-<span id="cb39-2"><a></a><span class="co"># Ubuntu protects its own Python installation, so</span></span>
-<span id="cb39-3"><a></a><span class="co"># we create a virtual environment at /opt/venv and</span></span>
-<span id="cb39-4"><a></a><span class="co"># install our packages there.</span></span>
-<span id="cb39-5"><a></a><span class="kw">RUN</span> <span class="ex">python3</span> <span class="at">-m</span> venv /opt/venv</span>
-<span id="cb39-6"><a></a></span>
-<span id="cb39-7"><a></a><span class="co"># PATH tells the shell where to look for programs.</span></span>
-<span id="cb39-8"><a></a><span class="kw">ENV</span> PATH=<span class="st">"/opt/venv/bin:$PATH"</span></span>
-<span id="cb39-9"><a></a></span>
-<span id="cb39-10"><a></a><span class="co"># We copy requirements.txt on its own, before the</span></span>
-<span id="cb39-11"><a></a><span class="co"># rest of the project. Docker caches each layer.</span></span>
-<span id="cb39-12"><a></a><span class="kw">COPY</span> requirements.txt /project/requirements.txt</span>
-<span id="cb39-13"><a></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> /project/requirements.txt</span>
-<span id="cb39-14"><a></a></span>
-<span id="cb39-15"><a></a><span class="co"># 6. Project files</span></span>
-<span id="cb39-16"><a></a><span class="co"># WORKDIR sets the folder that later instructions</span></span>
-<span id="cb39-17"><a></a><span class="co"># run inside.</span></span>
-<span id="cb39-18"><a></a><span class="kw">WORKDIR</span> /project</span>
-<span id="cb39-19"><a></a></span>
-<span id="cb39-20"><a></a><span class="co"># Copy everything else from your repository into</span></span>
-<span id="cb39-21"><a></a><span class="co"># the image, including report.qmd and the saved</span></span>
-<span id="cb39-22"><a></a><span class="co"># data snapshot in data/raw/.</span></span>
-<span id="cb39-23"><a></a><span class="co"># The .dockerignore file next to this one lists</span></span>
-<span id="cb39-24"><a></a><span class="co"># what stays out.</span></span>
-<span id="cb39-25"><a></a><span class="kw">COPY</span> . /project</span>
-<span id="cb39-26"><a></a></span>
-<span id="cb39-27"><a></a><span class="co"># 7. Default command</span></span>
-<span id="cb39-28"><a></a><span class="co"># We render first and copy afterwards. Quarto</span></span>
-<span id="cb39-29"><a></a><span class="co"># clears its output folder before writing, and it</span></span>
-<span id="cb39-30"><a></a><span class="co"># cannot clear a folder Docker mounted from outside.</span></span>
-<span id="cb39-31"><a></a><span class="co"># QUARTO_PYTHON points Quarto at the venv's Python.</span></span>
-<span id="cb39-32"><a></a><span class="kw">ENV</span> QUARTO_PYTHON=/opt/venv/bin/python</span>
-<span id="cb39-33"><a></a><span class="kw">CMD</span> [<span class="st">"bash"</span>, <span class="st">"-c"</span>, <span class="st">"quarto render report.qmd &amp;&amp; mkdir -p output &amp;&amp; cp -a report.html output/ &amp;&amp; echo 'Rendered report is in output/report.html'"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb41-1"><a></a><span class="co"># 5. Python environment</span></span>
+<span id="cb41-2"><a></a><span class="co"># Ubuntu protects its own Python installation, so</span></span>
+<span id="cb41-3"><a></a><span class="co"># we create a virtual environment at /opt/venv and</span></span>
+<span id="cb41-4"><a></a><span class="co"># install our packages there.</span></span>
+<span id="cb41-5"><a></a><span class="kw">RUN</span> <span class="ex">python3</span> <span class="at">-m</span> venv /opt/venv</span>
+<span id="cb41-6"><a></a></span>
+<span id="cb41-7"><a></a><span class="co"># PATH tells the shell where to look for programs.</span></span>
+<span id="cb41-8"><a></a><span class="kw">ENV</span> PATH=<span class="st">"/opt/venv/bin:$PATH"</span></span>
+<span id="cb41-9"><a></a></span>
+<span id="cb41-10"><a></a><span class="co"># We copy requirements.txt on its own, before the</span></span>
+<span id="cb41-11"><a></a><span class="co"># rest of the project. Docker caches each layer.</span></span>
+<span id="cb41-12"><a></a><span class="kw">COPY</span> requirements.txt /project/requirements.txt</span>
+<span id="cb41-13"><a></a><span class="kw">RUN</span> <span class="ex">pip</span> install <span class="at">--no-cache-dir</span> <span class="at">-r</span> /project/requirements.txt</span>
+<span id="cb41-14"><a></a></span>
+<span id="cb41-15"><a></a><span class="co"># 6. Project files</span></span>
+<span id="cb41-16"><a></a><span class="co"># WORKDIR sets the folder that later instructions</span></span>
+<span id="cb41-17"><a></a><span class="co"># run inside.</span></span>
+<span id="cb41-18"><a></a><span class="kw">WORKDIR</span> /project</span>
+<span id="cb41-19"><a></a></span>
+<span id="cb41-20"><a></a><span class="co"># Copy everything else from your repository into</span></span>
+<span id="cb41-21"><a></a><span class="co"># the image, including report.qmd and the saved</span></span>
+<span id="cb41-22"><a></a><span class="co"># data snapshot in data/raw/.</span></span>
+<span id="cb41-23"><a></a><span class="co"># The .dockerignore file next to this one lists</span></span>
+<span id="cb41-24"><a></a><span class="co"># what stays out.</span></span>
+<span id="cb41-25"><a></a><span class="kw">COPY</span> . /project</span>
+<span id="cb41-26"><a></a></span>
+<span id="cb41-27"><a></a><span class="co"># 7. Default command</span></span>
+<span id="cb41-28"><a></a><span class="co"># We render first and copy afterwards. Quarto</span></span>
+<span id="cb41-29"><a></a><span class="co"># clears its output folder before writing, and it</span></span>
+<span id="cb41-30"><a></a><span class="co"># cannot clear a folder Docker mounted from outside.</span></span>
+<span id="cb41-31"><a></a><span class="co"># QUARTO_PYTHON points Quarto at the venv's Python.</span></span>
+<span id="cb41-32"><a></a><span class="kw">ENV</span> QUARTO_PYTHON=/opt/venv/bin/python</span>
+<span id="cb41-33"><a></a><span class="kw">CMD</span> [<span class="st">"bash"</span>, <span class="st">"-c"</span>, <span class="st">"quarto render report.qmd &amp;&amp; mkdir -p output &amp;&amp; cp -a report.html output/ &amp;&amp; echo 'Rendered report is in output/report.html'"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>The starter is at commit <code>eb4b6f8</code></li>
+<li>The starter is at commit <code>cb64771</code></li>
 <li>Comments are trimmed here. The file in your clone explains every line</li>
 </ul>
 </div></div>
@@ -1879,18 +1920,18 @@ Danilo Freire
 <li>Typing <code>docker run --rm -v "$(pwd)/output:/project/output" datasci350-project</code> twenty times is how typos happen:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb40-1"><a></a><span class="fu">services</span><span class="kw">:</span></span>
-<span id="cb40-2"><a></a><span class="at">  </span><span class="fu">report</span><span class="kw">:</span></span>
-<span id="cb40-3"><a></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span><span class="at"> .</span></span>
-<span id="cb40-4"><a></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> datasci350-project</span></span>
-<span id="cb40-5"><a></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
-<span id="cb40-6"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./output:/project/output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb42-1"><a></a><span class="fu">services</span><span class="kw">:</span></span>
+<span id="cb42-2"><a></a><span class="at">  </span><span class="fu">report</span><span class="kw">:</span></span>
+<span id="cb42-3"><a></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb42-4"><a></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> datasci350-project</span></span>
+<span id="cb42-5"><a></a><span class="at">    </span><span class="fu">volumes</span><span class="kw">:</span></span>
+<span id="cb42-6"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./output:/project/output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
 <li>Save it as <span class="alert"><code>compose.yaml</code></span> next to your <code>Dockerfile</code>, though <code>docker-compose.yml</code> still works:</li>
 </ul>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb41-1"><a></a>docker compose up --build</span>
-<span id="cb41-2"><a></a>docker compose down</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb43"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb43-1"><a></a>docker compose up --build</span>
+<span id="cb43-2"><a></a>docker compose down</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
 <li>Compose reads the relative path <code>./output</code> for you, so <code>$(pwd)</code> never appears</li>
 <li>Compose is really for <span class="alert">several containers</span> working together: a database, an API, a notebook</li>
@@ -1900,23 +1941,23 @@ Danilo Freire
 <li><code>down</code> removes the container and the network it created</li>
 <li><code>docker compose</code> with a space is the current command, while <code>docker-compose</code> with a hyphen is the legacy one
 <ul>
-<li>This laptop runs <span class="alert">Compose v5.1.2</span></li>
+<li>I ran this with <span class="alert">Compose v5.1.2</span></li>
 </ul></li>
 <li>The starter ships no compose file, so write your own</li>
-<li>What it printed on this laptop:</li>
+<li>What it printed on my laptop:</li>
 </ul>
 <div style="font-size: 20px;">
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb42-1"><a></a>docker compose up --build</span>
-<span id="cb42-2"><a></a>[...]</span>
-<span id="cb42-3"><a></a> Image datasci350-project Built</span>
-<span id="cb42-4"><a></a> Network starter_default Created</span>
-<span id="cb42-5"><a></a> Container starter-report-1 Started</span>
-<span id="cb42-6"><a></a>report-1  | Rendered report is in output/report.html</span>
-<span id="cb42-7"><a></a>report-1 exited with code 0</span>
-<span id="cb42-8"><a></a></span>
-<span id="cb42-9"><a></a>docker compose down</span>
-<span id="cb42-10"><a></a> Container starter-report-1 Removed</span>
-<span id="cb42-11"><a></a> Network starter_default Removed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb44"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb44-1"><a></a>docker compose up --build</span>
+<span id="cb44-2"><a></a>[...]</span>
+<span id="cb44-3"><a></a> Image datasci350-project Built</span>
+<span id="cb44-4"><a></a> Network starter_default Created</span>
+<span id="cb44-5"><a></a> Container starter-report-1 Started</span>
+<span id="cb44-6"><a></a>report-1  | Rendered report is in output/report.html</span>
+<span id="cb44-7"><a></a>report-1 exited with code 0</span>
+<span id="cb44-8"><a></a></span>
+<span id="cb44-9"><a></a>docker compose down</span>
+<span id="cb44-10"><a></a> Container starter-report-1 Removed</span>
+<span id="cb44-11"><a></a> Network starter_default Removed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 </div>

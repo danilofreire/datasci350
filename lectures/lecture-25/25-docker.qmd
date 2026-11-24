@@ -594,7 +594,6 @@ RUN ARCH=$(dpkg --print-architecture) && \
 :::
 
 ## Block 5: the virtual environment and `pip`
-### The layer order that makes rebuilds fast
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}

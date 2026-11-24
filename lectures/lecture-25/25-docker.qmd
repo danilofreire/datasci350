@@ -400,7 +400,7 @@ plt.show()
 
 # The Dockerfile 🐳 {background-color="#1B3A6B"}
 
-## The whole `Dockerfile`
+## The whole `Dockerfile` {#sec-whole-dockerfile}
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -574,7 +574,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
 :::
 :::
 
-## Block 5: the virtual environment and `pip`
+## Block 5: the virtual environment and `pip` {#sec-block-5}
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -805,7 +805,7 @@ docker history --format "{{.Size}}\t{{.CreatedBy}}" \
 
 # Run, change, rebuild {background-color="#1B3A6B"}
 
-## Running the container
+## Running the container {#sec-run}
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -1348,9 +1348,8 @@ Before then:
 # Appendix 📚 {background-color="#1B3A6B"}
 
 ## Appendix 01: Exercise solution {#sec-appendix-01}
-### What the rebuild printed
 
-:::{style="margin-top: 40px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 16px;"}
 :::{.columns}
 :::{.column width="50%"}
 [Step 1]{.alert}, in `requirements.txt`:
@@ -1387,11 +1386,11 @@ grep -o "seaborn 0.13.2" output/report.html
 seaborn 0.13.2
 ```
 
-- Reverting both files and rebuilding took 2.06 seconds, all `CACHED`, back to 347MB and 53 packages
+- Undo both edits and rebuild: everything is `CACHED` (2 seconds), back to 347MB and 53 packages
 :::
 
 :::{.column width="50%"}
-[Steps 2 and 3]{.alert}, the rebuild on my laptop:
+[Steps 2 and 3]{.alert}, the rebuild:
 
 ```text
 #5 [1/8] FROM docker.io/library/ubuntu:24.04
@@ -1416,10 +1415,10 @@ seaborn 0.13.2
 docker build [...]  57.726 total
 ```
 
-- Four steps cached, four rebuilt. The miss at `#9` forced everything below it to run again
-- pip reinstalled all 54 packages, because the layer is rebuilt from nothing
+- Four steps cached and four rebuilt, starting at `[5/8]`
+- pip reinstalled all 54 packages, not just seaborn
 
-:::{style="margin-top: 12px;"}
+:::{style="margin-top: 0px;"}
 [[Back to the exercise]{.button}](#sec-exercise-01)
 :::
 :::
@@ -1427,48 +1426,50 @@ docker build [...]  57.726 total
 :::
 
 ## Appendix 02: When something goes wrong {#sec-appendix-02}
-### Errors from this lecture's build
 
-:::{style="margin-top: 40px; font-size: 19px;"}
+:::{style="margin-top: 40px; font-size: 18px;"}
 :::{.columns}
 :::{.column width="50%"}
 [`IOException: No files found that match [...] life_expectancy.csv`]{.alert}
 
-The snapshot never reached the repository. Run `git add data/raw/`, commit, and check with `git ls-files data/raw`.
+`data/raw/` was never committed. Run `git add data/raw/` and commit, then check with `git ls-files data/raw`.
 
 [`No matching distribution found for duckdb==1.5.9`]{.alert}
 
-That version does not exist on PyPI. Run `pip index versions duckdb` and pin one it lists.
+That version does not exist. Pin one that `pip index versions duckdb` lists.
 
 [`ls: output: No such file or directory`]{.alert}
 
-You ran the container without `-v`. Add `-v "$(pwd)/output:/project/output"`, or `${PWD}` in PowerShell. On Linux the message reads `ls: cannot access 'output'`.
+You forgot `-v`. Add `-v "$(pwd)/output:/project/output"` (`${PWD}` in PowerShell). Linux prints `ls: cannot access 'output'`.
 
 [`error: externally-managed-environment`]{.alert}
 
-You ran `pip install` against Ubuntu's own Python. Create a virtual environment and put `/opt/venv/bin` first in `PATH`.
+You ran `pip install` on Ubuntu's own Python. Use a virtual environment, as in block 5.
 :::
 
 :::{.column width="50%"}
 [`failed to read dockerfile: open Dockerfile`]{.alert}
 
-You are in the wrong folder. The `.` in `docker build -t name .` is where Docker looks, so `cd` into the folder with the `Dockerfile`.
+You are in the wrong folder. `cd` into the folder that has the `Dockerfile`.
 
 [`NoSuchKernel: No such kernel named python3`]{.alert}
 
-`ipykernel` is missing from `requirements.txt`, so Quarto cannot start a kernel. Put `ipykernel==7.2.0` back and rebuild.
+`ipykernel` is missing from `requirements.txt`. Add `ipykernel==7.2.0` back and rebuild.
 
 [`toomanyrequests: pull rate limit`]{.alert}
 
-Docker Hub allows 100 anonymous pulls every six hours from one address, and 200 once you log in. Run `docker login` and build again.
+Docker Hub allows 100 pulls every six hours without an account, 200 with one. Run `docker login` and build again
+
+:::{style="margin-top: 12px;"}
+[[Back to block 5]{.button}](#sec-block-5)
+:::
 :::
 :::
 :::
 
 ## Appendix 03: The complete Dockerfile {#sec-appendix-03}
-### As shipped in the starter
 
-:::{style="margin-top: 30px; font-size: 18px;"}
+:::{style="margin-top: 30px; font-size: 16px;"}
 :::{.columns}
 :::{.column width="50%"}
 ```dockerfile
@@ -1508,6 +1509,8 @@ RUN ARCH=$(dpkg --print-architecture) && \
     rm quarto-1.10.18-linux-${ARCH}.deb && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 ```
+
+- Starter commit `cb64771`, with comments trimmed. Your clone has them all
 :::
 
 :::{.column width="50%"}
@@ -1547,19 +1550,19 @@ ENV QUARTO_PYTHON=/opt/venv/bin/python
 CMD ["bash", "-c", "quarto render report.qmd && mkdir -p output && cp -a report.html output/ && echo 'Rendered report is in output/report.html'"]
 ```
 
-- The starter is at commit `cb64771`
-- Comments are trimmed here. The file in your clone explains every line
+:::{style="margin-top: 0px;"}
+[[Back to the whole Dockerfile]{.button}](#sec-whole-dockerfile)
+:::
 :::
 :::
 :::
 
 ## Appendix 04: Docker Compose {#sec-appendix-04}
-### The same build and run, written down once
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="50%"}
-- Typing `docker run --rm -v "$(pwd)/output:/project/output" datasci350-project` twenty times is how typos happen:
+- Compose saves the long `docker run` command in a file:
 
 :::{style="font-size: 20px;"}
 ```yaml
@@ -1572,22 +1575,22 @@ services:
 ```
 :::
 
-- Save it as [`compose.yaml`]{.alert} next to your `Dockerfile`, though `docker-compose.yml` still works:
+- Save it as [`compose.yaml`]{.alert} next to your `Dockerfile` (`docker-compose.yml` also works):
 
 ```text
 docker compose up --build
 docker compose down
 ```
 
-- Compose reads the relative path `./output` for you, so `$(pwd)` never appears
-- Compose is really for [several containers]{.alert} working together: a database, an API, a notebook
+- Compose handles the relative path `./output`, so you don't need `$(pwd)`
+- Compose is mainly for [several containers]{.alert} working together, such as a database and an API
 :::
 
 :::{.column width="50%"}
 - `down` removes the container and the network it created
-- `docker compose` with a space is the current command, while `docker-compose` with a hyphen is the legacy one
+- Use `docker compose` (with a space). `docker-compose` (with a hyphen) is the old command
   - I ran this with [Compose v5.1.2]{.alert}
-- The starter ships no compose file, so write your own
+- The starter has no compose file, so write your own
 - What it printed on my laptop:
 
 :::{style="font-size: 20px;"}
@@ -1604,6 +1607,10 @@ docker compose down
  Container starter-report-1 Removed
  Network starter_default Removed
 ```
+:::
+
+:::{style="margin-top: 12px;"}
+[[Back to running the container]{.button}](#sec-run)
 :::
 :::
 :::

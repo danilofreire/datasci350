@@ -684,7 +684,7 @@ Danilo Freire
 <h1>The Dockerfile 🐳</h1>
 
 </section>
-<section id="the-whole-dockerfile" class="slide level2">
+<section id="sec-whole-dockerfile" class="slide level2">
 <h2>The whole <code>Dockerfile</code></h2>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
@@ -873,7 +873,7 @@ Danilo Freire
 </div></div>
 </div>
 </section>
-<section id="block-5-the-virtual-environment-and-pip" class="slide level2">
+<section id="sec-block-5" class="slide level2">
 <h2>Block 5: the virtual environment and <code>pip</code></h2>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
@@ -1099,7 +1099,7 @@ Danilo Freire
 <h1>Run, change, rebuild</h1>
 
 </section>
-<section id="running-the-container" class="slide level2">
+<section id="sec-run" class="slide level2">
 <h2>Running the container</h2>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
@@ -1665,8 +1665,7 @@ Danilo Freire
 </section>
 <section id="sec-appendix-01" class="slide level2">
 <h2>Appendix 01: Exercise solution</h2>
-<h3 id="what-the-rebuild-printed">What the rebuild printed</h3>
-<div style="margin-top: 40px; font-size: 20px;">
+<div style="margin-top: 40px; font-size: 16px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="alert">Step 1</span>, in <code>requirements.txt</code>:</p>
@@ -1692,10 +1691,10 @@ Danilo Freire
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb37"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb37-1"><a></a>grep -o "seaborn 0.13.2" output/report.html</span>
 <span id="cb37-2"><a></a>seaborn 0.13.2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Reverting both files and rebuilding took 2.06 seconds, all <code>CACHED</code>, back to 347MB and 53 packages</li>
+<li>Undo both edits and rebuild: everything is <code>CACHED</code> (2 seconds), back to 347MB and 53 packages</li>
 </ul>
 </div><div class="column" style="width:50%;">
-<p><span class="alert">Steps 2 and 3</span>, the rebuild on my laptop:</p>
+<p><span class="alert">Steps 2 and 3</span>, the rebuild:</p>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb38"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb38-1"><a></a>#5 [1/8] FROM docker.io/library/ubuntu:24.04</span>
 <span id="cb38-2"><a></a>#5 DONE 0.0s</span>
 <span id="cb38-3"><a></a>#6 [3/8] RUN ARCH=$(dpkg --print-architecture) [...]</span>
@@ -1717,10 +1716,10 @@ Danilo Freire
 <span id="cb38-19"><a></a></span>
 <span id="cb38-20"><a></a>docker build [...]  57.726 total</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Four steps cached, four rebuilt. The miss at <code>#9</code> forced everything below it to run again</li>
-<li>pip reinstalled all 54 packages, because the layer is rebuilt from nothing</li>
+<li>Four steps cached and four rebuilt, starting at <code>[5/8]</code></li>
+<li>pip reinstalled all 54 packages, not just seaborn</li>
 </ul>
-<div style="margin-top: 12px;">
+<div style="margin-top: 0px;">
 <p><a href="#/sec-exercise-01"><span class="button">Back to the exercise</span></a></p>
 </div>
 </div></div>
@@ -1728,32 +1727,33 @@ Danilo Freire
 </section>
 <section id="sec-appendix-02" class="slide level2">
 <h2>Appendix 02: When something goes wrong</h2>
-<h3 id="errors-from-this-lectures-build">Errors from this lecture’s build</h3>
-<div style="margin-top: 40px; font-size: 19px;">
+<div style="margin-top: 40px; font-size: 18px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <p><span class="alert"><code>IOException: No files found that match [...] life_expectancy.csv</code></span></p>
-<p>The snapshot never reached the repository. Run <code>git add data/raw/</code>, commit, and check with <code>git ls-files data/raw</code>.</p>
+<p><code>data/raw/</code> was never committed. Run <code>git add data/raw/</code> and commit, then check with <code>git ls-files data/raw</code>.</p>
 <p><span class="alert"><code>No matching distribution found for duckdb==1.5.9</code></span></p>
-<p>That version does not exist on PyPI. Run <code>pip index versions duckdb</code> and pin one it lists.</p>
+<p>That version does not exist. Pin one that <code>pip index versions duckdb</code> lists.</p>
 <p><span class="alert"><code>ls: output: No such file or directory</code></span></p>
-<p>You ran the container without <code>-v</code>. Add <code>-v "$(pwd)/output:/project/output"</code>, or <code>${PWD}</code> in PowerShell. On Linux the message reads <code>ls: cannot access 'output'</code>.</p>
+<p>You forgot <code>-v</code>. Add <code>-v "$(pwd)/output:/project/output"</code> (<code>${PWD}</code> in PowerShell). Linux prints <code>ls: cannot access 'output'</code>.</p>
 <p><span class="alert"><code>error: externally-managed-environment</code></span></p>
-<p>You ran <code>pip install</code> against Ubuntu’s own Python. Create a virtual environment and put <code>/opt/venv/bin</code> first in <code>PATH</code>.</p>
+<p>You ran <code>pip install</code> on Ubuntu’s own Python. Use a virtual environment, as in block 5.</p>
 </div><div class="column" style="width:50%;">
 <p><span class="alert"><code>failed to read dockerfile: open Dockerfile</code></span></p>
-<p>You are in the wrong folder. The <code>.</code> in <code>docker build -t name .</code> is where Docker looks, so <code>cd</code> into the folder with the <code>Dockerfile</code>.</p>
+<p>You are in the wrong folder. <code>cd</code> into the folder that has the <code>Dockerfile</code>.</p>
 <p><span class="alert"><code>NoSuchKernel: No such kernel named python3</code></span></p>
-<p><code>ipykernel</code> is missing from <code>requirements.txt</code>, so Quarto cannot start a kernel. Put <code>ipykernel==7.2.0</code> back and rebuild.</p>
+<p><code>ipykernel</code> is missing from <code>requirements.txt</code>. Add <code>ipykernel==7.2.0</code> back and rebuild.</p>
 <p><span class="alert"><code>toomanyrequests: pull rate limit</code></span></p>
-<p>Docker Hub allows 100 anonymous pulls every six hours from one address, and 200 once you log in. Run <code>docker login</code> and build again.</p>
+<p>Docker Hub allows 100 pulls every six hours without an account, 200 with one. Run <code>docker login</code> and build again</p>
+<div style="margin-top: 12px;">
+<p><a href="#/sec-block-5"><span class="button">Back to block 5</span></a></p>
+</div>
 </div></div>
 </div>
 </section>
 <section id="sec-appendix-03" class="slide level2">
 <h2>Appendix 03: The complete Dockerfile</h2>
-<h3 id="as-shipped-in-the-starter">As shipped in the starter</h3>
-<div style="margin-top: 30px; font-size: 18px;">
+<div style="margin-top: 30px; font-size: 16px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb39"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb39-1"><a></a><span class="co"># 1. Base image</span></span>
@@ -1791,6 +1791,9 @@ Danilo Freire
 <span id="cb39-33"><a></a>    <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="at">--no-install-recommends</span> ./quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
 <span id="cb39-34"><a></a>    <span class="fu">rm</span> quarto-1.10.18-linux-<span class="va">${ARCH}</span>.deb <span class="kw">&amp;&amp;</span> <span class="dt">\</span></span>
 <span id="cb39-35"><a></a>    <span class="ex">apt-get</span> clean <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<ul>
+<li>Starter commit <code>cb64771</code>, with comments trimmed. Your clone has them all</li>
+</ul>
 </div><div class="column" style="width:50%;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb40"><pre class="sourceCode numberSource dockerfile number-lines code-with-copy"><code class="sourceCode dockerfile"><span id="cb40-1"><a></a><span class="co"># 5. Python environment</span></span>
 <span id="cb40-2"><a></a><span class="co"># Ubuntu protects its own Python installation, so</span></span>
@@ -1825,21 +1828,19 @@ Danilo Freire
 <span id="cb40-31"><a></a><span class="co"># QUARTO_PYTHON points Quarto at the venv's Python.</span></span>
 <span id="cb40-32"><a></a><span class="kw">ENV</span> QUARTO_PYTHON=/opt/venv/bin/python</span>
 <span id="cb40-33"><a></a><span class="kw">CMD</span> [<span class="st">"bash"</span>, <span class="st">"-c"</span>, <span class="st">"quarto render report.qmd &amp;&amp; mkdir -p output &amp;&amp; cp -a report.html output/ &amp;&amp; echo 'Rendered report is in output/report.html'"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<ul>
-<li>The starter is at commit <code>cb64771</code></li>
-<li>Comments are trimmed here. The file in your clone explains every line</li>
-</ul>
+<div style="margin-top: 0px;">
+<p><a href="#/sec-whole-dockerfile"><span class="button">Back to the whole Dockerfile</span></a></p>
+</div>
 </div></div>
 </div>
 </section>
 <section id="sec-appendix-04" class="slide level2">
 <h2>Appendix 04: Docker Compose</h2>
-<h3 id="the-same-build-and-run-written-down-once">The same build and run, written down once</h3>
 <div style="margin-top: 40px; font-size: 20px;">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
-<li>Typing <code>docker run --rm -v "$(pwd)/output:/project/output" datasci350-project</code> twenty times is how typos happen:</li>
+<li>Compose saves the long <code>docker run</code> command in a file:</li>
 </ul>
 <div style="font-size: 20px;">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb41"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb41-1"><a></a><span class="fu">services</span><span class="kw">:</span></span>
@@ -1850,22 +1851,22 @@ Danilo Freire
 <span id="cb41-6"><a></a><span class="at">      </span><span class="kw">-</span><span class="at"> ./output:/project/output</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <ul>
-<li>Save it as <span class="alert"><code>compose.yaml</code></span> next to your <code>Dockerfile</code>, though <code>docker-compose.yml</code> still works:</li>
+<li>Save it as <span class="alert"><code>compose.yaml</code></span> next to your <code>Dockerfile</code> (<code>docker-compose.yml</code> also works):</li>
 </ul>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb42"><pre class="sourceCode numberSource text number-lines code-with-copy"><code class="sourceCode"><span id="cb42-1"><a></a>docker compose up --build</span>
 <span id="cb42-2"><a></a>docker compose down</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <ul>
-<li>Compose reads the relative path <code>./output</code> for you, so <code>$(pwd)</code> never appears</li>
-<li>Compose is really for <span class="alert">several containers</span> working together: a database, an API, a notebook</li>
+<li>Compose handles the relative path <code>./output</code>, so you don’t need <code>$(pwd)</code></li>
+<li>Compose is mainly for <span class="alert">several containers</span> working together, such as a database and an API</li>
 </ul>
 </div><div class="column" style="width:50%;">
 <ul>
 <li><code>down</code> removes the container and the network it created</li>
-<li><code>docker compose</code> with a space is the current command, while <code>docker-compose</code> with a hyphen is the legacy one
+<li>Use <code>docker compose</code> (with a space). <code>docker-compose</code> (with a hyphen) is the old command
 <ul>
 <li>I ran this with <span class="alert">Compose v5.1.2</span></li>
 </ul></li>
-<li>The starter ships no compose file, so write your own</li>
+<li>The starter has no compose file, so write your own</li>
 <li>What it printed on my laptop:</li>
 </ul>
 <div style="font-size: 20px;">
@@ -1880,6 +1881,9 @@ Danilo Freire
 <span id="cb43-9"><a></a>docker compose down</span>
 <span id="cb43-10"><a></a> Container starter-report-1 Removed</span>
 <span id="cb43-11"><a></a> Network starter_default Removed</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div style="margin-top: 12px;">
+<p><a href="#/sec-run"><span class="button">Back to running the container</span></a></p>
 </div>
 </div></div>
 </div>

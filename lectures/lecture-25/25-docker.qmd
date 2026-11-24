@@ -26,22 +26,22 @@ editor:
 
 # Brief recap 📚 {background-color="#1B3A6B"}
 
-## Dependencies, environments, and one small container
+## Dependencies, environments, and containers
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="54%"}
 - We [pinned]{.alert} dependencies with `==`
-- `venv` and `pip` gave us an isolated Python
+- [`venv`](https://docs.python.org/3/library/venv.html), [`pip`](https://pip.pypa.io/) and [`uv`](https://docs.astral.sh/uv/) gave us an isolated Python
   - The project starter builds one at [`/opt/venv`]{.alert}
 - [Docker's three main concepts](https://docs.docker.com/learn/content/what-is-a-container/):
   - An [image]{.alert} is the recipe
   - A [container]{.alert} is a running instance
   - A [registry]{.alert} is where images live
 - A [six-instruction Dockerfile]{.alert} from `python:3.14-slim` built in 13 seconds
-- The cached rebuild took [0.79 seconds]{.alert}
-- We pushed it to [`danilofreire/datasci350-example`](https://hub.docker.com/r/danilofreire/datasci350-example)
-- Today we install Quarto in the image and render a report
+- The cached rebuild took [less than 1 second]{.alert}
+- We pushed it to [`danilofreire/datasci350-example`](https://hub.docker.com/r/danilofreire/datasci350-example) on [Docker Hub](https://hub.docker.com/)
+- [Today we install Quarto in the image and render a report]{.alert}
 :::
 
 :::{.column width="46%"}
@@ -98,7 +98,12 @@ CMD ["python", "hello.py"]
 ```
 
 ```text
+# Build an image called datasci350-example
+# from the files in this folder
 docker build -t datasci350-example .
+
+# Start a container from the image, and
+# delete the container when it exits
 docker run --rm datasci350-example
 ```
 :::
@@ -165,7 +170,7 @@ docker run --rm datasci350-example
 :::{.column width="54%"}
 - [The commands I run:]{.alert}
 
-:::{style="margin-top: 20px; margin-bottom: 20px; font-size: 22px;"}
+:::{style="margin-top: 20px; margin-bottom: 20px; font-size: 27px;"}
 ```text
 git clone <your repo url> fresh-test
 cd fresh-test
@@ -185,7 +190,7 @@ open output/report.html
 :::{.column width="46%"}
 - The rubric (page 5 of [project-instructions.pdf](https://github.com/danilofreire/datasci350/blob/main/project/project-instructions.pdf)):
 
-:::{style="text-align: center; font-size: 19px; margin-top: 10px; margin-bottom: 10px;"}
+:::{style="text-align: center; font-size: 19px; margin-top: 5px; margin-bottom: 5px;"}
 | Criterion | Weight |
 |:---|:---:|
 | Reproducibility: the container builds and the report renders from a clean `docker run` | 30% |
@@ -195,8 +200,8 @@ open output/report.html
 | Git workflow: meaningful commits from all members, sensible repository structure | 10% |
 :::
 
-:::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;"}
-A report that calls the API at render time fails when the API is down. Pull once and commit `data/raw/`
+:::{style="background: rgba(230, 57, 70, 0.1); padding: 12px; border-radius: 10px; font-size: 19px; margin-top: 5px;"}
+Run the pull script once and commit `data/raw/`. If `report.qmd` calls the API itself, it fails whenever the API is down
 :::
 :::
 :::
@@ -209,6 +214,7 @@ A report that calls the API at render time fails when the API is down. Pull once
 :::{.column width="50%"}
 - Clone it from [github.com/danilofreire/datasci350-project-starter](https://github.com/danilofreire/datasci350-project-starter):
 
+:::{style="font-size: 23px; margin-bottom: 20px;"}
 ```text
 datasci350-project-starter/
 ├── Dockerfile
@@ -225,6 +231,7 @@ datasci350-project-starter/
 └── scripts/
     └── pull_data.py
 ```
+:::
 
 - Only `scripts/pull_data.py` calls the API. `report.qmd` reads the saved files in `data/raw/`
 :::
@@ -251,23 +258,19 @@ datasci350-project-starter/
 :::
 :::
 
-## The pull script and the snapshot
-### Why `data/raw/` is committed
+## The pull script and the saved data
 
-:::{style="margin-top: 40px; font-size: 20px;"}
+:::{style="margin-top: 40px; font-size: 24px;"}
 :::{.columns}
 :::{.column width="52%"}
-- `scripts/pull_data.py` asks the World Bank for one indicator and writes two files:
+- Run the pull script once on your laptop. It downloads the data from the World Bank API:
 
 ```text
 python scripts/pull_data.py
-
-data/raw/life_expectancy_raw.json
-data/raw/life_expectancy.csv
 ```
 
-- The tidy CSV is 97 lines: a header and [96 rows]{.alert}
-  - Four countries, 2000 to 2023
+- It saves two files in `data/raw/`: the raw JSON and a tidy CSV
+- The CSV has [96 rows]{.alert}: four countries, 2000 to 2023
 
 ```text
 head -5 data/raw/life_expectancy.csv
@@ -278,25 +281,15 @@ BRA,Brazil,SP.DYN.LE00.IN,2001,69.98
 BRA,Brazil,SP.DYN.LE00.IN,2002,70.396
 BRA,Brazil,SP.DYN.LE00.IN,2003,70.884
 ```
-
-- Same World Bank API as Lecture 19, where we parsed the JSON by hand
 :::
 
 :::{.column width="48%"}
-- The starter's `.gitignore` contains a note:
-
-```text
-# NOTE: data/raw/ is deliberately NOT ignored.
-# The saved API snapshot must be committed so
-# that the report renders from the same data on
-# every machine, in every month.
-```
-
+- Life expectancy is only an example. Change the indicator, countries and years at the top of `scripts/pull_data.py`
+- Commit both files, so the report uses the same data on every machine
 - The raw JSON lets you fix a tidying mistake without calling the API again
-- 33 kB of JSON and 4 kB of CSV. Git handles that without complaint
 
-:::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;"}
-Add `data/raw/` to `.gitignore` and your build still succeeds. The failure arrives later, in my clone, when the report tries to read a file that never left your laptop: [[see it happen]{.button}](#sec-failure-one)
+:::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 22px; margin-top: 20px;"}
+If you add `data/raw/` to `.gitignore`, the build still works. The report fails later, in my clone, because the CSV never reached GitHub: [[see it happen]{.button}](#sec-failure-one)
 :::
 :::
 :::
@@ -336,35 +329,31 @@ pyyaml==6.0.3
 :::
 
 :::{.column width="52%"}
-:::{style="text-align: center; font-size: 17px; margin-top: 0px; margin-bottom: 10px;"}
-| Package | Why it is there |
+:::{style="text-align: center; font-size: 22px; margin-top: 0px; margin-bottom: 10px;"}
+| Package | What it does |
 |---|---|
-| `requests` | The pull script calls the API with it |
-| `pandas` | The pull script tidies the API response with it, and DuckDB hands results back as pandas DataFrames |
-| `duckdb` | Lecture 22's SQL over files, used in the demo chunk |
+| `requests` | Calls the World Bank API |
+| `pandas` | Tidies the data and holds DuckDB's results |
+| `duckdb` | Runs SQL on the CSV, as in Lecture 22 |
 | `matplotlib` | Draws the figure |
-| `ipykernel` | Quarto starts a Python kernel through it |
-| `jupyter-client` | Talks to that kernel |
-| `nbclient`, `nbformat` | Execute and store the notebook Quarto builds |
-| `pyyaml` | Quarto's Python helper imports it |
+| `ipykernel` | Starts the Python kernel for Quarto |
+| `jupyter-client` | Sends your code to the kernel |
+| `nbclient`, `nbformat` | Run and save the notebook Quarto builds |
+| `pyyaml` | Quarto needs it to run Python code |
 :::
 
-- Students forget the last five. Quarto runs Python through [Jupyter]{.alert}, so the image needs a kernel
+- Don't forget the last five! Quarto runs Python through [Jupyter]{.alert}, so the image needs a kernel
 - Nine pinned lines produce [53 installed packages]{.alert} inside the image
-  - `pip freeze | wc -l` printed 53, because every dependency brings its own
 :::
 :::
 :::
 
-## `report.qmd` and what it needs from the image
-### Python inside Quarto inside Ubuntu
+## What `report.qmd` needs to render
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="52%"}
-- The demo chunk (trimmed):
-
-:::{style="font-size: 20px;"}
+:::{style="font-size: 19px;"}
 ```python
 import duckdb
 import matplotlib.pyplot as plt
@@ -387,20 +376,21 @@ plt.show()
 :::
 
 :::{style="text-align: center; margin-top: 5px;"}
-[![](figures/starter-report-rendered-2026.png){width="56%"}](#){data-modal-type="image" data-modal-url="figures/starter-report-rendered-2026.png"}
+[![](figures/starter-report-rendered-2026.png){width="40%"}](#){data-modal-type="image" data-modal-url="figures/starter-report-rendered-2026.png"}
 :::
 :::{style="font-size: 17px; text-align: center;"}
 `output/report.html`
 :::
+
 :::
 
 :::{.column width="48%"}
-- Three things the image has to provide:
+- [Three things]{.alert} the image has to provide:
   - A Python that has `duckdb`, `pandas` and `matplotlib`, and a kernel Quarto can start
   - The `quarto` binary itself
   - The file `data/raw/life_expectancy.csv` at that exact relative path
 - `embed-resources: true` puts the figures inside the HTML
-  - `output/report.html` is one file you can email, [1.3 MB]{.alert} for mine
+  - `output/report.html` is [the single file your container must produce, and the one I grade]{.alert}
 - Rendered inside the container, that print statement says `Loaded 96 rows covering 4 countries.`
 - The header sets [`echo: true`]{.alert}, which shows your code in the report
   - The rubric asks for visible code, so leave that setting alone
@@ -410,7 +400,7 @@ plt.show()
 
 # The Dockerfile 🐳 {background-color="#1B3A6B"}
 
-## The whole file
+## The whole `Dockerfile`
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -448,13 +438,11 @@ CMD ["bash", "-c", "quarto render report.qmd && [...]"]
 :::
 
 :::{.column width="44%"}
-- Thirteen instructions in seven commented blocks
-- Eight of them get a step number in the build log, `[1/8]` to `[8/8]`
-- `ENV`, `SHELL`, and `CMD` set metadata, so BuildKit does not number them
-- The comments in the real file are longer than the instructions
-  - Read them once, and change only what you need
-- Lecture 23's file had six instructions and one job: install two packages, run a script
-  - These thirteen install an operating system, a document engine, and a Python environment
+- [13 instructions]{.alert} in seven blocks
+- The build log numbers eight of them, `[1/8]` to `[8/8]`
+- `ENV`, `SHELL` and `CMD` only record settings, so they get no number
+- The real file has a comment above every line. Read them before you change anything
+- Lecture 23's file ran one script. This one installs Ubuntu packages, Quarto and a Python environment
 
 :::{style="text-align: center; margin-top: 12px;"}
 [[Full listing]{.button}](#sec-appendix-03)
@@ -486,10 +474,9 @@ SHELL ["/bin/bash", "-c"]
 ```
 :::
 
-- `latest` on the Ubuntu repository resolved to 24.04 last year, and today to [26.04]{.alert}
-- `FROM ubuntu:latest` in September builds a different operating system in December
+- `ubuntu:latest` meant 24.04 last year and means [26.04]{.alert} today, so we pin the tag
 - `tzdata` is the Ubuntu package that would otherwise stop and ask you for a time zone
-- `ubuntu:24.04` is [about 29MB compressed]{.alert}, and 108MB once unpacked
+- `ubuntu:24.04` is a [29MB]{.alert} download, 108MB once unpacked
 :::
 
 :::{.column width="48%"}
@@ -500,17 +487,15 @@ SHELL ["/bin/bash", "-c"]
 [hub.docker.com/_/ubuntu](https://hub.docker.com/_/ubuntu)
 :::
 
-- `ENV` persists into the running container, so `docker run` sees it too
-- `SHELL` makes every `RUN` below it use `bash` instead of the simpler `sh`
-- `-c` lets you pass a string of commands to the shell
+- `ENV` also applies when the container runs
+- `SHELL` makes every later `RUN` use `bash`, and `-c` passes it a string of commands
 - The `ubuntu` image has no Python, so block 3 installs it
-- Quarto comes as a `.deb` file, which needs a Debian-based system like Ubuntu
+- Quarto ships as a `.deb` file, which needs a Debian-based system like Ubuntu
 :::
 :::
 :::
 
 ## Block 3: `RUN apt-get install`
-### System packages in one layer
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -532,7 +517,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   - Six `RUN` lines here would give six layers and a bigger image
 - Clean up [in the same `RUN`]{.alert}: a later layer cannot shrink an earlier one
 - `--no-install-recommends` skips optional extras
-- This step took [36.0 seconds]{.alert} cold
+- This step took [less than a minute]{.alert}
 :::
 
 :::{.column width="48%"}
@@ -551,7 +536,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 :::
 
 ## Block 4: Quarto
-### `dpkg --print-architecture` and a `.deb`
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -567,8 +551,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
 ```
 :::
 
-- Quarto is absent from the Ubuntu package list, so we download the `.deb` from GitHub
-- The build printed this near the end of the step:
+- Quarto is not in Ubuntu's package list, so we download the `.deb` from GitHub
 
 :::{style="font-size: 20px;"}
 ```text
@@ -577,18 +560,16 @@ RUN ARCH=$(dpkg --print-architecture) && \
 ```
 :::
 
-- [92.0 seconds]{.alert}, the slowest step in the whole build, well ahead of pip's 51.4
-- The `./` in front of the filename tells apt to install a local file rather than search the archive
-- `apt-get update` runs a second time because block 3 deleted the package lists
+- [92 seconds]{.alert}, the slowest step in the build
+- `./` tells apt to install the downloaded file, not search its list
+- `apt-get update` runs again because block 3 deleted the package lists
 :::
 
 :::{.column width="46%"}
-- The version [1.10.18]{.alert} is written out in full, so everyone builds the same file
-  - It appears four times on that line, so change all four when you move to a new Quarto
-- `dpkg --print-architecture` printed `arm64` on my Mac, `amd64` on most Windows and Linux laptops
-  - The same Dockerfile fetches the other file
-- My laptop has Quarto [1.9.38]{.alert} and the image has [1.10.18]{.alert}
-  - The image's version renders your report, and it is the one I will run
+- The version [1.10.18]{.alert} is written out, so everyone builds the same image
+  - It appears four times in this step. Change all four to update Quarto
+- `dpkg --print-architecture` gives `arm64` on a Mac and `amd64` on most Windows and Linux laptops, so each downloads the right file
+- My laptop has Quarto 1.9.38, but your report renders with the image's [1.10.18]{.alert}
 :::
 :::
 :::
@@ -618,24 +599,20 @@ RUN pip install --no-cache-dir -r /project/requirements.txt
 ```
 :::
 
-- Lecture 23's `venv`, inside an image: [`ENV PATH`]{.alert} replaces `source .venv/bin/activate`
-- Ubuntu refuses a system-wide `pip install` and tells you to make a virtual environment
-  - The error is [`externally-managed-environment`]{.alert}: [[Appendix 02]{.button}](#sec-appendix-02)
+- [`ENV PATH`]{.alert} replaces Lecture 23's `source .venv/bin/activate`
+- Ubuntu blocks a system-wide `pip install` with [`externally-managed-environment`]{.alert}, so we use a virtual environment: [[Appendix 02]{.button}](#sec-appendix-02)
 :::
 
 :::{.column width="48%"}
-- `requirements.txt` is the hand-written file in your repository, the one we read a few slides ago
-  - `COPY` takes it from the build context and puts a copy inside the image, and `pip` reads that copy
-- `--no-cache-dir` stops pip keeping a copy of every wheel inside the image
-- The install took [51.4 seconds]{.alert} and produced 53 packages
-- `COPY requirements.txt` comes before `COPY . /project`, so editing `report.qmd` keeps this slow step cached
-  - The most useful ordering in the file, and it pays off on the rebuild slide
+- `COPY` puts your `requirements.txt` inside the image, and `pip` installs from that copy
+- `--no-cache-dir` keeps pip's downloads out of the image
+- The install took [less than a minute]{.alert} and produced 53 packages
+- `COPY requirements.txt` comes before `COPY . /project`, so editing `report.qmd` does not rerun this step
 :::
 :::
 :::
 
 ## Blocks 6 and 7: `WORKDIR`, `COPY .`, `CMD`
-### Rendering into /project, copying into output/
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
@@ -662,20 +639,17 @@ CMD ["bash", "-c", "quarto render report.qmd && mkdir -p output && cp -a report.
 :::
 
 :::{.column width="46%"}
-- `COPY . /project` copies the [build context]{.alert}: the folder named by the `.` in `docker build`
-  - The next slide keeps things out of it
-- `ENV PATH` already points Quarto at `/opt/venv`. `QUARTO_PYTHON` makes it explicit
-- The `CMD` is three commands joined with `&&`: render, make `output/`, copy the HTML in
-- Quarto clears its output folder before writing, but it cannot clear a folder mounted from outside
-  - Rendering into `/project` and copying afterwards avoids that
-- Lecture 23's `CMD ["python", "hello.py"]` used the same [exec form]{.alert}: a list of strings, with no shell
-  - Here the array starts `bash`, which gives us the shell we need for `&&`
+- `COPY . /project` copies the folder you build from, the `.` in `docker build`
+  - The next slide shows what stays out
+- `QUARTO_PYTHON` tells Quarto which Python to use
+- The `CMD` joins [four commands]{.alert} with `&&`: render, create `output/`, copy the report there, print a message
+- Quarto renders in `/project` first, because it cannot clear a folder mounted from your laptop
+- The `CMD` list starts with `bash`, which gives us the shell that `&&` needs
 :::
 :::
 :::
 
 ## `.dockerignore`
-### What never enters the image
 
 :::{style="margin-top: 40px; font-size: 19px;"}
 :::{.columns}
@@ -708,11 +682,11 @@ output/
 # report.qmd reads it.
 ```
 :::
-- The file lives in the root of the build context, next to the `Dockerfile`, and is committed with it
+- Save it next to your `Dockerfile` and commit it
 :::
 
 :::{.column width="50%"}
-- Before the first instruction, Docker sends the [build context]{.alert} to the engine. The same folder, with and without the file:
+- Before it builds, Docker sends your folder (the [build context]{.alert}) to the engine. The same folder, with and without the file:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -726,11 +700,10 @@ output/
 ```
 :::
 
-- [1.42MB down to 59.36kB]{.alert}. Both folders held `.git`, the data, and a rendered report
-- `.gitignore` keeps files out of your repository, and `.dockerignore` keeps them out of your image
-  - `data/raw/` belongs in neither
-- Leave `report.html` out of the list and every render changes the context
-  - That breaks the cache on `COPY . /project` even when your source did not move
+- [1.42MB down to 59.36kB]{.alert}, with `.git` and the rendered report left out
+- `.gitignore` keeps files out of Git, and `.dockerignore` keeps them out of the image
+  - [Never list `data/raw/` in either file]{.alert}
+- Without `report.html` in the list, every render breaks the cache on `COPY . /project`
 :::
 :::
 :::
@@ -768,17 +741,15 @@ time docker build --no-cache --progress=plain -t datasci350-project .
 docker build [...]  3:11.77 total
 ```
 :::
-- `--progress=plain` prints the whole log instead of the animated summary
-  - Use it when a build misbehaves
+- `--progress=plain` prints the full log. Use it when a build fails
 :::
 
 :::{.column width="46%"}
-- `--no-cache` forces every step to run again, which is how I timed this
-- Read the log as eight numbered steps matching the eight layer-making instructions
-- Three steps carry the time: Quarto at [92.0s]{.alert}, pip at [51.4s]{.alert}, apt at [36.0s]{.alert}
-- Step `[1/8]` says `CACHED` because `ubuntu:24.04` was already on my laptop
-  - Pulling that base (about 29MB) took 38.6 seconds, once per machine
-- Total wall clock: [3 minutes 11.77 seconds]{.alert}
+- `--no-cache` runs every step again, which is how I timed it
+- The log has eight numbered steps, one per layer
+- Quarto ([92s]{.alert}), pip ([51s]{.alert}) and apt ([36s]{.alert}) take most of the time
+- `[1/8]` says `CACHED` because Ubuntu was already on my laptop. Its first download took 38.6 seconds
+- Total: [about 3 minutes]{.alert}
 
 :::{style="font-size: 18px;"}
 ```text
@@ -788,7 +759,7 @@ datasci350-project:latest      1.52GB         347MB
 ```
 :::
 
-- On an amd64 laptop, the same Dockerfile fetches amd64 files and gives the same report
+- An amd64 laptop downloads amd64 files and gets the same report
 :::
 :::
 :::
@@ -861,11 +832,11 @@ ls -la output
 ```
 :::
 
-- Three seconds, because the slow work happened at build time
+- It takes three seconds, because the slow work happened during the build
 :::
 
 :::{.column width="46%"}
-:::{style="text-align: center; font-size: 17px; margin-top: 0px; margin-bottom: 10px;"}
+:::{style="text-align: center; font-size: 22px; margin-top: 0px; margin-bottom: 10px;"}
 | Part | What it does |
 |---|---|
 | `--rm` | Deletes the container when it exits |
@@ -873,13 +844,11 @@ ls -la output
 | `datasci350-project` | The image to start |
 :::
 
-- [`-v`]{.alert} is short for volume: left of the colon is your laptop, right of it is the container
-- `$(pwd)` is your current folder
-  - PowerShell wants `${PWD}`, the old Windows terminal `%cd%`
-- `$(pwd)` gives an absolute path, which works everywhere. Recent Docker also accepts `-v ./output:...`
-- `docker run` creates a container from the image and starts it
-  - [`--rm`]{.alert} deletes it again before you finish reading the output
-- The report is the only thing that survives the container, and it survives because of the mount
+- [`-v`]{.alert} (volume): your laptop's folder goes left of the colon, the container's on the right
+- `$(pwd)` is your current folder. Use `${PWD}` in PowerShell or `%cd%` in the old Windows terminal
+- Recent Docker also accepts `-v ./output:...`
+- [`--rm`]{.alert} deletes the container as soon as it finishes
+- Only the report survives, because it was saved to the mounted folder
 :::
 :::
 :::
@@ -904,13 +873,12 @@ exit code: 1
 ```
 :::
 
-- The container said it succeeded, and it did succeed
-- It wrote the report inside itself. `--rm` then deleted the container, and the file went with it
-- Nothing on your laptop changed
+- The render worked, but the report stayed inside the container
+- `--rm` then deleted the container, and the report with it
 :::
 
 :::{.column width="48%"}
-- The file really existed:
+- Listing `output/` inside the container shows the report was there:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -924,9 +892,7 @@ docker run --rm datasci350-project bash -c \
 :::
 
 - `>/dev/null 2>&1` hides Quarto's messages, so only the file listing shows
-- Listed from inside the container before it exited, the file is there
-- It is the same file the mounted run produced
-- This is the most common Docker mistake in the course, and the terminal gives you no warning at all
+- This is the most common Docker mistake in the course, and Docker gives no warning
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 15px;"}
 Without `-v`, the report is deleted with the container. After every run, check `ls output` and the file's timestamp
@@ -970,12 +936,12 @@ docker build [...]  0.666 total
 :::
 
 :::{.column width="48%"}
-- Seven steps cached, one rebuilt: [0.666 seconds]{.alert}, against 3 minutes 11.77 seconds cold
-- Only `COPY . /project` saw new input, because only `report.qmd` changed
-- `requirements.txt` was untouched, so the 51-second `pip install` above it stayed cached
-- The `#` numbers are log IDs. The `[n/8]` labels give the real order
-- Edit `requirements.txt` instead, and the cache misses at `[5/8]`: pip and everything below run again
-- Rebuild after every edit. A second is cheap, and it keeps the image and your source in step
+- Seven steps cached and one rebuilt: [less than 1 second]{.alert}, against about 3 minutes cold
+- Only `report.qmd` changed, so only `COPY . /project` ran again
+- `pip install` stayed cached, because `requirements.txt` did not change
+- The `[n/8]` labels show the real order. The `#` numbers are just log IDs
+- Change `requirements.txt` instead, and the cache misses at `[5/8]`, so pip and every later step run again
+- Rebuild after every edit. It takes a second and keeps the image up to date
 
 :::{style="text-align: center; margin-top: 12px;"}
 [[Try it yourself]{.button}](#sec-exercise-01)
@@ -991,7 +957,7 @@ docker build [...]  0.666 total
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="52%"}
-- I added `data/raw/` to `.gitignore`, committed, and cloned the result into a fresh folder:
+- I added `data/raw/` to `.gitignore`, committed, and cloned the repository into a new folder:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -1006,16 +972,16 @@ docker build -t datasci350-project-nodata .
 ```
 :::
 
-- [The build succeeded]{.alert}. Nothing in the Dockerfile mentions the CSV, so nothing complained
-- The failure waits until someone runs it
+- [The build succeeded]{.alert}, because the Dockerfile never mentions the CSV
+- It fails only when you run it
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 10px;"}
-Test from a fresh clone in an empty folder. The folder where you wrote the code already has everything, including the files you forgot to commit
+Always test from a fresh clone. Your own folder still has the files you forgot to commit
 :::
 :::
 
 :::{.column width="48%"}
-- The run, with the traceback trimmed to its last lines:
+- The run, with the traceback trimmed:
 
 :::{style="font-size: 19px;"}
 ```text
@@ -1038,8 +1004,8 @@ exit code: 1
 ```
 :::
 
-- The fix is two commands: `git add data/raw/` and `git commit`
-- Check it worked with `git ls-files data/raw`, which should print two file names
+- Fix it with `git add data/raw/` and `git commit`
+- `git ls-files data/raw` should then print two file names
 :::
 :::
 :::
@@ -1075,14 +1041,13 @@ successfully: exit code: 1
 :::
 
 :::{.column width="46%"}
-- A BuildKit error has three useful parts:
-  - The step number `[6/8]` names the instruction
-  - `Dockerfile:85` with the `>>>` marker names the line
-  - The message above it is pip's own output
-- The image is never created, so `docker images` shows no new entry
-- Layers `[1/8]` to `[5/8]` stay cached, so fixing the pin costs you the pip step and nothing more
-- Lecture 23's appendix warned about `No matching distribution found`. Here it is in a real build
-- Check a version before you pin it:
+- The error tells you three things:
+  - `[6/8]` is the step that failed
+  - `Dockerfile:85` and the `>>>` marker point to the line
+  - The message above them comes from pip
+- No image is created
+- Steps `[1/8]` to `[5/8]` stay cached, so the fix only reruns pip
+- Check that a version exists before you pin it:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -1103,13 +1068,13 @@ Available versions: 1.5.5, 1.5.4, 1.5.3, [...]
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="52%"}
-- Anything after the image name replaces the `CMD`, so this starts a shell instead of rendering:
+- Anything after the image name replaces the `CMD`. Here, `bash` opens a shell instead of rendering:
 
 ```text
 docker run --rm -it datasci350-project bash
 ```
 
-- Then look around, the way you would on any Linux machine:
+- Then look around as on any Linux machine:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -1138,12 +1103,11 @@ root
 :::
 
 :::{.column width="48%"}
-- It answers the usual questions: which Quarto, which Python, which packages, is the data there?
-- `-i` keeps input open and `-t` gives you a terminal: an [interactive session]{.alert}
-- `docker exec -it <container> bash` does the same on a container already running
-- Anything you install in there is lost on exit. Fix `requirements.txt` and rebuild instead
-- `docker logs <container>` prints the output of a container you started without watching
-- Ten seconds inside the container settles whether a package is in the image
+- Check which Quarto, Python and packages you have, and whether the data is there
+- `-it` opens an [interactive session]{.alert}: `-i` keeps input open and `-t` gives you a terminal
+- `docker exec -it <container> bash` opens a shell in a container that is already running
+- Anything you install inside is lost when you exit. Fix `requirements.txt` and rebuild instead
+- `docker logs <container>` shows the output of a container running in the background
 :::
 :::
 :::
@@ -1177,7 +1141,7 @@ Containers    0      0       0B        0B
 Build Cache   8      0       1.643GB   0B
 ```
 
-- One project image is [1.52GB on disk]{.alert}. A few experiments and failed builds soon reach 10GB or more
+- One project image takes [1.52GB]{.alert}. A few failed builds can reach 10GB
 - Docker never deletes images by itself
 :::
 
@@ -1185,7 +1149,7 @@ Build Cache   8      0       1.643GB   0B
 :::{style="text-align: center; font-size: 17px; margin-top: 0px; margin-bottom: 10px;"}
 | Command | What it removes |
 |---|---|
-| `docker ps -a` | Nothing, it lists containers including exited ones |
+| `docker ps -a` | Nothing, it lists all containers |
 | `docker rm <id>` | One stopped container |
 | `docker rmi <image>` | One image |
 | `docker system df` | Nothing, it reports what is using space (`df` = disk free) |
@@ -1194,8 +1158,8 @@ Build Cache   8      0       1.643GB   0B
 :::
 
 - The ID comes from `docker ps -a`, and the first few characters are enough
-- A [dangling image]{.alert} has no tag, usually left behind when you rebuild a tag
-- `--rm` on `docker run` is what stops the container list growing in the first place
+- A [dangling image]{.alert} has no tag. Rebuilding a tag leaves the old image behind
+- `docker run --rm` keeps old containers from piling up
 
 :::{style="background: rgba(230, 57, 70, 0.1); padding: 15px; border-radius: 10px; font-size: 19px; margin-top: 5px;"}
 `docker system prune -a` deletes every image no running container is using. Read the prompt before you type `y`
@@ -1207,15 +1171,14 @@ Build Cache   8      0       1.643GB   0B
 # Beyond one Dockerfile {background-color="#1B3A6B"}
 
 ## Ready-made images
-### Jupyter Docker Stacks and rocker
 
 :::{style="margin-top: 30px; font-size: 19px;"}
 :::{.columns}
 :::{.column width="52%"}
-- The [Jupyter Docker Stacks](https://jupyter-docker-stacks.readthedocs.io/) are official images with JupyterLab and scientific Python, on [Quay.io](https://quay.io/organization/jupyter)
-- `quay.io/jupyter/scipy-notebook` is [5.28GB on disk]{.alert} (1.24GB of content), and took 23 minutes to pull here
-- It carries NumPy, pandas, SciPy, scikit-learn, matplotlib, and JupyterLab
-- Start it and it prints a URL with a token, on port 8888:
+- The [Jupyter Docker Stacks](https://jupyter-docker-stacks.readthedocs.io/) are official images with JupyterLab and Python packages, hosted on [Quay.io](https://quay.io/organization/jupyter)
+- `scipy-notebook` takes [5.28GB]{.alert} on disk
+- It includes NumPy, pandas, SciPy, scikit-learn and matplotlib
+- Start it and open the URL it prints, on port 8888:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -1230,7 +1193,7 @@ Serving notebooks from local directory:
 ```
 :::
 
-- [rocker](https://rocker-project.org/) does the same for R: `r-ver`, `rstudio`, `tidyverse`, `verse`, `geospatial`
+- [rocker](https://rocker-project.org/) offers the same for R: `r-ver`, `rstudio`, `tidyverse`, `verse`, `geospatial`
 :::
 
 :::{.column width="48%"}
@@ -1238,7 +1201,7 @@ Serving notebooks from local directory:
 [![](figures/jupyter-docker-stacks-2026.png){width="40%"}](#){data-modal-type="image" data-modal-url="figures/jupyter-docker-stacks-2026.png"}
 :::
 :::{style="font-size: 17px; text-align: center;"}
-The stack builds on itself: `ubuntu` → `docker-stacks-foundation` → `base-notebook` → `minimal-notebook` → `scipy-notebook`. [Docs](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html)
+Like our project, `scipy-notebook` starts `FROM` Ubuntu, with a few smaller Jupyter images in between. [Docs](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html)
 :::
 
 :::{style="text-align: center; margin-top: 8px;"}
@@ -1251,18 +1214,17 @@ The stack builds on itself: `ubuntu` → `docker-stacks-foundation` → `base-no
 :::
 :::
 
-:::{style="background: rgba(27, 58, 107, 0.08); padding: 12px; border-radius: 10px; font-size: 19px; margin-top: 0px;"}
-For the project, write your own Dockerfile: a 5GB image for one CSV reader is a poor trade
+:::{style="background: rgba(27, 58, 107, 0.08); padding: 12px; border-radius: 10px; font-size: 19px; margin-top: 0px; text-align: center;"}
+For the project, write your own Dockerfile. A 5GB image to read one CSV is far more than you need
 :::
 :::
 
 ## Where to put a built image
-### Docker Hub is optional for the project
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="52%"}
-- Push it with Lecture 23's `buildx` command, which builds for both kinds of chip:
+- The [`buildx`](https://docs.docker.com/build/building/multi-platform/) command builds for both chip types and pushes the image:
 
 :::{style="font-size: 20px;"}
 ```text
@@ -1275,10 +1237,10 @@ docker buildx build --platform linux/amd64,linux/arm64 \
 ```
 :::
 
-- Docker Hub stores one image per chip: [334 MB for amd64 and 331 MB for arm64]{.alert}
-- Anyone with Docker can then `docker pull` and `docker run` it, on Windows, Linux or any Mac, with no build
-- [For the project, you never need to push]{.alert}: I build your image from your repository
-- A pushed image freezes today's apt versions along with everything else
+- Docker Hub keeps one image per chip: [334 MB for amd64, 331 MB for arm64]{.alert}
+- Anyone with Docker can then pull and run it, with no build
+- [You don't need to push for the project]{.alert}. I build your image from your repository
+- A pushed image also freezes today's Ubuntu package versions
 :::
 
 :::{.column width="48%"}
@@ -1316,12 +1278,11 @@ Solution and captured output: [[Appendix 01]{.button}](#sec-appendix-01)
 :::{.column width="46%"}
 What to look for:
 
-- Steps `[1/8]` to `[4/8]` stay `CACHED`: Ubuntu, apt, Quarto, and the empty venv
-- The miss lands at `[5/8] COPY requirements.txt`, because that file changed
-- Everything below the miss rebuilds, and `pip install` runs again for [50.0 seconds]{.alert}
-- The second build rebuilds only `COPY . /project`, so it finishes in seconds
-- The report gains one line, and the image's content grows from [347MB to 348MB]{.alert}
-- `pip freeze` inside the image goes from 53 packages to 54
+- Steps `[1/8]` to `[4/8]` stay `CACHED`
+- The cache misses at `[5/8]`, because `requirements.txt` changed
+- Every later step rebuilds, so `pip install` runs again for [less than a minute]{.alert}
+- The second build reruns only `COPY . /project` and takes seconds
+- The image grows from [347MB to 348MB]{.alert}, and from 53 packages to 54
 :::
 :::
 :::
@@ -1329,52 +1290,52 @@ What to look for:
 # Summary {background-color="#1B3A6B"}
 
 ## What we learned today
-### The container part of your project
 
 :::{style="margin-top: 40px; font-size: 20px;"}
 :::{.columns}
 :::{.column width="50%"}
-- [Starter]{.alert}: pull script, committed snapshot, report, Dockerfile
-- [Marker's test]{.alert}: five commands from a fresh clone, 30% of the project grade
-- [Dockerfile]{.alert}: seven blocks, base image to `CMD`
-- [`.dockerignore`]{.alert}: keeps `.git`, `output/`, and `.env` out of the image
-- [Layer order]{.alert}: `COPY requirements.txt` above `COPY . /project`, so a rebuild takes a second
+- The starter has a pull script, the saved data, the report and a `Dockerfile`
+- I grade your container with five commands from a fresh clone ([30%]{.alert} of the project)
+- The `Dockerfile` has seven blocks, from the base image to `CMD`
+- `.dockerignore` keeps `.git`, `output/` and `.env` out of the image
+- `COPY requirements.txt` comes before `COPY . /project`, so rebuilds take [less than 1 second]{.alert}
 :::
 
 :::{.column width="50%"}
-- [`-v`]{.alert}: without it the report dies with the container
-- [Failure one]{.alert}: an uncommitted snapshot builds fine, fails at run time
-- [Failure two]{.alert}: a pin that does not exist stops the build
-- [`docker run -it ... bash`]{.alert}: look inside when a render fails
-- [`docker system prune`]{.alert}: keeps the disk under control
-- [Ready-made images]{.alert} and [Docker Hub]{.alert}: for exploring and sharing
-- The [appendices]{.alert} have the exercise solution and the common errors
+- Without [`-v`]{.alert}, the report is deleted with the container
+- If `data/raw/` is not committed, the build works but the run fails
+- A pin that does not exist stops the build
+- `docker run -it ... bash` lets you look inside the container
+- `docker system prune` frees disk space
+- [Ready-made images]{.alert} help you explore, and [Docker Hub]{.alert} lets you share
+- The appendices have the exercise solution and common errors
 :::
 :::
 
 :::{style="background: rgba(27, 58, 107, 0.08); padding: 15px; border-radius: 10px; font-size: 20px; margin-top: 15px;"}
-The whole lecture fits in one sentence: `git clone`, `docker build`, `docker run -v`, open the report. If that works from a fresh folder, the container part of your project is finished
+If `git clone`, `docker build` and `docker run -v` work from a fresh folder and the report opens, the container part of your project is done
 :::
 :::
 
 ## Next class
-### What happens between now and 8 December
 
 :::{style="margin-top: 40px; font-size: 21px;"}
 :::{.columns}
 :::{.column width="50%"}
-[Thursday 26 November]{.alert} is Thanksgiving. No class
+No class on [Thursday 26 November]{.alert} (Thanksgiving)
 
-[Lecture 26]{.alert}, on 1 December, is revision. Bring your project repository and your questions, and we will build containers together in class
+[Lecture 26]{.alert} (1 December) is revision. Bring your repository and questions, and we will build containers together
 
-[Quiz 05]{.alert}, on 3 December, covers Lectures 21, 22, 23, and 25. [Assignment 10]{.alert} is due the same day
+[Quiz 05]{.alert} (3 December) covers Lectures 21, 22, 23 and 25. [Assignment 10]{.alert} is due the same day
+
+The final project is due on [8 December]{.alert}
 :::
 
 :::{.column width="50%"}
 Before then:
 
 1. Clone your own repository into a new, empty folder
-2. Run the five commands from the marking slide
+2. Run the five commands from the grading slide
 3. Run `git ls-files data/raw`. It should print two file names
 4. Run `git shortlog -sn`. Every group member should appear
 
